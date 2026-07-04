@@ -1,0 +1,676 @@
+fileFormatVersion: 2
+guid: 47355ead59da96d47bd1529e9666f3d0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -9093418486621508038
+    second: Healer Staff_0
+  - first:
+      213: 2120760226054594636
+    second: Healer Staff_1
+  - first:
+      213: 3301455583819055894
+    second: Healer Staff_2
+  - first:
+      213: 8390911203793460257
+    second: Healer Staff_3
+  - first:
+      213: 6823234393313762086
+    second: Healer Staff_4
+  - first:
+      213: -6331643120018421351
+    second: Healer Staff_5
+  - first:
+      213: 1841295735010201341
+    second: Healer Staff_6
+  - first:
+      213: -6017247711902429159
+    second: Healer Staff_7
+  - first:
+      213: -5475422797268832874
+    second: Healer Staff_8
+  - first:
+      213: -6002290671994308265
+    second: Healer Staff_9
+  - first:
+      213: -8686218705357660721
+    second: Healer Staff_10
+  - first:
+      213: 3835310249216475232
+    second: Healer Staff_11
+  - first:
+      213: 3214519777523966904
+    second: Healer Staff_12
+  - first:
+      213: 6429492001907397709
+    second: Healer Staff_13
+  - first:
+      213: 529103645411104785
+    second: Healer Staff_14
+  - first:
+      213: 9164128103880995102
+    second: Healer Staff_15
+  - first:
+      213: 2886075933303177445
+    second: Healer Staff_16
+  - first:
+      213: 81272552415991274
+    second: Healer Staff_17
+  - first:
+      213: 2322671333932951464
+    second: Healer Staff_18
+  - first:
+      213: -5620496009446878533
+    second: Healer Staff_19
+  - first:
+      213: 787599136073086740
+    second: Healer Staff_20
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Healer Staff_0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 5
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3e64feb010bdc180800000000000000
+      internalID: -9093418486621508038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 6
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c40e2c770347e6d10800000000000000
+      internalID: 2120760226054594636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_2
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 7
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 613c3439c5021dd20800000000000000
+      internalID: 3301455583819055894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 7
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12c54fb6841827470800000000000000
+      internalID: 8390911203793460257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_4
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 7
+        width: 8
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 62bd1b8978ff0be50800000000000000
+      internalID: 6823234393313762086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_5
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 7
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99981caf02c7128a0800000000000000
+      internalID: -6331643120018421351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_6
+      rect:
+        serializedVersion: 2
+        x: 211
+        y: 5
+        width: 6
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfe89b327b89d8910800000000000000
+      internalID: 1841295735010201341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_7
+      rect:
+        serializedVersion: 2
+        x: 243
+        y: 6
+        width: 38
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 910168636117e7ca0800000000000000
+      internalID: -6017247711902429159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_8
+      rect:
+        serializedVersion: 2
+        x: 307
+        y: 7
+        width: 73
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69d27b5d9f36304b0800000000000000
+      internalID: -5475422797268832874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_9
+      rect:
+        serializedVersion: 2
+        x: 394
+        y: 5
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75973217f6493bca0800000000000000
+      internalID: -6002290671994308265
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_10
+      rect:
+        serializedVersion: 2
+        x: 426
+        y: 6
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcd9dc9eb1a547780800000000000000
+      internalID: -8686218705357660721
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_11
+      rect:
+        serializedVersion: 2
+        x: 458
+        y: 7
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 06086ffe952c93530800000000000000
+      internalID: 3835310249216475232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_12
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 7
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b3a8c6d4b44c9c20800000000000000
+      internalID: 3214519777523966904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_13
+      rect:
+        serializedVersion: 2
+        x: 522
+        y: 7
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d44d7eb29e42a3950800000000000000
+      internalID: 6429492001907397709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_14
+      rect:
+        serializedVersion: 2
+        x: 551
+        y: 7
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 118d71256f0c75700800000000000000
+      internalID: 529103645411104785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_15
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 5
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e113004f4f58d2f70800000000000000
+      internalID: 9164128103880995102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_16
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 6
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5e0075f25c66d0820800000000000000
+      internalID: 2886075933303177445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_17
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 7
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae59eb0b4fcb02100800000000000000
+      internalID: 81272552415991274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_18
+      rect:
+        serializedVersion: 2
+        x: 688
+        y: 7
+        width: 7
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a76e0da549cb3020800000000000000
+      internalID: 2322671333932951464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_19
+      rect:
+        serializedVersion: 2
+        x: 714
+        y: 7
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bb21b6778acfff1b0800000000000000
+      internalID: -5620496009446878533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_20
+      rect:
+        serializedVersion: 2
+        x: 749
+        y: 7
+        width: 13
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4177a0bcd3d1eea00800000000000000
+      internalID: 787599136073086740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Healer Staff_0: -9093418486621508038
+      Healer Staff_1: 2120760226054594636
+      Healer Staff_10: -8686218705357660721
+      Healer Staff_11: 3835310249216475232
+      Healer Staff_12: 3214519777523966904
+      Healer Staff_13: 6429492001907397709
+      Healer Staff_14: 529103645411104785
+      Healer Staff_15: 9164128103880995102
+      Healer Staff_16: 2886075933303177445
+      Healer Staff_17: 81272552415991274
+      Healer Staff_18: 2322671333932951464
+      Healer Staff_19: -5620496009446878533
+      Healer Staff_2: 3301455583819055894
+      Healer Staff_20: 787599136073086740
+      Healer Staff_3: 8390911203793460257
+      Healer Staff_4: 6823234393313762086
+      Healer Staff_5: -6331643120018421351
+      Healer Staff_6: 1841295735010201341
+      Healer Staff_7: -6017247711902429159
+      Healer Staff_8: -5475422797268832874
+      Healer Staff_9: -6002290671994308265
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: Combat Crit_1
+  m_EditorClassIdentifier: 
+  nodeName: "\u0423\u0437\u0435\u043B"
+  description: 
+  icon: {fileID: 7779876738349058529, guid: 4da56a412a93dbd44a669f5f0af29b17, type: 3}
+  branch: 0
+  requiredLevel: 5
+  skillPointsCost: 2
+  goldCost: 0
+  requiredNodes: []
+  maxRanks: 1
+  rankCostMultiplier: 1.5
+  effectType: 0
+  effectValue: 5
+  unlocksItem: {fileID: 0}
+  unlocksFeature: 

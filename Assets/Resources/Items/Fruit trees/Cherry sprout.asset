@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: Cherry sprout
+  m_EditorClassIdentifier: 
+  itemName: "\u0421\u0430\u0436\u0430\u043D\u0435\u0446 \u0432\u044B\u0448\u043D\u0438"
+  description: 
+  icon: {fileID: -2303000114818608943, guid: 88edb3df6a48d19479b89c3676d3fe70, type: 3}
+  worldSprite: {fileID: -2303000114818608943, guid: 88edb3df6a48d19479b89c3676d3fe70, type: 3}
+  itemType: 7
+  isStackable: 0
+  maxStack: 1
+  damage: 0
+  attackRange: 1
+  attackSpeed: 1
+  weaponPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 0}
+  arrowSpeed: 10
+  arrowRange: 8
+  growthStages:
+  - {fileID: 9220001417449756652, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  - {fileID: -2303000114818608943, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  - {fileID: -5290839135267936520, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  - {fileID: 4554639068971538802, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  - {fileID: -1375329172, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  growthStagesCount: 5
+  growthTimeWatered: 30
+  growthTimeNormal: 30
+  harvestItem: {fileID: 11400000, guid: 7a31622aa9098c649a2a46825750d91f, type: 2}
+  harvestAmount: 1
+  treePrefab: {fileID: 5308036447521000985, guid: 419e449238ab04642998581a73df5c11, type: 3}
+  treeGrowthTime: 30
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 4554639068971538802, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  treeFruitSprite: {fileID: -1941471843, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  treeNoFruitSprite: {fileID: -1375329172, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  treeDriedSprite: {fileID: -503907608, guid: 35f130f4a51994f4db18e523be7e2b7a, type: 3}
+  isFruitTree: 1
+  treeFruitItem: {fileID: 11400000, guid: 7a31622aa9098c649a2a46825750d91f, type: 2}
+  treeFruitAmount: 3
+  treeFruitGrowTime: 15
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 11400000, guid: 022b77292c1f5054aabaa78cf84766e8, type: 2}
+  treeWoodAmount: 3
+  treeMaxHealth: 5

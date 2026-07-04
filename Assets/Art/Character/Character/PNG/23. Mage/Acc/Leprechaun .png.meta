@@ -1,0 +1,754 @@
+fileFormatVersion: 2
+guid: 9f621171e09b6e440a22504252bf796a
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1341132574299560680
+    second: Leprechaun _0
+  - first:
+      213: 5988904039438430932
+    second: Leprechaun _1
+  - first:
+      213: 1216895235000626171
+    second: Leprechaun _2
+  - first:
+      213: -7623786166863469445
+    second: Leprechaun _3
+  - first:
+      213: 7260465750662799403
+    second: Leprechaun _4
+  - first:
+      213: 1463445947004660593
+    second: Leprechaun _5
+  - first:
+      213: -6172255323908181516
+    second: Leprechaun _6
+  - first:
+      213: -2719557431656477798
+    second: Leprechaun _7
+  - first:
+      213: -5891042709728908348
+    second: Leprechaun _8
+  - first:
+      213: 6569678420306802792
+    second: Leprechaun _9
+  - first:
+      213: -890707724122096092
+    second: Leprechaun _10
+  - first:
+      213: -45897675048866026
+    second: Leprechaun _11
+  - first:
+      213: -1643342680044358395
+    second: Leprechaun _12
+  - first:
+      213: -3650760663607644102
+    second: Leprechaun _13
+  - first:
+      213: 2718423398854326259
+    second: Leprechaun _14
+  - first:
+      213: 8730202500907266906
+    second: Leprechaun _15
+  - first:
+      213: -2086516691312180503
+    second: Leprechaun _16
+  - first:
+      213: -2771767928631348999
+    second: Leprechaun _17
+  - first:
+      213: 4765807319125817805
+    second: Leprechaun _18
+  - first:
+      213: -7008357789144730970
+    second: Leprechaun _19
+  - first:
+      213: -4220575431863999457
+    second: Leprechaun _20
+  - first:
+      213: -8771291815831880295
+    second: Leprechaun _21
+  - first:
+      213: 5317491931582528239
+    second: Leprechaun _22
+  - first:
+      213: 452588245319922047
+    second: Leprechaun _23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Leprechaun _0
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 17
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ea94df78f8ac9210800000000000000
+      internalID: 1341132574299560680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d231a84e7cdc1350800000000000000
+      internalID: 5988904039438430932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _2
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bfbe313d4c743e010800000000000000
+      internalID: 1216895235000626171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _3
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b74e090bfded23690800000000000000
+      internalID: -7623786166863469445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _4
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b206524f12b52c460800000000000000
+      internalID: 7260465750662799403
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _5
+      rect:
+        serializedVersion: 2
+        x: 169
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17ba23bc5543f4410800000000000000
+      internalID: 1463445947004660593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _6
+      rect:
+        serializedVersion: 2
+        x: 201
+        y: 17
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f170732c7eb75aa0800000000000000
+      internalID: -6172255323908181516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _7
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9b87dbbce0324ad0800000000000000
+      internalID: -2719557431656477798
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _8
+      rect:
+        serializedVersion: 2
+        x: 265
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cb24f91edfce3ea0800000000000000
+      internalID: -5891042709728908348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _9
+      rect:
+        serializedVersion: 2
+        x: 297
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 868bfe237bf2c2b50800000000000000
+      internalID: 6569678420306802792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _10
+      rect:
+        serializedVersion: 2
+        x: 329
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 42e71094b0293a3f0800000000000000
+      internalID: -890707724122096092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _11
+      rect:
+        serializedVersion: 2
+        x: 361
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 61f22b6ce40fc5ff0800000000000000
+      internalID: -45897675048866026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _12
+      rect:
+        serializedVersion: 2
+        x: 393
+        y: 17
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 505b7bf0a8ca139e0800000000000000
+      internalID: -1643342680044358395
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _13
+      rect:
+        serializedVersion: 2
+        x: 425
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a3072bdd484e55dc0800000000000000
+      internalID: -3650760663607644102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _14
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3f772ddada7c9b520800000000000000
+      internalID: 2718423398854326259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _15
+      rect:
+        serializedVersion: 2
+        x: 489
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a53fdc38be8e72970800000000000000
+      internalID: 8730202500907266906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _16
+      rect:
+        serializedVersion: 2
+        x: 521
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e20a64cf143b03e0800000000000000
+      internalID: -2086516691312180503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _17
+      rect:
+        serializedVersion: 2
+        x: 553
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f0bb1e11c3b889d0800000000000000
+      internalID: -2771767928631348999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _18
+      rect:
+        serializedVersion: 2
+        x: 585
+        y: 17
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc97374a18c832240800000000000000
+      internalID: 4765807319125817805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _19
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6a2bf2ff8bf4dbe90800000000000000
+      internalID: -7008357789144730970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _20
+      rect:
+        serializedVersion: 2
+        x: 649
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f14610c91018d65c0800000000000000
+      internalID: -4220575431863999457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _21
+      rect:
+        serializedVersion: 2
+        x: 681
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99dbc08d09c164680800000000000000
+      internalID: -8771291815831880295
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _22
+      rect:
+        serializedVersion: 2
+        x: 713
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fea7bfd0db68bc940800000000000000
+      internalID: 5317491931582528239
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Leprechaun _23
+      rect:
+        serializedVersion: 2
+        x: 745
+        y: 18
+        width: 15
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f71bfc77c9ae74600800000000000000
+      internalID: 452588245319922047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Leprechaun _0: 1341132574299560680
+      Leprechaun _1: 5988904039438430932
+      Leprechaun _10: -890707724122096092
+      Leprechaun _11: -45897675048866026
+      Leprechaun _12: -1643342680044358395
+      Leprechaun _13: -3650760663607644102
+      Leprechaun _14: 2718423398854326259
+      Leprechaun _15: 8730202500907266906
+      Leprechaun _16: -2086516691312180503
+      Leprechaun _17: -2771767928631348999
+      Leprechaun _18: 4765807319125817805
+      Leprechaun _19: -7008357789144730970
+      Leprechaun _2: 1216895235000626171
+      Leprechaun _20: -4220575431863999457
+      Leprechaun _21: -8771291815831880295
+      Leprechaun _22: 5317491931582528239
+      Leprechaun _23: 452588245319922047
+      Leprechaun _3: -7623786166863469445
+      Leprechaun _4: 7260465750662799403
+      Leprechaun _5: 1463445947004660593
+      Leprechaun _6: -6172255323908181516
+      Leprechaun _7: -2719557431656477798
+      Leprechaun _8: -5891042709728908348
+      Leprechaun _9: 6569678420306802792
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

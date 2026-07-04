@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: Helmet
+  m_EditorClassIdentifier: 
+  itemName: "\u0428\u043B\u0435\u043C"
+  description: 
+  icon: {fileID: 309628545801974608, guid: 8f749b9515693f04a97acca3456179b4, type: 3}
+  worldSprite: {fileID: -6492476722227787461, guid: 8f749b9515693f04a97acca3456179b4, type: 3}
+  itemType: 14
+  rarity: 0
+  isStackable: 0
+  maxStack: 1
+  damage: 0
+  attackRange: 1
+  attackSpeed: 1
+  weaponPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 0}
+  arrowSpeed: 10
+  arrowRange: 8
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  maxWater: 10
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 0}
+  treeFruitSprite: {fileID: 0}
+  treeNoFruitSprite: {fileID: 0}
+  treeDriedSprite: {fileID: 0}
+  isFruitTree: 0
+  treeFruitItem: {fileID: 0}
+  treeFruitAmount: 1
+  treeFruitGrowTime: 120
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 0}
+  treeWoodAmount: 3
+  treeMaxHealth: 5
+  equipSlot: 1
+  bonusHealth: 10
+  bonusAttack: 0
+  bonusDefense: 1
+  bonusAttackSpeed: 0
+  bonusMoveSpeed: 0
+  bonusCritChance: 0
+  bonusCritDamage: 0
+  bonusDodgeChance: 0
+  bonusBlockChance: 0

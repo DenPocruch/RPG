@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: RangedWeapon
+  m_EditorClassIdentifier: 
+  itemName: "\u041B\u0443\u043A"
+  description: 
+  icon: {fileID: -7856493677412862020, guid: c303edebca0298e4baccabac47ed96b3, type: 3}
+  worldSprite: {fileID: 9177565795109621906, guid: c303edebca0298e4baccabac47ed96b3, type: 3}
+  itemType: 1
+  rarity: 0
+  isStackable: 0
+  maxStack: 1
+  damage: 15
+  attackRange: 1
+  attackSpeed: 1.2
+  weaponPrefab: {fileID: 2960725317773041592, guid: e643001ed0f3edc4ba9918498a6f4f24, type: 3}
+  arrowPrefab: {fileID: 7791161127038358501, guid: 67e5a515f47a8634588b0a7ce3708c38, type: 3}
+  arrowSpeed: 10
+  arrowRange: 8
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  maxWater: 10
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 0}
+  treeFruitSprite: {fileID: 0}
+  treeNoFruitSprite: {fileID: 0}
+  treeDriedSprite: {fileID: 0}
+  isFruitTree: 0
+  treeFruitItem: {fileID: 0}
+  treeFruitAmount: 1
+  treeFruitGrowTime: 120
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 0}
+  treeWoodAmount: 3
+  treeMaxHealth: 5
+  nextRarityVersion: {fileID: 0}
+  equipSlot: 6
+  bonusHealth: 0
+  bonusAttack: 0
+  bonusDefense: 0
+  bonusAttackSpeed: 0
+  bonusMoveSpeed: 0
+  bonusCritChance: 0
+  bonusCritDamage: 0
+  bonusDodgeChance: 0
+  bonusBlockChance: 0

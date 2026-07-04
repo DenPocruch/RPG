@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: Axe
+  m_EditorClassIdentifier: 
+  itemName: "\u0422\u043E\u043F\u043E\u0440"
+  description: 
+  icon: {fileID: -5825250732961213246, guid: f996230878e22184f96a8323ee7df998, type: 3}
+  worldSprite: {fileID: -316209040919722149, guid: f996230878e22184f96a8323ee7df998, type: 3}
+  itemType: 5
+  isStackable: 0
+  maxStack: 1
+  damage: 0
+  attackRange: 1
+  attackSpeed: 0.6
+  weaponPrefab: {fileID: 7396206815792279365, guid: a0a14dc41878c93458a24d6321cb90ee, type: 3}
+  arrowPrefab: {fileID: 0}
+  arrowSpeed: 10
+  arrowRange: 8
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600

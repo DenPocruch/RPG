@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: ddf44b5d325cdf94d821bb450eca7e2b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5021618579331272189
+    second: Deluxe Silo_0
+  - first:
+      213: -1876889966803333567
+    second: Deluxe Silo_1
+  - first:
+      213: -1194687546540162360
+    second: Deluxe Silo_2
+  - first:
+      213: 5065210987913493738
+    second: Deluxe Silo_3
+  - first:
+      213: -1922178373956181992
+    second: Deluxe Silo_4
+  - first:
+      213: -1052656432622731420
+    second: Deluxe Silo_5
+  - first:
+      213: 4445230192851755853
+    second: Deluxe Silo_6
+  - first:
+      213: 7790344112153564516
+    second: Deluxe Silo_7
+  - first:
+      213: 2331530263579561594
+    second: Deluxe Silo_8
+  - first:
+      213: 3252788408928238492
+    second: Deluxe Silo_9
+  - first:
+      213: 8339944693541924587
+    second: Deluxe Silo_10
+  - first:
+      213: -4192082557993879758
+    second: Deluxe Silo_11
+  - first:
+      213: 7081948035555609788
+    second: Deluxe Silo_12
+  - first:
+      213: -5926709567116571906
+    second: Deluxe Silo_13
+  - first:
+      213: -575407467942420448
+    second: Deluxe Silo_14
+  - first:
+      213: -2659014872438738256
+    second: Deluxe Silo_15
+  - first:
+      213: -7271239566345168572
+    second: Deluxe Silo_16
+  - first:
+      213: -7705268240267289222
+    second: Deluxe Silo_17
+  - first:
+      213: -7139747822388809512
+    second: Deluxe Silo_18
+  - first:
+      213: -9090644812710905876
+    second: Deluxe Silo_19
+  - first:
+      213: -7774395617306035276
+    second: Deluxe Silo_20
+  - first:
+      213: 4753721307596767151
+    second: Deluxe Silo_21
+  - first:
+      213: 2685422153701956324
+    second: Deluxe Silo_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 0
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Deluxe Silo_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 112
+        width: 67
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dfdca820e7f50b540800000000000000
+      internalID: 5021618579331272189
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_1
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 166
+        width: 41
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14e4136f482f3f5e0800000000000000
+      internalID: -1876889966803333567
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_2
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 166
+        width: 41
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c204e2910e9b6fe0800000000000000
+      internalID: -1194687546540162360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_3
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 166
+        width: 41
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aec3dfe8e8e3b4640800000000000000
+      internalID: 5065210987913493738
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_4
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 166
+        width: 41
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8106769f3fc0355e0800000000000000
+      internalID: -1922178373956181992
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_5
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 179
+        width: 33
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46ffdfe3d863461f0800000000000000
+      internalID: -1052656432622731420
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_6
+      rect:
+        serializedVersion: 2
+        x: 292
+        y: 196
+        width: 9
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d4325cdfe41a0bd30800000000000000
+      internalID: 4445230192851755853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_7
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 96
+        width: 41
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 46518fae1bcdc1c60800000000000000
+      internalID: 7790344112153564516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_8
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 96
+        width: 41
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7e8bb7fb624b5020800000000000000
+      internalID: 2331530263579561594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_9
+      rect:
+        serializedVersion: 2
+        x: 180
+        y: 96
+        width: 41
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9bfcabe2d9342d20800000000000000
+      internalID: 3252788408928238492
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_10
+      rect:
+        serializedVersion: 2
+        x: 228
+        y: 96
+        width: 41
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bee68f8038f6db370800000000000000
+      internalID: 8339944693541924587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_11
+      rect:
+        serializedVersion: 2
+        x: 283
+        y: 142
+        width: 27
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 237f9a5cf1bb2d5c0800000000000000
+      internalID: -4192082557993879758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_12
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 128
+        width: 13
+        height: 58
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cbc41117732284260800000000000000
+      internalID: 7081948035555609788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_13
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 61
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efa8b1dbc0910cda0800000000000000
+      internalID: -5926709567116571906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_14
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 61
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0206f20e4fdb308f0800000000000000
+      internalID: -575407467942420448
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_15
+      rect:
+        serializedVersion: 2
+        x: 107
+        y: 61
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b2fec3cf08491bd0800000000000000
+      internalID: -2659014872438738256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_16
+      rect:
+        serializedVersion: 2
+        x: 155
+        y: 61
+        width: 28
+        height: 33
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4491b3b932e571b90800000000000000
+      internalID: -7271239566345168572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_17
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 71
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a7dd4c71c53611590800000000000000
+      internalID: -7705268240267289222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_18
+      rect:
+        serializedVersion: 2
+        x: 203
+        y: 56
+        width: 28
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8d075acfe258aec90800000000000000
+      internalID: -7139747822388809512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_19
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 8
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ce77e1705ba87d180800000000000000
+      internalID: -9090644812710905876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_20
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 8
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bbbe17606ccb1490800000000000000
+      internalID: -7774395617306035276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_21
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 8
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fafb28cc75c98f140800000000000000
+      internalID: 4753721307596767151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Deluxe Silo_22
+      rect:
+        serializedVersion: 2
+        x: 154
+        y: 8
+        width: 29
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4ea9e578839844520800000000000000
+      internalID: 2685422153701956324
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Deluxe Silo_0: 5021618579331272189
+      Deluxe Silo_1: -1876889966803333567
+      Deluxe Silo_10: 8339944693541924587
+      Deluxe Silo_11: -4192082557993879758
+      Deluxe Silo_12: 7081948035555609788
+      Deluxe Silo_13: -5926709567116571906
+      Deluxe Silo_14: -575407467942420448
+      Deluxe Silo_15: -2659014872438738256
+      Deluxe Silo_16: -7271239566345168572
+      Deluxe Silo_17: -7705268240267289222
+      Deluxe Silo_18: -7139747822388809512
+      Deluxe Silo_19: -9090644812710905876
+      Deluxe Silo_2: -1194687546540162360
+      Deluxe Silo_20: -7774395617306035276
+      Deluxe Silo_21: 4753721307596767151
+      Deluxe Silo_22: 2685422153701956324
+      Deluxe Silo_3: 5065210987913493738
+      Deluxe Silo_4: -1922178373956181992
+      Deluxe Silo_5: -1052656432622731420
+      Deluxe Silo_6: 4445230192851755853
+      Deluxe Silo_7: 7790344112153564516
+      Deluxe Silo_8: 2331530263579561594
+      Deluxe Silo_9: 3252788408928238492
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
