@@ -1,29 +1,33 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class HotbarManager : MonoBehaviour
+public class HotbarManager : MonoBehaviour, ISaveable
 {
     public static HotbarManager Instance;
 
-    [Header("Слоты хотбара")]
+    [Header("РЎР»РѕС‚С‹ С…РѕС‚Р±Р°СЂР°")]
     public InventorySlot[] slots;
 
-    [Header("Цвет активного слота")]
+    [Header("Р¦РІРµС‚ Р°РєС‚РёРІРЅРѕРіРѕ СЃР»РѕС‚Р°")]
     public Color activeSlotColor = new Color(1f, 0.8f, 0f, 1f);
     public Color normalSlotColor = new Color(1f, 1f, 1f, 1f);
 
-    [Header("Текущий активный слот")]
+    [Header("РўРµРєСѓС‰РёР№ Р°РєС‚РёРІРЅС‹Р№ СЃР»РѕС‚")]
     public int activeSlotIndex = 0;
 
-    [Header("Тестовые предметы (только для разработки)")]
+    [Header("РўРµСЃС‚РѕРІС‹Рµ РїСЂРµРґРјРµС‚С‹ (С‚РѕР»СЊРєРѕ РґР»СЏ СЂР°Р·СЂР°Р±РѕС‚РєРё)")]
     public List<TestItem> testItems = new List<TestItem>();
 
-    // Событие — активный предмет изменился
-    // Подписчики: EquipmentSlot (слот оружия), PlayerStats
+    // РЎРѕР±С‹С‚РёРµ вЂ” Р°РєС‚РёРІРЅС‹Р№ РїСЂРµРґРјРµС‚ РёР·РјРµРЅРёР»СЃСЏ
+    // РџРѕРґРїРёСЃС‡РёРєРё: EquipmentSlot (СЃР»РѕС‚ РѕСЂСѓР¶РёСЏ), PlayerStats
     public System.Action<ItemData> onActiveItemChanged;
 
-    void Awake() { Instance = this; }
+    void Awake()
+    {
+        Instance = this;
+        SaveManager.Instance?.Register(this);
+    }
 
     void Start()
     {
@@ -34,7 +38,72 @@ public class HotbarManager : MonoBehaviour
         }
 
         SetActiveSlot(0);
-        GiveTestItems();
+        GiveTestItems(); // С‚РµСЃС‚РѕРІС‹Рµ РїСЂРµРґРјРµС‚С‹ вЂ” РїРµСЂРµР·Р°РїРёС€СѓС‚СЃСЏ СЃРѕС…СЂР°РЅРµРЅРёРµРј, РµСЃР»Рё РѕРЅРѕ РµСЃС‚СЊ
+
+        SaveManager.Instance?.LoadInto(this);
+    }
+
+    // в”Ђв”Ђв”Ђ ISaveable в”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђв”Ђ
+    [System.Serializable]
+    private class HotbarSlotSave
+    {
+        public int index;
+        public string itemName;
+        public int quantity;
+        public int water;
+    }
+    [System.Serializable]
+    private class HotbarSave
+    {
+        public int activeIndex;
+        public List<HotbarSlotSave> slots = new List<HotbarSlotSave>();
+    }
+
+    public string SaveKey => "hotbar";
+
+    public string CaptureState()
+    {
+        HotbarSave save = new HotbarSave();
+        save.activeIndex = activeSlotIndex;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            InventorySlot s = slots[i];
+            if (s == null || s.IsEmpty()) continue;
+            save.slots.Add(new HotbarSlotSave
+            {
+                index = i,
+                itemName = s.currentItem.name,
+                quantity = s.quantity,
+                water = s.currentWater
+            });
+        }
+        return JsonUtility.ToJson(save);
+    }
+
+    public void RestoreState(string json)
+    {
+        HotbarSave save = JsonUtility.FromJson<HotbarSave>(json);
+        if (save == null) return;
+
+        foreach (InventorySlot s in slots)
+            if (s != null) s.ClearSlot();
+
+        foreach (HotbarSlotSave ss in save.slots)
+        {
+            if (ss.index < 0 || ss.index >= slots.Length) continue;
+            ItemData item = ItemDatabase.Find(ss.itemName);
+            if (item == null)
+            {
+                Debug.LogWarning("[Save] РџСЂРµРґРјРµС‚ С…РѕС‚Р±Р°СЂР° РЅРµ РЅР°Р№РґРµРЅ: " + ss.itemName);
+                continue;
+            }
+            slots[ss.index].SetItemWithWater(item, ss.quantity, ss.water);
+        }
+
+        // Р’РѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµРј Р°РєС‚РёРІРЅС‹Р№ СЃР»РѕС‚ вЂ” СЌС‚Рѕ Р¶Рµ РѕР±РЅРѕРІРёС‚ Р·РµСЂРєР°Р»Рѕ РѕСЂСѓР¶РёСЏ Рё СЃС‚Р°С‚С‹
+        int idx = Mathf.Clamp(save.activeIndex, 0, slots.Length - 1);
+        SetActiveSlot(idx);
     }
 
     void GiveTestItems()
@@ -51,7 +120,7 @@ public class HotbarManager : MonoBehaviour
     {
         if (index < 0 || index >= slots.Length) return;
 
-        // Снимаем выделение со всех
+        // РЎРЅРёРјР°РµРј РІС‹РґРµР»РµРЅРёРµ СЃРѕ РІСЃРµС…
         for (int i = 0; i < slots.Length; i++)
         {
             Image img = slots[i].GetComponent<Image>();
@@ -60,11 +129,11 @@ public class HotbarManager : MonoBehaviour
 
         activeSlotIndex = index;
 
-        // Выделяем активный
+        // Р’С‹РґРµР»СЏРµРј Р°РєС‚РёРІРЅС‹Р№
         Image activeImg = slots[activeSlotIndex].GetComponent<Image>();
         if (activeImg != null) activeImg.color = activeSlotColor;
 
-        // Уведомляем всех подписчиков об изменении активного предмета
+        // РЈРІРµРґРѕРјР»СЏРµРј РІСЃРµС… РїРѕРґРїРёСЃС‡РёРєРѕРІ РѕР± РёР·РјРµРЅРµРЅРёРё Р°РєС‚РёРІРЅРѕРіРѕ РїСЂРµРґРјРµС‚Р°
         NotifyActiveItemChanged();
     }
 
@@ -84,21 +153,21 @@ public class HotbarManager : MonoBehaviour
     {
         if (index < 0 || index >= slots.Length) return;
         slots[index].SetItem(item, amount);
-        // Если изменился активный слот — уведомляем
+        // Р•СЃР»Рё РёР·РјРµРЅРёР»СЃСЏ Р°РєС‚РёРІРЅС‹Р№ СЃР»РѕС‚ вЂ” СѓРІРµРґРѕРјР»СЏРµРј
         if (index == activeSlotIndex)
             NotifyActiveItemChanged();
     }
 
     /// <summary>
-    /// Вызывается когда содержимое активного слота изменилось.
-    /// Например: игрок переложил меч из активного слота.
+    /// Р’С‹Р·С‹РІР°РµС‚СЃСЏ РєРѕРіРґР° СЃРѕРґРµСЂР¶РёРјРѕРµ Р°РєС‚РёРІРЅРѕРіРѕ СЃР»РѕС‚Р° РёР·РјРµРЅРёР»РѕСЃСЊ.
+    /// РќР°РїСЂРёРјРµСЂ: РёРіСЂРѕРє РїРµСЂРµР»РѕР¶РёР» РјРµС‡ РёР· Р°РєС‚РёРІРЅРѕРіРѕ СЃР»РѕС‚Р°.
     /// </summary>
     public void NotifyActiveItemChanged()
     {
         ItemData active = GetActiveItem();
         onActiveItemChanged?.Invoke(active);
 
-        // Пересчитываем бонусы от оружия в PlayerStats
+        // РџРµСЂРµСЃС‡РёС‚С‹РІР°РµРј Р±РѕРЅСѓСЃС‹ РѕС‚ РѕСЂСѓР¶РёСЏ РІ PlayerStats
         if (PlayerStats.Instance != null)
             PlayerStats.Instance.OnActiveWeaponChanged(active);
     }

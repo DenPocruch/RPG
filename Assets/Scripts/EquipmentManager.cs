@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// Ring1, Ring2, Earrings, Bracelet, Amulet).
 /// Доступ через EquipmentManager.Instance.
 /// </summary>
-public class EquipmentManager : MonoBehaviour
+public class EquipmentManager : MonoBehaviour, ISaveable
 {
     public static EquipmentManager Instance { get; private set; }
 
@@ -29,6 +29,65 @@ public class EquipmentManager : MonoBehaviour
             if (slot == EquipmentSlotType.None) continue;
             equippedItems[slot] = null;
         }
+
+        SaveManager.Instance?.Register(this);
+    }
+
+    void Start()
+    {
+        // Грузим ПОСЛЕ инициализации PlayerStats (он в Awake),
+        // чтобы бонусы экипировки корректно легли на базовые статы
+        SaveManager.Instance?.LoadInto(this);
+    }
+
+    // ─── ISaveable ─────────────────────────────────────────────
+    [System.Serializable] private class EquipSave { public string slotType; public string itemName; }
+    [System.Serializable] private class EquipmentSave { public List<EquipSave> items = new List<EquipSave>(); }
+
+    public string SaveKey => "equipment";
+
+    public string CaptureState()
+    {
+        EquipmentSave save = new EquipmentSave();
+        foreach (var kvp in equippedItems)
+        {
+            if (kvp.Value == null) continue;
+            save.items.Add(new EquipSave
+            {
+                slotType = kvp.Key.ToString(),
+                itemName = kvp.Value.name
+            });
+        }
+        return JsonUtility.ToJson(save);
+    }
+
+    public void RestoreState(string json)
+    {
+        EquipmentSave save = JsonUtility.FromJson<EquipmentSave>(json);
+        if (save == null) return;
+
+        // Снимаем всё
+        foreach (EquipmentSlotType slot in System.Enum.GetValues(typeof(EquipmentSlotType)))
+        {
+            if (slot == EquipmentSlotType.None) continue;
+            equippedItems[slot] = null;
+        }
+
+        // Надеваем сохранённое
+        foreach (EquipSave es in save.items)
+        {
+            ItemData item = ItemDatabase.Find(es.itemName);
+            if (item == null) { Debug.LogWarning("[Save] Экипировка не найдена: " + es.itemName); continue; }
+
+            if (System.Enum.TryParse(es.slotType, out EquipmentSlotType slotType))
+                equippedItems[slotType] = item;
+        }
+
+        // Пересчитываем характеристики с восстановленной экипировкой
+        if (PlayerStats.Instance != null)
+            PlayerStats.Instance.RecalculateBonuses(GetAllEquipped());
+
+        onEquipmentChanged?.Invoke();
     }
 
     // ═══════════════════════════════════════════════════════════

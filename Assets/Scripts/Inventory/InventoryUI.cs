@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, ISaveable
 {
     public static InventoryUI Instance;
 
@@ -23,6 +24,7 @@ public class InventoryUI : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        SaveManager.Instance?.Register(this);
     }
 
     void Start()
@@ -34,6 +36,70 @@ public class InventoryUI : MonoBehaviour
         // Подписываемся на изменение дерева навыков
         if (SkillTreeManager.Instance != null)
             SkillTreeManager.Instance.onSkillTreeChanged += OnSkillTreeChanged;
+
+        SaveManager.Instance?.LoadInto(this);
+    }
+
+    // ─── ISaveable ─────────────────────────────────────────────
+    [System.Serializable]
+    private class SlotSave
+    {
+        public int index;
+        public string itemName;
+        public int quantity;
+        public int water;
+    }
+    [System.Serializable]
+    private class InventorySave { public List<SlotSave> slots = new List<SlotSave>(); }
+
+    public string SaveKey => "inventory";
+
+    public string CaptureState()
+    {
+        InventorySave save = new InventorySave();
+        for (int i = 0; i < slots.Length; i++)
+        {
+            InventorySlot s = slots[i];
+            if (s == null || s.IsEmpty()) continue;
+            save.slots.Add(new SlotSave
+            {
+                index = i,
+                itemName = s.currentItem.name,
+                quantity = s.quantity,
+                water = s.currentWater
+            });
+        }
+        return JsonUtility.ToJson(save);
+    }
+
+    public void RestoreState(string json)
+    {
+        InventorySave save = JsonUtility.FromJson<InventorySave>(json);
+        if (save == null) return;
+
+        // Убеждаемся что слотов достаточно (мог быть бонус от навыков)
+        int maxIndex = 0;
+        foreach (SlotSave ss in save.slots)
+            if (ss.index > maxIndex) maxIndex = ss.index;
+        if (slots.Length <= maxIndex)
+            AddExtraSlots(maxIndex + 1 - slots.Length);
+
+        // Чистим всё
+        foreach (InventorySlot s in slots)
+            if (s != null) s.ClearSlot();
+
+        // Расставляем сохранённые предметы
+        foreach (SlotSave ss in save.slots)
+        {
+            if (ss.index < 0 || ss.index >= slots.Length) continue;
+            ItemData item = ItemDatabase.Find(ss.itemName);
+            if (item == null)
+            {
+                Debug.LogWarning("[Save] Предмет не найден: " + ss.itemName);
+                continue;
+            }
+            slots[ss.index].SetItemWithWater(item, ss.quantity, ss.water);
+        }
     }
 
     void OnDestroy()
