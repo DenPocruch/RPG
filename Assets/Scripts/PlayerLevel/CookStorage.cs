@@ -7,7 +7,7 @@ using System.Collections.Generic;
 /// в выходной слот. Работает независимо от того, открыта ли панель.
 /// Вешается на NPC повара.
 /// </summary>
-public class CookStorage : MonoBehaviour
+public class CookStorage : MonoBehaviour, ISaveable
 {
     public static CookStorage Instance;
 
@@ -36,6 +36,80 @@ public class CookStorage : MonoBehaviour
         outputSlot = outGo.AddComponent<InventorySlot>();
         outputSlot.allowOverflow = true;
         outputSlot.acceptsManualDeposit = false; // только повар кладёт сюда
+
+        SaveManager.Instance?.Register(this);
+    }
+
+    void Start()
+    {
+        SaveManager.Instance?.LoadInto(this);
+    }
+
+    // ─── ISaveable ─────────────────────────────────────────────
+    [System.Serializable]
+    private class CookSave
+    {
+        public List<string> queue = new List<string>(); // имена ассетов рецептов в очереди
+        public string currentRecipe;             // текущий готовящийся (в начало очереди при загрузке)
+        public string outputItem;
+        public int outputQty;
+    }
+
+    public string SaveKey => "cook";
+
+    public string CaptureState()
+    {
+        CookSave save = new CookSave();
+
+        if (currentOrder != null) save.currentRecipe = currentOrder.name;
+        foreach (RecipeData r in orderQueue)
+            if (r != null) save.queue.Add(r.name);
+
+        if (outputSlot != null && !outputSlot.IsEmpty())
+        {
+            save.outputItem = outputSlot.currentItem.name;
+            save.outputQty = outputSlot.quantity;
+        }
+        return JsonUtility.ToJson(save);
+    }
+
+    public void RestoreState(string json)
+    {
+        CookSave save = JsonUtility.FromJson<CookSave>(json);
+        if (save == null) return;
+
+        orderQueue.Clear();
+        currentOrder = null;
+        timeRemaining = 0f;
+
+        // Текущий заказ возвращаем в начало очереди (готовку начнём заново с него)
+        if (!string.IsNullOrEmpty(save.currentRecipe))
+        {
+            RecipeData r = FindRecipe(save.currentRecipe);
+            if (r != null) orderQueue.Add(r);
+        }
+        foreach (string name in save.queue)
+        {
+            RecipeData r = FindRecipe(name);
+            if (r != null) orderQueue.Add(r);
+        }
+
+        if (outputSlot != null) outputSlot.ClearSlot();
+        if (!string.IsNullOrEmpty(save.outputItem))
+        {
+            ItemData outItem = ItemDatabase.Find(save.outputItem);
+            if (outItem != null) outputSlot.SetItem(outItem, save.outputQty);
+        }
+
+        onStorageChanged?.Invoke();
+    }
+
+    RecipeData FindRecipe(string assetName)
+    {
+        if (allRecipes == null) return null;
+        foreach (RecipeData r in allRecipes)
+            if (r != null && r.name == assetName) return r;
+        return null;
     }
 
     void Update()

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 475559016036784876}
   - component: {fileID: 8986112689852856020}
   - component: {fileID: 5489662289700539799}
+  - component: {fileID: -3666237773241561005}
   m_Layer: 0
   m_Name: CropPrefab
   m_TagString: Untagged
@@ -104,3 +105,16 @@ MonoBehaviour:
   currentStage: 0
   isWatered: 0
   isReady: 0
+--- !u!114 &-3666237773241561005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6006808317402567823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f317b4b4608457a47b0ff8cfb7757841, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingOffset: 0

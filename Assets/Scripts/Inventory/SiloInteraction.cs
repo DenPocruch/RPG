@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
-public class SiloInteraction : MonoBehaviour, IInteractable
+public class SiloInteraction : MonoBehaviour, IInteractable, ISaveable
 {
     [Header("Размер силоса")]
     public int siloSize = 20;
+
+    [Header("Уникальный ID (для сохранения — если силосов несколько, задай разные)")]
+    [Tooltip("Пусто = ID из позиции силоса на карте.")]
+    public string siloId = "";
 
     [Header("Стак в силосе")]
     public int siloMaxStack = 50;
@@ -38,6 +43,52 @@ public class SiloInteraction : MonoBehaviour, IInteractable
         }
 
         SetSprite(false);
+
+        SaveManager.Instance?.Register(this);
+        SaveManager.Instance?.LoadInto(this);
+    }
+
+    // ─── ISaveable ─────────────────────────────────────────────
+    public string SaveKey => "silo_" + (string.IsNullOrEmpty(siloId) ? transform.position.ToString() : siloId);
+
+    [System.Serializable]
+    private class SiloSlotSave { public int index; public string itemName; public int quantity; public int water; }
+    [System.Serializable]
+    private class SiloSave { public List<SiloSlotSave> slots = new List<SiloSlotSave>(); }
+
+    public string CaptureState()
+    {
+        SiloSave save = new SiloSave();
+        for (int i = 0; i < siloSlots.Length; i++)
+        {
+            InventorySlot s = siloSlots[i];
+            if (s == null || s.IsEmpty()) continue;
+            save.slots.Add(new SiloSlotSave
+            {
+                index = i,
+                itemName = s.currentItem.name,
+                quantity = s.quantity,
+                water = s.currentWater
+            });
+        }
+        return JsonUtility.ToJson(save);
+    }
+
+    public void RestoreState(string json)
+    {
+        SiloSave save = JsonUtility.FromJson<SiloSave>(json);
+        if (save == null) return;
+
+        foreach (InventorySlot s in siloSlots)
+            if (s != null) s.ClearSlot();
+
+        foreach (SiloSlotSave ss in save.slots)
+        {
+            if (ss.index < 0 || ss.index >= siloSlots.Length) continue;
+            ItemData item = ItemDatabase.Find(ss.itemName);
+            if (item == null) { Debug.LogWarning("[Save] Предмет в силосе не найден: " + ss.itemName); continue; }
+            siloSlots[ss.index].SetItemWithWater(item, ss.quantity, ss.water);
+        }
     }
 
     // ── IInteractable ──────────────────────────────────────────

@@ -6,7 +6,7 @@
 /// в фоне через Update() независимо от того, открыта ли панель.
 /// Игрок кладёт/забирает предметы обычным drag&drop.
 /// </summary>
-public class MinerStorage : MonoBehaviour
+public class MinerStorage : MonoBehaviour, ISaveable
 {
     public static MinerStorage Instance;
 
@@ -32,6 +32,73 @@ public class MinerStorage : MonoBehaviour
     {
         Instance = this;
         CreateDataSlots();
+        SaveManager.Instance?.Register(this);
+    }
+
+    void Start()
+    {
+        SaveManager.Instance?.LoadInto(this);
+    }
+
+    // ─── ISaveable ─────────────────────────────────────────────
+    [System.Serializable]
+    private class SlotSave { public int index; public string itemName; public int quantity; }
+    [System.Serializable]
+    private class StorageSave
+    {
+        public System.Collections.Generic.List<SlotSave> ores = new System.Collections.Generic.List<SlotSave>();
+        public string outputItem;
+        public int outputQty;
+    }
+
+    public string SaveKey => "miner";
+
+    public string CaptureState()
+    {
+        StorageSave save = new StorageSave();
+        for (int i = 0; i < oreSlots.Length; i++)
+        {
+            if (oreSlots[i] == null || oreSlots[i].IsEmpty()) continue;
+            save.ores.Add(new SlotSave
+            {
+                index = i,
+                itemName = oreSlots[i].currentItem.name,
+                quantity = oreSlots[i].quantity
+            });
+        }
+        if (outputSlot != null && !outputSlot.IsEmpty())
+        {
+            save.outputItem = outputSlot.currentItem.name;
+            save.outputQty = outputSlot.quantity;
+        }
+        return JsonUtility.ToJson(save);
+    }
+
+    public void RestoreState(string json)
+    {
+        StorageSave save = JsonUtility.FromJson<StorageSave>(json);
+        if (save == null) return;
+
+        foreach (InventorySlot s in oreSlots)
+            if (s != null) s.ClearSlot();
+        if (outputSlot != null) outputSlot.ClearSlot();
+
+        foreach (SlotSave ss in save.ores)
+        {
+            if (ss.index < 0 || ss.index >= oreSlots.Length) continue;
+            ItemData item = ItemDatabase.Find(ss.itemName);
+            if (item == null) { Debug.LogWarning("[Save] Руда не найдена: " + ss.itemName); continue; }
+            oreSlots[ss.index].SetItem(item, ss.quantity);
+        }
+
+        if (!string.IsNullOrEmpty(save.outputItem))
+        {
+            ItemData outItem = ItemDatabase.Find(save.outputItem);
+            if (outItem != null)
+                outputSlot.SetItem(outItem, save.outputQty);
+        }
+
+        onStorageChanged?.Invoke();
     }
 
     void CreateDataSlots()
