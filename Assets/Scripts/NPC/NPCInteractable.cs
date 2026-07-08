@@ -20,6 +20,11 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 
     [Header("Диалог")]
     public DialogueData dialogue; // ассет диалога этого NPC
+    [Tooltip("Если false — вместо диалога срабатывает onDirectInteract (напр. кузнец у станка открывает ковку сразу)")]
+    public bool dialogueEnabled = true;
+
+    // Прямое взаимодействие без диалога (BlacksmithNPC подпишется чтобы открыть ковку)
+    public System.Action onDirectInteract;
 
     [Header("Реакция NPC")]
     [Tooltip("Останавливать патруль когда игрок замечен (NPC поворачивается к игроку)")]
@@ -99,6 +104,13 @@ public class NPCInteractable : MonoBehaviour, IInteractable
                 Debug.Log("[NPC] Подойди ближе чтобы поговорить");
                 return;
             }
+        }
+
+        // Режим прямого взаимодействия (без диалога) — напр. кузнец у станка
+        if (!dialogueEnabled)
+        {
+            onDirectInteract?.Invoke();
+            return;
         }
 
         // Замораживаем NPC на время разговора и поворачиваем к игроку

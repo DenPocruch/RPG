@@ -54,6 +54,9 @@ public class NPCController : MonoBehaviour
 
     [HideInInspector] public bool manualControl = false;
     [HideInInspector] public bool aiPaused = false;
+    // Когда true — контроллер НЕ трогает аниматор (внешний компонент рулит,
+    // например BlacksmithNPC проигрывает анимацию ковки)
+    [HideInInspector] public bool externalAnimation = false;
 
     private Rigidbody2D rb;
     private NPCAnimator anim;
@@ -99,7 +102,8 @@ public class NPCController : MonoBehaviour
         if (aiPaused)
         {
             rb.linearVelocity = Vector2.zero;
-            anim.PlayState(NPCAnimator.AnimState.Idle, GetFacing());
+            if (!externalAnimation)
+                anim.PlayState(NPCAnimator.AnimState.Idle, GetFacing());
             return;
         }
 
@@ -117,7 +121,8 @@ public class NPCController : MonoBehaviour
     void TickWait()
     {
         rb.linearVelocity = Vector2.zero;
-        anim.PlayState(NPCAnimator.AnimState.Idle, GetFacing());
+        if (!externalAnimation)
+            anim.PlayState(NPCAnimator.AnimState.Idle, GetFacing());
 
         if (manualControl) return;
 
@@ -128,38 +133,62 @@ public class NPCController : MonoBehaviour
 
     void PickNextAction()
     {
-        if (Random.value < wanderChance) { EnterWander(); return; }
-        GoTo(PickNextWaypoint());
-    }
+        if (route == null || route.Length == 0) { EnterWait(); return; }
 
-    Waypoint PickNextWaypoint()
-    {
-        if (route == null || route.Length == 0) return null;
         if (patrolMode == PatrolMode.Ordered)
         {
-            orderedIndex = (orderedIndex + 1) % route.Length;
-            return route[orderedIndex];
+            // Обход маршрута ПО ОЧЕРЕДИ: перебираем точки пока не найдём достижимую.
+            // Никакого случайного блуждания — иначе NPC "топчется" и не доходит.
+            for (int i = 0; i < route.Length; i++)
+            {
+                orderedIndex = (orderedIndex + 1) % route.Length;
+                Waypoint w = route[orderedIndex];
+                if (w != null && w != currentWaypoint && GoTo(w))
+                    return;
+            }
+            EnterWait(); // ни одна точка не достижима — подождём
         }
-        return route[Random.Range(0, route.Length)];
+        else
+        {
+            // Случайно, но чаще к ДАЛЬНИМ (берём дальнюю из двух случайных) —
+            // чтобы не топтался у ближних точек
+            if (Random.value < wanderChance) { EnterWander(); return; }
+
+            Waypoint w = PickFarRandom();
+            if (w == null || !GoTo(w)) EnterWait();
+        }
+    }
+
+    Waypoint PickFarRandom()
+    {
+        if (route.Length == 1) return route[0];
+        Waypoint a = route[Random.Range(0, route.Length)];
+        Waypoint b = route[Random.Range(0, route.Length)];
+        if (a == null) return b;
+        if (b == null) return a;
+        float da = Vector2.Distance(transform.position, a.Position);
+        float db = Vector2.Distance(transform.position, b.Position);
+        return da > db ? a : b; // берём ту что дальше
     }
 
     // ═══════════════════════════════════════════════════════════
     // ПУБЛИЧНЫЕ КОМАНДЫ
     // ═══════════════════════════════════════════════════════════
-    public void GoTo(Waypoint goal)
+    public bool GoTo(Waypoint goal)
     {
-        if (goal == null) { EnterWander(); return; }
+        if (goal == null) { return false; }
         if (currentWaypoint == null)
             currentWaypoint = Waypoint.FindNearest(transform.position, allWaypoints);
 
         finalGoal = goal;
         currentPath = Waypoint.FindPath(currentWaypoint, goal);
-        if (currentPath == null || currentPath.Count == 0) { EnterWander(); return; }
+        if (currentPath == null || currentPath.Count == 0) { return false; }
 
         pathIndex = 0;
         state = State.Move;
         stuckTimer = stuckTimeout;
         ResetProgress();
+        return true;
     }
 
     public void ReturnHome() => GoTo(homeWaypoint);

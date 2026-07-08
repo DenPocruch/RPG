@@ -9,7 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class NPCAnimator : MonoBehaviour
 {
-    public enum AnimState { Idle, Walk }
+    public enum AnimState { Idle, Walk, Work }
     public enum AnimDir { Up, Down, Left, Right }
 
     [System.Serializable]
@@ -23,6 +23,7 @@ public class NPCAnimator : MonoBehaviour
     [Header("Кадры анимаций")]
     public DirectionalFrames idle;
     public DirectionalFrames walk;
+    public DirectionalFrames work; // ковка/работа (кузнец у станка)
 
     [Header("Ориентация боковых спрайтов")]
     [Tooltip("Если боковые нарисованы смотрящими влево — true (право зеркалим)")]
@@ -52,8 +53,13 @@ public class NPCAnimator : MonoBehaviour
         curState = state;
         curDir = dir;
 
-        DirectionalFrames df = state == AnimState.Walk ? walk : idle;
-        if (!HasAny(df)) df = idle; // фолбэк на idle если walk пустой
+        DirectionalFrames df = state switch
+        {
+            AnimState.Walk => walk,
+            AnimState.Work => HasAny(work) ? work : idle,
+            _ => idle,
+        };
+        if (!HasAny(df)) df = idle; // фолбэк на idle если пусто
 
         bool flipX = false;
         Sprite[] frames;

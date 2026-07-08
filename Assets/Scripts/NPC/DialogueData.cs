@@ -9,6 +9,7 @@ public enum DialogueActionType
     None,          // просто перейти дальше / закрыть
     OpenCook,      // открыть панель готовки (заказать блюдо)
     CollectDishes, // забрать готовую еду
+    LeadToCraft,   // кузнец ведёт игрока к станку → авто-открытие ковки
     GiveQuest,     // выдать квест (на будущее)
     Custom         // произвольное действие по actionParam
 }

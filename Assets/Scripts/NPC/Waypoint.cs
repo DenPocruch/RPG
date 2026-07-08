@@ -77,6 +77,8 @@ public class Waypoint : MonoBehaviour
     /// <summary>Ближайшая точка сети к позиции (для старта NPC).</summary>
     public static Waypoint FindNearest(Vector2 pos, Waypoint[] all)
     {
+        if (all == null || all.Length == 0) return null;
+
         Waypoint best = null;
         float bestDist = float.MaxValue;
         foreach (Waypoint w in all)
