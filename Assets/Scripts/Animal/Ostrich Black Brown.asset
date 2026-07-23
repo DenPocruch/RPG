@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6f4c8e08855ae4b8987c0af0ec984d, type: 3}
+  m_Name: Ostrich Black Brown
+  m_EditorClassIdentifier: 
+  animalName: "\u0421\u0442\u0440\u0430\u0443\u0441"
+  baby:
+    walk:
+      up:
+      - {fileID: -3147729265151947508, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 8841112991123593136, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 8462347637972548907, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 4625874818688227432, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      down:
+      - {fileID: 6294068874179285830, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 1655675704932184018, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 2578964601251490179, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 3363447872330974313, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      side:
+      - {fileID: -6081080311610267998, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: 481270913267694421, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -1444724002873666415, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -7143226413670947427, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+    idle:
+      up:
+      - {fileID: -3147729265151947508, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      down:
+      - {fileID: 6294068874179285830, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      side:
+      - {fileID: -6081080311610267998, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+    sit:
+      up:
+      - {fileID: -6669918821758551269, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -23816846600499051, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -6854033589106729470, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -8019207920178845608, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      down:
+      - {fileID: -6669918821758551269, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -23816846600499051, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -6854033589106729470, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -8019207920178845608, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      side:
+      - {fileID: -6669918821758551269, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -23816846600499051, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -6854033589106729470, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      - {fileID: -8019207920178845608, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+    eat:
+      up:
+      - {fileID: -3147729265151947508, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      down:
+      - {fileID: 6294068874179285830, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+      side:
+      - {fileID: -6081080311610267998, guid: c5c3ec1fb9b41e540b74b7c26afda369, type: 3}
+  adult:
+    walk:
+      up:
+      - {fileID: -2319482656210456744, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -5428794680434289189, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -3034457448864714250, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 3521609053659428574, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      down:
+      - {fileID: 1556912048155367577, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1863987364553699071, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 7924992539551205376, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 4645776044780654513, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      side:
+      - {fileID: 4161327802822911057, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -6389126740167144654, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -2105743070645029079, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 8164459316122693081, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+    idle:
+      up:
+      - {fileID: -2319482656210456744, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      down:
+      - {fileID: 1556912048155367577, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      side:
+      - {fileID: 4161327802822911057, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+    sit:
+      up:
+      - {fileID: 7404334733123721197, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -7826448604045681732, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -1966246117319951009, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1984906168275392902, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      down:
+      - {fileID: 7404334733123721197, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -7826448604045681732, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -1966246117319951009, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1984906168275392902, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      side:
+      - {fileID: -3851063260546042447, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 6817454357781000825, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -8959828749466541609, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: -1203878833997398576, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+    eat:
+      up:
+      - {fileID: 3959394310512743615, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 7946251071383118487, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1114567380822076317, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1633608970264641034, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      down:
+      - {fileID: 3959394310512743615, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 7946251071383118487, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1114567380822076317, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1633608970264641034, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      side:
+      - {fileID: 3959394310512743615, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 7946251071383118487, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1114567380822076317, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+      - {fileID: 1633608970264641034, guid: 4d6f54296b68246499f904379f749e26, type: 3}
+  sideFacesLeft: 1
+  animationFPS: 5
+  growTime: 30
+  moveSpeed: 1.2
+  minWanderTime: 2
+  maxWanderTime: 5
+  minIdleTime: 1
+  maxIdleTime: 3
+  sitChance: 0.135
+  peckChance: 0.515
+  minPeckTime: 1
+  maxPeckTime: 2
+  minSitTime: 5
+  maxSitTime: 10
+  flockRadius: 3
+  separationRadius: 0.8
+  cohesionWeight: 0.4006896
+  separationWeight: 1.2
+  steerInterval: 0.4
+  playerAttractRadius: 4
+  playerStopDistance: 1.2
+  playerAttractWeight: 1.5
+  feedItem: {fileID: 0}
+  productItem: {fileID: 0}
+  productAmount: 1
+  productionTime: 60
+  onlyAdultProduces: 1

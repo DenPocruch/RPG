@@ -62,6 +62,13 @@ public class SaveManager : MonoBehaviour
         if (s != null && !saveables.Contains(s)) saveables.Add(s);
     }
 
+    /// <summary>Отписка — объекты сцены зовут это в OnDestroy при смене сцены,
+    /// чтобы SaveManager не держал ссылку на уничтоженный объект.</summary>
+    public void Unregister(ISaveable s)
+    {
+        if (s != null) saveables.Remove(s);
+    }
+
     /// <summary>Система зовёт это в своём Start после инициализации.</summary>
     public void LoadInto(ISaveable s)
     {
@@ -82,6 +89,12 @@ public class SaveManager : MonoBehaviour
         foreach (ISaveable s in saveables)
         {
             if (s == null) continue;
+
+            // ВАЖНО: ISaveable — интерфейс, обычная проверка на null не ловит
+            // уничтоженный MonoBehaviour (смена сцены). Проверяем через Object.
+            UnityEngine.Object obj = s as UnityEngine.Object;
+            if (obj == null) continue; // объект уничтожен — пропускаем
+
             string json = s.CaptureState();
             file.entries.Add(new Entry { key = s.SaveKey, json = json });
             loadedBlobs[s.SaveKey] = json; // держим память в актуальном виде

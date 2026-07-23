@@ -137,12 +137,12 @@ TextureImporter:
       name: White Fence_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 34
-        width: 38
-        height: 46
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 6
+        y: 64
+        width: 10
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,12 +159,12 @@ TextureImporter:
       name: White Fence_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 50
-        width: 33
-        height: 15
+        x: 48
+        y: 51
+        width: 32
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +181,12 @@ TextureImporter:
       name: White Fence_2
       rect:
         serializedVersion: 2
-        x: 47
-        y: 34
-        width: 11
-        height: 15
+        x: 48
+        y: 35
+        width: 9
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,12 +203,12 @@ TextureImporter:
       name: White Fence_3
       rect:
         serializedVersion: 2
-        x: 70
-        y: 34
-        width: 10
-        height: 15
+        x: 71
+        y: 35
+        width: 9
+        height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: White Fence_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 18
-        width: 16
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 1
+        y: 19
+        width: 14
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +247,12 @@ TextureImporter:
       name: White Fence_5
       rect:
         serializedVersion: 2
-        x: 16
-        y: 18
-        width: 32
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 17
+        y: 19
+        width: 30
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -274,7 +274,7 @@ TextureImporter:
         width: 33
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -296,7 +296,7 @@ TextureImporter:
         width: 22
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -309,11 +309,143 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: White Fence_8
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 48
+        width: 4
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ffa50d4a808bda641ba49cc5de469565
+      internalID: 1979056731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: White Fence_9
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 48
+        width: 4
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ba04e228a50ba544b13e01b13bfe815
+      internalID: 878475792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: White Fence_10
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 64
+        width: 10
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63cf6217cb7de79419382bf42d0ec96c
+      internalID: -1349730467
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: White Fence_11
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 35
+        width: 11
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a16b2160d9a42343bb06db9bc7cb8a0
+      internalID: 1826622980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: White Fence_12
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 35
+        width: 11
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7bb2bb8321aafe4eae27019fc68f7ac
+      internalID: 716426473
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: White Fence_13
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 35
+        width: 18
+        height: 13
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c8cff208dab9b84c92cd91a8163c7ac
+      internalID: 458787707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c8e592b03ba392447a438d0f26aa4be8
     internalID: 0
     vertices: []
     indices: 
@@ -325,12 +457,18 @@ TextureImporter:
     nameFileIdTable:
       White Fence_0: -9100454792105962324
       White Fence_1: 959391897488278740
+      White Fence_10: -1349730467
+      White Fence_11: 1826622980
+      White Fence_12: 716426473
+      White Fence_13: 458787707
       White Fence_2: 3724357483344999840
       White Fence_3: 2688244108970152273
       White Fence_4: 8446207469133620216
       White Fence_5: -1432261159599787076
       White Fence_6: 4047694144738863257
       White Fence_7: 2606891234017867421
+      White Fence_8: 1979056731
+      White Fence_9: 878475792
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

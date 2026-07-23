@@ -37,9 +37,13 @@ MonoBehaviour:
   growthStagesCount: 6
   growthTimeWatered: 35
   growthTimeNormal: 70
-  harvestItem: {fileID: 11400000, guid: 475f0c918e616eb418ae578472a93353, type: 2}
+  harvestItem: {fileID: 11400000, guid: 343a55eaca96bc04a9e7833bea8e869b, type: 2}
   harvestAmount: 1
   maxWater: 10
+  healAmount: 0
+  foodBuffType: 0
+  foodBuffValue: 0
+  foodBuffDuration: 0
   treePrefab: {fileID: 0}
   treeGrowthTime: 600
   treeGrowthStages: []

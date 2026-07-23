@@ -132,8 +132,8 @@ TextureImporter:
         y: 0
         width: 12
         height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.47595, y: 0.1658311}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -154,8 +154,8 @@ TextureImporter:
         y: 0
         width: 12
         height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.46392488, y: 0.19621009}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -172,12 +172,12 @@ TextureImporter:
       name: Green Beans_2
       rect:
         serializedVersion: 2
-        x: 32
+        x: 33
         y: 0
-        width: 17
+        width: 15
         height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.36531982, y: 0.21899432}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -194,12 +194,12 @@ TextureImporter:
       name: Green Beans_3
       rect:
         serializedVersion: 2
-        x: 47
+        x: 48
         y: 0
-        width: 66
-        height: 22
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 15
+        height: 19
+      alignment: 9
+      pivot: {x: 0.43265992, y: 0.1658311}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -221,7 +221,7 @@ TextureImporter:
         width: 12
         height: 13
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -234,11 +234,77 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Green Beans_5
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 0
+        width: 16
+        height: 21
+      alignment: 9
+      pivot: {x: 0.46392488, y: 0.16329949}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f660781f366d7e84c94064f37cc1d8ab
+      internalID: 1312270571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Green Beans_6
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 0
+        width: 16
+        height: 21
+      alignment: 9
+      pivot: {x: 0.47294378, y: 0.16329949}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21e8917239dddfb4582a40c90c9da402
+      internalID: -1064797344
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Green Beans_7
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 0
+        width: 17
+        height: 21
+      alignment: 9
+      pivot: {x: 0.44058228, y: 0.1495566}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7dfc7d81b063254e875dc43589a21bd
+      internalID: 2002336065
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 8185fc2770f700946afa405c51570930
     internalID: 0
     vertices: []
     indices: 
@@ -253,6 +319,9 @@ TextureImporter:
       Green Beans_2: 6693618955357685060
       Green Beans_3: 3129243298008327886
       Green Beans_4: 2679749292721836395
+      Green Beans_5: 1312270571
+      Green Beans_6: -1064797344
+      Green Beans_7: 2002336065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -91,4 +91,26 @@ public class ScreenFader : MonoBehaviour
     }
 
     public bool IsTransitioning() => isTransitioning;
+
+    // ═══════════════════════════════════════════════════════════
+    // ДЛЯ СМЕНЫ СЦЕН — раздельные затемнение/осветление
+    // ═══════════════════════════════════════════════════════════
+    /// <summary>Затемнить в чёрный (вызывать перед загрузкой сцены).</summary>
+    public IEnumerator FadeOut()
+    {
+        if (canvasGroup != null) canvasGroup.blocksRaycasts = true;
+        yield return Fade(0f, 1f);
+    }
+
+    /// <summary>Осветлить из чёрного (после загрузки сцены).</summary>
+    public void StartFadeIn()
+    {
+        StartCoroutine(FadeInRoutine());
+    }
+
+    IEnumerator FadeInRoutine()
+    {
+        yield return Fade(1f, 0f);
+        if (canvasGroup != null) canvasGroup.blocksRaycasts = false;
+    }
 }

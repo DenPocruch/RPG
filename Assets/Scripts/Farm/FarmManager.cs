@@ -52,7 +52,15 @@ public class FarmManager : MonoBehaviour, ISaveable
 
     void Update()
     {
+        // Если тайлмап уничтожен (смена сцены) — ничего не делаем
+        if (farmTilemap == null) return;
         TickPlotDecay();
+    }
+
+    void OnDestroy()
+    {
+        // Отписываемся от сохранения при выгрузке сцены
+        SaveManager.Instance?.Unregister(this);
     }
 
     // ═══════════════════════════════════════════════════════════
