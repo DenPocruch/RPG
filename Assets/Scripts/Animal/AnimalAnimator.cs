@@ -3,6 +3,9 @@
 /// <summary>
 /// Покадровая анимация животного. Драйвится из AnimalController:
 /// PlayState(state, direction). Циклит кадры и зеркалит бок для «вправо».
+/// Поддерживает 3 стадии роста (Baby/Teen/Adult) — стадия спрайтов
+/// разруливается через AnimalData.GetStageSprites (с фолбэком, если
+/// Teen не заполнен — используются спрайты Adult).
 /// </summary>
 [RequireComponent(typeof(SpriteRenderer))]
 public class AnimalAnimator : MonoBehaviour
@@ -12,7 +15,7 @@ public class AnimalAnimator : MonoBehaviour
 
     private SpriteRenderer sr;
     private AnimalData data;
-    private bool isAdult = false;
+    private AnimalData.GrowthStage growthStage = AnimalData.GrowthStage.Baby;
 
     private Sprite[] currentFrames;
     private int frameIndex;
@@ -27,14 +30,15 @@ public class AnimalAnimator : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
-    public void Init(AnimalData animalData, bool adult)
+    public void Init(AnimalData animalData, AnimalData.GrowthStage stage)
     {
         data = animalData;
-        isAdult = adult;
+        growthStage = stage;
         PlayState(AnimState.Idle, AnimDir.Down, true);
     }
 
-    public void SetAdult(bool adult) => isAdult = adult;
+    /// <summary>Сменить стадию роста (детёныш→подросток→взрослый).</summary>
+    public void SetGrowthStage(AnimalData.GrowthStage stage) => growthStage = stage;
 
     public void PlayState(AnimState state, AnimDir dir, bool forceRestart = false)
     {
@@ -43,7 +47,7 @@ public class AnimalAnimator : MonoBehaviour
         curState = state;
         curDir = dir;
 
-        var stage = isAdult ? data.adult : data.baby;
+        var stage = data.GetStageSprites(growthStage);
 
         // Ищем нужное состояние — если не заполнено, откатываемся на idle
         AnimalData.DirectionalFrames df = state switch
@@ -97,13 +101,7 @@ public class AnimalAnimator : MonoBehaviour
     }
 
     // Проверяет что хотя бы одно направление в состоянии заполнено
-    bool HasFrames(AnimalData.DirectionalFrames df)
-    {
-        if (df == null) return false;
-        return (df.up != null && df.up.Length > 0) ||
-               (df.down != null && df.down.Length > 0) ||
-               (df.side != null && df.side.Length > 0);
-    }
+    bool HasFrames(AnimalData.DirectionalFrames df) => AnimalData.DirectionHasAnyFrames(df);
 
     void Update()
     {

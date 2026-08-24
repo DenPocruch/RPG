@@ -3,8 +3,13 @@ using System.Collections.Generic;
 
 /// <summary>
 /// Мозг животного: боидное стадное поведение (держатся вместе, но не толпятся),
-/// притяжение к игроку с кормом, случайные клевки, рост, кормление и продукт.
-/// Движение через Rigidbody2D — в препятствиях не застревает.
+/// притяжение к игроку с кормом, случайные клевки, рост (3 стадии), кормление
+/// и продукт. Движение через Rigidbody2D — в препятствиях не застревает.
+///
+/// РОСТ: Baby → Teen → Adult. Если у AnimalData стадия Teen не заполнена
+/// спрайтами (см. AnimalData.HasTeenStage) — она автоматически пропускается,
+/// и животное растёт напрямую Baby → Adult за data.growTime (старое поведение,
+/// как было у курицы — ничего не ломается).
 /// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(AnimalAnimator))]
@@ -35,7 +40,8 @@ public class AnimalController : MonoBehaviour, IInteractable
     private float steerTimer;
     private AnimalAnimator.AnimDir lastFacing = AnimalAnimator.AnimDir.Down;
 
-    private bool isAdult;
+    // Рост — 3 стадии (Teen пропускается автоматически если не заполнена в AnimalData)
+    private AnimalData.GrowthStage growthStage;
     private float growTimer;
 
     private bool isFed;
@@ -55,7 +61,7 @@ public class AnimalController : MonoBehaviour, IInteractable
 
     void Start()
     {
-        isAdult = startAsAdult;
+        growthStage = startAsAdult ? AnimalData.GrowthStage.Adult : AnimalData.GrowthStage.Baby;
         growTimer = data != null ? data.growTime : 120f;
 
         GameObject p = GameObject.FindWithTag("Player");
@@ -63,7 +69,7 @@ public class AnimalController : MonoBehaviour, IInteractable
 
         wanderBias = Random.insideUnitCircle.normalized;
 
-        anim.Init(data, isAdult);
+        anim.Init(data, growthStage);
         EnterIdle();
     }
 
@@ -83,19 +89,43 @@ public class AnimalController : MonoBehaviour, IInteractable
     }
 
     // ═══════════════════════════════════════════════════════════
-    // РОСТ
+    // РОСТ (Baby → Teen → Adult, Teen опционален)
     // ═══════════════════════════════════════════════════════════
     void HandleGrowth()
     {
-        if (isAdult || data == null) return;
+        if (growthStage == AnimalData.GrowthStage.Adult || data == null) return;
+
         growTimer -= Time.deltaTime;
         if (growTimer <= 0f)
+            AdvanceGrowthStage();
+    }
+
+    void AdvanceGrowthStage()
+    {
+        if (growthStage == AnimalData.GrowthStage.Baby)
         {
-            isAdult = true;
-            anim.SetAdult(true);
-            anim.PlayState(AnimalAnimator.AnimState.Idle, DirToAnim(moveDir), true);
+            if (data.HasTeenStage())
+            {
+                // Есть стадия "подросток" — переходим в неё
+                growthStage = AnimalData.GrowthStage.Teen;
+                growTimer = data.growTimeToAdult;
+                Debug.Log("[Животное] " + data.animalName + " подрос(ла)!");
+            }
+            else
+            {
+                // Стадия "подросток" не заполнена — старое поведение: сразу взрослый
+                growthStage = AnimalData.GrowthStage.Adult;
+                Debug.Log("[Животное] " + data.animalName + " вырос(ла)!");
+            }
+        }
+        else if (growthStage == AnimalData.GrowthStage.Teen)
+        {
+            growthStage = AnimalData.GrowthStage.Adult;
             Debug.Log("[Животное] " + data.animalName + " вырос(ла)!");
         }
+
+        anim.SetGrowthStage(growthStage);
+        anim.PlayState(AnimalAnimator.AnimState.Idle, DirToAnim(moveDir), true);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -104,7 +134,7 @@ public class AnimalController : MonoBehaviour, IInteractable
     void HandleProduction()
     {
         if (data == null || data.productItem == null) return;
-        if (data.onlyAdultProduces && !isAdult) return;
+        if (data.onlyAdultProduces && growthStage != AnimalData.GrowthStage.Adult) return;
         if (!isFed) return;
 
         productionTimer -= Time.deltaTime;

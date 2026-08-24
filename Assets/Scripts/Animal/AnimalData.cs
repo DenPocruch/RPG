@@ -4,12 +4,20 @@
 /// Данные вида животного (курица, корова...). Создаётся через
 /// Assets → Create → RPG → Animal.
 /// Спрайты «вправо» не нужны — зеркалим «вбок» через flipX.
+///
+/// РОСТ: 3 стадии — Baby → Teen → Adult. Стадия Teen ОПЦИОНАЛЬНА —
+/// если её спрайты не заполнены (как у курицы), она просто пропускается
+/// и рост идёт напрямую Baby → Adult за время growTime, как раньше.
+/// Для животных с 3 стадиями (корова) заполни ещё и teen + growTimeToAdult.
 /// </summary>
 [CreateAssetMenu(fileName = "NewAnimal", menuName = "RPG/Animal")]
 public class AnimalData : ScriptableObject
 {
     [Header("Основное")]
     public string animalName = "Животное";
+
+    // Стадия роста — общая для AnimalController и AnimalAnimator
+    public enum GrowthStage { Baby, Teen, Adult }
 
     // ── Кадры для одного направления ─────────────────────────
     [System.Serializable]
@@ -33,6 +41,10 @@ public class AnimalData : ScriptableObject
     [Header("Спрайты — детёныш")]
     public StageSprites baby;
 
+    [Header("Спрайты — подросток (ОПЦИОНАЛЬНО)")]
+    [Tooltip("Если оставить пустым — стадия пропускается, рост идёт сразу Baby → Adult (как у животных с 2 стадиями)")]
+    public StageSprites teen;
+
     [Header("Спрайты — взрослый")]
     public StageSprites adult;
 
@@ -44,8 +56,10 @@ public class AnimalData : ScriptableObject
     public float animationFPS = 6f;
 
     [Header("Рост")]
-    [Tooltip("Секунд пока детёныш вырастет во взрослого")]
+    [Tooltip("Секунд: Baby→Teen (если стадия Teen заполнена), иначе Baby→Adult напрямую")]
     public float growTime = 120f;
+    [Tooltip("Секунд: Teen→Adult. Используется ТОЛЬКО если стадия Teen заполнена")]
+    public float growTimeToAdult = 120f;
 
     [Header("Движение")]
     public float moveSpeed = 1.2f;
@@ -100,4 +114,37 @@ public class AnimalData : ScriptableObject
     public float productionTime = 60f;
     [Tooltip("Только взрослые дают продукт")]
     public bool onlyAdultProduces = true;
+
+    // ═══════════════════════════════════════════════════════════
+    // ПРОВЕРКА ЗАПОЛНЕННОСТИ СТАДИИ (для пропуска Teen если пустая)
+    // ═══════════════════════════════════════════════════════════
+
+    /// <summary>Заполнена ли стадия "подросток" хоть каким-то спрайтом.</summary>
+    public bool HasTeenStage() => StageHasAnyFrames(teen);
+
+    public static bool StageHasAnyFrames(StageSprites s)
+    {
+        if (s == null) return false;
+        return DirectionHasAnyFrames(s.walk) || DirectionHasAnyFrames(s.idle) ||
+               DirectionHasAnyFrames(s.sit) || DirectionHasAnyFrames(s.eat);
+    }
+
+    public static bool DirectionHasAnyFrames(DirectionalFrames df)
+    {
+        if (df == null) return false;
+        return (df.up != null && df.up.Length > 0) ||
+               (df.down != null && df.down.Length > 0) ||
+               (df.side != null && df.side.Length > 0);
+    }
+
+    /// <summary>Спрайты нужной стадии с фолбэком: пустой Teen → берём Adult.</summary>
+    public StageSprites GetStageSprites(GrowthStage stage)
+    {
+        switch (stage)
+        {
+            case GrowthStage.Baby: return baby;
+            case GrowthStage.Teen: return HasTeenStage() ? teen : adult;
+            default: return adult;
+        }
+    }
 }

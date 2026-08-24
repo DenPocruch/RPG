@@ -40,7 +40,7 @@ MonoBehaviour:
       - {fileID: -2785692724100189594, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
       - {fileID: -8069241748630018419, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
       - {fileID: 3994011314715127621, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
-      - {fileID: -5572051536648132005, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -2016689758060146907, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
       side:
       - {fileID: -5379017224454233727, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
       - {fileID: 4829267115905431924, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
@@ -78,6 +78,23 @@ MonoBehaviour:
       - {fileID: -1758615131361769514, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
       - {fileID: 4735140895764489128, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
       - {fileID: -528080855767278170, guid: 50911ae8dece587459cfb84132f62ed6, type: 3}
+  teen:
+    walk:
+      up: []
+      down: []
+      side: []
+    idle:
+      up: []
+      down: []
+      side: []
+    sit:
+      up: []
+      down: []
+      side: []
+    eat:
+      up: []
+      down: []
+      side: []
   adult:
     walk:
       up:
@@ -146,6 +163,7 @@ MonoBehaviour:
   sideFacesLeft: 1
   animationFPS: 5
   growTime: 30
+  growTimeToAdult: 30
   moveSpeed: 1.2
   minWanderTime: 2
   maxWanderTime: 5

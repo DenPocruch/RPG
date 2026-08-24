@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af6f4c8e08855ae4b8987c0af0ec984d, type: 3}
+  m_Name: Chicken Brown 1
+  m_EditorClassIdentifier: 
+  animalName: "\u041A\u0443\u0440\u0438\u0446\u0430"
+  baby:
+    walk:
+      up:
+      - {fileID: 2120271245316558947, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 1719535967054152342, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -6006714375875916812, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -1842726620815781291, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      down:
+      - {fileID: -5572051536648132005, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -1186956351410123000, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 8110769554251324883, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -8612007445942020123, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      side:
+      - {fileID: -5572051536648132005, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -1186956351410123000, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 8110769554251324883, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: -8612007445942020123, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+    idle:
+      up:
+      - {fileID: 2120271245316558947, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      down:
+      - {fileID: -5572051536648132005, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      side:
+      - {fileID: -5572051536648132005, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+    sit:
+      up:
+      - {fileID: 617022404728725473, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 1916371860015260630, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 3423514171578096658, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 2591415632655177356, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      down:
+      - {fileID: 617022404728725473, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 1916371860015260630, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 3423514171578096658, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 2591415632655177356, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      side:
+      - {fileID: 617022404728725473, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 1916371860015260630, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 3423514171578096658, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 2591415632655177356, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+    eat:
+      up:
+      - {fileID: -5371078086527055834, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 378739302325694069, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 2356401742736464462, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 6691999947416116026, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      down:
+      - {fileID: -5371078086527055834, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 378739302325694069, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 2356401742736464462, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 6691999947416116026, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      side:
+      - {fileID: -5371078086527055834, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 378739302325694069, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 2356401742736464462, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+      - {fileID: 6691999947416116026, guid: 9ec91f059c547f44999e42b2e4082953, type: 3}
+  teen:
+    walk:
+      up: []
+      down: []
+      side: []
+    idle:
+      up: []
+      down: []
+      side: []
+    sit:
+      up: []
+      down: []
+      side: []
+    eat:
+      up: []
+      down: []
+      side: []
+  adult:
+    walk:
+      up:
+      - {fileID: 2873659761525131662, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 5218629348328241986, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 7952374553554509262, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 108296742893473249, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      down:
+      - {fileID: 6358027795800129157, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 604544381485280080, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 1865132492250344944, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 3217931075959202064, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      side:
+      - {fileID: 6615556138471495037, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: -4855215578014012661, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 4412845936064049620, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 4127057017891299475, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+    idle:
+      up:
+      - {fileID: 2873659761525131662, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      down:
+      - {fileID: 6358027795800129157, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      side:
+      - {fileID: 6615556138471495037, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+    sit:
+      up:
+      - {fileID: 1543807655938588278, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: -7366974866632270108, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 7937510808301269198, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 899757209, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      down:
+      - {fileID: 3824948840161134264, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 6112713696733907464, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 103113124640141102, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 2505087734957915158, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      side:
+      - {fileID: -8657633369618362852, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 1335695072613679481, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 1942187858435889137, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: -6626641543093006721, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+    eat:
+      up:
+      - {fileID: 2020014869, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 1496642401, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 920668370, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 104686962, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      down:
+      - {fileID: 2020014869, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 1496642401, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 920668370, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 104686962, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      side:
+      - {fileID: 2020014869, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 1496642401, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 920668370, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+      - {fileID: 104686962, guid: 5e490f1cb3576ee469e85592f4716d14, type: 3}
+  sideFacesLeft: 1
+  animationFPS: 5
+  growTime: 30
+  growTimeToAdult: 120
+  moveSpeed: 1.2
+  minWanderTime: 2
+  maxWanderTime: 5
+  minIdleTime: 1
+  maxIdleTime: 3
+  sitChance: 0.135
+  peckChance: 0.515
+  minPeckTime: 1
+  maxPeckTime: 2
+  minSitTime: 5
+  maxSitTime: 10
+  flockRadius: 3
+  separationRadius: 0.8
+  cohesionWeight: 0.4006896
+  separationWeight: 1.2
+  steerInterval: 0.4
+  playerAttractRadius: 4
+  playerStopDistance: 1.2
+  playerAttractWeight: 1.5
+  feedItem: {fileID: 0}
+  productItem: {fileID: 0}
+  productAmount: 1
+  productionTime: 60
+  onlyAdultProduces: 1
