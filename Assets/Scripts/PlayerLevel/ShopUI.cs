@@ -155,6 +155,13 @@ public class ShopUI : MonoBehaviour
         foreach (ShopManager.ShopItem si in currentStock)
         {
             if (si == null || si.item == null) continue;
+
+            // Товар с тегом разблокировки виден только после покупки перка
+            if (!string.IsNullOrEmpty(si.unlockTag) &&
+                (SkillTreeManager.Instance == null ||
+                 !SkillTreeManager.Instance.IsNodeUnlockedByFeature(si.unlockTag)))
+                continue;
+
             GameObject obj = Instantiate(itemButtonPrefab, itemListContent);
             ResetTransform(obj);
             ShopItemButtonUI btn = obj.GetComponent<ShopItemButtonUI>();

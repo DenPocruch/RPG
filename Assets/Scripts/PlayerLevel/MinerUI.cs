@@ -73,6 +73,17 @@ public class MinerUI : MonoBehaviour
             MinerStorage.Instance.onStorageChanged += RefreshStorageView;
     }
 
+    /// <summary>Переподписка на событие склада (склады пересоздаются при смене сцен).</summary>
+    public void BindToStorage()
+    {
+        if (MinerStorage.Instance != null)
+        {
+            MinerStorage.Instance.onStorageChanged -= RefreshStorageView;
+            MinerStorage.Instance.onStorageChanged += RefreshStorageView;
+        }
+        RefreshStorageView();
+    }
+
     void OnDestroy()
     {
         if (MinerStorage.Instance != null)

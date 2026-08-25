@@ -83,6 +83,18 @@ public class SkillNode : ScriptableObject
                 return "Шанс двойного урожая: " + val + "%";
             case SkillEffectType.BonusMaxWater:
                 return "+" + (int)val + " вместимость лейки";
+            case SkillEffectType.BonusPlotLimit:
+                return "+" + (int)val + " макс. грядок";
+            case SkillEffectType.GrowthSpeed:
+                return "+" + (val * 100f).ToString("0") + "% скорость роста растений";
+            case SkillEffectType.AnimalGrowthSpeed:
+                return "+" + (val * 100f).ToString("0") + "% скорость животных";
+            case SkillEffectType.QualityBonus:
+                return "+" + val + "% шанс серебряного урожая";
+            case SkillEffectType.GoldQualityBonus:
+                return "+" + val + "% шанс золотого урожая";
+            case SkillEffectType.PurpleQualityBonus:
+                return "+" + val + "% шанс пурпурного урожая";
             case SkillEffectType.ReduceFailChance:
                 return "-" + val + "% шанс провала крафта";
             case SkillEffectType.ReduceServiceCost:
@@ -128,4 +140,10 @@ public enum SkillEffectType
     ReduceServiceCost,   // -% стоимость услуг NPC (лесоруб, повар, магазин)
     ReduceCraftTime,       // -секунд ко времени переработки за единицу (лесопилка и т.д.)
     IncreaseStorageCapacity, // +мест на складе мастерской (лесопилка и т.д.)
+    BonusPlotLimit,      // +Лимит вскопанных грядок
+    GrowthSpeed,         // +% скорость роста растений
+    AnimalGrowthSpeed,   // +% скорость роста и производства животных
+    QualityBonus,        // +% шанс серебряного урожая
+    GoldQualityBonus,    // +% шанс золотого урожая
+    PurpleQualityBonus,  // +% шанс пурпурного урожая
 }

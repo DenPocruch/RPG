@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: General_Kin
+  m_EditorClassIdentifier: 
+  nodeName: "\u0421\u0432\u043E\u044F\u043A"
+  description: "-5% \u0446\u0435\u043D\u044B \u0443\u0441\u043B\u0443\u0433 NPC. \u0422\u0440\u0435\u0431\u0443\u0435\u0442 \u041F\u0440\u0438\u044F\u0442\u0435\u043B\u044F \u0436\u0438\u0442\u0435\u043B\u0435\u0439"
+  icon: {fileID: -2379140674997473544, guid: 2f698e176696f774fab269eabe90d7b5, type: 3}
+  branch: 0
+  requiredLevel: 16
+  skillPointsCost: 1
+  goldCost: 700
+  requiredNodes:
+  - {fileID: 11400000, guid: 3674349f7d3c4fc9b187d49ab301de20, type: 2}
+  maxRanks: 1
+  rankCostMultiplier: 1.5
+  effectType: 18
+  effectValue: 5
+  unlocksItem: {fileID: 0}
+  unlocksFeature: 

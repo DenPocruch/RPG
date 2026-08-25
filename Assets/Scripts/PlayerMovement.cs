@@ -172,6 +172,11 @@ public class PlayerMovement : MonoBehaviour
             case ItemType.Consumable:
                 EatFood(activeItem);
                 break;
+            default:
+                // Удобрение: активным предметом по грядке с растением
+                if (activeItem != null && activeItem.isFertilizer && farmInteraction != null)
+                    farmInteraction.TryPlantOrHarvest();
+                break;
         }
     }
 

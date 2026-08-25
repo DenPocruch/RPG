@@ -12,6 +12,7 @@ public enum DialogueActionType
     LeadToCraft,   // кузнец ведёт игрока к станку → авто-открытие ковки
     GiveQuest,     // выдать квест (на будущее)
     OpenShop,      // открыть магазин этого торговца (TraderNPC)
+    OpenSell,      // открыть окно продажи урожая (BuyerNPC)
     Custom         // произвольное действие по actionParam
 }
 

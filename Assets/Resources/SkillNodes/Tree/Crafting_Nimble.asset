@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: Crafting_Nimble
+  m_EditorClassIdentifier: 
+  nodeName: "\u041B\u043E\u0432\u043A\u0438\u0435 \u0440\u0443\u043A\u0438"
+  description: "+2 \u0441\u043B\u043E\u0442\u0430 \u0438\u043D\u0432\u0435\u043D\u0442\u0430\u0440\u044F \u0437\u0430 \u0440\u0430\u043D\u0433"
+  icon: {fileID: -6166397769512493120, guid: 2f698e176696f774fab269eabe90d7b5, type: 3}
+  branch: 2
+  requiredLevel: 3
+  skillPointsCost: 1
+  goldCost: 0
+  requiredNodes: []
+  maxRanks: 2
+  rankCostMultiplier: 1.5
+  effectType: 14
+  effectValue: 2
+  unlocksItem: {fileID: 0}
+  unlocksFeature: 

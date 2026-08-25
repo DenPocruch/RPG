@@ -82,6 +82,20 @@ public class CookUI : MonoBehaviour
         if (detailPanel != null) detailPanel.SetActive(false);
     }
 
+    /// <summary>Переподписка на событие склада. Вызывается самим CookStorage
+    /// при каждой загрузке сцены — иначе UI слушает событие УНИЧТОЖЕННОГО
+    /// старого склада и окно перестаёт обновляться (пирог не появляется).</summary>
+    public void BindToStorage()
+    {
+        if (CookStorage.Instance != null)
+        {
+            CookStorage.Instance.onStorageChanged -= OnStorageChanged;
+            CookStorage.Instance.onStorageChanged += OnStorageChanged;
+        }
+        BuildOutputSlot();
+        OnStorageChanged();
+    }
+
     void OnDestroy()
     {
         if (CookStorage.Instance != null)
@@ -233,6 +247,9 @@ public class CookUI : MonoBehaviour
 
     int CountInInventory(ItemData item)
     {
+        // Считает через CookStorage: звёздные варианты + хотбар
+        if (CookStorage.Instance != null)
+            return CookStorage.Instance.CountIngredients(item);
         if (InventoryUI.Instance == null) return 0;
         int total = 0;
         foreach (InventorySlot s in InventoryUI.Instance.slots)

@@ -73,6 +73,17 @@ public class LumberjackUI : MonoBehaviour
             LumberjackStorage.Instance.onStorageChanged += RefreshStorageView;
     }
 
+    /// <summary>Переподписка на событие склада (склады пересоздаются при смене сцен).</summary>
+    public void BindToStorage()
+    {
+        if (LumberjackStorage.Instance != null)
+        {
+            LumberjackStorage.Instance.onStorageChanged -= RefreshStorageView;
+            LumberjackStorage.Instance.onStorageChanged += RefreshStorageView;
+        }
+        RefreshStorageView();
+    }
+
     void OnDestroy()
     {
         if (LumberjackStorage.Instance != null)

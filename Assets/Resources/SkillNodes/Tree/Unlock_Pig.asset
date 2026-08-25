@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: Unlock_Pig
+  m_EditorClassIdentifier: 
+  nodeName: "\u0424\u0435\u0440\u043C\u0430: \u0421\u0432\u0438\u043D\u044C\u0438"
+  description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0442\u043E\u0432\u0430\u0440 \u0443 \u0442\u043E\u0440\u0433\u043E\u0432\u0446\u0430 \u043F\u043E\u0441\u043B\u0435 \u0438\u0437\u0443\u0447\u0435\u043D\u0438\u044F"
+  icon: {fileID: 1645316062004885176, guid: cc8be5a263675cc4abbe6971f72c6fc1, type: 3}
+  branch: 1
+  requiredLevel: 14
+  skillPointsCost: 1
+  goldCost: 600
+  requiredNodes:
+  - {fileID: 11400000, guid: 8fbb7b2c251e42a38b906aa178a020c9, type: 2}
+  maxRanks: 1
+  rankCostMultiplier: 1.5
+  effectType: 10
+  effectValue: 0
+  unlocksItem: {fileID: 0}
+  unlocksFeature: animal_pig

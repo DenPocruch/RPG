@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 
@@ -44,6 +44,9 @@ public class CookStorage : MonoBehaviour, ISaveable
     void Start()
     {
         SaveManager.Instance?.LoadInto(this);
+
+        // Переподписываем UI на СВОЁ событие (UI вечный, склады пересоздаются)
+        CookUI.Instance?.BindToStorage();
     }
 
     // ─── ISaveable ─────────────────────────────────────────────
@@ -222,16 +225,72 @@ public class CookStorage : MonoBehaviour, ISaveable
     {
         if (InventoryUI.Instance == null || r == null) return false;
         foreach (RecipeIngredient ing in r.ingredients)
-            if (ing.item != null && CountInInventory(ing.item) < ing.amount) return false;
+            if (ing.item != null && CountIngredients(ing.item) < ing.amount) return false;
         return true;
     }
 
-    int CountInInventory(ItemData item)
+    // Все слоты: инвентарь + хотбар (повар видит и то, и то)
+    System.Collections.Generic.IEnumerable<InventorySlot> AllSlots()
+    {
+        if (InventoryUI.Instance != null)
+            foreach (InventorySlot s in InventoryUI.Instance.slots)
+                if (s != null) yield return s;
+        if (HotbarManager.Instance != null)
+            foreach (InventorySlot s in HotbarManager.Instance.slots)
+                if (s != null) yield return s;
+    }
+
+    // Считаем обычный урожай + все звёздные варианты (серебро/золото/пурпур)
+    public int CountIngredients(ItemData item)
     {
         int total = 0;
-        foreach (InventorySlot s in InventoryUI.Instance.slots)
-            if (!s.IsEmpty() && s.currentItem == item) total += s.quantity;
+        foreach (InventorySlot s in AllSlots())
+        {
+            if (s.IsEmpty()) continue;
+            if (IsSameCrop(s.currentItem, item)) total += s.quantity;
+        }
         return total;
+    }
+
+    // Звёздные варианты считаются тем же ингредиентом (повар принимает любое качество)
+    bool IsSameCrop(ItemData slotItem, ItemData ingredient)
+    {
+        if (slotItem == ingredient) return true;
+        if (slotItem == null || ingredient == null) return false;
+        if (!slotItem.name.StartsWith(ingredient.name + " ")) return false;
+        string suffix = slotItem.name.Substring(ingredient.name.Length + 1);
+        return suffix == "Silver" || suffix == "Gold" || suffix == "Purple";
+    }
+
+    // Списываем ингредиент: сначала обычный, затем серебро, золото, пурпур
+    void ConsumeIngredient(ItemData item, int amount)
+    {
+        ItemData[] variants =
+        {
+            item,
+            ItemDatabase.Find(item.name + " Silver"),
+            ItemDatabase.Find(item.name + " Gold"),
+            ItemDatabase.Find(item.name + " Purple")
+        };
+        foreach (ItemData v in variants)
+        {
+            if (v == null || amount <= 0) continue;
+
+            // Списание из инвентаря И хотбара
+            foreach (InventorySlot s in AllSlots())
+            {
+                if (amount <= 0) break;
+                if (s.IsEmpty() || s.currentItem != v) continue;
+                int takeNow = Mathf.Min(s.quantity, amount);
+                s.quantity -= takeNow;
+                amount -= takeNow;
+                if (s.quantity <= 0) s.ClearSlot();
+                else s.UpdateUI();
+            }
+        }
+
+        // Если изменился активный слот хотбара — обновляем зеркало оружия/статы
+        HotbarManager.Instance?.NotifyActiveItemChanged();
     }
 
     public bool TryOrder(RecipeData recipe)
@@ -247,10 +306,10 @@ public class CookStorage : MonoBehaviour, ISaveable
                 return false;
         }
 
-        // Списываем ингредиенты сразу
+        // Списываем ингредиенты сразу (включая звёздные варианты)
         foreach (RecipeIngredient ing in recipe.ingredients)
             if (ing.item != null)
-                InventoryUI.Instance.RemoveItem(ing.item, ing.amount);
+                ConsumeIngredient(ing.item, ing.amount);
 
         orderQueue.Add(recipe);
         onStorageChanged?.Invoke();

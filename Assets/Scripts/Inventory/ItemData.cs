@@ -110,6 +110,10 @@ public class ItemData : ScriptableObject
     [Header("Лейка")]
     public int maxWater = 10;
 
+    [Header("Удобрение")]
+    [Tooltip("Если true — использование на грядку с растением ускоряет его рост ×2")]
+    public bool isFertilizer = false;
+
     [Header("Еда (Consumable) — эффект при съедании")]
     [Tooltip("Мгновенное восстановление HP")]
     public int healAmount = 0;

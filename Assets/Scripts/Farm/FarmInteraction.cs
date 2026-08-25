@@ -2,15 +2,15 @@ using UnityEngine;
 
 public class FarmInteraction : MonoBehaviour
 {
-    [Header("Точки взаимодействия")]
+    [Header("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public Transform hoePoint;
     public Transform wateringPoint;
 
-    [Header("Опыт за фермерство")]
-    public int xpTill = 2;   // вспашка земли
-    public int xpPlant = 3;   // посадка семени
-    public int xpWater = 1;   // полив
-    public int xpHarvest = 10;  // сбор урожая
+    [Header("пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public int xpTill = 2;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public int xpPlant = 3;   // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+    public int xpWater = 1;   // пїЅпїЅпїЅпїЅпїЅ
+    public int xpHarvest = 10;  // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
     public void UseFarmTool(ItemType toolType, float dirX, float dirY)
     {
@@ -39,13 +39,23 @@ public class FarmInteraction : MonoBehaviour
             return;
         }
 
+        // РЈРґРѕР±СЂРµРЅРёРµ: Р°РєС‚РёРІРЅС‹Рј РїСЂРµРґРјРµС‚РѕРј РїРѕ РіСЂСЏРґРєРµ СЃ СЂР°СЃС‚РµРЅРёРµРј
+        if (activeItem != null && activeItem.isFertilizer)
+        {
+            if (FarmManager.Instance.FertilizeCrop(pos))
+                ConsumeActiveItem();
+            else
+                Debug.Log("[Р¤РµСЂРјР°] Р—РґРµСЃСЊ СѓРґРѕР±СЂСЏС‚СЊ РЅРµС‡РµРіРѕ (РёР»Рё СѓР¶Рµ СѓРґРѕР±СЂРµРЅРѕ)");
+            return;
+        }
+
         if (activeItem != null && activeItem.itemType == ItemType.Seed)
             PlantSeed(activeItem, pos);
     }
 
     public void CheckHarvest()
     {
-        // Вызывается из Attack
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ Attack
     }
 
     void TillGround()
@@ -54,7 +64,7 @@ public class FarmInteraction : MonoBehaviour
         Vector3 pos = hoePoint != null ? hoePoint.position : transform.position;
         bool success = FarmManager.Instance.TillSoil(pos);
 
-        // Опыт за вспашку
+        // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (success && PlayerLevel.Instance != null)
             PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpTill);
     }
@@ -66,7 +76,7 @@ public class FarmInteraction : MonoBehaviour
         InventorySlot activeSlot = HotbarManager.Instance?.GetActiveSlot();
         if (activeSlot == null || !activeSlot.HasWater())
         {
-            Debug.Log("Нет воды в лейке!");
+            Debug.Log("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ!");
             WaterBar waterBar = FindFirstObjectByType<WaterBar>();
             if (waterBar != null) waterBar.PlayEmptyEffect();
             return;
@@ -81,11 +91,11 @@ public class FarmInteraction : MonoBehaviour
         {
             activeSlot.UseWater();
 
-            // Опыт за полив
+            // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             if (PlayerLevel.Instance != null)
                 PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpWater);
 
-            Debug.Log("Полито! Осталось воды: " + activeSlot.currentWater);
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: " + activeSlot.currentWater);
         }
     }
 
@@ -95,11 +105,11 @@ public class FarmInteraction : MonoBehaviour
         bool success = FarmManager.Instance.PlantSeed(pos, seedData);
         if (success)
         {
-            // Опыт за посадку
+            // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (PlayerLevel.Instance != null)
                 PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpPlant);
 
-            Debug.Log("Посажено: " + seedData.itemName);
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + seedData.itemName);
             ConsumeActiveItem();
         }
     }
@@ -123,10 +133,22 @@ public class FarmInteraction : MonoBehaviour
 
     void HarvestCrop(Vector3 pos)
     {
-        ItemData harvest = FarmManager.Instance.HarvestCrop(pos);
+        ItemData harvest = FarmManager.Instance.HarvestCrop(pos, out int quality);
         if (harvest == null) return;
 
-        // Шанс двойного урожая от прокачки
+        // РљР°С‡РµСЃС‚РІРѕ СѓСЂРѕР¶Р°СЏ: РїРѕРґРјРµРЅСЏРµРј РЅР° Р·РІС‘Р·РґРЅС‹Р№ РІР°СЂРёР°РЅС‚ (Carrot в†’ Carrot Silver Рё С‚.Рґ.)
+        if (quality > 0)
+        {
+            string suffix = quality == 1 ? " Silver" : quality == 2 ? " Gold" : " Purple";
+            ItemData qualityItem = ItemDatabase.Find(harvest.name + suffix);
+            if (qualityItem != null)
+            {
+                harvest = qualityItem;
+                Debug.Log("[Р¤РµСЂРјР°] РљР°С‡РµСЃС‚РІРµРЅРЅС‹Р№ СѓСЂРѕР¶Р°Р№: " + harvest.itemName);
+            }
+        }
+
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         int harvestAmount = harvest.harvestAmount;
         if (SkillTreeManager.Instance != null)
         {
@@ -134,9 +156,9 @@ public class FarmInteraction : MonoBehaviour
             if (doubleChance > 0 && Random.Range(0f, 100f) < doubleChance)
             {
                 harvestAmount *= 2;
-                Debug.Log("[Ферма] Двойной урожай!");
+                Debug.Log("[пїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ!");
 
-                // Попап двойного урожая
+                // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
                 if (DamagePopupManager.Instance != null)
                     DamagePopupManager.Instance.Spawn(
                         transform.position + Vector3.up,
@@ -152,10 +174,10 @@ public class FarmInteraction : MonoBehaviour
             {
                 if (PlayerLevel.Instance != null)
                     PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpHarvest);
-                Debug.Log("Собрано: " + harvest.itemName + " x" + harvestAmount);
+                Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + harvest.itemName + " x" + harvestAmount);
             }
             else
-                Debug.Log("Инвентарь полон!");
+                Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!");
         }
     }
 }

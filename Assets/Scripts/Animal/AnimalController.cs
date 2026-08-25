@@ -207,7 +207,11 @@ public class AnimalController : MonoBehaviour, IInteractable
     {
         if (growthStage == AnimalData.GrowthStage.Adult || data == null) return;
 
-        growTimer -= Time.deltaTime;
+        // Перк на скорость роста животных
+        float mult = SkillTreeManager.Instance != null
+            ? SkillTreeManager.Instance.GetAnimalGrowthMultiplier() : 1f;
+
+        growTimer -= Time.deltaTime * mult;
         if (growTimer <= 0f)
             AdvanceGrowthStage();
     }
@@ -249,7 +253,11 @@ public class AnimalController : MonoBehaviour, IInteractable
         if (data.onlyAdultProduces && growthStage != AnimalData.GrowthStage.Adult) return;
         if (!isFed) return;
 
-        productionTimer -= Time.deltaTime;
+        // Перк ускоряет и производство продукта
+        float mult = SkillTreeManager.Instance != null
+            ? SkillTreeManager.Instance.GetAnimalGrowthMultiplier() : 1f;
+
+        productionTimer -= Time.deltaTime * mult;
         if (productionTimer <= 0f)
         {
             DropProduct();

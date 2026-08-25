@@ -12,7 +12,9 @@ public class ShopManager : MonoBehaviour
     public class ShopItem
     {
         public ItemData item;
-        public int price = 10; // ���� �� 1 �����
+        public int price = 10; // ���� � 1 �����
+        [Tooltip("������ ��������������� (unlocksFeature ������ ������). ������ ��� ������ �� ��������� � ������������.")]
+        public string unlockTag = "";
     }
 
     [Header("����������� ��������")]

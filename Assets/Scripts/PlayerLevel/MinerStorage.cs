@@ -52,6 +52,9 @@ public class MinerStorage : MonoBehaviour, ISaveable
     void Start()
     {
         SaveManager.Instance?.LoadInto(this);
+
+        // Переподписываем UI на СВОЁ событие (UI вечный, склады пересоздаются)
+        MinerUI.Instance?.BindToStorage();
     }
 
     // ─── ISaveable ─────────────────────────────────────────────

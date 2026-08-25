@@ -1,5 +1,6 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Tilemaps;
+using System;
 using System.Collections.Generic;
 
 public class FarmManager : MonoBehaviour, ISaveable
@@ -25,6 +26,10 @@ public class FarmManager : MonoBehaviour, ISaveable
     public float dryTimeMinutes = 10f;
     [Tooltip("Через сколько минут вскопанная грядка зарастает в траву если ничего не посадили. Полив сбрасывает этот таймер.")]
     public float grassTimeMinutes = 20f;
+
+    [Header("Лимит грядок")]
+    [Tooltip("Сколько грядок игрок может вскопать без прокачки")]
+    public int basePlotLimit = 10;
 
     // Словарь: позиция → растение
     private Dictionary<Vector3Int, CropTile> crops = new Dictionary<Vector3Int, CropTile>();
@@ -149,11 +154,15 @@ public class FarmManager : MonoBehaviour, ISaveable
         public int stage;
         public bool watered;
         public bool ready;
+        public bool fertilized;
+        public float remainToNextStage; // остаток до следующей стадии
+        public float stageTime;         // полная длительность стадии
     }
 
     [System.Serializable]
     private class FarmSave
     {
+        public long savedAtTicks; // реальное время сохранения — для оффлайн-роста
         public List<TilledCellSave> tilled = new List<TilledCellSave>();
         public List<CropSave> crops = new List<CropSave>();
     }
@@ -162,7 +171,10 @@ public class FarmManager : MonoBehaviour, ISaveable
 
     public string CaptureState()
     {
-        FarmSave save = new FarmSave();
+        FarmSave save = new FarmSave
+        {
+            savedAtTicks = DateTime.UtcNow.Ticks
+        };
 
         // Все вспаханные клетки (и заодно — политы ли)
         BoundsInt bounds = farmTilemap.cellBounds;
@@ -197,11 +209,13 @@ public class FarmManager : MonoBehaviour, ISaveable
             }
         }
 
-        // Все растения
+        // Все растения (+ остаток времени до следующей стадии)
         foreach (var kvp in crops)
         {
             CropTile crop = kvp.Value;
             if (crop == null || crop.cropData == null) continue;
+
+            crop.GetGrowthInfo(out float remain, out float stageTime);
 
             save.crops.Add(new CropSave
             {
@@ -210,7 +224,10 @@ public class FarmManager : MonoBehaviour, ISaveable
                 itemName = crop.cropData.name,
                 stage = crop.currentStage,
                 watered = crop.isWatered,
-                ready = crop.isReady
+                ready = crop.isReady,
+                fertilized = crop.isFertilized,
+                remainToNextStage = remain,
+                stageTime = stageTime
             });
         }
 
@@ -257,7 +274,13 @@ public class FarmManager : MonoBehaviour, ISaveable
             ClearFlowerAt(farmTilemap.GetCellCenterWorld(cellPos));
         }
 
-        // Восстанавливаем растения
+        // Восстанавливаем растения + оффлайн-рост
+        // (пока игрока не было — в городе или при закрытой игре — растения растут)
+        double elapsed = save.savedAtTicks > 0
+            ? (DateTime.UtcNow.Ticks - save.savedAtTicks) / (double)TimeSpan.TicksPerSecond
+            : 0;
+        if (elapsed < 0) elapsed = 0;
+
         foreach (CropSave cs in save.crops)
         {
             ItemData seedData = ItemDatabase.Find(cs.itemName);
@@ -280,8 +303,16 @@ public class FarmManager : MonoBehaviour, ISaveable
             crop.currentStage = cs.stage;
             crop.isWatered = cs.watered;
             crop.isReady = cs.ready;
+            crop.isFertilized = cs.fertilized;
 
             crops[cellPos] = crop;
+
+            // Оффлайн-рост: догоняем прошедшее время (учтён перк Селекционер
+            // и удобрение — они уже внутри timePerStage)
+            if (!cs.ready && elapsed > 0 && cs.stageTime > 0)
+            {
+                crop.ApplyOfflineGrowth(elapsed, cs.remainToNextStage, cs.stageTime);
+            }
         }
 
         Debug.Log("[Save] Ферма восстановлена: " + save.tilled.Count + " клеток, " + save.crops.Count + " растений");
@@ -292,6 +323,15 @@ public class FarmManager : MonoBehaviour, ISaveable
     {
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
         if (farmTilemap.GetTile(cellPos) != null) return false;
+
+        // Лимит грядок: пустые (увядающие) + под растениями
+        int limit = basePlotLimit + (SkillTreeManager.Instance != null
+            ? SkillTreeManager.Instance.GetPlotLimitBonus() : 0);
+        if (plotTimers.Count + crops.Count >= limit)
+        {
+            Debug.Log("[Ферма] Лимит грядок: " + limit + ". Прокачай «Расширение участка» в дереве навыков!");
+            return false;
+        }
 
         farmTilemap.SetTile(cellPos, tilledSoilTile);
 
@@ -340,9 +380,22 @@ public class FarmManager : MonoBehaviour, ISaveable
         return true;
     }
 
-    // Посадить семена
-    public bool PlantSeed(Vector3 worldPos, ItemData seedData)
+    // Удобрить растение на клетке (рост ×2)
+    public bool FertilizeCrop(Vector3 worldPos)
     {
+        Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
+        if (!crops.ContainsKey(cellPos)) return false;
+
+        CropTile crop = crops[cellPos];
+        if (crop == null || crop.isReady) return false;
+        if (crop.isFertilized) return false; // уже удобрено
+
+        crop.Fertilize();
+        return true;
+    }
+
+    // Посадить семена
+    public bool PlantSeed(Vector3 worldPos, ItemData seedData)    {
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
 
         if (farmTilemap.GetTile(cellPos) == null)
@@ -371,8 +424,9 @@ public class FarmManager : MonoBehaviour, ISaveable
     }
 
     // Собрать урожай
-    public ItemData HarvestCrop(Vector3 worldPos)
+    public ItemData HarvestCrop(Vector3 worldPos, out int quality)
     {
+        quality = 0;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
 
         if (!crops.ContainsKey(cellPos)) return null;
@@ -382,9 +436,12 @@ public class FarmManager : MonoBehaviour, ISaveable
 
         if (harvest == null)
         {
+            quality = 0;
             Debug.Log("Растение ещё не выросло!");
             return null;
         }
+
+        quality = crop.RollQuality();
 
         Destroy(crop.gameObject);
         crops.Remove(cellPos);

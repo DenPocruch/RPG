@@ -52,6 +52,9 @@ public class LumberjackStorage : MonoBehaviour, ISaveable
     void Start()
     {
         SaveManager.Instance?.LoadInto(this);
+
+        // Переподписываем UI на СВОЁ событие (UI вечный, склады пересоздаются)
+        LumberjackUI.Instance?.BindToStorage();
     }
 
     // ─── ISaveable ─────────────────────────────────────────────

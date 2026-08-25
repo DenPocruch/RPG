@@ -352,6 +352,66 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
         return total;
     }
 
+    /// <summary>Бонус к лимиту вскопанных грядок</summary>
+    public int GetPlotLimitBonus()
+    {
+        int total = 0;
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.BonusPlotLimit)
+                total += (int)(kvp.Key.effectValue * kvp.Value);
+        return total;
+    }
+
+    /// <summary>Множитель скорости роста растений (1.1 = +10%)</summary>
+    public float GetCropGrowthMultiplier()
+    {
+        float bonus = 0f;
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.GrowthSpeed)
+                bonus += kvp.Key.effectValue * kvp.Value;
+        return 1f + bonus;
+    }
+
+    /// <summary>Множитель скорости роста/производства животных (1.1 = +10%)</summary>
+    public float GetAnimalGrowthMultiplier()
+    {
+        float bonus = 0f;
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.AnimalGrowthSpeed)
+                bonus += kvp.Key.effectValue * kvp.Value;
+        return 1f + bonus;
+    }
+
+    /// <summary>Бонус к шансу серебряного урожая</summary>
+    public float GetSilverQualityBonus()
+    {
+        float total = 0f;
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.QualityBonus)
+                total += kvp.Key.effectValue * kvp.Value;
+        return total;
+    }
+
+    /// <summary>Бонус к шансу золотого урожая</summary>
+    public float GetGoldQualityBonus()
+    {
+        float total = 0f;
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.GoldQualityBonus)
+                total += kvp.Key.effectValue * kvp.Value;
+        return total;
+    }
+
+    /// <summary>Бонус к шансу пурпурного урожая</summary>
+    public float GetPurpleQualityBonus()
+    {
+        float total = 0f;
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.PurpleQualityBonus)
+                total += kvp.Key.effectValue * kvp.Value;
+        return total;
+    }
+
     /// <summary>Снижение шанса провала крафта в %</summary>
     public float GetFailChanceReduction()
     {
