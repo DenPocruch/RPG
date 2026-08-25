@@ -1,11 +1,19 @@
 using UnityEngine;
 
 /// <summary>
-/// NPC ��������. ��������� IInteractable � ��������� ������� (ShopUI).
+/// Прилавок/NPC-торговец с БЕЗ диалога: удар рядом → сразу открывается
+/// магазин со СВОИМ ассортиментом (у каждого прилавка свой товар).
+/// Для торговца с диалогом используй NPCInteractable + TraderNPC.
 /// </summary>
 public class ShopInteraction : MonoBehaviour, IInteractable
 {
-    [Header("�������� (�����������)")]
+    [Header("Товар этого прилавка (у каждого свой!)")]
+    public ShopManager.ShopItem[] itemsForSale;
+
+    [Header("Заголовок окна магазина (опц.)")]
+    public string shopTitle = "";
+
+    [Header("Анимация приветствия (опц.)")]
     public Animator shopkeeperAnimator;
     public string greetAnimationTrigger = "Greet";
 
@@ -14,7 +22,7 @@ public class ShopInteraction : MonoBehaviour, IInteractable
     public void Interact(GameObject player)
     {
         if (ShopUI.Instance != null)
-            ShopUI.Instance.Open();
+            ShopUI.Instance.Open(itemsForSale, shopTitle);
 
         if (shopkeeperAnimator != null)
             shopkeeperAnimator.SetTrigger(greetAnimationTrigger);

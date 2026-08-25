@@ -25,6 +25,13 @@ public class HotbarManager : MonoBehaviour, ISaveable
 
     void Awake()
     {
+        // Защита от дубликата: при возврате в сцену она создаёт копию
+        // PersistentRoot вместе со своим HotbarManager. Копию уничтожает
+        // GamePersistence, но без этой проверки копия успевает затереть
+        // Instance ссылкой на себя — и после удаления копии Instance
+        // указывает на уничтоженный объект (MissingReferenceException
+        // при смене активного слота).
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         SaveManager.Instance?.Register(this);
     }
@@ -123,6 +130,7 @@ public class HotbarManager : MonoBehaviour, ISaveable
         // Снимаем выделение со всех
         for (int i = 0; i < slots.Length; i++)
         {
+            if (slots[i] == null) continue; // слот уничтожен — пропускаем
             Image img = slots[i].GetComponent<Image>();
             if (img != null) img.color = normalSlotColor;
         }
@@ -130,6 +138,7 @@ public class HotbarManager : MonoBehaviour, ISaveable
         activeSlotIndex = index;
 
         // Выделяем активный
+        if (slots[activeSlotIndex] == null) return;
         Image activeImg = slots[activeSlotIndex].GetComponent<Image>();
         if (activeImg != null) activeImg.color = activeSlotColor;
 
@@ -139,6 +148,8 @@ public class HotbarManager : MonoBehaviour, ISaveable
 
     public ItemData GetActiveItem()
     {
+        if (activeSlotIndex < 0 || activeSlotIndex >= slots.Length) return null;
+        if (slots[activeSlotIndex] == null) return null;
         if (slots[activeSlotIndex].IsEmpty()) return null;
         return slots[activeSlotIndex].currentItem;
     }

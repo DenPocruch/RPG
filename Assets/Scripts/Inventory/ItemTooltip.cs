@@ -36,9 +36,17 @@ public class ItemTooltip : MonoBehaviour
 
     void Awake()
     {
+        // Защита от дубликата: при возврате в сцену её копия PersistentRoot
+        // создаёт второй экземпляр — уничтожаем копию, оригинал продолжает жить.
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         canvas = GetComponentInParent<Canvas>();
         if (tooltipRoot != null) tooltipRoot.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     /// <summary>Показать tooltip для предмета у позиции на экране.</summary>

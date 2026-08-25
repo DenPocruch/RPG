@@ -102,6 +102,17 @@ public class ScreenFader : MonoBehaviour
         yield return Fade(0f, 1f);
     }
 
+    /// <summary>Мгновенно сделать экран чёрным, без анимации —
+    /// чтобы стартовая сцена не успела отрисоваться при загрузке другой сцены.</summary>
+    public void SetBlackInstant()
+    {
+        if (fadeImage != null)
+        {
+            Color c = fadeImage.color; c.a = 1f; fadeImage.color = c;
+        }
+        if (canvasGroup != null) canvasGroup.blocksRaycasts = true;
+    }
+
     /// <summary>Осветлить из чёрного (после загрузки сцены).</summary>
     public void StartFadeIn()
     {

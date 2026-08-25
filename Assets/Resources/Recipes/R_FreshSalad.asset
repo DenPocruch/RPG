@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5624763165eb7b429fb47c7cee6e325, type: 3}
+  m_Name: R_FreshSalad
+  m_EditorClassIdentifier: 
+  recipeName: "\u041B\u0451\u0433\u043A\u0438\u0439 \u0441\u0430\u043B\u0430\u0442"
+  description: "\u0413\u043E\u0442\u043E\u0432\u0438\u0442\u0441\u044F \u0443 \u043F\u043E\u0432\u0430\u0440\u0430"
+  outputItem: {fileID: 11400000, guid: da8d0d803ea3477d92315dc14cead5a1, type: 2}
+  outputAmount: 1
+  ingredients:
+    - item: {fileID: 11400000, guid: d2495b19b1f9bcc4bb580e55575b67c9, type: 2}
+      amount: 2
+    - item: {fileID: 11400000, guid: ae11145d7db3e1e4c95b92a2deeae545, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: e702aec001f069a47a3dcd9f9a88654b, type: 2}
+      amount: 1
+  cookTime: 40
+  goldCost: 5
+  xpReward: 8
+  unlockedByDefault: 1
+  unlockFeatureTag: 

@@ -3,19 +3,21 @@ using System.Collections;
 
 public class LootItem : MonoBehaviour
 {
-    [Header("Предмет")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public ItemData itemData;
     public int amount = 1;
 
-    [Header("Параметры")]
+    [Header("РџР°СЂР°РјРµС‚СЂС‹")]
     public float pickupRadius = 0.5f;
     public float lifetime = 30f;
+    [Tooltip("Р•СЃР»Рё РІС‹РєР»СЋС‡РµРЅРѕ вЂ” РїСЂРµРґРјРµС‚ Р»РµР¶РёС‚ РїРѕРєР° РµРіРѕ РЅРµ РїРѕРґР±РµСЂСѓС‚ (РґСЂРѕРї СЃ Р¶РёРІРѕС‚РЅС‹С…)")]
+    public bool despawnOverTime = true;
     public float bobSpeed = 2f;
     public float bobHeight = 0.1f;
     public float itemScale = 0.5f;
 
-    [Header("Опыт за подбор")]
-    public int craftingXpReward = 2; // опыт в Crafting за подбор материалов
+    [Header("пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public int craftingXpReward = 2; // пїЅпїЅпїЅпїЅ пїЅ Crafting пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private SpriteRenderer spriteRenderer;
     private Vector3 startPos;
@@ -39,8 +41,11 @@ public class LootItem : MonoBehaviour
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
 
-        Destroy(gameObject, lifetime);
-        StartCoroutine(BlinkBeforeDestroy());
+        if (despawnOverTime)
+        {
+            Destroy(gameObject, lifetime);
+            StartCoroutine(BlinkBeforeDestroy());
+        }
     }
 
     void Update()
@@ -71,15 +76,15 @@ public class LootItem : MonoBehaviour
 
         if (added)
         {
-            // Опыт за подбор материалов/предметов
+            // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             if (PlayerLevel.Instance != null && craftingXpReward > 0)
                 PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Crafting, craftingXpReward);
 
-            Debug.Log("Подобрано: " + itemData.itemName + " x" + amount);
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + itemData.itemName + " x" + amount);
         }
         else
         {
-            Debug.Log("Инвентарь полон!");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!");
         }
 
         Destroy(gameObject);

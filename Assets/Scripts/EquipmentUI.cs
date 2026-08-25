@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class EquipmentUI : MonoBehaviour
 {
@@ -21,7 +21,18 @@ public class EquipmentUI : MonoBehaviour
     private Vector2 targetEquipmentPos;
     private Vector2 equipmentNormalPos;
 
-    void Awake() { Instance = this; }
+    void Awake()
+    {
+        // Защита от дубликата: копия PersistentRoot при возврате в сцену
+        // создаёт второй экземпляр — копию уничтожаем, оригинал живёт
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 
     void Start()
     {

@@ -953,7 +953,7 @@ GameObject:
   - component: {fileID: 25300043}
   - component: {fileID: 25300042}
   m_Layer: 10
-  m_Name: Base houses_7
+  m_Name: TraderStall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1032,8 +1032,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cc2e2fc66099564194dd73bdf48c949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopkeeperAnimator: {fileID: 0}
-  greetAnimationTrigger: Greet
+  itemsForSale:
+  - item: {fileID: 11400000, guid: e62187882bdf43d4f882a8ab086056d5, type: 2}
+    price: 10
+  - item: {fileID: 11400000, guid: 8cb9aa1d5bb0d2741a8d8c6730c536ce, type: 2}
+    price: 15
+  - item: {fileID: 11400000, guid: c973efe1781e5914880d05bf1123c7fa, type: 2}
+    price: 20
+  - item: {fileID: 11400000, guid: ebe26221926c8484c98f8d3052e59aca, type: 2}
+    price: 25
+  - item: {fileID: 11400000, guid: beec38ab5ad22f241a94c3cb76fa53c8, type: 2}
+    price: 25
+  shopTitle: "\u041B\u0430\u0432\u043A\u0430"
 --- !u!114 &25300044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4303,7 +4313,7 @@ GameObject:
   - component: {fileID: 257079188}
   - component: {fileID: 257079187}
   m_Layer: 10
-  m_Name: woodcutter's house_1
+  m_Name: LumberjackHouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6414,7 +6424,7 @@ GameObject:
   - component: {fileID: 383125345}
   - component: {fileID: 383125344}
   m_Layer: 8
-  m_Name: Banker
+  m_Name: CookNPC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50811,7 +50821,7 @@ GameObject:
   - component: {fileID: 1125306454}
   - component: {fileID: 1125306453}
   m_Layer: 0
-  m_Name: Blacksmith_1
+  m_Name: BlacksmithForge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70447,7 +70457,7 @@ GameObject:
   - component: {fileID: 1443924832}
   - component: {fileID: 1443924831}
   m_Layer: 10
-  m_Name: stonemason's house_1
+  m_Name: StonemasonHouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78185,7 +78195,7 @@ GameObject:
   - component: {fileID: 1890070237}
   - component: {fileID: 1890070236}
   m_Layer: 8
-  m_Name: Banker houses
+  m_Name: CookStorageHouse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78205,6 +78215,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allRecipes:
   - {fileID: 11400000, guid: 996613f6fe3d9684ab336b007f232158, type: 2}
+  - {fileID: 11400000, guid: 32f4c4032ac34647bc4ea00668d2adef, type: 2}
+  - {fileID: 11400000, guid: 223bfbd10ae04371a1506dbc936abae6, type: 2}
+  - {fileID: 11400000, guid: 8613c0385de54b019c414cc16defc6dc, type: 2}
+  - {fileID: 11400000, guid: 8b1b0d941aa544cea06fbf7c397cfde6, type: 2}
+  - {fileID: 11400000, guid: ecadf78f10134c61b0573d099b11024f, type: 2}
+  - {fileID: 11400000, guid: 780447b6a8e84d259e4ed4aaa1af0969, type: 2}
+  - {fileID: 11400000, guid: b4bf9aae7f504455982d2b87007567f5, type: 2}
+  - {fileID: 11400000, guid: f9c4d137d0c344fab447b1a3a0d20a4f, type: 2}
+  - {fileID: 11400000, guid: 85ee4c83192243c2aea1c69e21f45718, type: 2}
   baseDishCapacity: 20
 --- !u!114 &1890070237
 MonoBehaviour:

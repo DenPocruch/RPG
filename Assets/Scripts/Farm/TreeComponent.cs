@@ -3,28 +3,28 @@ using System.Collections;
 
 public class TreeComponent : MonoBehaviour
 {
-    [Header("Данные дерева (из ItemData ростка)")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ ItemData пїЅпїЅпїЅпїЅпїЅпїЅ)")]
     public ItemData treeData;
 
-    [Header("Для статических деревьев (без ростка)")]
+    [Header("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ)")]
     public bool isStaticTree = false;
     public Sprite staticAdultSprite;
     public ItemData staticWoodItem;
     public int staticWoodAmount = 3;
     public int staticMaxHealth = 5;
 
-    [Header("Прозрачность")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public float transparentAlpha = 0.3f;
     public float transparentDistance = 1.5f;
 
-    [Header("Разброс лута")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ")]
     public float fruitDropRadius = 0.8f;
     public float woodDropRadius = 0.6f;
 
-    [Header("Эффект листьев при ударе")]
-    public Animator leafAnimator; // Animator дочернего LeafEffect объекта
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
+    public Animator leafAnimator; // Animator пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ LeafEffect пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-    [Header("Анимация дерева")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
     public Animator treeAnimator;
     public GameObject lootItemPrefab;
 
@@ -67,6 +67,19 @@ public class TreeComponent : MonoBehaviour
 
         currentHealth = treeData.treeMaxHealth;
 
+        // РЎРѕСЃС‚РѕСЏРЅРёРµ РёР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РІР°Р¶РЅРµРµ РЅР°С‡Р°Р»СЊРЅРѕР№ РёРЅРёС†РёР°Р»РёР·Р°С†РёРё
+        if (hasPendingRestore)
+        {
+            hasPendingRestore = false;
+            isDried = pendingDried;
+            hasFruit = pendingHasFruit;
+            fruitHarvestCount = pendingHarvestCount;
+            fruitTimer = pendingFruitTimer;
+            fruitTimerActive = pendingTimerActive;
+            UpdateSprite();
+            return;
+        }
+
         if (treeData.isFruitTree && !isDried)
         {
             hasFruit = false;
@@ -89,7 +102,7 @@ public class TreeComponent : MonoBehaviour
                 fruitTimerActive = false;
                 hasFruit = true;
                 UpdateSprite();
-                Debug.Log("Плоды созрели: " + gameObject.name);
+                Debug.Log("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: " + gameObject.name);
             }
         }
     }
@@ -142,7 +155,7 @@ public class TreeComponent : MonoBehaviour
 
         currentHealth--;
 
-        // Запускаем анимацию листьев через триггер
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (leafAnimator != null)
             leafAnimator.SetTrigger("Play");
 
@@ -180,6 +193,33 @@ public class TreeComponent : MonoBehaviour
     }
 
     public bool HasFruit() => hasFruit && !isDried;
+    public bool IsFalling => isFalling;
+
+    // в”Ђв”Ђв”Ђ РЎРѕС…СЂР°РЅРµРЅРёРµ/Р·Р°РіСЂСѓР·РєР° (С‡РёС‚Р°РµС‚ Рё РІРѕСЃСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ FarmManager) в”Ђв”Ђв”Ђ
+    public bool IsDried => isDried;
+    public int FruitHarvestCount => fruitHarvestCount;
+    public float FruitTimer => fruitTimer;
+    public bool FruitTimerActive => fruitTimerActive;
+
+    // РћС‚Р»РѕР¶РµРЅРЅРѕРµ РІРѕСЃСЃС‚Р°РЅРѕРІР»РµРЅРёРµ: ApplyRestoredState Р·РѕРІС‘С‚СЃСЏ Р”Рћ С‚РѕРіРѕ РєР°Рє
+    // РѕС‚СЂР°Р±РѕС‚Р°РµС‚ Start() в†’ InitFromData() (РєРѕС‚РѕСЂС‹Р№ РёРЅР°С‡Рµ СЃР±СЂРѕСЃРёР» Р±С‹
+    // РїР»РѕРґРѕРЅРѕС€РµРЅРёРµ РЅР° РЅР°С‡Р°Р»СЊРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ)
+    private bool hasPendingRestore;
+    private bool pendingDried;
+    private bool pendingHasFruit;
+    private bool pendingTimerActive;
+    private int pendingHarvestCount;
+    private float pendingFruitTimer;
+
+    public void ApplyRestoredState(bool dried, bool withFruit, int harvestCount, float fTimer, bool timerActive)
+    {
+        pendingDried = dried;
+        pendingHasFruit = withFruit;
+        pendingHarvestCount = harvestCount;
+        pendingFruitTimer = fTimer;
+        pendingTimerActive = timerActive;
+        hasPendingRestore = true;
+    }
 
     IEnumerator FallTree()
     {
@@ -195,6 +235,9 @@ public class TreeComponent : MonoBehaviour
 
         if (wood != null)
             DropItemsIndividually(wood, amount, woodDropRadius);
+
+        // РЎРµР№РІ РїРѕ СЃРѕР±С‹С‚РёСЋ: РґРµСЂРµРІРѕ СЃСЂСѓР±Р»РµРЅРѕ (РёСЃС‡РµР·Р»Рѕ РёР· РјРёСЂР°)
+        SaveManager.Instance?.Save();
 
         Destroy(gameObject);
     }

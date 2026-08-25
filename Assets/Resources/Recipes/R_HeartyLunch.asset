@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5624763165eb7b429fb47c7cee6e325, type: 3}
+  m_Name: R_HeartyLunch
+  m_EditorClassIdentifier: 
+  recipeName: "\u041F\u043B\u043E\u0442\u043D\u044B\u0439 \u043E\u0431\u0435\u0434"
+  description: "\u0413\u043E\u0442\u043E\u0432\u0438\u0442\u0441\u044F \u0443 \u043F\u043E\u0432\u0430\u0440\u0430"
+  outputItem: {fileID: 11400000, guid: 0af25d02eab74906adc5e7d6acda6f7f, type: 2}
+  outputAmount: 1
+  ingredients:
+    - item: {fileID: 11400000, guid: f3d09a42079b0c244bad1215d5491c8e, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 4347435de3e2448429e569c41eef5e5a, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: 10667b2f110c9f049a60ed26d5a242ba, type: 2}
+      amount: 1
+    - item: {fileID: 11400000, guid: d49bdc9649bb82948812b67ac27d3e67, type: 2}
+      amount: 1
+  cookTime: 70
+  goldCost: 20
+  xpReward: 20
+  unlockedByDefault: 1
+  unlockFeatureTag: 

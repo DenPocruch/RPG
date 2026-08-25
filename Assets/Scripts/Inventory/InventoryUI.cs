@@ -23,6 +23,9 @@ public class InventoryUI : MonoBehaviour, ISaveable
 
     void Awake()
     {
+        // Защита от дубликата: копия PersistentRoot при возврате в сцену
+        // создаёт второй экземпляр — копию уничтожаем, оригинал живёт
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         SaveManager.Instance?.Register(this);
     }

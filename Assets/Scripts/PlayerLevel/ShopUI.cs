@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ public class ShopUI : MonoBehaviour
 
     [Header("Инфо")]
     public TMP_Text goldText; // "Золото: 480"
+    public TMP_Text titleText; // заголовок окна ("Семена", "Инструменты"...)
 
     [Header("Позиции панели")]
     public float panelY = 47f;
@@ -45,12 +46,16 @@ public class ShopUI : MonoBehaviour
     private Vector2 targetPos;
     private Vector2 normalPos;
 
+    private ShopManager.ShopItem[] currentStock; // товар ТЕКУЩЕГО торговца
     private ShopManager.ShopItem selectedItem;
     private int selectedQuantity = 1;
     private List<ShopItemButtonUI> itemButtons = new List<ShopItemButtonUI>();
 
     void Awake()
     {
+        // Защита от дубликата: копия PersistentRoot при возврате в сцену
+        // создаёт второй экземпляр — копию уничтожаем, оригинал живёт
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         if (shopPanel != null) shopPanel.SetActive(false);
     }
@@ -84,8 +89,18 @@ public class ShopUI : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // ОТКРЫТИЕ / ЗАКРЫТИЕ
     // ═══════════════════════════════════════════════════════════
-    public void Open()
+
+    /// <summary>Открыть магазин конкретного торговца со своим товаром.
+    /// stock = null → берётся общий ассортимент ShopManager (старое поведение).</summary>
+    public void Open(ShopManager.ShopItem[] stock = null, string title = null)
     {
+        currentStock = (stock != null && stock.Length > 0)
+            ? stock
+            : (ShopManager.Instance != null ? ShopManager.Instance.itemsForSale : null);
+
+        if (!string.IsNullOrEmpty(title) && titleText != null)
+            titleText.text = title;
+
         shopPanel.SetActive(true);
         isOpen = true;
 
@@ -129,13 +144,15 @@ public class ShopUI : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     void BuildItemList()
     {
-        if (itemListContent == null || itemButtonPrefab == null || ShopManager.Instance == null)
+        if (itemListContent == null || itemButtonPrefab == null)
             return;
 
         foreach (Transform child in itemListContent) Destroy(child.gameObject);
         itemButtons.Clear();
 
-        foreach (ShopManager.ShopItem si in ShopManager.Instance.itemsForSale)
+        if (currentStock == null) return;
+
+        foreach (ShopManager.ShopItem si in currentStock)
         {
             if (si == null || si.item == null) continue;
             GameObject obj = Instantiate(itemButtonPrefab, itemListContent);
@@ -215,6 +232,9 @@ public class ShopUI : MonoBehaviour
         {
             UpdateGoldText();
             RefreshDetail();
+
+            // Сейв по событию: покупка (золото и инвентарь изменились)
+            SaveManager.Instance?.Save();
         }
     }
 

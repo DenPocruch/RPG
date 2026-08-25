@@ -61,11 +61,19 @@ public class AnimalController : MonoBehaviour, IInteractable
 
     void Start()
     {
-        growthStage = startAsAdult ? AnimalData.GrowthStage.Adult : AnimalData.GrowthStage.Baby;
-        growTimer = data != null ? data.growTime : 120f;
+        // Восстановленное из сохранения состояние важнее стартового
+        if (!restoredFromSave)
+        {
+            growthStage = startAsAdult ? AnimalData.GrowthStage.Adult : AnimalData.GrowthStage.Baby;
+            growTimer = data != null ? data.growTime : 120f;
+        }
 
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
+
+        // Фолбэк: префаб лута из Resources, если не назначен в инспекторе
+        if (lootItemPrefab == null)
+            lootItemPrefab = Resources.Load<GameObject>("LootItemPrefab");
 
         wanderBias = Random.insideUnitCircle.normalized;
 
@@ -78,6 +86,110 @@ public class AnimalController : MonoBehaviour, IInteractable
         HandleGrowth();
         HandleProduction();
         HandleState();
+        HandlePendingProduct();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // СОХРАНЕНИЕ / ЗАГРУЗКА / ОФФЛАЙН-ПРОГРЕСС
+    // (читает и восстанавливает AnimalSaveManager)
+    // ═══════════════════════════════════════════════════════════
+    public AnimalData.GrowthStage CurrentStage => growthStage;
+    public float GrowTimerRemaining => growTimer;
+    public bool IsFed => isFed;
+    public float ProductionTimerRemaining => productionTimer;
+    public bool HasPendingProduct => pendingProduct;
+
+    private bool restoredFromSave = false;
+    private bool pendingProduct = false; // продукт произведён пока игра была закрыта
+
+    /// <summary>Восстановить состояние животного (позиция, рост, кормление).</summary>
+    public void ApplyRestoredState(int stage, float growTimerSec, bool fed, float prodTimer, bool hasPendingProduct, Vector3 pos)
+    {
+        restoredFromSave = true;
+        growthStage = (AnimalData.GrowthStage)stage;
+        growTimer = growTimerSec;
+        isFed = fed;
+        productionTimer = prodTimer;
+        pendingProduct = hasPendingProduct;
+
+        // Через Rigidbody2D — иначе физика может перебить телепорт
+        if (rb != null) rb.position = pos;
+        else transform.position = pos;
+
+        // Обновляем спрайты под восстановленную стадию.
+        // Если это вызовется ДО Start — Start повторит Init с тем же результатом.
+        if (anim != null && data != null)
+            anim.Init(data, growthStage);
+    }
+
+    /// <summary>
+    /// Применить время, прошедшее с момента сохранения (игра была закрыта):
+    /// животное подросло, продукт созрел. Вызывать ПОСЛЕ ApplyRestoredState.
+    /// </summary>
+    public void ApplyOfflineTime(double seconds)
+    {
+        if (data == null || seconds <= 0) return;
+
+        // ── Рост (может перескочить несколько стадий за долгое отсутствие) ──
+        double left = seconds;
+        while (growthStage != AnimalData.GrowthStage.Adult && left > 0)
+        {
+            float stageTime = Mathf.Max(growTimer, 0.01f); // защита от деления на ноль
+            if (left < stageTime)
+            {
+                growTimer -= (float)left;
+                left = 0;
+                break;
+            }
+
+            left -= stageTime;
+
+            if (growthStage == AnimalData.GrowthStage.Baby)
+            {
+                if (data.HasTeenStage())
+                {
+                    growthStage = AnimalData.GrowthStage.Teen;
+                    growTimer = data.growTimeToAdult;
+                }
+                else
+                {
+                    growthStage = AnimalData.GrowthStage.Adult;
+                }
+            }
+            else
+            {
+                growthStage = AnimalData.GrowthStage.Adult;
+            }
+        }
+
+        if (growthStage == AnimalData.GrowthStage.Adult) growTimer = 0f;
+
+        // ── Продукт (созревает только у взрослого) ──
+        if (isFed && left > 0 && (!data.onlyAdultProduces || growthStage == AnimalData.GrowthStage.Adult))
+        {
+            if (productionTimer <= left)
+            {
+                // Продукт созрел пока игры не было — животное "держит" его
+                isFed = false;
+                pendingProduct = true;
+            }
+            else
+            {
+                productionTimer -= (float)left;
+            }
+        }
+    }
+
+    /// <summary>Отдать продукт, произведённый оффлайн, когда игрок подошёл.</summary>
+    void HandlePendingProduct()
+    {
+        if (!pendingProduct || player == null || data == null) return;
+
+        if (Vector2.Distance(transform.position, player.position) <= data.playerAttractRadius)
+        {
+            pendingProduct = false;
+            DropProduct();
+        }
     }
 
     void FixedUpdate()
@@ -147,14 +259,24 @@ public class AnimalController : MonoBehaviour, IInteractable
 
     void DropProduct()
     {
-        if (lootItemPrefab == null || data.productItem == null) return;
+        if (lootItemPrefab == null)
+        {
+            Debug.LogWarning("[Животное] " + data.animalName + ": не назначен Loot Item Prefab в инспекторе — продукт не выпадает!");
+            return;
+        }
+        if (data.productItem == null) return;
         for (int i = 0; i < data.productAmount; i++)
         {
             Vector2 offset = Random.insideUnitCircle * productDropRadius;
             Vector3 pos = transform.position + new Vector3(offset.x, offset.y, 0);
             GameObject obj = Instantiate(lootItemPrefab, pos, Quaternion.identity);
             LootItem loot = obj.GetComponent<LootItem>();
-            if (loot != null) { loot.itemData = data.productItem; loot.amount = 1; }
+            if (loot != null)
+            {
+                loot.itemData = data.productItem;
+                loot.amount = 1;
+                loot.despawnOverTime = false; // продукт животного не пропадает
+            }
         }
         Debug.Log("[Животное] " + data.animalName + " дал(а): " + data.productItem.itemName);
     }
@@ -359,6 +481,9 @@ public class AnimalController : MonoBehaviour, IInteractable
 
         isFed = true;
         productionTimer = data.productionTime;
+
+        // Сейв по событию: животное накормлено (изменилось его состояние)
+        SaveManager.Instance?.Save();
 
         state = State.Eat;
         eatTimer = 2f;

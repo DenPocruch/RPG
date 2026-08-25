@@ -48,6 +48,12 @@ public class SiloInteraction : MonoBehaviour, IInteractable, ISaveable
         SaveManager.Instance?.LoadInto(this);
     }
 
+    void OnDestroy()
+    {
+        // Отписка при выгрузке сцены — не держим ссылку на уничтоженный объект
+        SaveManager.Instance?.Unregister(this);
+    }
+
     // ─── ISaveable ─────────────────────────────────────────────
     public string SaveKey => "silo_" + (string.IsNullOrEmpty(siloId) ? transform.position.ToString() : siloId);
 

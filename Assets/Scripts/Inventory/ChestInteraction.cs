@@ -39,6 +39,12 @@ public class ChestInteraction : MonoBehaviour, IInteractable, ISaveable
         SaveManager.Instance?.LoadInto(this);
     }
 
+    void OnDestroy()
+    {
+        // Отписка при выгрузке сцены — не держим ссылку на уничтоженный объект
+        SaveManager.Instance?.Unregister(this);
+    }
+
     // ─── ISaveable ─────────────────────────────────────────────
     // Ключ уникален для каждого сундука — по chestId, или по позиции если ID не задан
     public string SaveKey => "chest_" + (string.IsNullOrEmpty(chestId) ? transform.position.ToString() : chestId);

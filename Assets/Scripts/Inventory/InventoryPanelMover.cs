@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Единственный объект который двигает InventoryPanel.
-/// ChestUI и EquipmentUI вызывают SetTargetX() — больше никто не трогает панель.
+/// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ InventoryPanel.
+/// ChestUI пїЅ EquipmentUI пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ SetTargetX() пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
 /// </summary>
 public class InventoryPanelMover : MonoBehaviour
 {
@@ -16,8 +16,16 @@ public class InventoryPanelMover : MonoBehaviour
 
     void Awake()
     {
+        // Р—Р°С‰РёС‚Р° РѕС‚ РґСѓР±Р»РёРєР°С‚Р°: РїСЂРё РІРѕР·РІСЂР°С‚Рµ РІ СЃС†РµРЅСѓ РµС‘ РєРѕРїРёСЏ PersistentRoot
+        // СЃРѕР·РґР°С‘С‚ РІС‚РѕСЂРѕР№ СЌРєР·РµРјРїР»СЏСЂ вЂ” СѓРЅРёС‡С‚РѕР¶Р°РµРј РєРѕРїРёСЋ, РѕСЂРёРіРёРЅР°Р» РїСЂРѕРґРѕР»Р¶Р°РµС‚ Р¶РёС‚СЊ.
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         targetPos = new Vector2(0, panelY);
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
     }
 
     void Start()
@@ -36,13 +44,13 @@ public class InventoryPanelMover : MonoBehaviour
         );
     }
 
-    /// <summary>Сдвинуть рюкзак на offsetX от центра.</summary>
+    /// <summary>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ offsetX пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.</summary>
     public void SetOffsetX(float offsetX)
     {
         targetPos = new Vector2(offsetX, panelY);
     }
 
-    /// <summary>Вернуть рюкзак в центр.</summary>
+    /// <summary>пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ.</summary>
     public void ResetPosition()
     {
         targetPos = new Vector2(0, panelY);

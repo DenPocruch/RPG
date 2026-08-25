@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
@@ -58,6 +58,9 @@ public class CookUI : MonoBehaviour
 
     void Awake()
     {
+        // Защита от дубликата: копия PersistentRoot при возврате в сцену
+        // создаёт второй экземпляр — копию уничтожаем, оригинал живёт
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         if (cookPanel != null) cookPanel.SetActive(false);
     }

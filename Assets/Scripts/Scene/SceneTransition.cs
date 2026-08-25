@@ -21,6 +21,11 @@ public class SceneTransition : MonoBehaviour, IInteractable
     public bool triggerOnTouch = true;
 
     private static string pendingSpawnId;
+
+    /// <summary>Идёт переход через портал — позицию игрока ставит SceneSpawnPoint,
+    /// а не восстановление из сохранения.</summary>
+    public static bool PortalTransitionActive { get; private set; }
+
     private bool started = false;
 
     // ── IInteractable (кнопка атаки) ───────────────────────────
@@ -40,6 +45,7 @@ public class SceneTransition : MonoBehaviour, IInteractable
         if (started) return;
         started = true;
         pendingSpawnId = targetSpawnId;
+        PortalTransitionActive = true;
         StartCoroutine(TransitionRoutine());
     }
 
@@ -61,6 +67,7 @@ public class SceneTransition : MonoBehaviour, IInteractable
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        PortalTransitionActive = false;
 
         // Ставим игрока на точку появления
         GameObject player = GameObject.FindWithTag("Player");

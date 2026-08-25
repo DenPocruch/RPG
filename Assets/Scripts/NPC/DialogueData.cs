@@ -11,6 +11,7 @@ public enum DialogueActionType
     CollectDishes, // забрать готовую еду
     LeadToCraft,   // кузнец ведёт игрока к станку → авто-открытие ковки
     GiveQuest,     // выдать квест (на будущее)
+    OpenShop,      // открыть магазин этого торговца (TraderNPC)
     Custom         // произвольное действие по actionParam
 }
 

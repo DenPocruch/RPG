@@ -36,6 +36,10 @@ public class DialogueManager : MonoBehaviour
     // Событие окончания диалога.
     public System.Action onDialogueEnd;
 
+    /// <summary>С каким NPC сейчас говорят (обработчики действий сверяются,
+    /// чтобы реакция сработала только у нужного торговца/NPC).</summary>
+    public NPCInteractable currentNPC { get; set; }
+
     private DialogueData current;
     private DialogueNode currentNode;
     private bool isTyping = false;

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 
 /// <summary>
@@ -50,7 +51,9 @@ public class CookStorage : MonoBehaviour, ISaveable
     private class CookSave
     {
         public List<string> queue = new List<string>(); // имена ассетов рецептов в очереди
-        public string currentRecipe;             // текущий готовящийся (в начало очереди при загрузке)
+        public string currentRecipe;             // текущий готовящийся
+        public float timeRemaining;              // остаток времени текущего заказа
+        public long savedAtTicks;                // реальное время сохранения — для оффлайн-готовки
         public string outputItem;
         public int outputQty;
     }
@@ -59,9 +62,16 @@ public class CookStorage : MonoBehaviour, ISaveable
 
     public string CaptureState()
     {
-        CookSave save = new CookSave();
+        CookSave save = new CookSave
+        {
+            savedAtTicks = DateTime.UtcNow.Ticks
+        };
 
-        if (currentOrder != null) save.currentRecipe = currentOrder.name;
+        if (currentOrder != null)
+        {
+            save.currentRecipe = currentOrder.name;
+            save.timeRemaining = timeRemaining;
+        }
         foreach (RecipeData r in orderQueue)
             if (r != null) save.queue.Add(r.name);
 
@@ -82,16 +92,30 @@ public class CookStorage : MonoBehaviour, ISaveable
         currentOrder = null;
         timeRemaining = 0f;
 
-        // Текущий заказ возвращаем в начало очереди (готовку начнём заново с него)
+        // Текущий заказ продолжается с сохранённым остатком времени
+        // (раньше он начинался заново с полным временем)
         if (!string.IsNullOrEmpty(save.currentRecipe))
         {
             RecipeData r = FindRecipe(save.currentRecipe);
-            if (r != null) orderQueue.Add(r);
+            if (r != null)
+            {
+                currentOrder = r;
+                totalTime = GetCookTime(r);
+                timeRemaining = save.timeRemaining > 0f ? save.timeRemaining : totalTime;
+            }
         }
         foreach (string name in save.queue)
         {
             RecipeData r = FindRecipe(name);
             if (r != null) orderQueue.Add(r);
+        }
+
+        // Оффлайн-готовка: вычитаем реальное время с момента сохранения
+        if (currentOrder != null && save.savedAtTicks > 0 && save.timeRemaining > 0f)
+        {
+            double elapsed = (DateTime.UtcNow.Ticks - save.savedAtTicks) / (double)TimeSpan.TicksPerSecond;
+            if (elapsed > 0)
+                timeRemaining = Mathf.Max(0f, timeRemaining - (float)elapsed);
         }
 
         if (outputSlot != null) outputSlot.ClearSlot();
@@ -102,6 +126,12 @@ public class CookStorage : MonoBehaviour, ISaveable
         }
 
         onStorageChanged?.Invoke();
+    }
+
+    void OnDestroy()
+    {
+        SaveManager.Instance?.Unregister(this);
+        if (Instance == this) Instance = null;
     }
 
     RecipeData FindRecipe(string assetName)
@@ -180,6 +210,9 @@ public class CookStorage : MonoBehaviour, ISaveable
 
         currentOrder = null;
         onStorageChanged?.Invoke();
+
+        // Сейв по событию: блюдо готово
+        SaveManager.Instance?.Save();
     }
 
     // ═══════════════════════════════════════════════════════════

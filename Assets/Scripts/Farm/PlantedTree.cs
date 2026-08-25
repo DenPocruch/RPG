@@ -85,6 +85,26 @@ public class PlantedTree : MonoBehaviour
         Debug.Log("Дерево выросло: " + (saplingData?.itemName ?? ""));
     }
 
+    // ─── Сохранение/загрузка (читает и восстанавливает FarmManager) ───
+    public int CurrentStage => currentStage;
+    public float GrowthTimer => growthTimer;
+    public bool IsFullyGrown => isFullyGrown;
+
+    /// <summary>Восстановить растущее дерево на стадии stage с накопленным таймером.</summary>
+    public void RestoreGrowth(int stage, float timer)
+    {
+        currentStage = stage;
+        growthTimer = timer;
+        // Спрайт обновит Start() — он вызовется после того как FarmManager
+        // установит saplingData (Instantiate не вызывает Start синхронно)
+    }
+
+    /// <summary>Восстановить полностью выросшее дерево (переключает на TreeComponent).</summary>
+    public void RestoreGrown()
+    {
+        FinishGrowth();
+    }
+
     public static bool CanPlantHere(Vector3 pos)
     {
         Collider2D[] hits = Physics2D.OverlapCircleAll(pos, minTreeDistance);

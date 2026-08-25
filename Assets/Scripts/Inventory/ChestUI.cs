@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class ChestUI : MonoBehaviour
@@ -30,7 +30,18 @@ public class ChestUI : MonoBehaviour
     [HideInInspector] public bool isSiloMode = false;
     [HideInInspector] public int siloMaxStack = 50;
 
-    void Awake() { Instance = this; }
+    void Awake()
+    {
+        // Защита от дубликата: копия PersistentRoot при возврате в сцену
+        // создаёт второй экземпляр — копию уничтожаем, оригинал живёт
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
 
     void Start()
     {
@@ -102,6 +113,9 @@ public class ChestUI : MonoBehaviour
 
         if (currentChest != null) { currentChest.ForceClose(); currentChest = null; }
         if (currentSilo != null) { currentSilo.ForceClose(); currentSilo = null; }
+
+        // Сейв по событию: содержимое сундука/силоса могло измениться
+        SaveManager.Instance?.Save();
 
         // Рюкзак → центр
         InventoryPanelMover.Instance?.ResetPosition();

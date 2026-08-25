@@ -41047,7 +41047,7 @@ Tilemap:
       - {fileID: -477437851, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -1488109542, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: 1267860901, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -29, y: 19, z: 0}
@@ -81477,6 +81477,7 @@ MonoBehaviour:
   buyButton: {fileID: 1922732077}
   buyButtonText: {fileID: 290862199}
   goldText: {fileID: 0}
+  titleText: {fileID: 0}
   panelY: 47
   shiftDistance: 335
   shiftSpeed: 8
@@ -109835,7 +109836,7 @@ Transform:
   m_GameObject: {fileID: 2104110084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.11, y: 11.85, z: 0.044199206}
+  m_LocalPosition: {x: 0.15, y: 20.36, z: 0.044199206}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

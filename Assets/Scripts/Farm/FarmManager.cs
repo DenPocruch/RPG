@@ -40,6 +40,14 @@ public class FarmManager : MonoBehaviour, ISaveable
 
     void Awake()
     {
+        // FarmManager живёт в сцене (не в PersistentRoot). При смене сцены
+        // старый экземпляр ещё жив в течение кадра загрузки — новый должен
+        // занять его место. Уничтожаем только дубликат в той же сцене.
+        if (Instance != null && Instance != this && Instance.gameObject.scene == gameObject.scene)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
         SaveManager.Instance?.Register(this);
     }
@@ -61,6 +69,9 @@ public class FarmManager : MonoBehaviour, ISaveable
     {
         // Отписываемся от сохранения при выгрузке сцены
         SaveManager.Instance?.Unregister(this);
+        // Чистим ссылку, чтобы после смены сцены Instance не указывал
+        // на уничтоженный объект (аналог MissingReferenceException)
+        if (Instance == this) Instance = null;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -117,8 +128,7 @@ public class FarmManager : MonoBehaviour, ISaveable
 
     // ═══════════════════════════════════════════════════════════
     // ISaveable — сохраняем вспаханные/политые клетки и растения.
-    // ПРИМЕЧАНИЕ: посаженные деревья (PlantedTree) сюда пока не входят —
-    // это отдельная система, добавим отдельным шагом при необходимости.
+    // Посаженные деревья сохраняет TreeSaveManager (есть в каждой сцене).
     // ═══════════════════════════════════════════════════════════
     [System.Serializable]
     private class TilledCellSave
@@ -203,6 +213,8 @@ public class FarmManager : MonoBehaviour, ISaveable
                 ready = crop.isReady
             });
         }
+
+        // Все посаженные деревья сохраняет TreeSaveManager
 
         return JsonUtility.ToJson(save);
     }
@@ -380,6 +392,9 @@ public class FarmManager : MonoBehaviour, ISaveable
 
         // Грядка снова пустая — запускаем таймер зарастания заново (сухая)
         RegisterPlot(cellPos, false);
+
+        // Сейв по событию: урожай собран
+        SaveManager.Instance?.Save();
 
         Debug.Log("Собрано: " + harvest.itemName);
         return harvest;

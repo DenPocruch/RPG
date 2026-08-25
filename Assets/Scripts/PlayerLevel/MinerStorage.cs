@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+using UnityEngine;
+using System;
 
 /// <summary>
 /// Постоянное хранилище шахты. Работает через persistent data-слоты
@@ -30,9 +31,22 @@ public class MinerStorage : MonoBehaviour, ISaveable
 
     void Awake()
     {
+        // Сценовый синглтон: при повторном входе в сцену новый экземпляр
+        // занимает место старого, дубликат в той же сцене уничтожается
+        if (Instance != null && Instance != this && Instance.gameObject.scene == gameObject.scene)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
         CreateDataSlots();
         SaveManager.Instance?.Register(this);
+    }
+
+    void OnDestroy()
+    {
+        SaveManager.Instance?.Unregister(this);
+        if (Instance == this) Instance = null;
     }
 
     void Start()
@@ -47,6 +61,8 @@ public class MinerStorage : MonoBehaviour, ISaveable
     private class StorageSave
     {
         public System.Collections.Generic.List<SlotSave> ores = new System.Collections.Generic.List<SlotSave>();
+        public float timeRemaining;
+        public long savedAtTicks;
         public string outputItem;
         public int outputQty;
     }
@@ -69,6 +85,8 @@ public class MinerStorage : MonoBehaviour, ISaveable
         if (outputSlot != null && !outputSlot.IsEmpty())
         {
             save.outputItem = outputSlot.currentItem.name;
+            save.timeRemaining = timeRemaining;
+            save.savedAtTicks = DateTime.UtcNow.Ticks;
             save.outputQty = outputSlot.quantity;
         }
         return JsonUtility.ToJson(save);
@@ -96,6 +114,15 @@ public class MinerStorage : MonoBehaviour, ISaveable
             ItemData outItem = ItemDatabase.Find(save.outputItem);
             if (outItem != null)
                 outputSlot.SetItem(outItem, save.outputQty);
+        }
+
+        // Оффлайн-переработка: вычитаем реальное время с момента сохранения,
+        // чтобы текущая единица не начиналась заново с полным временем
+        if (save.savedAtTicks > 0 && save.timeRemaining > 0f)
+        {
+            double elapsed = (DateTime.UtcNow.Ticks - save.savedAtTicks) / (double)TimeSpan.TicksPerSecond;
+            if (elapsed > 0)
+                timeRemaining = Mathf.Max(0f, timeRemaining - (float)elapsed);
         }
 
         onStorageChanged?.Invoke();
@@ -215,6 +242,9 @@ public class MinerStorage : MonoBehaviour, ISaveable
 
         processingSlot = null;
         onStorageChanged?.Invoke();
+
+        // Сейв по событию: единица переработки завершена
+        SaveManager.Instance?.Save();
     }
 
     float GetTimePerUnit(ItemData oreItem)

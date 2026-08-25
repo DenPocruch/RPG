@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
@@ -16,7 +16,13 @@ public class CurrencyUI : MonoBehaviour
     [Header("Формат отображения")]
     public string prefix = ""; // например "💰 " или оставь пустым
 
-    void Awake() { Instance = this; }
+    void Awake()
+    {
+        // Защита от дубликата: копия PersistentRoot при возврате в сцену
+        // создаёт второй экземпляр — копию уничтожаем, оригинал живёт
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
+        Instance = this;
+    }
 
     void Start()
     {
@@ -28,6 +34,7 @@ public class CurrencyUI : MonoBehaviour
 
     void OnDestroy()
     {
+        if (Instance == this) Instance = null;
         if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.onGoldChanged -= UpdateUI;
     }

@@ -118,7 +118,7 @@ MonoBehaviour:
       - {fileID: 1633608970264641034, guid: 4d6f54296b68246499f904379f749e26, type: 3}
   sideFacesLeft: 1
   animationFPS: 5
-  growTime: 30
+  growTime: 300
   moveSpeed: 1.2
   minWanderTime: 2
   maxWanderTime: 5
@@ -138,8 +138,8 @@ MonoBehaviour:
   playerAttractRadius: 4
   playerStopDistance: 1.2
   playerAttractWeight: 1.5
-  feedItem: {fileID: 0}
-  productItem: {fileID: 0}
+  feedItem: {fileID: 11400000, guid: 4347435de3e2448429e569c41eef5e5a, type: 2}
+  productItem: {fileID: 11400000, guid: 5744ecbbe62d481083d79a6f681562e2, type: 2}
   productAmount: 1
-  productionTime: 60
+  productionTime: 240
   onlyAdultProduces: 1

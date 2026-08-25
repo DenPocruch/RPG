@@ -1,8 +1,8 @@
 using UnityEngine;
 
 /// <summary>
-/// Данные магазина: список товаров с индивидуальными ценами.
-/// Вешается на NPC продавца. Бесконечный запас — покупать можно сколько угодно.
+/// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
+/// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ NPC пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
 /// </summary>
 public class ShopManager : MonoBehaviour
 {
@@ -12,18 +12,26 @@ public class ShopManager : MonoBehaviour
     public class ShopItem
     {
         public ItemData item;
-        public int price = 10; // цена за 1 штуку
+        public int price = 10; // пїЅпїЅпїЅпїЅ пїЅпїЅ 1 пїЅпїЅпїЅпїЅпїЅ
     }
 
-    [Header("Ассортимент магазина")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public ShopItem[] itemsForSale;
 
     void Awake()
     {
+        // Р—Р°С‰РёС‚Р° РѕС‚ РґСѓР±Р»РёРєР°С‚Р°: РєРѕРїРёСЏ PersistentRoot РїСЂРё РІРѕР·РІСЂР°С‚Рµ РІ СЃС†РµРЅСѓ
+        // СЃРѕР·РґР°С‘С‚ РІС‚РѕСЂРѕР№ СЌРєР·РµРјРїР»СЏСЂ вЂ” РєРѕРїРёСЋ СѓРЅРёС‡С‚РѕР¶Р°РµРј, РѕСЂРёРіРёРЅР°Р» Р¶РёРІС‘С‚
+        if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
     }
 
-    // Цена товара с учётом скидки от навыков (переиспользуем ReduceServiceCost)
+    void OnDestroy()
+    {
+        if (Instance == this) Instance = null;
+    }
+
+    // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ ReduceServiceCost)
     public int GetPrice(ShopItem shopItem)
     {
         if (shopItem == null || shopItem.price <= 0) return 0;
@@ -35,7 +43,7 @@ public class ShopManager : MonoBehaviour
         return Mathf.Max(1, Mathf.RoundToInt(shopItem.price * (1f - discount / 100f)));
     }
 
-    /// <summary>Купить amount штук товара. Возвращает true при успехе.</summary>
+    /// <summary>пїЅпїЅпїЅпїЅпїЅпїЅ amount пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ true пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.</summary>
     public bool TryBuy(ShopItem shopItem, int amount)
     {
         if (shopItem == null || shopItem.item == null || amount <= 0) return false;
@@ -43,24 +51,24 @@ public class ShopManager : MonoBehaviour
 
         int totalCost = GetPrice(shopItem) * amount;
 
-        // Проверяем золото
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (CurrencyManager.Instance == null || CurrencyManager.Instance.Gold < totalCost)
         {
-            Debug.Log("[Магазин] Недостаточно золота! Нужно " + totalCost);
+            Debug.Log("[пїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅ " + totalCost);
             return false;
         }
 
-        // Проверяем место в инвентаре (пробуем добавить)
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
         bool added = InventoryUI.Instance.AddItem(shopItem.item, amount);
         if (!added)
         {
-            Debug.Log("[Магазин] Инвентарь полон!");
+            Debug.Log("[пїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ!");
             return false;
         }
 
-        // Списываем золото только после успешного добавления
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         CurrencyManager.Instance.SpendGold(totalCost);
-        Debug.Log("[Магазин] Куплено " + shopItem.item.itemName + " x" + amount + " за " + totalCost + "g");
+        Debug.Log("[пїЅпїЅпїЅпїЅпїЅпїЅпїЅ] пїЅпїЅпїЅпїЅпїЅпїЅпїЅ " + shopItem.item.itemName + " x" + amount + " пїЅпїЅ " + totalCost + "g");
         return true;
     }
 }

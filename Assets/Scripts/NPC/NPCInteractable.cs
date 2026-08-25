@@ -122,6 +122,10 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         // Открываем диалог
         if (dialogue != null && DialogueManager.Instance != null)
         {
+            // Запоминаем с кем говорят — обработчики действий (TraderNPC и т.д.)
+            // сверяют себя с этим, чтобы реагировать только на свой диалог
+            DialogueManager.Instance.currentNPC = this;
+
             // По окончании диалога — вернуть NPC к патрулю
             DialogueManager.Instance.onDialogueEnd = EndTalk;
             DialogueManager.Instance.StartDialogue(dialogue);
