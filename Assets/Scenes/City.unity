@@ -11069,7 +11069,7 @@ Transform:
   m_GameObject: {fileID: 705785429}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.08455658, y: 7.6644697, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -46767,7 +46767,7 @@ Tilemap:
       - {fileID: 1397721815, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -824236834, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -126083360, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -27, y: 21, z: 0}
@@ -46782,7 +46782,7 @@ Tilemap:
       - {fileID: 1397721815, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -824236834, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -126083360, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -26, y: 21, z: 0}

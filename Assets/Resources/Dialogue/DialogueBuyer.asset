@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a65fbd2efba55614eb3c8a768fe3d1aa, type: 3}
   m_Name: DialogueBuyer
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   npcName: "\u0421\u043A\u0443\u043F\u0449\u0438\u043A \u0414\u0440\u043E\u043D"
   portrait: {fileID: 0}
   startNodeId: 0
@@ -24,9 +24,9 @@ MonoBehaviour:
       nextNodeId: -1
       action: 6
       actionParam: ""
-      conditionTag:
+      conditionTag: 
     - text: "\u0414\u043E \u0432\u0441\u0442\u0440\u0435\u0447\u0438!"
       nextNodeId: -1
       action: 0
       actionParam: ""
-      conditionTag:
+      conditionTag: 
