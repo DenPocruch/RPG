@@ -137,7 +137,52 @@ public class AnimalSaveManager : MonoBehaviour, ISaveable
             animal.ApplyOfflineTime(elapsedSeconds);
         }
 
+        // КУПЛЕННЫЕ животные: их нет в сцене при загрузке — спавним из сейва.
+        // Префаб берётся из AnimalData.animalPrefab (у каждого вида свой).
+        foreach (AnimalSave saved in save.animals)
+        {
+            bool exists = false;
+            foreach (AnimalController a in live)
+                if (a != null && a.gameObject.name == saved.id) { exists = true; break; }
+            if (exists) continue;
+
+            ItemData check = ItemDatabase.Find(saved.dataName); // проверка базы не нужна, нужен AnimalData:
+            _ = check;
+            AnimalData data = FindAnimalData(saved.dataName);
+            if (data == null || data.animalPrefab == null)
+            {
+                Debug.LogWarning("[Save] Не удалось заспавнить купленное животное: " + saved.dataName +
+                    " (назначь animalPrefab в AnimalData)");
+                continue;
+            }
+
+            GameObject obj = Instantiate(data.animalPrefab, new Vector3(saved.x, saved.y, saved.z), Quaternion.identity);
+            obj.name = saved.id; // имя = id, чтобы следующие загрузки матчились
+            AnimalController spawned = obj.GetComponent<AnimalController>();
+            if (spawned == null) continue;
+
+            spawned.data = data;
+            spawned.ApplyRestoredState(
+                saved.stage,
+                saved.growTimer,
+                saved.isFed,
+                saved.productionTimer,
+                saved.pendingProduct,
+                new Vector3(saved.x, saved.y, saved.z));
+            spawned.ApplyOfflineTime(elapsedSeconds);
+
+            Debug.Log("[Save] Заспавнено купленное животное: " + saved.id);
+        }
+
         Debug.Log("[Save] Животные восстановлены (" + SaveKey + "): " + save.animals.Count +
                   " шт., оффлайн прошло " + (int)elapsedSeconds + " сек.");
+    }
+
+    // Поиск AnimalData по имени ассета
+    AnimalData FindAnimalData(string assetName)
+    {
+        foreach (var d in Resources.FindObjectsOfTypeAll<AnimalData>())
+            if (d.name == assetName) return d;
+        return null;
     }
 }

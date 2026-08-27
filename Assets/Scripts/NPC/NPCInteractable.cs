@@ -101,7 +101,7 @@ public class NPCInteractable : MonoBehaviour, IInteractable
             float dist = Vector2.Distance(transform.position, player.position);
             if (dist > talkRadius)
             {
-                Debug.Log("[NPC] Подойди ближе чтобы поговорить");
+                ActionLogUI.Show("[NPC] Подойди ближе чтобы поговорить");
                 return;
             }
         }

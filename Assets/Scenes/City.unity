@@ -1039,6 +1039,19 @@ MonoBehaviour:
   - item: {fileID: 11400000, guid: d6be42faf3f1be342ae7bba0027c5dd3, type: 2}
     price: 150
     unlockTag: seed_pineapple
+  itemsForSaleAnimals:
+  - item: {fileID: 11400000, guid: 4466d1919caa4116b9e92dd3b72d0c24, type: 2}
+    price: 500
+    unlockTag: animal_chicken
+  - item: {fileID: 11400000, guid: 10c80daf018e44da8c2947175d682a7a, type: 2}
+    price: 1500
+    unlockTag: animal_pig
+  - item: {fileID: 11400000, guid: 64a45faa958b430bbab3984e36002930, type: 2}
+    price: 2500
+    unlockTag: animal_cow
+  - item: {fileID: 11400000, guid: e5504c9a9e914743ba6cd41388559fbc, type: 2}
+    price: 5000
+    unlockTag: animal_ostrich
   shopTitle: "\u041B\u0430\u0432\u043A\u0430"
   shopkeeperAnimator: {fileID: 0}
   greetAnimationTrigger: Greet

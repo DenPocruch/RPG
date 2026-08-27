@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6f4c8e08855ae4b8987c0af0ec984d, type: 3}
   m_Name: Cow Black Brown
   m_EditorClassIdentifier: 
-  animalName: "\u041A\u043E\u0440\u043E\u0432\u0430"
+  animalName: "\u041A\u043E\u0440\u043E\u0432\u0430"  animalPrefab: {fileID: 7061181437609767070, guid: ca7051f1ddaddf84a85ca9a04df53c91, type: 2}
   baby:
     walk:
       up:
@@ -234,5 +234,5 @@ MonoBehaviour:
   feedItem: {fileID: 11400000, guid: d6fb131ee5ec5fc49b5935d8b0c4c301, type: 2}
   productItem: {fileID: 11400000, guid: 7031f144c7794413af20fe6739c78e10, type: 2}
   productAmount: 1
-  productionTime: 180
+  productionTime: 360
   onlyAdultProduces: 1

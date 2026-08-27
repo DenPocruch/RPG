@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class PlayerMovement : MonoBehaviour
@@ -169,6 +169,9 @@ public class PlayerMovement : MonoBehaviour
             case ItemType.Sapling:
                 PlantSapling(activeItem);
                 break;
+            case ItemType.AnimalBaby:
+                SpawnAnimal(activeItem);
+                break;
             case ItemType.Consumable:
                 EatFood(activeItem);
                 break;
@@ -195,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (slot == null || !slot.HasWater())
         {
-            Debug.Log("Нет воды! Подойди к колодцу с лейкой.");
+            ActionLogUI.Show("Нет воды! Подойди к колодцу с лейкой.");
             WaterBar waterBar = FindFirstObjectByType<WaterBar>();
             if (waterBar != null) waterBar.PlayEmptyEffect();
             return;
@@ -319,7 +322,7 @@ public class PlayerMovement : MonoBehaviour
                 bool harvested = tree.TryHarvestFruit();
                 if (harvested)
                 {
-                    Debug.Log("Плоды успешно собраны!");
+                    ActionLogUI.Show("Плоды успешно собраны!");
                     return true;
                 }
             }
@@ -339,7 +342,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!PlantedTree.CanPlantHere(plantPos))
         {
-            Debug.Log("Здесь уже есть дерево!");
+            ActionLogUI.Show("Здесь уже есть дерево!");
             return;
         }
 
@@ -360,10 +363,32 @@ public class PlayerMovement : MonoBehaviour
                 activeSlot.ClearSlot();
         }
 
-        Debug.Log("Посажен саженец: " + saplingData.itemName);
+        ActionLogUI.Show("Посажен саженец: " + saplingData.itemName);
     }
 
-    void EatFood(ItemData food)
+        // Выпустить детёныша животного из активного слота хотбара
+    void SpawnAnimal(ItemData babyItem)
+    {
+        if (babyItem.animalPrefab == null)
+        {
+            Debug.LogWarning("[Животные] Не назначен animalPrefab в ItemData: " + babyItem.itemName);
+            return;
+        }
+
+        Vector3 spawnPos = transform.position + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.6f, 0.6f), 0);
+        Instantiate(babyItem.animalPrefab, spawnPos, Quaternion.identity);
+
+        InventorySlot activeSlot = HotbarManager.Instance?.GetActiveSlot();
+        if (activeSlot != null)
+        {
+            if (activeSlot.quantity > 1) { activeSlot.quantity--; activeSlot.UpdateUI(); }
+            else activeSlot.ClearSlot();
+            HotbarManager.Instance.NotifyActiveItemChanged();
+        }
+
+        ActionLogUI.Show("[Животные] Выпущен детёныш: " + babyItem.itemName);
+    }
+void EatFood(ItemData food)
     {
         if (food == null) return;
 
@@ -394,7 +419,7 @@ public class PlayerMovement : MonoBehaviour
         // Если еда только лечит, а HP полное — не тратим её впустую
         if (!consumed)
         {
-            Debug.Log("[Еда] HP полное — " + food.itemName + " сейчас не нужна");
+            ActionLogUI.Show("[Еда] HP полное — " + food.itemName + " сейчас не нужна");
             return;
         }
 

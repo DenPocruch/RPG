@@ -82,7 +82,7 @@ public class PlantedTree : MonoBehaviour
         }
 
         this.enabled = false;
-        Debug.Log("Дерево выросло: " + (saplingData?.itemName ?? ""));
+        ActionLogUI.Show("Дерево выросло: " + (saplingData?.itemName ?? ""));
     }
 
     // ─── Сохранение/загрузка (читает и восстанавливает FarmManager) ───

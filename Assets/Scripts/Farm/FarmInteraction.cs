@@ -45,7 +45,7 @@ public class FarmInteraction : MonoBehaviour
             if (FarmManager.Instance.FertilizeCrop(pos))
                 ConsumeActiveItem();
             else
-                Debug.Log("[Ферма] Здесь удобрять нечего (или уже удобрено)");
+                ActionLogUI.Show("[Ферма] Здесь удобрять нечего (или уже удобрено)");
             return;
         }
 
@@ -144,7 +144,7 @@ public class FarmInteraction : MonoBehaviour
             if (qualityItem != null)
             {
                 harvest = qualityItem;
-                Debug.Log("[Ферма] Качественный урожай: " + harvest.itemName);
+                ActionLogUI.Show("[Ферма] Качественный урожай: " + harvest.itemName);
             }
         }
 

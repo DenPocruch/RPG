@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6f4c8e08855ae4b8987c0af0ec984d, type: 3}
   m_Name: Chicken Brown
   m_EditorClassIdentifier: 
-  animalName: "\u041A\u0443\u0440\u0438\u0446\u0430"
+  animalName: "\u041A\u0443\u0440\u0438\u0446\u0430"  animalPrefab: {fileID: 7061181437609767070, guid: 2815bea64c6d85a4f99b7009a98b6845, type: 2}
   baby:
     walk:
       up:
@@ -150,5 +150,5 @@ MonoBehaviour:
   feedItem: {fileID: 11400000, guid: 475f0c918e616eb418ae578472a93353, type: 2}
   productItem: {fileID: 11400000, guid: fc3d0239966044148d8929722ed0e600, type: 2}
   productAmount: 1
-  productionTime: 60
+  productionTime: 120
   onlyAdultProduces: 1

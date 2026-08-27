@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Окно скупщика урожая. Показывает:
-///  - Спрос дня: иконка + название культуры (×2 цена) + таймер до смены
-///  - Репутацию: уровень, бонус, прогресс до следующего
-///  - Список урожая игрока (инвентарь + хотбар) с итоговой ценой за 1 шт
-///    и кнопками «Продать 1» / «Продать всё»
+/// Окно скупщика урожая (референс: деревянная панель с пергаментом).
+///  - Шапка: портрет в золотой рамке, имя, подзаголовок
+///  - Блок «Спрос дня»: иконка культуры + название + таймер до смены
+///  - Блок «Репутация»: уровень + зелёный прогресс-бар до следующего уровня
+///  - Список урожая: иконка в тёмном слоте, имя ×кол-во, цена с монеткой,
+///    кнопки «×1» / «Всё», клик по строке = продать 1
 ///
-/// Строки создаются программно. Если ссылки на шапку не привязаны в инспекторе —
-/// шапка (заголовок, спрос, репутация) достраивается кодом сама.
-/// Вешается на объект рядом с панелью в Canvas (вечный). Открытие — BuyerNPC
-/// (диалог OpenSell) или напрямую BuyerInteraction.
+/// Весь UI достраивается кодом (EnsureBuiltUI) — ссылки в инспекторе не нужны.
+/// Спрайты портрета/монетки — поля portraitSprite/coinSprite (ассеты).
+/// Открытие — диалог BuyerNPC (действие OpenSell) → SellUI.Open().
 /// </summary>
 public class SellUI : MonoBehaviour
 {
@@ -32,11 +32,13 @@ public class SellUI : MonoBehaviour
     public TMP_Text reputationText;
 
     [Header("Список товаров")]
-    public Transform itemListContent;   // с VerticalLayoutGroup
+    public Transform itemListContent;
 
-    [Header("Стиль (опционально, иначе берётся спрайт из скроллбара)")]
-    public Sprite rowSprite;
-    public Sprite buttonSprite;
+    [Header("Стиль (ассеты, опционально)")]
+    public Sprite portraitSprite;   // портрет скупщика в шапку
+    public Sprite coinSprite;       // иконка монетки у цены
+    public Sprite rowSprite;        // фон строки (иначе берётся из скроллбара)
+    public Sprite buttonSprite;     // фон кнопок строк
 
     [Header("Позиции панели")]
     public float panelY = 47f;
@@ -51,6 +53,10 @@ public class SellUI : MonoBehaviour
     private Vector2 normalPos;
     private float timerRefresh = 0f;
     private Sprite sliceSprite;         // 9-slice для строк и кнопок
+
+    private Image repFill;              // заполняшка прогресс-бара репутации
+    private TMP_Text repBarText;        // «1200 / 2000» на баре
+    private TMP_Text repLevelText;      // название уровня
 
     void Awake()
     {
@@ -71,7 +77,13 @@ public class SellUI : MonoBehaviour
         }
         targetPos = normalPos;
 
-        if (debugAutoOpen) Invoke(nameof(Open), 2.5f); // задержка — дать сейву загрузиться
+        // Панель ищется и привязывается ОДИН РАЗ при старте (как у повара)
+        EnsureBuiltUI();
+
+        // Панель могла сохраниться в сцене АКТИВНОЙ (копия из Play-режима) — гасим
+        if (sellPanel != null) sellPanel.SetActive(false);
+
+        if (debugAutoOpen) Invoke(nameof(Open), 2.5f);
     }
 
     void Update()
@@ -85,7 +97,6 @@ public class SellUI : MonoBehaviour
                 rt.anchoredPosition = Vector2.Lerp(rt.anchoredPosition, targetPos, Time.deltaTime * shiftSpeed);
         }
 
-        // Таймер спроса обновляем раз в секунду
         timerRefresh -= Time.deltaTime;
         if (timerRefresh <= 0f)
         {
@@ -99,7 +110,12 @@ public class SellUI : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     public void Open()
     {
-        EnsureBuiltUI();
+        if (sellPanel == null) EnsureBuiltUI();
+        if (sellPanel == null)
+        {
+            Debug.LogError("[SellUI] Открытие невозможно — панель 'Sell Panel' не найдена в Canvas!");
+            return;
+        }
         sellPanel.SetActive(true);
         isOpen = true;
 
@@ -135,44 +151,81 @@ public class SellUI : MonoBehaviour
     public bool IsOpen() => isOpen;
 
     // ═══════════════════════════════════════════════════════════
-    // ПОСТРОЕНИЕ UI, ЕСЛИ ЧЕГО-ТО НЕТ В СЦЕНЕ
+    // ПОСТРОЕНИЕ UI
     // ═══════════════════════════════════════════════════════════
+    // Перепривязка полей к детям существующей панели (после copy-paste из Play)
+    void RewireFromExisting()
+    {
+        var t = sellPanel.transform;
+
+        var demandBox = t.Find("DemandBox");
+        if (demandBox != null)
+        {
+            var icon = demandBox.Find("DemandIconFrame/DemandIcon");
+            if (icon != null && demandIcon == null) demandIcon = icon.GetComponent<Image>();
+            var dt = demandBox.Find("DemandText");
+            if (dt != null && demandText == null) demandText = dt.GetComponent<TMP_Text>();
+        }
+
+        var repBox = t.Find("RepBox");
+        if (repBox != null)
+        {
+            var lvl = repBox.Find("RepLevelText");
+            if (lvl != null)
+            {
+                if (reputationText == null) reputationText = lvl.GetComponent<TMP_Text>();
+                repLevelText = lvl.GetComponent<TMP_Text>();
+            }
+            var bar = repBox.Find("RepBar");
+            if (bar != null)
+            {
+                var fill = bar.Find("Fill");
+                if (fill != null) repFill = fill.GetComponent<Image>();
+                var barTxt = bar.Find("BarText");
+                if (barTxt != null) repBarText = barTxt.GetComponent<TMP_Text>();
+            }
+        }
+    }
     void EnsureBuiltUI()
     {
         if (sellPanel == null)
         {
+            // 1) прямой ребёнок родителя
             Transform p = transform.parent != null ? transform.parent.Find("Sell Panel") : null;
+            // 2) рекурсивно по всему Canvas (находит и НЕАКТИВные копии).
+            // Имя сравниваем обрезанным и без учёта регистра — от лишних пробелов.
+            if (p == null)
+            {
+                var canvas = GetComponentInParent<Canvas>();
+                Transform rootT = canvas != null ? canvas.transform : (transform.parent != null ? transform.parent.root : null);
+                if (rootT != null)
+                {
+                    foreach (Transform t in rootT.GetComponentsInChildren<Transform>(true))
+                    {
+                        if (t.name.Trim().Equals("sell panel", System.StringComparison.OrdinalIgnoreCase))
+                        { p = t; break; }
+                    }
+                    if (p == null)
+                    {
+                        var candidates = new System.Text.StringBuilder();
+                        foreach (Transform t in rootT.GetComponentsInChildren<Transform>(true))
+                            if (t.name.ToLower().Contains("sell") || t.name.ToLower().Contains("панел"))
+                                candidates.Append(t.name).Append(" | ");
+                        Debug.Log("[SellUI] Кандидаты с 'sell/панел': " + (candidates.Length > 0 ? candidates.ToString() : "НИ ОДНОГО. Дети Canvas: " + rootT.name));
+                    }
+                }
+            }
+            // 3) последний шанс — активная по имени
             if (p == null) { var found = GameObject.Find("Sell Panel"); p = found ? found.transform : null; }
             sellPanel = p != null ? p.gameObject : null;
+            Debug.Log("[SellUI] Панель " + (sellPanel != null ? "найдена: " + sellPanel.name : "НЕ НАЙДЕНА"));
         }
         if (sellPanel == null) return;
 
-        var sv = sellPanel.transform.Find("RecipeScrollView");
-        if (sv != null)
-        {
-            StyleScrollView(sv);
+        // Панель могли заменить копией из Play-режима — перепривязываем поля
+        RewireFromExisting();
 
-            if (itemListContent == null)
-                itemListContent = sv.Find("Viewport/Content");
-            if (itemListContent != null) StyleContent(itemListContent);
-        }
-
-        if (sellPanel.transform.Find("TitleText") == null) BuildTitle();
-        if (sellPanel.transform.Find("DemandRow") == null) BuildDemandRow();
-        if (sellPanel.transform.Find("ReputationText") == null) BuildReputation();
-        if (demandIcon == null)
-            demandIcon = sellPanel.transform.Find("DemandRow/DemandIcon") != null
-                ? sellPanel.transform.Find("DemandRow/DemandIcon").GetComponent<Image>() : null;
-        if (demandText == null)
-            demandText = sellPanel.transform.Find("DemandRow/DemandText") != null
-                ? sellPanel.transform.Find("DemandRow/DemandText").GetComponent<TMP_Text>() : null;
-        if (reputationText == null)
-            reputationText = sellPanel.transform.Find("ReputationText") != null
-                ? sellPanel.transform.Find("ReputationText").GetComponent<TMP_Text>() : null;
-
-        WireCloseButton();
-
-        // 9-slice спрайт для строк/кнопок — берём у ползунка скроллбара
+        // 9-slice спрайт — берём у ползунка скроллбара
         if (sliceSprite == null && rowSprite != null) sliceSprite = rowSprite;
         if (sliceSprite == null)
         {
@@ -183,6 +236,193 @@ public class SellUI : MonoBehaviour
                 if (hImg != null && hImg.sprite != null) sliceSprite = hImg.sprite;
             }
         }
+
+        BuildHeader();
+        BuildDemandBox();
+        BuildReputationBox();
+
+        var sv = sellPanel.transform.Find("RecipeScrollView");
+        if (sv != null)
+        {
+            StyleScrollView(sv);
+            if (itemListContent == null)
+                itemListContent = sv.Find("Viewport/Content");
+            if (itemListContent != null) StyleContent(itemListContent);
+        }
+
+        WireCloseButton();
+    }
+
+    void BuildHeader()
+    {
+        var t = sellPanel.transform;
+
+        // Портрет в золотой рамке
+        if (t.Find("PortraitFrame") == null)
+        {
+            var frame = NewRect("PortraitFrame", t);
+            var frameImg = frame.AddComponent<Image>();
+            frameImg.color = new Color(0.83f, 0.62f, 0.28f, 1f);
+            ApplySlice(frameImg);
+
+            var ph = NewRect("Portrait", frame.transform);
+            var pImg = ph.AddComponent<Image>();
+            pImg.preserveAspect = true;
+            pImg.raycastTarget = false;
+            if (portraitSprite != null) pImg.sprite = portraitSprite;
+            Anchor(ph.GetComponent<RectTransform>(), new Vector2(0f, 0f), new Vector2(1f, 1f),
+                new Vector2(5f, 5f), new Vector2(-5f, -5f));
+
+            Anchor(frame.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0f, 1f),
+                new Vector2(18f, -102f), new Vector2(100f, -20f));
+        }
+
+        // Имя
+        if (t.Find("TitleText") == null)
+        {
+            var go = NewRect("TitleText", t);
+            var tmp = go.AddComponent<TextMeshProUGUI>();
+            tmp.text = "Скупщик Дрон";
+            tmp.fontSize = 34;
+            tmp.fontStyle = FontStyles.Bold;
+            tmp.alignment = (TextAlignmentOptions)TextAnchor.MiddleLeft;
+            tmp.overflowMode = TextOverflowModes.Ellipsis;
+            tmp.color = HexColor("#3E2A16");
+            tmp.raycastTarget = false;
+            Anchor(go.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(1f, 1f),
+                new Vector2(112f, -58f), new Vector2(-96f, -18f));
+        }
+
+        // Подзаголовок
+        if (t.Find("SubtitleText") == null)
+        {
+            var go = NewRect("SubtitleText", t);
+            var tmp = go.AddComponent<TextMeshProUGUI>();
+            tmp.text = "Я покупаю только лучшее!";
+            tmp.fontSize = 17;
+            tmp.alignment = (TextAlignmentOptions)TextAnchor.MiddleLeft;
+            tmp.overflowMode = TextOverflowModes.Ellipsis;
+            tmp.color = HexColor("#8A6A48");
+            tmp.raycastTarget = false;
+            Anchor(go.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(1f, 1f),
+                new Vector2(113f, -82f), new Vector2(-96f, -60f));
+        }
+
+        // Старые элементы прежних версий не трогаем — их нет в новых сценах
+        if (demandIcon == null)
+            demandIcon = t.Find("DemandBox/DemandIcon") != null
+                ? t.Find("DemandBox/DemandIcon").GetComponent<Image>() : null;
+        if (demandText == null)
+            demandText = t.Find("DemandBox/DemandText") != null
+                ? t.Find("DemandBox/DemandText").GetComponent<TMP_Text>() : null;
+        if (reputationText == null)
+            reputationText = t.Find("RepBox/RepLevelText") != null
+                ? t.Find("RepBox/RepLevelText").GetComponent<TMP_Text>() : null;
+    }
+
+    void BuildDemandBox()
+    {
+        var t = sellPanel.transform;
+        if (t.Find("DemandBox") != null) return;
+
+        var box = NewRect("DemandBox", t);
+        var boxImg = box.AddComponent<Image>();
+        boxImg.color = new Color(0.9f, 0.83f, 0.68f, 0.95f);
+        ApplySlice(boxImg);
+        Anchor(box.GetComponent<RectTransform>(), new Vector2(0f, 1f), new Vector2(0.56f, 1f),
+            new Vector2(16f, -184f), new Vector2(-6f, -112f));
+
+        var label = MakeText(box.transform, "Label", "Спрос дня:",
+            (TextAlignmentOptions)TextAnchor.MiddleLeft, 17);
+        label.color = HexColor("#6B5138");
+        Anchor(label.rectTransform, new Vector2(0f, 0f), new Vector2(0f, 1f),
+            new Vector2(12f, 4f), new Vector2(-96f, -4f));
+
+        // Золотая рамка + иконка культуры
+        var frame = NewRect("DemandIconFrame", box.transform);
+        var frameImg = frame.AddComponent<Image>();
+        frameImg.color = new Color(0.83f, 0.62f, 0.28f, 1f);
+        ApplySlice(frameImg);
+        var frameRt = frame.GetComponent<RectTransform>();
+        frameRt.anchorMin = new Vector2(0f, 0.5f);
+        frameRt.anchorMax = new Vector2(0f, 0.5f);
+        frameRt.pivot = new Vector2(0f, 0.5f);
+        frameRt.anchoredPosition = new Vector2(104f, 0f);
+        frameRt.sizeDelta = new Vector2(52f, 52f);
+
+        var icon = NewRect("DemandIcon", frame.transform);
+        var iconImg = icon.AddComponent<Image>();
+        iconImg.preserveAspect = true;
+        iconImg.raycastTarget = false;
+        if (demandIcon == null) demandIcon = iconImg;
+        Anchor(icon.GetComponent<RectTransform>(), new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(4f, 4f), new Vector2(-4f, -4f));
+
+        var txt = NewRect("DemandText", box.transform);
+        var tmp = txt.AddComponent<TextMeshProUGUI>();
+        tmp.text = "—";
+        tmp.fontSize = 20;
+        tmp.fontStyle = FontStyles.Bold;
+        tmp.alignment = (TextAlignmentOptions)TextAnchor.MiddleLeft;
+        tmp.overflowMode = TextOverflowModes.Ellipsis;
+        tmp.color = HexColor("#3E2A16");
+        tmp.raycastTarget = false;
+        if (demandText == null) demandText = tmp;
+        Anchor(txt.GetComponent<RectTransform>(), new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(166f, 6f), new Vector2(-10f, -6f));
+    }
+
+    void BuildReputationBox()
+    {
+        var t = sellPanel.transform;
+        if (t.Find("RepBox") != null) return;
+
+        var box = NewRect("RepBox", t);
+        var boxImg = box.AddComponent<Image>();
+        boxImg.color = new Color(0.9f, 0.83f, 0.68f, 0.95f);
+        ApplySlice(boxImg);
+        Anchor(box.GetComponent<RectTransform>(), new Vector2(0.56f, 1f), new Vector2(1f, 1f),
+            new Vector2(6f, -184f), new Vector2(-16f, -112f));
+
+        var label = MakeText(box.transform, "Label", "Репутация:",
+            (TextAlignmentOptions)TextAnchor.MiddleLeft, 17);
+        label.color = HexColor("#6B5138");
+        Anchor(label.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(12f, 4f), new Vector2(-10f, -30f));
+
+        var level = MakeText(box.transform, "RepLevelText", "Новичок",
+            (TextAlignmentOptions)TextAnchor.MiddleRight, 18);
+        level.fontStyle = FontStyles.Bold;
+        level.color = HexColor("#3E2A16");
+        if (reputationText == null) reputationText = level;
+        Anchor(level.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(120f, 4f), new Vector2(-10f, -30f));
+
+        // Прогресс-бар
+        var bar = NewRect("RepBar", box.transform);
+        var barImg = bar.AddComponent<Image>();
+        barImg.color = new Color(0.22f, 0.17f, 0.12f, 1f);
+        ApplySlice(barImg);
+        Anchor(bar.GetComponent<RectTransform>(), new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(12f, 10f), new Vector2(-12f, -34f));
+
+        var fill = NewRect("Fill", bar.transform);
+        var fillImg = fill.AddComponent<Image>();
+        fillImg.color = new Color(0.42f, 0.72f, 0.28f, 1f);
+        fillImg.type = Image.Type.Filled;
+        fillImg.fillMethod = Image.FillMethod.Horizontal;
+        fillImg.fillAmount = 0f;
+        repFill = fillImg;
+        Anchor(fill.GetComponent<RectTransform>(), new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(3f, 3f), new Vector2(-3f, -3f));
+
+        var barTxt = MakeText(bar.transform, "BarText", "",
+            (TextAlignmentOptions)TextAnchor.MiddleCenter, 14);
+        barTxt.fontStyle = FontStyles.Bold;
+        barTxt.color = Color.white;
+        repBarText = barTxt;
+        Anchor(barTxt.rectTransform, Vector2.zero, Vector2.one,
+            new Vector2(4f, 2f), new Vector2(-4f, -2f));
     }
 
     void StyleScrollView(Transform sv)
@@ -190,13 +430,10 @@ public class SellUI : MonoBehaviour
         var rt = sv as RectTransform;
         if (rt == null) rt = sv.GetComponent<RectTransform>();
         if (rt == null) return;
-        rt.anchorMin = Vector2.zero;
-        rt.anchorMax = Vector2.one;
-        rt.offsetMin = new Vector2(20f, -14f);
-        rt.offsetMax = new Vector2(-20f, -216f);
 
         foreach (Transform child in sv)
-            if (child.name.Trim() == "Scrollbar Horizontal")
+            if (child.name.Trim() == "Scrollbar Horizontal" ||
+                child.name.Trim() == "Scrollbar Vertical")
                 child.gameObject.SetActive(false);
 
         var srect = sv.GetComponent<ScrollRect>();
@@ -213,82 +450,10 @@ public class SellUI : MonoBehaviour
             vlg.childForceExpandHeight = false;
             vlg.childControlWidth = true;
             vlg.childControlHeight = false;
-            vlg.padding = new RectOffset(10, 10, 8, 8);
+            vlg.padding = new RectOffset(8, 8, 6, 8);
         }
         var csf = content.GetComponent<ContentSizeFitter>();
         if (csf != null) csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-    }
-
-    void BuildTitle()
-    {
-        var go = NewRect("TitleText", sellPanel.transform);
-        var tmp = go.AddComponent<TextMeshProUGUI>();
-        tmp.text = "Скупщик Дрон";
-        tmp.fontSize = 32;
-        tmp.fontStyle = FontStyles.Bold;
-        tmp.alignment = (TextAlignmentOptions)TextAnchor.UpperCenter;
-        tmp.overflowMode = TextOverflowModes.Ellipsis;
-        tmp.color = HexColor("#5A3A1E");
-        tmp.raycastTarget = false;
-        var sh = go.AddComponent<Shadow>();
-        sh.effectColor = new Color(1f, 0.95f, 0.85f, 0.7f);
-        sh.effectDistance = new Vector2(1.5f, -1.5f);
-        Anchor(go.GetComponent<RectTransform>(), new Vector2(0, 1), new Vector2(1, 1),
-            new Vector2(90f, -58f), new Vector2(-90f, -12f));
-    }
-
-    void BuildDemandRow()
-    {
-        var row = NewRect("DemandRow", sellPanel.transform);
-        Anchor(row.GetComponent<RectTransform>(), new Vector2(0, 1), new Vector2(1, 1),
-            new Vector2(0f, -142f), new Vector2(0f, -68f));
-
-        // Тёмная подложка под иконку
-        var bg = NewRect("DemandIconBg", row.transform);
-        var bgImg = bg.AddComponent<Image>();
-        bgImg.color = new Color(0.09f, 0.06f, 0.04f, 0.85f);
-        ApplySlice(bgImg);
-        PlaceSquare(bg.GetComponent<RectTransform>(), 26f, 66f);
-
-        // Иконка культуры спроса (спрайт ставит RefreshDemandHeader)
-        var icon = NewRect("DemandIcon", row.transform);
-        var iconImg = icon.AddComponent<Image>();
-        iconImg.preserveAspect = true;
-        iconImg.raycastTarget = false;
-        PlaceSquare(icon.GetComponent<RectTransform>(), 29f, 60f);
-
-        var txt = NewRect("DemandText", row.transform);
-        var tmp = txt.AddComponent<TextMeshProUGUI>();
-        tmp.text = "Спрос дня: …";
-        tmp.fontSize = 21;
-        tmp.alignment = (TextAlignmentOptions)TextAnchor.MiddleLeft;
-        tmp.textWrappingMode = TextWrappingModes.Normal;
-        tmp.color = HexColor("#4A3020");
-        tmp.raycastTarget = false;
-        Anchor(txt.GetComponent<RectTransform>(), Vector2.zero, Vector2.one,
-            new Vector2(104f, 4f), new Vector2(-14f, -4f));
-    }
-
-    void BuildReputation()
-    {
-        var go = NewRect("ReputationText", sellPanel.transform);
-        var tmp = go.AddComponent<TextMeshProUGUI>();
-        tmp.text = "Репутация: …";
-        tmp.fontSize = 20;
-        tmp.alignment = (TextAlignmentOptions)TextAnchor.UpperCenter;
-        tmp.color = HexColor("#4A3020");
-        tmp.raycastTarget = false;
-        Anchor(go.GetComponent<RectTransform>(), new Vector2(0, 1), new Vector2(1, 1),
-            new Vector2(24f, -208f), new Vector2(-24f, -146f));
-    }
-
-    void PlaceSquare(RectTransform rt, float x, float size)
-    {
-        rt.anchorMin = new Vector2(0f, 0.5f);
-        rt.anchorMax = new Vector2(0f, 0.5f);
-        rt.pivot = new Vector2(0f, 0.5f);
-        rt.anchoredPosition = new Vector2(x, 0f);
-        rt.sizeDelta = new Vector2(size, size);
     }
 
     void WireCloseButton()
@@ -316,25 +481,24 @@ public class SellUI : MonoBehaviour
 
         if (demandIcon != null)
         {
-            demandIcon.gameObject.SetActive(demandItem != null);
+            demandIcon.gameObject.SetActive(demandItem != null || demandIcon.transform.parent.name != "DemandIconFrame");
             if (demandItem != null) demandIcon.sprite = demandItem.icon;
         }
-        // Подложка видна всегда, даже без спроса
-        var bg = demandIcon != null && demandIcon.transform.parent != null
-            ? demandIcon.transform.parent.Find("DemandIconBg") : null;
-        if (bg != null) bg.gameObject.SetActive(true);
 
         if (demandText != null)
         {
             if (demandItem != null)
             {
-                double hours = BuyerManager.Instance.GetDemandSecondsLeft() / 3600.0;
-                demandText.text = "Спрос дня: <color=#D89000>" + demandItem.itemName + "</color> ×2  (" +
-                    (hours >= 1 ? Mathf.CeilToInt((float)hours) + " ч" : Mathf.CeilToInt((float)(hours * 60)) + " мин") + ")";
+                double s = BuyerManager.Instance.GetDemandSecondsLeft();
+                int h = (int)(s / 3600.0);
+                int m = (int)((s % 3600.0) / 60.0);
+                string timer = h > 0 ? h + "ч " + m + "м" : m + "м";
+                demandText.text = "<color=#2E6B8A>" + demandItem.itemName + "</color> <color=#D89000>×2</color>\n" +
+                    "<size=15><color=#8A6A48>смена через " + timer + "</color></size>";
             }
             else
             {
-                demandText.text = "Спрос дня: нет";
+                demandText.text = "<size=17><color=#8A6A48>сейчас нет</color></size>";
             }
         }
         if (demandTimerText != null) demandTimerText.gameObject.SetActive(false);
@@ -342,18 +506,26 @@ public class SellUI : MonoBehaviour
 
     void RefreshReputation()
     {
-        if (reputationText == null || BuyerManager.Instance == null) return;
-
+        if (BuyerManager.Instance == null) return;
         var bm = BuyerManager.Instance;
+
         int level = bm.GetReputationLevel();
-        int toNext = bm.GetReputationToNext();
+        if (reputationText != null) reputationText.text = bm.GetReputationName();
 
-        string rep = "Репутация: <color=#D89000>" + bm.GetReputationName() + "</color> (+" +
-            bm.GetReputationBonus() + "% к ценам)";
-        if (toNext > 0) rep += "\nДо следующего уровня: продать на " + toNext + "g";
-        else rep += "\nМаксимальный уровень!";
+        float rep = bm.GetReputation();
+        var thresholds = bm.reputationThresholds;
+        float frac = 1f;
+        string barStr = "МАКС";
+        if (level + 1 < thresholds.Length)
+        {
+            float prev = thresholds[level];
+            float next = thresholds[level + 1];
+            frac = Mathf.Clamp01((rep - prev) / Mathf.Max(1f, next - prev));
+            barStr = (int)rep + " / " + next;
+        }
 
-        reputationText.text = rep;
+        if (repFill != null) repFill.fillAmount = frac;
+        if (repBarText != null) repBarText.text = barStr;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -363,11 +535,9 @@ public class SellUI : MonoBehaviour
     {
         if (itemListContent == null || BuyerManager.Instance == null) return;
 
-        // Чистим старые строки
         foreach (Transform child in itemListContent)
             Destroy(child.gameObject);
 
-        // Собираем продаваемое из инвентаря + хотбара
         var counts = new Dictionary<ItemData, int>();
         foreach (InventorySlot s in AllSlots())
         {
@@ -391,7 +561,6 @@ public class SellUI : MonoBehaviour
             return;
         }
 
-        // Сортировка: по цене убывание (дорогой урожай сверху)
         foreach (var kvp in counts.OrderByDescending(k => BuyerManager.Instance.GetUnitPrice(k.Key)))
         {
             CreateRow(kvp.Key, kvp.Value);
@@ -404,62 +573,79 @@ public class SellUI : MonoBehaviour
         row.transform.SetParent(itemListContent, false);
 
         var rowImg = row.GetComponent<Image>();
-        rowImg.color = new Color(0.23f, 0.15f, 0.09f, 0.97f);
+        rowImg.color = new Color(0.25f, 0.17f, 0.11f, 0.98f);
         ApplySlice(rowImg);
 
         var le = row.GetComponent<LayoutElement>();
-        le.minHeight = 76f;
-        le.preferredHeight = 76f;
+        le.minHeight = 72f;
+        le.preferredHeight = 72f;
 
-        // Тёмный слот-рамка под иконку
+        // Тёмный слот с золотистой рамкой под иконку
         var slot = NewRect("IconSlot", row.transform);
         var slotImg = slot.AddComponent<Image>();
-        slotImg.color = new Color(0.1f, 0.065f, 0.04f, 0.95f);
+        slotImg.color = new Color(0.55f, 0.42f, 0.24f, 1f);
         ApplySlice(slotImg);
         var slotRt = slot.GetComponent<RectTransform>();
         slotRt.anchorMin = new Vector2(0f, 0.5f);
         slotRt.anchorMax = new Vector2(0f, 0.5f);
         slotRt.pivot = new Vector2(0f, 0.5f);
-        slotRt.anchoredPosition = new Vector2(9f, 0f);
-        slotRt.sizeDelta = new Vector2(58f, 58f);
+        slotRt.anchoredPosition = new Vector2(10f, 0f);
+        slotRt.sizeDelta = new Vector2(56f, 56f);
 
-        // Иконка
-        GameObject iconGo = NewRect("Icon", row.transform);
+        var slotBg = NewRect("SlotBg", slot.transform);
+        var slotBgImg = slotBg.AddComponent<Image>();
+        slotBgImg.color = new Color(0.13f, 0.09f, 0.06f, 1f);
+        ApplySlice(slotBgImg);
+        Anchor(slotBg.GetComponent<RectTransform>(), Vector2.zero, Vector2.one,
+            new Vector2(3f, 3f), new Vector2(-3f, -3f));
+
+        GameObject iconGo = NewRect("Icon", slot.transform);
         var iconImg = iconGo.AddComponent<Image>();
         iconImg.sprite = item.icon;
         iconImg.preserveAspect = true;
         iconImg.raycastTarget = false;
-        var iconRt = iconGo.GetComponent<RectTransform>();
-        iconRt.anchorMin = new Vector2(0f, 0.5f);
-        iconRt.anchorMax = new Vector2(0f, 0.5f);
-        iconRt.pivot = new Vector2(0f, 0.5f);
-        iconRt.anchoredPosition = new Vector2(11f, 0f);
-        iconRt.sizeDelta = new Vector2(54f, 54f);
+        Anchor(iconGo.GetComponent<RectTransform>(), Vector2.zero, Vector2.one,
+            new Vector2(5f, 5f), new Vector2(-5f, -5f));
 
         // Название (жирное, цвет по качеству) + количество мелким
         var nameText = MakeText(row.transform, "Name",
             "<b>" + Colored(item.itemName, QualityHex(item.name)) + "</b> <size=17><alpha=#B0>×" + count + "</size>",
-            (TextAlignmentOptions)TextAnchor.MiddleLeft, 22);
+            (TextAlignmentOptions)TextAnchor.MiddleLeft, 23);
         Anchor(nameText.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 1f),
             new Vector2(78f, 6f), new Vector2(-330f, -6f));
 
-        // Цена: крупное число + мелкое «/шт», бейдж спроса
+        // Монетка + цена
+        if (coinSprite != null)
+        {
+            var coin = NewRect("Coin", row.transform);
+            var coinImg = coin.AddComponent<Image>();
+            coinImg.sprite = coinSprite;
+            coinImg.preserveAspect = true;
+            coinImg.raycastTarget = false;
+            var coinRt = coin.GetComponent<RectTransform>();
+            coinRt.anchorMin = new Vector2(1f, 0.5f);
+            coinRt.anchorMax = new Vector2(1f, 0.5f);
+            coinRt.pivot = new Vector2(1f, 0.5f);
+            coinRt.anchoredPosition = new Vector2(-186f, 0f);
+            coinRt.sizeDelta = new Vector2(26f, 26f);
+        }
+
         int unit = BuyerManager.Instance.GetUnitPrice(item);
         bool inDemand = BuyerManager.Instance.IsInDemand(item);
         var priceText = MakeText(row.transform, "Price",
-            "<b><color=#FFD54A>" + unit + "g</color></b><size=15><alpha=#CC>/шт</size>" +
-            (inDemand ? " <b><color=#FFD54A>×2</color></b>" : ""),
-            (TextAlignmentOptions)TextAnchor.MiddleRight, 22);
+            "<b>" + unit + "</b>" + (inDemand ? " <color=#FFD54A>×2</color>" : ""),
+            (TextAlignmentOptions)TextAnchor.MiddleRight, 24);
+        priceText.color = HexColor("#F5C542");
         Anchor(priceText.rectTransform, new Vector2(1f, 0f), new Vector2(1f, 1f),
-            new Vector2(-322f, 4f), new Vector2(-180f, -4f));
+            new Vector2(-320f, 4f), new Vector2(-192f, -4f));
 
-        // Кнопки прижаты к ПРАВОМУ краю строки: xMin/xMax — отступы от правого края
+        // Кнопки прижаты к ПРАВОМУ краю строки
         CreateSellButton(row.transform, "Sell1", "×1", -166f, -94f,
-            new Color(0.42f, 0.27f, 0.12f, 1f), () => Sell(item, 1));
+            new Color(0.36f, 0.25f, 0.14f, 1f), () => Sell(item, 1));
         CreateSellButton(row.transform, "SellAll", "Всё", -88f, -8f,
-            new Color(0.76f, 0.52f, 0.16f, 1f), () => Sell(item, count));
+            new Color(0.83f, 0.6f, 0.18f, 1f), () => Sell(item, count));
 
-        // Клик по строке — тоже продаёт 1 (удобно на телефоне)
+        // Клик по строке — продаёт 1
         var btn = row.AddComponent<Button>();
         btn.targetGraphic = rowImg;
         var cols = btn.colors;
@@ -472,7 +658,6 @@ public class SellUI : MonoBehaviour
 
     void Sell(ItemData item, int count)
     {
-        // Сколько реально есть сейчас (окно могло устареть)
         int have = 0;
         foreach (InventorySlot s in AllSlots())
             if (!s.IsEmpty() && s.currentItem == item) have += s.quantity;
@@ -483,7 +668,6 @@ public class SellUI : MonoBehaviour
         int gold = BuyerManager.Instance.Sell(item, sellCount);
         if (gold <= 0) return;
 
-        // Списываем из инвентаря и хотбара
         int left = sellCount;
         foreach (InventorySlot s in AllSlots())
         {
@@ -497,7 +681,7 @@ public class SellUI : MonoBehaviour
         }
         HotbarManager.Instance?.NotifyActiveItemChanged();
 
-        Debug.Log("[Скупщик] Продано: " + item.itemName + " ×" + sellCount + " за " + gold + "g");
+        ActionLogUI.Show("[Скупщик] Продано: " + item.itemName + " ×" + sellCount + " за " + gold + "g");
 
         RefreshReputation();
         RebuildList();
@@ -552,7 +736,6 @@ public class SellUI : MonoBehaviour
         btn.colors = cols;
         btn.onClick.AddListener(onClick);
 
-        // Текст — дочерним объектом: на GO с Image нельзя второй Graphic
         var labelGo = NewRect("Label", go.transform);
         var tmp = labelGo.AddComponent<TextMeshProUGUI>();
         tmp.text = label;

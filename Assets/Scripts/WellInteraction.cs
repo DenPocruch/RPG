@@ -32,7 +32,7 @@ public class WellInteraction : MonoBehaviour, IInteractable
         InventorySlot slot = HotbarManager.Instance?.GetActiveSlot();
         if (slot == null || !slot.IsWateringCan())
         {
-            Debug.Log("[Колодец] Нужна лейка в руке!");
+            ActionLogUI.Show("[Колодец] Нужна лейка в руке!");
             return;
         }
 
@@ -48,7 +48,7 @@ public class WellInteraction : MonoBehaviour, IInteractable
             if (wellAnimator != null)
                 wellAnimator.enabled = true;
 
-            Debug.Log("[Колодец] Вода набрана! " + slot.currentWater + "/" + slot.GetMaxWater());
+            ActionLogUI.Show("[Колодец] Вода набрана! " + slot.currentWater + "/" + slot.GetMaxWater());
             return;
         }
 
@@ -57,7 +57,7 @@ public class WellInteraction : MonoBehaviour, IInteractable
         {
             if (slot.currentWater >= slot.GetMaxWater())
             {
-                Debug.Log("[Колодец] Лейка уже полная!");
+                ActionLogUI.Show("[Колодец] Лейка уже полная!");
                 return;
             }
             StartCoroutine(WellAnimation());
@@ -86,6 +86,6 @@ public class WellInteraction : MonoBehaviour, IInteractable
 
         isAnimating = false;
         isReady = true;
-        Debug.Log("[Колодец] Ведро поднято! Нажми ещё раз чтобы набрать воду.");
+        ActionLogUI.Show("[Колодец] Ведро поднято! Нажми ещё раз чтобы набрать воду.");
     }
 }

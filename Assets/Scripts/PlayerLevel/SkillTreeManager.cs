@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
@@ -122,7 +122,7 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
         if (!IsAvailable(node))
         {
             if (IsMaxRank(node))
-                Debug.Log("[SkillTree] " + node.nodeName + " уже максимального ранга!");
+                ActionLogUI.Show("[SkillTree] " + node.nodeName + " уже максимального ранга!");
             return false;
         }
 
@@ -150,7 +150,7 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
         ApplyEffect(node);
 
         int newRank = nodeRanks[node];
-        Debug.Log("[SkillTree] " + node.nodeName + " → Ранг " + newRank + "/" + node.maxRanks);
+        ActionLogUI.Show("[SkillTree] " + node.nodeName + " → Ранг " + newRank + "/" + node.maxRanks);
 
         onSkillTreeChanged?.Invoke();
         return true;
@@ -225,7 +225,7 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
         if (CurrencyManager.Instance == null ||
             !CurrencyManager.Instance.SpendGold(resetCost))
         {
-            Debug.Log("[SkillTree] Нужно " + resetCost + " золота!");
+            ActionLogUI.Show("[SkillTree] Нужно " + resetCost + " золота!");
             return false;
         }
 
@@ -250,7 +250,7 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
             if (node != null) nodeRanks[node] = 0;
 
         onSkillTreeChanged?.Invoke();
-        Debug.Log("[SkillTree] Навыки сброшены!");
+        ActionLogUI.Show("[SkillTree] Навыки сброшены!");
         return true;
     }
 
@@ -283,7 +283,14 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
                     : new List<ItemData>());
     }
 
-    public bool IsNodeUnlockedByFeature(string feature)
+        /// <summary>Ранг перка по тегу unlocksFeature (0 = не куплен).</summary>
+    public int GetNodeRankByFeature(string feature)
+    {
+        foreach (var kvp in nodeRanks)
+            if (kvp.Value > 0 && kvp.Key.unlocksFeature == feature) return kvp.Value;
+        return 0;
+    }
+public bool IsNodeUnlockedByFeature(string feature)
     {
         foreach (var kvp in nodeRanks)
             if (kvp.Value > 0 && kvp.Key.unlocksFeature == feature) return true;

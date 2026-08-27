@@ -23,6 +23,11 @@ public class DebugItemGiver : MonoBehaviour
     [Header("Дать золото")]
     public int testGold = 500;
 
+    [Header("Дать опыт (XP по веткам)")]
+    public int testCombatXp = 0;
+    public int testFarmingXp = 0;
+    public int testCraftingXp = 0;
+
     void Start()
     {
         if (!giveItemsOnStart) return;
@@ -44,6 +49,14 @@ public class DebugItemGiver : MonoBehaviour
         // Добавляем золото
         if (testGold > 0 && CurrencyManager.Instance != null)
             CurrencyManager.Instance.AddGold(testGold);
+
+        // Добавляем опыт по веткам
+        if (PlayerLevel.Instance != null)
+        {
+            if (testCombatXp > 0) PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Combat, testCombatXp);
+            if (testFarmingXp > 0) PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, testFarmingXp);
+            if (testCraftingXp > 0) PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Crafting, testCraftingXp);
+        }
 
         Debug.Log("[DEBUG] Тестовые предметы выданы!");
     }

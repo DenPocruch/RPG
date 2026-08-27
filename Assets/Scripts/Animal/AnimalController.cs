@@ -225,19 +225,19 @@ public class AnimalController : MonoBehaviour, IInteractable
                 // Есть стадия "подросток" — переходим в неё
                 growthStage = AnimalData.GrowthStage.Teen;
                 growTimer = data.growTimeToAdult;
-                Debug.Log("[Животное] " + data.animalName + " подрос(ла)!");
+                ActionLogUI.Show("[Животное] " + data.animalName + " подрос(ла)!");
             }
             else
             {
                 // Стадия "подросток" не заполнена — старое поведение: сразу взрослый
                 growthStage = AnimalData.GrowthStage.Adult;
-                Debug.Log("[Животное] " + data.animalName + " вырос(ла)!");
+                ActionLogUI.Show("[Животное] " + data.animalName + " вырос(ла)!");
             }
         }
         else if (growthStage == AnimalData.GrowthStage.Teen)
         {
             growthStage = AnimalData.GrowthStage.Adult;
-            Debug.Log("[Животное] " + data.animalName + " вырос(ла)!");
+            ActionLogUI.Show("[Животное] " + data.animalName + " вырос(ла)!");
         }
 
         anim.SetGrowthStage(growthStage);
@@ -286,7 +286,7 @@ public class AnimalController : MonoBehaviour, IInteractable
                 loot.despawnOverTime = false; // продукт животного не пропадает
             }
         }
-        Debug.Log("[Животное] " + data.animalName + " дал(а): " + data.productItem.itemName);
+        ActionLogUI.Show("[Животное] " + data.animalName + " дал(а): " + data.productItem.itemName);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -469,13 +469,13 @@ public class AnimalController : MonoBehaviour, IInteractable
         ItemData active = HotbarManager.Instance?.GetActiveItem();
         if (active != data.feedItem)
         {
-            Debug.Log("[Животное] Нужен корм: " + data.feedItem.itemName);
+            ActionLogUI.Show("[Животное] Нужен корм: " + data.feedItem.itemName);
             return;
         }
 
         if (isFed)
         {
-            Debug.Log("[Животное] Уже накормлено");
+            ActionLogUI.Show("[Животное] Уже накормлено");
             return;
         }
 
@@ -497,6 +497,6 @@ public class AnimalController : MonoBehaviour, IInteractable
         eatTimer = 2f;
         anim.PlayState(AnimalAnimator.AnimState.Eat, DirToAnim(Vector2.down), true);
 
-        Debug.Log("[Животное] " + data.animalName + " накормлено! Продукт через " + data.productionTime + "с");
+        ActionLogUI.Show("[Животное] " + data.animalName + " накормлено! Продукт через " + data.productionTime + "с");
     }
 }

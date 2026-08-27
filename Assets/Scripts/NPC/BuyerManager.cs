@@ -42,7 +42,22 @@ public class BuyerManager : MonoBehaviour, ISaveable
         { "Corn", 25 }, { "Cabbage", 30 }, { "Beetroot", 35 }, { "Cucumber", 35 },
         { "Eggplant", 45 }, { "Hot Pepper", 50 }, { "Strawberry", 55 }, { "Grapes", 60 },
         { "Sunflower", 60 }, { "Pumpkin", 70 }, { "Melon", 75 }, { "Watermelon", 85 },
-        { "Pineapple", 120 }, { "Blueberry", 50 }
+        { "Pineapple", 120 }, { "Blueberry", 50 }, { "Rice", 40 }, { "Onion", 40 }
+    };
+
+    // ── Базовые цены продукции животных (за 1 шт) ──
+    // Баланс: корм = 1 культура за цикл (см. feedItem в AnimalData).
+    // Маржа за цикл ≈ 20-75g, доход ~430-660g/час активной игры:
+    // Курица 500g/120с:  Wheat 8  → Egg 30          (+22, ~660g/ч)
+    // Корова 2500g/360с: Beetroot 35 → Milk 90      (+55, ~550g/ч)
+    // Коза 360с: Cabbage 30 → Goat Milk 80          (+50, ~500g/ч)
+    // Свинья 1500g/600с: Potato 15 → Truffle 85     (+70, ~420g/ч)
+    // Овца 480с: Carrot 12 → Wool 70                (+58, ~435g/ч)
+    // Страус 5000g/480с: Corn 25 → Ostrich Egg 100  (+75, ~560g/ч)
+    static readonly Dictionary<string, int> animalProductPrices = new Dictionary<string, int>
+    {
+        { "Egg", 30 }, { "Milk", 90 }, { "Goat Milk", 80 },
+        { "Truffle", 85 }, { "Wool", 70 }, { "Ostrich Egg", 100 }
     };
 
     // ── Теги разблокировки семян (пусто = культура доступна всегда) ──
@@ -54,7 +69,8 @@ public class BuyerManager : MonoBehaviour, ISaveable
         { "Hot Pepper", "seed_pepper" }, { "Grapes", "seed_grapes" },
         { "Pumpkin", "seed_pumpkin" }, { "Watermelon", "seed_watermelon" },
         { "Sunflower", "seed_sunflower" }, { "Pineapple", "seed_pineapple" },
-        { "Strawberry", "seed_strawberry" }, { "Onion", "seed_onion" }
+        { "Strawberry", "seed_strawberry" }, { "Onion", "seed_onion" },
+        { "Rice", "seed_rice" }
     };
 
     // ── Множители качества ──
@@ -104,11 +120,21 @@ public class BuyerManager : MonoBehaviour, ISaveable
         return assetName;
     }
 
-    /// <summary>Является ли предмет урожаем, который скупщик покупает.</summary>
+    /// <summary>Все цены (культуры + продукция животных) одним словарём.</summary>
+    static Dictionary<string, int> AllPrices()
+    {
+        var all = new Dictionary<string, int>(basePrices);
+        foreach (var kvp in animalProductPrices)
+            if (!all.ContainsKey(kvp.Key)) all.Add(kvp.Key, kvp.Value);
+        return all;
+    }
+
+    /// <summary>Является ли предмет урожаем/продуктом, который скупщик покупает.</summary>
     public bool IsSellable(ItemData item)
     {
         if (item == null) return false;
-        return basePrices.ContainsKey(BaseCropName(item.name));
+        var all = AllPrices();
+        return all.ContainsKey(BaseCropName(item.name));
     }
 
     /// <summary>Итоговая цена за 1 шт с учётом качества, спроса и репутации.</summary>
@@ -117,7 +143,8 @@ public class BuyerManager : MonoBehaviour, ISaveable
         if (item == null || !IsSellable(item)) return 0;
 
         string baseCrop = BaseCropName(item.name);
-        float price = basePrices[baseCrop];
+        var all = AllPrices();
+        float price = all[baseCrop];
         price *= QualityMultiplier(item.name);
 
         EnsureDemandValid();
@@ -143,9 +170,10 @@ public class BuyerManager : MonoBehaviour, ISaveable
 
     void RerollDemand(long nowTicks)
     {
-        // Пул: только культуры, разблокированные перками (или базовая пшеница)
+        // Пул: разблокированные перками культуры + продукция животных
+        var prices = AllPrices();
         var pool = new List<string>();
-        foreach (var kvp in basePrices)
+        foreach (var kvp in prices)
         {
             string tag = seedTags.ContainsKey(kvp.Key) ? seedTags[kvp.Key] : "";
             if (string.IsNullOrEmpty(tag) ||

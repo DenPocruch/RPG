@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 /// <summary>
 /// Данные вида животного (курица, корова...). Создаётся через
@@ -14,6 +14,8 @@
 public class AnimalData : ScriptableObject
 {
     [Header("Основное")]
+    [Tooltip("Префаб животного — для спавна купленных детёнышей при загрузке")]
+    public GameObject animalPrefab;
     public string animalName = "Животное";
 
     // Стадия роста — общая для AnimalController и AnimalAnimator

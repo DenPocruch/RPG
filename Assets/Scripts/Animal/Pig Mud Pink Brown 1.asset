@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6f4c8e08855ae4b8987c0af0ec984d, type: 3}
   m_Name: Pig Mud Pink Brown 1
   m_EditorClassIdentifier: 
-  animalName: "\u041F\u043E\u0440\u043E\u0441\u0435\u043D\u043E\u043A "
+  animalName: "\u041F\u043E\u0440\u043E\u0441\u0435\u043D\u043E\u043A "  animalPrefab: {fileID: 7061181437609767070, guid: 515512c02940e8044a58b954cd138b20, type: 2}
   baby:
     walk:
       up:
@@ -186,5 +186,5 @@ MonoBehaviour:
   feedItem: {fileID: 11400000, guid: 10667b2f110c9f049a60ed26d5a242ba, type: 2}
   productItem: {fileID: 11400000, guid: bfa420e37e264a6daf2f6c638bd506c0, type: 2}
   productAmount: 1
-  productionTime: 300
+  productionTime: 600
   onlyAdultProduces: 1

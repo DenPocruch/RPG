@@ -1,0 +1,16 @@
+{
+  "$schema": "https:/opencode.ai/config.json",
+  "mcp": {
+    "mcp-unity": {
+      "type": "local",
+      "enabled": false,
+      "command": [
+        "node",
+        "Library/PackageCache/com.gamelovers.mcp-unity@0e9fdb65b3cc/Server~/build/index.js"
+      ],
+      "environment": {
+        "MCP_UNITY_SETTINGS_PATH": "D:/Doog Defit/RPG/ProjectSettings/McpUnitySettings.json"
+      }
+    }
+  }
+}

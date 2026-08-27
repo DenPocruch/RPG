@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public enum ItemType
 {
@@ -27,7 +27,8 @@ public enum ItemType
     Earrings,
     Bracelet,
     Amulet,
-    None
+    None,
+    AnimalBaby,
 }
 
 public enum ItemRarity
@@ -109,6 +110,10 @@ public class ItemData : ScriptableObject
 
     [Header("Лейка")]
     public int maxWater = 10;
+
+    [Header("Детёныш животного (AnimalBaby)")]
+    [Tooltip("Префаб животного — спавнится при использовании из хотбара")]
+    public GameObject animalPrefab;
 
     [Header("Удобрение")]
     [Tooltip("Если true — использование на грядку с растением ускоряет его рост ×2")]

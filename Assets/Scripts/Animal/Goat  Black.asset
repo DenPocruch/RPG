@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af6f4c8e08855ae4b8987c0af0ec984d, type: 3}
   m_Name: Goat  Black
   m_EditorClassIdentifier: 
-  animalName: "\u041A\u043E\u0437\u0430"
+  animalName: "\u041A\u043E\u0437\u0430"  animalPrefab: {fileID: 7061181437609767070, guid: b82f7450a72dd5c458595ae846bbace7, type: 2}
   baby:
     walk:
       up:
@@ -234,5 +234,5 @@ MonoBehaviour:
   feedItem: {fileID: 11400000, guid: d2495b19b1f9bcc4bb580e55575b67c9, type: 2}
   productItem: {fileID: 11400000, guid: 05dace97c30f483585b37721cc767be3, type: 2}
   productAmount: 1
-  productionTime: 180
+  productionTime: 360
   onlyAdultProduces: 1

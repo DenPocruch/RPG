@@ -329,7 +329,7 @@ public class FarmManager : MonoBehaviour, ISaveable
             ? SkillTreeManager.Instance.GetPlotLimitBonus() : 0);
         if (plotTimers.Count + crops.Count >= limit)
         {
-            Debug.Log("[Ферма] Лимит грядок: " + limit + ". Прокачай «Расширение участка» в дереве навыков!");
+            ActionLogUI.Show("[Ферма] Лимит грядок: " + limit + ". Прокачай «Расширение участка» в дереве навыков!");
             return false;
         }
 
@@ -400,13 +400,13 @@ public class FarmManager : MonoBehaviour, ISaveable
 
         if (farmTilemap.GetTile(cellPos) == null)
         {
-            Debug.Log("Нужна вскопанная земля!");
+            ActionLogUI.Show("Нужна вскопанная земля!");
             return false;
         }
 
         if (crops.ContainsKey(cellPos))
         {
-            Debug.Log("Здесь уже что-то растёт!");
+            ActionLogUI.Show("Здесь уже что-то растёт!");
             return false;
         }
 
@@ -419,7 +419,7 @@ public class FarmManager : MonoBehaviour, ISaveable
         crops[cellPos] = crop;
         plotTimers.Remove(cellPos); // растение посажено — грядка больше не увядает
 
-        Debug.Log("Посеяно: " + seedData.itemName);
+        ActionLogUI.Show("Посеяно: " + seedData.itemName);
         return true;
     }
 
@@ -437,7 +437,7 @@ public class FarmManager : MonoBehaviour, ISaveable
         if (harvest == null)
         {
             quality = 0;
-            Debug.Log("Растение ещё не выросло!");
+            ActionLogUI.Show("Растение ещё не выросло!");
             return null;
         }
 
@@ -453,7 +453,7 @@ public class FarmManager : MonoBehaviour, ISaveable
         // Сейв по событию: урожай собран
         SaveManager.Instance?.Save();
 
-        Debug.Log("Собрано: " + harvest.itemName);
+        ActionLogUI.Show("Собрано: " + harvest.itemName);
         return harvest;
     }
 

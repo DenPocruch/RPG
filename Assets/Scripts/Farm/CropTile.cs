@@ -98,7 +98,7 @@ public class CropTile : MonoBehaviour
         if (isFertilized || isReady) return;
         isFertilized = true;
         CalculateGrowthTime();
-        Debug.Log("[Ферма] Растение удобрено — растёт вдвое быстрее!");
+        ActionLogUI.Show("[Ферма] Растение удобрено — растёт вдвое быстрее!");
     }
 
     // Качество урожая: 0=обычное, 1=серебро, 2=золото, 3=пурпур.

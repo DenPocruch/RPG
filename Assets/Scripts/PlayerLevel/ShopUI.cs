@@ -46,7 +46,15 @@ public class ShopUI : MonoBehaviour
     private Vector2 targetPos;
     private Vector2 normalPos;
 
-    private ShopManager.ShopItem[] currentStock; // товар ТЕКУЩЕГО торговца
+    private ShopManager.ShopItem[] currentStock; // товар ТЕКУЩЕЙ вкладки
+    private ShopManager.ShopItem[] seedStock;    // вкладка «Семена»
+    private ShopManager.ShopItem[] animalStock;  // вкладка «Животные»
+
+    [Header("Вкладки (опционально)")]
+    public Button seedsTabButton;
+    public Button animalsTabButton;
+    public Color tabActiveColor = new Color(0.9f, 0.7f, 0.2f);
+    public Color tabInactiveColor = new Color(0.35f, 0.25f, 0.15f);
     private ShopManager.ShopItem selectedItem;
     private int selectedQuantity = 1;
     private List<ShopItemButtonUI> itemButtons = new List<ShopItemButtonUI>();
@@ -73,6 +81,9 @@ public class ShopUI : MonoBehaviour
         minusButton?.onClick.AddListener(OnMinusClick);
         buyButton?.onClick.AddListener(OnBuyClick);
 
+        seedsTabButton?.onClick.AddListener(() => SelectTab(true));
+        animalsTabButton?.onClick.AddListener(() => SelectTab(false));
+
         if (CurrencyManager.Instance != null)
             CurrencyManager.Instance.onGoldChanged += _ => { UpdateGoldText(); RefreshDetail(); };
 
@@ -90,16 +101,28 @@ public class ShopUI : MonoBehaviour
     // ОТКРЫТИЕ / ЗАКРЫТИЕ
     // ═══════════════════════════════════════════════════════════
 
-    /// <summary>Открыть магазин конкретного торговца со своим товаром.
-    /// stock = null → берётся общий ассортимент ShopManager (старое поведение).</summary>
+    /// <summary>Открыть магазин: вкладка семян + опциональная вкладка животных.
+    /// seedStock = null → берётся общий ассортимент ShopManager (старое поведение).</summary>
     public void Open(ShopManager.ShopItem[] stock = null, string title = null)
     {
-        currentStock = (stock != null && stock.Length > 0)
-            ? stock
+        Open(stock, null, title);
+    }
+
+    /// <summary>Открыть с двумя вкладками (семена + животные).</summary>
+    public void Open(ShopManager.ShopItem[] seedStockIn, ShopManager.ShopItem[] animalStockIn, string title = null)
+    {
+        seedStock = (seedStockIn != null && seedStockIn.Length > 0)
+            ? seedStockIn
             : (ShopManager.Instance != null ? ShopManager.Instance.itemsForSale : null);
+        animalStock = animalStockIn;
+
+        if (seedsTabButton != null) seedsTabButton.gameObject.SetActive(seedStock != null);
+        if (animalsTabButton != null) animalsTabButton.gameObject.SetActive(animalStock != null);
 
         if (!string.IsNullOrEmpty(title) && titleText != null)
             titleText.text = title;
+
+        SelectTab(true);
 
         shopPanel.SetActive(true);
         isOpen = true;
@@ -142,6 +165,21 @@ public class ShopUI : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // СПИСОК ТОВАРОВ
     // ═══════════════════════════════════════════════════════════
+    /// <summary>Переключение вкладки: true = семена, false = животные.</summary>
+    public void SelectTab(bool seeds)
+    {
+        currentStock = seeds ? seedStock : animalStock;
+        if (currentStock == null) currentStock = seedStock;
+
+        if (seedsTabButton != null) seedsTabButton.image.color = seeds ? tabActiveColor : tabInactiveColor;
+        if (animalsTabButton != null) animalsTabButton.image.color = !seeds && animalStock != null ? tabActiveColor : tabInactiveColor;
+
+        BuildItemList();
+    }
+
+    public void SwitchToSeeds() => SelectTab(true);
+    public void SwitchToAnimals() => SelectTab(false);
+
     void BuildItemList()
     {
         if (itemListContent == null || itemButtonPrefab == null)

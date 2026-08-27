@@ -90,7 +90,7 @@ public class OreVeinComponent : MonoBehaviour
         if (Time.time - lastWeakMessageTime < weakPickaxeMessageCooldown) return;
         lastWeakMessageTime = Time.time;
 
-        Debug.Log("[Жила руды] Нужна кирка уровня " + requiredToolTier + " или выше!");
+        ActionLogUI.Show("[Жила руды] Нужна кирка уровня " + requiredToolTier + " или выше!");
 
         if (veinAnimator != null)
             veinAnimator.SetTrigger("Shake");
