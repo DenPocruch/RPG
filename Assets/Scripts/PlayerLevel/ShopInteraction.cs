@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Прилавок/NPC-торговец с БЕЗ диалога: удар рядом → сразу открывается
@@ -18,6 +19,43 @@ public class ShopInteraction : MonoBehaviour, IInteractable
     [Header("Анимация приветствия (опц.)")]
     public Animator shopkeeperAnimator;
     public string greetAnimationTrigger = "Greet";
+
+    void Awake()
+    {
+        EnsureFarmStock();
+    }
+
+    // Кормушка/поилка добавляются кодом — сцену править не нужно.
+    // Дубликаты не создаются: если товар уже в инспекторе — пропускаем.
+    void EnsureFarmStock()
+    {
+        var list = new List<ShopManager.ShopItem>(itemsForSaleAnimals ?? new ShopManager.ShopItem[0]);
+        bool added = false;
+        added |= TryAddFarmStock(list, "Feeder", "feeder");
+        added |= TryAddFarmStock(list, "WaterTrough", "trough");
+        added |= TryAddFarmStock(list, "Hammer", ""); // молоток — без перка, виден сразу
+        if (added) itemsForSaleAnimals = list.ToArray();
+    }
+
+    bool TryAddFarmStock(List<ShopManager.ShopItem> list, string itemName, string unlockTag)
+    {
+        if (list.Exists(si => si != null && si.item != null && si.item.name == itemName)) return false;
+
+        ItemData item = ItemDatabase.Find(itemName);
+        if (item == null)
+        {
+            Debug.LogWarning("[Shop] Фарм-товар не найден в ItemDatabase: " + itemName);
+            return false;
+        }
+
+        list.Add(new ShopManager.ShopItem
+        {
+            item = item,
+            price = item.shopPrice > 0 ? item.shopPrice : 500,
+            unlockTag = unlockTag
+        });
+        return true;
+    }
 
     public Transform GetTransform() => transform;
 

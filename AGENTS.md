@@ -61,10 +61,26 @@ CookNPC=Густав (повар), BlacksmithNPC=Кузнец Степан, Trad
 - Грабли UI-кода: на GO с Image нельзя AddComponent<TextMeshProUGUI> (2 Graphic запрещено — текст только дочерним объектом «Label»); правые элементы строки — якоря (1,0)-(1,1) с ОТРИЦАТЕЛЬНЫМИ offsetMin.x (иначе кнопка уезжает за левый край и накрывает строку); всем текстам overflowMode=Ellipsis
 - Продажа: `BuyerManager.Sell()` → AddGold + репутация. Кнопки «×1»/«Всё», клик по строке = продать 1
 
+## Кормушки и поилки (новое, требует проверки в Play)
+- **Кормушка**: предмет `Resources/Items/Animals/Feeder.asset` (itemType 26), префаб `Assets/Prefab/Feeder.prefab` (спрайт Barn objects_17), скрипт `FeederStorage.cs`. **Поилка**: `WaterTrough.asset` (27), `WaterTrough.prefab` (Barn objects_22), `WaterTrough.cs`
+- Размещение: `PlayerMovement.UpdatePlacementGhost` — выбрал в хотбаре → полупрозрачный ghost ездит ПЕРЕД игроком (зелёный=можно/красный=занято), атака = поставить, смена слота = отмена. **Поворот**: повторный тап по АКТИВНОМУ слоту (`HotbarManager.SetActiveSlot` → `PlayerMovement.NotifySlotRetapped`, +90°). `CanPlaceAt` запрещает ставить на коллайдеры (игрок/животные не мешают)
+- Сохранение: `PlaceablesSaveManager` (автосоздаётся из `SaveManager.ProcessScene`, ключ `ИмяСцены/placeables`). ВАЖНО: в `ProcessScene` EnsureInScene-вызовы стоят ДО early-return `initialSceneResolved` — иначе при возврате в стартовую сцену менеджеры не создаются и ничего не восстанавливается. Сейв зовётся сразу при постановке/наливе/загрузке корма (не ждём автосейва 60с)
+- Удар по кормушке: если в хотбаре КОРМ (`FeedUI.IsAnimalFeed`, кэш по `AnimalData.feedItem`) → быстрая загрузка всего стака (`QuickLoad`); другой корм в кормушке → замена, старый в рюкзак; пустые/другие руки → окно FeedUI
+- Надписи над кормушкой/поилкой: WorldLabel (иконка корма/лейки + «2/5», TMP 3D, обводка через fontMaterial-OUTLINE)
+- FeedUI (окно корма) строит себя кодом, создаётся при первом ударе по кормушке под Canvas. Показывает только предметы-корма (match `AnimalData.feedItem` по имени). Кнопки +1/+5/Всё, «Забрать всё»
+- **Голод**: после продукции животное `wantsFood=true` → само идёт к ближайшей кормушке С ЕГО кормом (`FeederStorage.FindNearest`, радиус 15) → ест 2с → уходит (leaveDir в wanderBias). Нет корма/кормушек — старое поведение (с руки). `HandleProduction` стоит при `wantsWater`
+- **Жажда**: тик `drinkInterval=180с` ТОЛЬКО если есть поилки в мире → идёт пить 1 ед. воды, производство стоит пока не попьёт
+- Вместимость: кормушка 5 + `feeder` (+1/ранг) + `feeder_big` (+1/ранг); поилка 30 + `trough`×10. Перки-ассеты: `Resources/SkillNodes/Tree/Farming/Animals/Unlock_Feeder|Farming_BigFeeder|Unlock_Trough` (эффект UnlockFeature, теги в `unlocksFeature`)
+- Магазин: `ShopInteraction.EnsureFarmStock` добавляет кормушку (500g, тег `feeder`) и поилку (400g, тег `trough`) КОДОМ во вкладку животных торговца (НЕ `animal_*` — иначе TryBuy применит лимит детёнышей!)
+- SkillTreeManager.MergeFarmNodes — рантайм-фолбэк: новые перки автодобавляются в allNodes из Resources. UI-кнопки в дереве (SkillNodeUI) юзер добавляет ВРУЧНУЮ в сцене
+- Индикатор голода: иконка корма над головой (`HungerIcon`, качается, синий tint при жажде)
+- **Сбор кормушки/поилки**: предмет `Resources/Items/Hammer.asset` (itemType Hammer, добавлен В КОНЕЦ enum ItemType), продаётся у торговца кодом (ShopInteraction.EnsureFarmStock, 200g, без unlockTag). Иконка — временно от кирки, ЗАМЕНИТЬ в инспекторе. В хотбаре: молоток → объект перед игроком в радиусе `hammerRange` подсвечивается ЗЕЛЁНЫМ (PlayerMovement.UpdateHammerHighlight, tint SpriteRenderers с восстановлением цвета); удар = разобрать в рюкзак (корм сначала выгружается TakeAllBack, если рюкзак полон — откат; вода поилки пропадает). Проверка молотка в `Attack()` стоит ДО InteractionDetector.TryInteract — иначе удар по кормушке открыл бы FeedUI. Иконку молотка нельзя делать из «All Crops» — в ассет-паке иконок (RPG icons) молотка нет
+- **Оффлайн-расход корма/воды** — работает: `AnimalController.SimulateOfflineNeeds` (очередь offlineQueue, запуск из SaveManager.ProcessScene после спавна кормушек/поилок). Списание сохраняется через `SaveManager.ScheduleDelayedSave(3f)` (мгновенный Save при загрузке сцены поймал бы полусозданное состояние систем)
+
 ## Покупка животных (работает)
 - Предметы-детёныши: `Resources/Items/Animals/*Baby.asset` (Chicken/Cow/Pig/Ostrich), itemType=AnimalBaby (14), иконки-морды из skilltree_sheet_3, `animalPrefab` = префаб из `Assets/Prefab/`
 - Спавн: детёныш в хотбаре → активен → удар = спавн рядом (`PlayerMovement.SpawnAnimal`)
-- Лимиты: перк animal_* ранг 1 = 2 шт, +1 за ранг, макс 10 (`ShopManager`, ранг через `GetNodeRankByFeature`), купленное сохраняется (`animal_shop`)
+- Лимиты: перк animal_* ранг 1 = 2 шт, +1 за ранг, макс 10 (`ShopManager`, ранг через `GetNodeRankByFeature`), купленное сохраняется (`animal_shop`). ИСПРАВЛЕНО: `ShopUI.OnBuyClick` сбрасывает `selectedQuantity` после ЛЮБОЙ попытки покупки (раньше накопленное количество «докупалось» после прокачки перка), `GetAllowedMax` клэмпит +/− до остатка лимита
 - Персистентность: `AnimalSaveManager.RestoreState` спавнит купленных из сейва (префаб из `AnimalData.animalPrefab`)
 - ИСПРАВЛЕНО: префабы Cow/Pig использовали данные страуса — теперь Cow Black.prefab→Cow Black Brown, Pig Mud Pink→Pig Mud Pink Brown 1
 - Без перков/префабов пока: Duck, Goose (нет префабов), Goat, Sheep (нет перков)

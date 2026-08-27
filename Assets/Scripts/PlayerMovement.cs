@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -37,6 +38,25 @@ public class PlayerMovement : MonoBehaviour
     public float axeRange = 1.2f;
     public float pickaxeRange = 1.2f;
     public float sickleRange = 1.0f;
+
+    [Header("Размещение объектов (кормушка/поилка)")]
+    [Tooltip("Дистанция призрака перед игроком")]
+    public float placeDistance = 1.1f;
+    [Tooltip("Радиус проверки занятости места")]
+    public float placeCheckRadius = 0.45f;
+    private GameObject placementGhost;
+    private SpriteRenderer ghostSr;
+    private ItemData ghostItem;
+    private float placeRotation = 0f;
+
+    [Header("Молоток (сбор кормушки/поилки в рюкзак)")]
+    [Tooltip("Дальность разбора размещённых объектов молотком")]
+    public float hammerRange = 1.5f;
+    private Component highlightedPlaceable; // FeederStorage/WaterTrough под подсветкой
+    private readonly Dictionary<SpriteRenderer, Color> savedHighlightColors = new Dictionary<SpriteRenderer, Color>();
+
+    /// <summary>Повторный тап по АКТИВНОМУ слоту хотбара (HotbarManager).</summary>
+    public static event System.Action onSlotRetapped;
 
     private Rigidbody2D rb;
     private Animator animator;
@@ -85,6 +105,32 @@ public class PlayerMovement : MonoBehaviour
             animator.SetFloat("LastMoveX", lastMoveX);
             animator.SetFloat("LastMoveY", lastMoveY);
         }
+
+        UpdatePlacementGhost();
+        UpdateHammerHighlight();
+    }
+
+    /// <summary>Вызывается из HotbarManager при повторном тапе по активному слоту.</summary>
+    public static void NotifySlotRetapped() => onSlotRetapped?.Invoke();
+
+    void OnEnable()
+    {
+        onSlotRetapped += RotatePlacementGhost;
+    }
+
+    void OnDisable()
+    {
+        onSlotRetapped -= RotatePlacementGhost;
+        RestoreHammerHighlight();
+        DestroyGhost();
+    }
+
+    /// <summary>Поворот ghost-объекта на 90° перед постановкой.</summary>
+    void RotatePlacementGhost()
+    {
+        if (placementGhost == null) return;
+        placeRotation += 90f;
+        placementGhost.transform.localEulerAngles = new Vector3(0f, 0f, placeRotation);
     }
 
     void FixedUpdate()
@@ -118,6 +164,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if (isAttacking) return;
 
+        ItemData activeItem = HotbarManager.Instance?.GetActiveItem();
+
+        // Молоток: удар = разобрать кормушку/поилку в рюкзак.
+        // Проверяем ДО детектора — иначе удар по кормушке откроет FeedUI
+        if (activeItem != null && activeItem.itemType == ItemType.Hammer)
+        {
+            StartHammerUse(activeItem);
+            return;
+        }
+
         // Универсальная проверка интерактивных объектов через детектор активной стороны
         InteractionDetector activeDetector = GetActiveDetector();
         if (activeDetector != null && activeDetector.TryInteract())
@@ -126,11 +182,17 @@ public class PlayerMovement : MonoBehaviour
         if (farmInteraction != null)
             farmInteraction.CheckHarvest();
 
-        ItemData activeItem = HotbarManager.Instance?.GetActiveItem();
         float cooldown = activeItem != null ? activeItem.attackSpeed : 0.6f;
 
         if (Time.time - lastAttackTime < cooldown) return;
         lastAttackTime = Time.time;
+
+        // Ghost-режим размещения (кормушка/поилка в руках) — атака ставит объект
+        if (placementGhost != null && IsPlaceable(activeItem))
+        {
+            TryPlaceAtGhost(activeItem);
+            return;
+        }
 
         if (activeItem == null)
         {
@@ -366,7 +428,227 @@ public class PlayerMovement : MonoBehaviour
         ActionLogUI.Show("Посажен саженец: " + saplingData.itemName);
     }
 
-        // Выпустить детёныша животного из активного слота хотбара
+    // ═══════════════════════════════════════════════════════════
+    // РАЗМЕЩЕНИЕ ОБЪЕКТОВ (кормушка/поилка): ghost перед игроком,
+    // ходьба двигает призрак, атака ставит, смена слота отменяет
+    // ═══════════════════════════════════════════════════════════
+    public static bool IsPlaceable(ItemData item)
+        => item != null && (item.itemType == ItemType.Feeder || item.itemType == ItemType.WaterTrough);
+
+    void UpdatePlacementGhost()
+    {
+        ItemData active = HotbarManager.Instance != null ? HotbarManager.Instance.GetActiveItem() : null;
+        bool want = IsPlaceable(active) && active.placeablePrefab != null;
+        if (!want) { DestroyGhost(); return; }
+
+        if (placementGhost == null || ghostItem != active)
+            CreateGhost(active);
+
+        Vector2 dir = new Vector2(lastMoveX, lastMoveY);
+        if (dir.sqrMagnitude < 0.01f) dir = Vector2.down;
+        Vector3 pos = transform.position + (Vector3)(dir.normalized * placeDistance);
+        placementGhost.transform.position = pos;
+
+        if (ghostSr != null)
+            ghostSr.color = CanPlaceAt(pos)
+                ? new Color(0.55f, 1f, 0.55f, 0.6f)
+                : new Color(1f, 0.35f, 0.35f, 0.6f);
+    }
+
+    void CreateGhost(ItemData item)
+    {
+        DestroyGhost();
+        ghostItem = item;
+        placeRotation = 0f;
+        placementGhost = new GameObject("PlacementGhost");
+        placementGhost.transform.localEulerAngles = Vector3.zero;
+        ghostSr = placementGhost.AddComponent<SpriteRenderer>();
+        ghostSr.sprite = item.icon != null ? item.icon : item.worldSprite;
+        ghostSr.sortingOrder = 60;
+        var c = ghostSr.color;
+        c.a = 0.6f;
+        ghostSr.color = c;
+    }
+
+    void DestroyGhost()
+    {
+        if (placementGhost != null) Destroy(placementGhost);
+        placementGhost = null;
+        ghostSr = null;
+        ghostItem = null;
+    }
+
+    /// <summary>Можно ли поставить объект: нет стен/воды/других предметов в точке.
+    /// Игрок и животные не мешают (игрок отойдёт, животные обойдут).</summary>
+    bool CanPlaceAt(Vector3 pos)
+    {
+        Collider2D[] hits = Physics2D.OverlapCircleAll(pos, placeCheckRadius);
+        foreach (Collider2D h in hits)
+        {
+            if (h.isTrigger) continue;
+            if (h.transform == transform || h.CompareTag("Player")) continue;
+            if (h.GetComponentInParent<AnimalController>() != null) continue;
+            return false;
+        }
+        return true;
+    }
+
+    void TryPlaceAtGhost(ItemData item)
+    {
+        if (placementGhost == null || item.placeablePrefab == null) return;
+
+        Vector3 pos = placementGhost.transform.position;
+        if (!CanPlaceAt(pos))
+        {
+            ActionLogUI.Show("Здесь нельзя поставить — место занято!");
+            return;
+        }
+
+        Instantiate(item.placeablePrefab, pos, Quaternion.Euler(0f, 0f, placeRotation));
+
+        InventorySlot slot = HotbarManager.Instance != null ? HotbarManager.Instance.GetActiveSlot() : null;
+        if (slot != null)
+        {
+            if (slot.quantity > 1) { slot.quantity--; slot.UpdateUI(); }
+            else slot.ClearSlot();
+            HotbarManager.Instance.NotifyActiveItemChanged();
+        }
+
+        ActionLogUI.Show("Поставлено: " + item.itemName + ". Удар по нему — открыть.");
+
+        // Сейв сразу: иначе при выходе раньше автосейва кормушка потеряется
+        SaveManager.Instance?.Save();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // МОЛОТОК: удар по кормушке/поилке = разобрать в рюкзак.
+    // Объект перед игроком подсвечивается зелёным (UpdateHammerHighlight)
+    // ═══════════════════════════════════════════════════════════
+    void StartHammerUse(ItemData hammer)
+    {
+        float cooldown = hammer.attackSpeed > 0 ? hammer.attackSpeed : toolUseDuration;
+        if (Time.time - lastAttackTime < cooldown) return;
+        lastAttackTime = Time.time;
+
+        isAttacking = true;
+        animator.SetTrigger("Tools");
+        animator.SetFloat("LastMoveX", lastMoveX);
+        animator.SetFloat("LastMoveY", lastMoveY);
+
+        TryPickupPlaceable();
+
+        StartCoroutine(WaitAndReset(cooldown));
+    }
+
+    /// <summary>Ближайшая кормушка/поилка перед игроком (null — нет в зоне молотка).</summary>
+    Component FindPlaceableInFront()
+    {
+        Vector2 dir = new Vector2(lastMoveX, lastMoveY);
+        if (dir.sqrMagnitude < 0.01f) dir = Vector2.down;
+        Vector2 checkPos = (Vector2)transform.position + dir.normalized * (hammerRange * 0.55f);
+
+        Collider2D[] hits = Physics2D.OverlapCircleAll(checkPos, hammerRange * 0.75f);
+        foreach (Collider2D h in hits)
+        {
+            FeederStorage feeder = h.GetComponentInParent<FeederStorage>();
+            if (feeder != null) return feeder;
+            WaterTrough trough = h.GetComponentInParent<WaterTrough>();
+            if (trough != null) return trough;
+        }
+        return null;
+    }
+
+    void TryPickupPlaceable()
+    {
+        Component target = FindPlaceableInFront();
+        if (target == null) return; // замах вхолостую
+
+        ItemData pickupItem;
+        string nameRu;
+
+        if (target is FeederStorage feeder)
+        {
+            // Сначала выгружаем корм в рюкзак — иначе кормушка не собирается
+            if (feeder.TotalStock > 0)
+            {
+                feeder.TakeAllBack();
+                if (feeder.TotalStock > 0)
+                {
+                    ActionLogUI.Show("Рюкзак полон — корм не влезает, освободи место!");
+                    return;
+                }
+            }
+            pickupItem = ItemDatabase.Find("Feeder");
+            nameRu = "Кормушка";
+        }
+        else if (target is WaterTrough trough)
+        {
+            if (trough.water > 0)
+                ActionLogUI.Show("Вода из поилки вылилась (" + trough.water + " ед.)");
+            pickupItem = ItemDatabase.Find("WaterTrough");
+            nameRu = "Поилка";
+        }
+        else return;
+
+        if (pickupItem == null)
+        {
+            Debug.LogWarning("[Молоток] Не найден предмет в ItemDatabase: " + nameRu);
+            return;
+        }
+
+        if (InventoryUI.Instance == null || !InventoryUI.Instance.AddItem(pickupItem, 1))
+        {
+            ActionLogUI.Show("Рюкзак полон — " + nameRu + " не влезает!");
+            return;
+        }
+
+        RestoreHammerHighlight();
+        Destroy(target.gameObject);
+
+        ActionLogUI.Show(nameRu + " убрана в рюкзак");
+
+        // Сейв сразу: иначе при выходе раньше автосейва объект «воскреснет»
+        SaveManager.Instance?.Save();
+    }
+
+    // ── Зелёная подсветка объекта, который молоток сейчас разберёт ──
+    void UpdateHammerHighlight()
+    {
+        if (isAttacking) return;
+
+        ItemData active = HotbarManager.Instance != null ? HotbarManager.Instance.GetActiveItem() : null;
+        bool hammerMode = active != null && active.itemType == ItemType.Hammer;
+
+        Component target = hammerMode ? FindPlaceableInFront() : null;
+
+        if (target == highlightedPlaceable) return;
+
+        RestoreHammerHighlight();
+        highlightedPlaceable = target;
+
+        if (target == null) return;
+
+        Color tint = new Color(0.45f, 1f, 0.45f);
+        foreach (SpriteRenderer sr in target.GetComponentsInChildren<SpriteRenderer>(true))
+        {
+            if (sr == null) continue;
+            savedHighlightColors[sr] = sr.color;
+            sr.color = Color.Lerp(sr.color, tint, 0.75f);
+        }
+    }
+
+    void RestoreHammerHighlight()
+    {
+        foreach (var kvp in savedHighlightColors)
+        {
+            if (kvp.Key == null) continue; // объект разобран — рендерер уничтожен
+            kvp.Key.color = kvp.Value;
+        }
+        savedHighlightColors.Clear();
+        highlightedPlaceable = null;
+    }
+
+    // Выпустить детёныша животного из активного слота хотбара
     void SpawnAnimal(ItemData babyItem)
     {
         if (babyItem.animalPrefab == null)

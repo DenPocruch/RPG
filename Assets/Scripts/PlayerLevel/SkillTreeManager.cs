@@ -31,7 +31,43 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
             foreach (SkillNode node in allNodes)
                 if (node != null) nodeRanks[node] = 0;
 
+        // Фолбэк: фарм-перки (кормушка/поилка) подхватываем из Resources,
+        // даже если их ещё не добавили в allNodes в инспекторе —
+        // иначе магазин не увидит теги разблокировки
+        MergeFarmNodes();
+
         SaveManager.Instance?.Register(this);
+    }
+
+    void MergeFarmNodes()
+    {
+        string[] farmTags = { "feeder", "feeder_big", "trough" };
+        var existing = new HashSet<string>();
+        if (allNodes != null)
+            foreach (SkillNode n in allNodes)
+                if (n != null && !string.IsNullOrEmpty(n.unlocksFeature))
+                    existing.Add(n.unlocksFeature);
+
+        var loaded = Resources.LoadAll<SkillNode>("SkillNodes/Tree");
+        var missing = new List<SkillNode>();
+        foreach (SkillNode n in loaded)
+        {
+            if (n == null) continue;
+            bool isFarm = System.Array.Exists(farmTags, t => n.unlocksFeature == t);
+            if (isFarm && !existing.Contains(n.unlocksFeature))
+                missing.Add(n);
+        }
+
+        if (missing.Count == 0) return;
+
+        var merged = new List<SkillNode>(allNodes ?? new SkillNode[0]);
+        foreach (SkillNode n in missing)
+        {
+            merged.Add(n);
+            nodeRanks[n] = 0;
+            Debug.Log("[SkillTree] Автодобавлен фарм-перк: " + n.name + " (" + n.unlocksFeature + ")");
+        }
+        allNodes = merged.ToArray();
     }
 
     void Start()

@@ -191,34 +191,20 @@ public class InventoryUI : MonoBehaviour, ISaveable
 
         if (item.isStackable)
         {
-            foreach (InventorySlot slot in slots)
-            {
-                if (remaining <= 0) break;
-                if (!slot.IsEmpty() && slot.currentItem == item)
-                {
-                    int canAdd = item.maxStack - slot.quantity;
-                    if (canAdd > 0)
-                    {
-                        int addAmount = Mathf.Min(canAdd, remaining);
-                        slot.quantity += addAmount;
-                        slot.UpdateUI();
-                        remaining -= addAmount;
-                    }
-                }
-            }
+            remaining = FillExistingStacks(item, remaining, slots);
+
+            // Рюкзак не вместил всё — доливаем в неполные стаки хотбара
+            if (remaining > 0 && HotbarManager.Instance != null)
+                remaining = FillExistingStacks(item, remaining, HotbarManager.Instance.slots);
         }
 
         while (remaining > 0)
         {
-            InventorySlot emptySlot = null;
-            foreach (InventorySlot slot in slots)
-            {
-                if (slot.IsEmpty())
-                {
-                    emptySlot = slot;
-                    break;
-                }
-            }
+            InventorySlot emptySlot = FindEmptySlot(slots);
+
+            // Нет пустых слотов в рюкзаке — пробуем пустые слоты хотбара
+            if (emptySlot == null && HotbarManager.Instance != null)
+                emptySlot = FindEmptySlot(HotbarManager.Instance.slots);
 
             if (emptySlot == null)
             {
@@ -235,6 +221,31 @@ public class InventoryUI : MonoBehaviour, ISaveable
         }
 
         return true;
+    }
+
+    int FillExistingStacks(ItemData item, int remaining, InventorySlot[] targets)
+    {
+        foreach (InventorySlot slot in targets)
+        {
+            if (remaining <= 0) break;
+            if (slot == null || slot.IsEmpty() || slot.currentItem != item) continue;
+            int canAdd = item.maxStack - slot.quantity;
+            if (canAdd > 0)
+            {
+                int addAmount = Mathf.Min(canAdd, remaining);
+                slot.quantity += addAmount;
+                slot.UpdateUI();
+                remaining -= addAmount;
+            }
+        }
+        return remaining;
+    }
+
+    InventorySlot FindEmptySlot(InventorySlot[] targets)
+    {
+        foreach (InventorySlot slot in targets)
+            if (slot != null && slot.IsEmpty()) return slot;
+        return null;
     }
 
     public bool RemoveItem(ItemData item, int amount = 1)

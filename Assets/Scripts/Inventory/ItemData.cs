@@ -29,6 +29,9 @@ public enum ItemType
     Amulet,
     None,
     AnimalBaby,
+    Feeder,
+    WaterTrough,
+    Hammer,
 }
 
 public enum ItemRarity
@@ -114,6 +117,12 @@ public class ItemData : ScriptableObject
     [Header("Детёныш животного (AnimalBaby)")]
     [Tooltip("Префаб животного — спавнится при использовании из хотбара")]
     public GameObject animalPrefab;
+
+    [Header("Размещаемый объект (Feeder / WaterTrough)")]
+    [Tooltip("Префаб кормушки/поилки — ставится на ферму через ghost-режим")]
+    public GameObject placeablePrefab;
+    [Tooltip("Цена в магазине (0 = цена задаётся в ShopInteraction)")]
+    public int shopPrice = 0;
 
     [Header("Удобрение")]
     [Tooltip("Если true — использование на грядку с растением ускоряет его рост ×2")]

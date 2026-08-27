@@ -98,6 +98,14 @@ public class ShopManager : MonoBehaviour, ISaveable
         return true;
     }
 
+    /// <summary>Сколько детёнышей уже куплено по тегу (для UI-лимита).</summary>
+    public int GetBoughtCount(string tag)
+    {
+        if (string.IsNullOrEmpty(tag)) return 0;
+        boughtByTag.TryGetValue(tag, out int bought);
+        return bought;
+    }
+
     // ─── ISaveable: купленные детёныши ───
     [System.Serializable] private class TagCount { public string tag; public int count; }
     [System.Serializable] private class BoughtSave { public List<TagCount> items = new List<TagCount>(); }

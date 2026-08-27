@@ -127,6 +127,10 @@ public class HotbarManager : MonoBehaviour, ISaveable
     {
         if (index < 0 || index >= slots.Length) return;
 
+        // Повторный тап по УЖЕ активному слоту — сигнал для систем
+        // (например, поворот кормушки/поилки перед постановкой)
+        bool retap = index == activeSlotIndex;
+
         // Снимаем выделение со всех
         for (int i = 0; i < slots.Length; i++)
         {
@@ -144,6 +148,9 @@ public class HotbarManager : MonoBehaviour, ISaveable
 
         // Уведомляем всех подписчиков об изменении активного предмета
         NotifyActiveItemChanged();
+
+        if (retap)
+            PlayerMovement.NotifySlotRetapped();
     }
 
     public ItemData GetActiveItem()

@@ -185,6 +185,9 @@ MonoBehaviour:
   startAsAdult: 0
   lootItemPrefab: {fileID: 0}
   productDropRadius: 0.5
+  feedSearchRadius: 15
+  drinkInterval: 180
+  facilityStopDistance: 1.45
 --- !u!114 &2540161249660933025
 MonoBehaviour:
   m_ObjectHideFlags: 0

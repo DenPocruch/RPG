@@ -254,7 +254,7 @@ public class ShopUI : MonoBehaviour
     void OnPlusClick()
     {
         if (selectedItem == null) return;
-        selectedQuantity = Mathf.Min(selectedQuantity + 1, 999);
+        selectedQuantity = Mathf.Min(selectedQuantity + 1, GetAllowedMax());
         RefreshDetail();
     }
 
@@ -265,6 +265,23 @@ public class ShopUI : MonoBehaviour
         RefreshDetail();
     }
 
+    /// <summary>Максимум к покупке: для животных — остаток до лимита перка.</summary>
+    int GetAllowedMax()
+    {
+        if (selectedItem == null || string.IsNullOrEmpty(selectedItem.unlockTag) ||
+            !selectedItem.unlockTag.StartsWith("animal_"))
+            return 999;
+
+        int rank = SkillTreeManager.Instance != null
+            ? SkillTreeManager.Instance.GetNodeRankByFeature(selectedItem.unlockTag) : 0;
+        int allowed = rank == 0 ? 0 : Mathf.Min(rank + 1, 10);
+
+        // Сколько уже куплено — берём из ShopManager через рефлексию нельзя,
+        // поэтому просим у него публичный метод (см. GetBoughtCount)
+        int bought = ShopManager.Instance != null ? ShopManager.Instance.GetBoughtCount(selectedItem.unlockTag) : 0;
+        return Mathf.Max(1, allowed - bought);
+    }
+
     // ═══════════════════════════════════════════════════════════
     // ПОКУПКА
     // ═══════════════════════════════════════════════════════════
@@ -273,14 +290,19 @@ public class ShopUI : MonoBehaviour
         if (selectedItem == null || ShopManager.Instance == null) return;
 
         bool ok = ShopManager.Instance.TryBuy(selectedItem, selectedQuantity);
+
+        // Сброс количества после ЛЮБОЙ попытки: иначе накопленное
+        // "висит" и сработает после прокачки перка (баг с 5 курами)
+        selectedQuantity = 1;
+
         if (ok)
         {
             UpdateGoldText();
-            RefreshDetail();
 
             // Сейв по событию: покупка (золото и инвентарь изменились)
             SaveManager.Instance?.Save();
         }
+        RefreshDetail();
     }
 
     void UpdateGoldText()

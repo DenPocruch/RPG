@@ -2,11 +2,15 @@ using UnityEngine;
 
 public class YSort : MonoBehaviour
 {
-    [Header("Смещение сортировки")]
-    public int sortingOffset = 0; // для Tool ставь +10 чтобы рисовался поверх персонажа
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public int sortingOffset = 0; // пїЅпїЅпїЅ Tool пїЅпїЅпїЅпїЅпїЅ +10 пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     private SpriteRenderer spriteRenderer;
-    private const int BASE_OFFSET = 5000;
+    public const int BASE_OFFSET = 5000;
+
+    /// <summary>РџРѕСЂСЏРґРѕРє СЃРѕСЂС‚РёСЂРѕРІРєРё РґР»СЏ РїРѕР·РёС†РёРё (РёРєРѕРЅРєРё/Р»РµР№Р±Р»С‹ РЅР°Рґ РѕР±СЉРµРєС‚Р°РјРё вЂ” +1 РїРѕРІРµСЂС…).</summary>
+    public static int GetOrder(Vector3 pos, int offset = 0)
+        => BASE_OFFSET - (int)(pos.y * 10) + offset;
 
     void Start()
     {
@@ -16,6 +20,6 @@ public class YSort : MonoBehaviour
     void LateUpdate()
     {
         if (spriteRenderer != null)
-            spriteRenderer.sortingOrder = BASE_OFFSET - (int)(transform.position.y * 10) + sortingOffset;
+            spriteRenderer.sortingOrder = GetOrder(transform.position, sortingOffset);
     }
 }

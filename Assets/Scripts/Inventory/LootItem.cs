@@ -84,7 +84,10 @@ public class LootItem : MonoBehaviour
         }
         else
         {
-            Debug.Log("��������� �����!");
+            Debug.Log("Инвентарь полон! Предмет остаётся на земле.");
+            // Не уничтожаем — предмет можно подобрать позже, когда появится место
+            isPickedUp = false;
+            return;
         }
 
         Destroy(gameObject);

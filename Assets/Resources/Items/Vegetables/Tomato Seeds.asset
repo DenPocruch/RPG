@@ -17,7 +17,7 @@ MonoBehaviour:
   icon: {fileID: -453094867870019732, guid: 47e38249e06d33a4a959944170aaecf3, type: 3}
   worldSprite: {fileID: -7250333855265626300, guid: 47e38249e06d33a4a959944170aaecf3, type: 3}
   itemType: 11
-  rarity: 0
+  rarity: 1
   isStackable: 1
   maxStack: 16
   damage: 0
@@ -36,8 +36,8 @@ MonoBehaviour:
   - {fileID: -8316724839696421219, guid: e911d746d706b224e812ecdeed159578, type: 3}
   - {fileID: -2807092664189701965, guid: e911d746d706b224e812ecdeed159578, type: 3}
   growthStagesCount: 7
-  growthTimeWatered: 35
-  growthTimeNormal: 70
+  growthTimeWatered: 180
+  growthTimeNormal: 360
   harvestItem: {fileID: 11400000, guid: ae11145d7db3e1e4c95b92a2deeae545, type: 2}
   harvestAmount: 1
   maxWater: 10

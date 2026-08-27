@@ -92,16 +92,24 @@ public class SaveManager : MonoBehaviour
 
         // Стартовую сцену обрабатываем один раз (Start + sceneLoaded могут
         // оба вызвать этот метод для неё)
+        // Менеджеры сцен обеспечиваем ДО early-return: при возврате в
+        // стартовую сцену обработка ниже пропускается, но восстановить
+        // деревья/животных/кормушки нужно всегда
+        TreeSaveManager.EnsureInScene(scene);
+        AnimalSaveManager.EnsureInScene(scene);
+        PlaceablesSaveManager.EnsureInScene(scene);
+
+        // Кормушки/поилки уже заспавнены — теперь можно симулировать офлайн-расход
+        // корма и воды животными (они восстанавливаются РАНЬШЕ кормушек).
+        // Расход сохраняем с задержкой: мгновенный Save поймал бы полусозданное
+        // состояние систем, чей Start ещё не успел отработать
+        if (AnimalController.RunPendingOfflineSim())
+            ScheduleDelayedSave(3f);
+
         if (initialSceneResolved && scene.name == initialSceneName) return;
 
         Debug.Log("[Save] Обработка сцены: " + scene.name +
                   (SceneTransition.PortalTransitionActive ? " (переход через портал)" : " (старт/загрузка)"));
-
-        // Менеджер деревьев — в каждой сцене свой
-        TreeSaveManager.EnsureInScene(scene);
-
-        // Менеджер животных — в каждой сцене свой
-        AnimalSaveManager.EnsureInScene(scene);
 
         // Позиция игрока — компонент вешаем автоматически, если его нет
         GameObject player = GameObject.FindWithTag("Player");
@@ -365,6 +373,23 @@ public class SaveManager : MonoBehaviour
     {
         foreach (Entry e in file.entries)
             loadedBlobs[e.key] = e.json;
+    }
+
+    /// <summary>Отложенный сейв (корутиной) — для систем, меняющих данные прямо
+    /// при загрузке сцены (офлайн-симуляция животных). Повторный вызов до
+    /// срабатывания не плодит таймеры.</summary>
+    private Coroutine delayedSaveRoutine;
+    public void ScheduleDelayedSave(float delay)
+    {
+        if (delayedSaveRoutine != null) return;
+        delayedSaveRoutine = StartCoroutine(DelayedSaveRoutine(delay));
+    }
+
+    private System.Collections.IEnumerator DelayedSaveRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        delayedSaveRoutine = null;
+        Save();
     }
 
     // ═══════════════════════════════════════════════════════════

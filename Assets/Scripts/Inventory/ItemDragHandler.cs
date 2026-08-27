@@ -396,6 +396,22 @@ public class ItemDragHandler : MonoBehaviour,
             return;
         }
 
+        // ─── СЛИЯНИЕ СТАКОВ (один и тот же предмет — доливаем, а не меняем местами) ───
+        if (!to.IsEmpty() && !from.IsEmpty()
+            && to.currentItem == from.currentItem && from.currentItem.isStackable)
+        {
+            int canAdd = from.currentItem.maxStack - to.quantity;
+            if (canAdd > 0)
+            {
+                int add = Mathf.Min(canAdd, from.quantity);
+                to.quantity += add;
+                from.quantity -= add;
+                to.UpdateUI();
+                if (from.quantity <= 0) from.ClearSlot(); else from.UpdateUI();
+                return;
+            }
+        }
+
         ItemData tempItem = to.currentItem;
         int tempQty = to.quantity;
         int tempWater = to.currentWater;
