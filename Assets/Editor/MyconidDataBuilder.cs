@@ -5,7 +5,8 @@ using UnityEditor;
 /// <summary>
 /// Tools → Enemy → Create Myconid EnemyData
 /// Собирает EnemyData-ассеты для всех 5 цветов Myconid из нарезанных спрайтов.
-/// Листы: ряд 0 = влево (side), ряд 1 = вправо (sideRight), ряды 2-3 — варианты (не используются).
+/// Листы: ряд 0 = лицом к зрителю (down), ряд 1 = спиной (up),
+/// ряд 2 = повёрнут ВПРАВО (sideRight), ряд 3 = ВЛЕВО (side).
 /// Кадры в мета нарезаны рядами сверху вниз: ряд r начинается с индекса r * кадровВРяду.
 /// Ассеты кладутся в Assets/Resources/Enemies/Myconid<Цвет>.asset (как у слаймов).
 /// Идемпотентно: перезапуск пересоздаёт ассеты.
@@ -52,8 +53,10 @@ public static class MyconidDataBuilder
     static EnemyData.DirectionalFrames Frames(string dir, string sheet, int framesPerRow)
     {
         var df = new EnemyData.DirectionalFrames();
-        df.side = LoadRow(dir, sheet, 0, framesPerRow);      // ряд 0 = смотрит ВЛЕВО
-        df.sideRight = LoadRow(dir, sheet, 1, framesPerRow); // ряд 1 = смотрит ВПРАВО
+        df.down = LoadRow(dir, sheet, 0, framesPerRow);      // ряд 0 = лицом к зрителю
+        df.up = LoadRow(dir, sheet, 1, framesPerRow);        // ряд 1 = спиной к зрителю
+        df.sideRight = LoadRow(dir, sheet, 2, framesPerRow); // ряд 2 = повёрнут вправо
+        df.side = LoadRow(dir, sheet, 3, framesPerRow);      // ряд 3 = повёрнут влево
         return df;
     }
 

@@ -28,6 +28,19 @@ public class SimpleEnemyAI : MonoBehaviour
     public float attackHitDelay = 0.35f;
     public float attackCooldown = 1.2f;
 
+    [Header("Дальний бой (стрелок)")]
+    [Tooltip("Префаб стрелы (Arrow). Если назначен — враг стрелок: держит дистанцию и стреляет")]
+    public GameObject arrowPrefab;
+    [Tooltip("Откуда вылетает стрела (пустой дочерний объект). Если не назначен — с центра врага")]
+    public Transform firePoint;
+    [Tooltip("С какой дистанции стрелок останавливается и стреляет")]
+    public float shootRange = 5f;
+    [Tooltip("Ближе этого расстояния стрелок отходит назад (не подпускает)")]
+    public float minShootDistance = 1.5f;
+    public float shootCooldown = 2f;
+    public float arrowSpeed = 7f;
+    public float arrowDamage = 10f;
+
     [Header("Респавн")]
     public float respawnTime = 5f;
     public float deathAnimDuration = 1f;
@@ -61,6 +74,10 @@ public class SimpleEnemyAI : MonoBehaviour
     private float lastAttackTime = -999f;
     private bool attackPending;
 
+    // Дальний бой
+    private bool usingRanged;
+    private bool shootPending;
+
     // Alert state
     private bool isAlert = false;
     private float alertTimer = 0f;
@@ -86,8 +103,11 @@ public class SimpleEnemyAI : MonoBehaviour
         else
             Debug.LogWarning(gameObject.name + ": не назначен EnemyData — анимации не будет");
 
-        // Есть attack-кадры → враг бьёт с анимацией, урон касанием отключаем
-        usingMeleeAttack = EnemyData.Has(enemyData != null ? enemyData.attack : null);
+        // Есть attack-кадры → враг бьёт с анимацией, урон касанием отключаем.
+        // Назначен arrowPrefab → стрелок: дальняя атака вместо ближней
+        usingRanged = arrowPrefab != null;
+        usingMeleeAttack = !usingRanged && EnemyData.Has(enemyData != null ? enemyData.attack : null);
+        currentDetectionRange = BaseDetectionRange();
 
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null)
@@ -120,9 +140,18 @@ public class SimpleEnemyAI : MonoBehaviour
                 playerHealth.TakeDamage(damageToPlayer);
         }
 
+        // Отложенный выстрел (момент выпуска стрелы в анимации)
+        if (shootPending && Time.time - lastAttackTime >= attackHitDelay)
+        {
+            shootPending = false;
+            ShootArrow();
+        }
+
         if (distanceToPlayer < currentDetectionRange)
         {
-            if (usingMeleeAttack && distanceToPlayer <= attackRange)
+            if (usingRanged && distanceToPlayer <= shootRange)
+                RangedHold(distanceToPlayer);
+            else if (usingMeleeAttack && distanceToPlayer <= attackRange)
                 AttackHold();
             else
                 ChasePlayer(distanceToPlayer);
@@ -130,7 +159,7 @@ public class SimpleEnemyAI : MonoBehaviour
         else
             Patrol();
 
-        if (!usingMeleeAttack && distanceToPlayer <= stopDistance + 0.2f)
+        if (!usingMeleeAttack && !usingRanged && distanceToPlayer <= stopDistance + 0.2f)
         {
             if (Time.time - lastDamageTime > damageCooldown)
             {
@@ -157,6 +186,45 @@ public class SimpleEnemyAI : MonoBehaviour
         }
     }
 
+    // Стоим на дистанции и стреляем (стрелки); слишком близко — отходим, глядя на игрока
+    void RangedHold(float distanceToPlayer)
+    {
+        if (enemyAnimator == null) return;
+
+        Vector2 toPlayer = (player.position - transform.position).normalized;
+        if (distanceToPlayer < minShootDistance)
+        {
+            transform.position += (Vector3)(-toPlayer) * currentMoveSpeed * Time.deltaTime;
+            SetAnimation(Vector2.zero, toPlayer);
+        }
+        else
+            SetAnimation(Vector2.zero, toPlayer); // стоим, смотрим на игрока
+
+        if (Time.time - lastAttackTime >= shootCooldown)
+        {
+            lastAttackTime = Time.time;
+            shootPending = true;
+            enemyAnimator.PlayState(EnemyAnimState.Attack, DirFromVector(toPlayer), true);
+        }
+    }
+
+    // Выстрел: стрела из firePoint (или центра) в игрока
+    void ShootArrow()
+    {
+        if (isDead || arrowPrefab == null || player == null) return;
+
+        Vector2 origin = firePoint != null ? (Vector2)firePoint.position : (Vector2)transform.position;
+        Vector2 dir = ((Vector2)player.position - origin).normalized;
+        if (dir == Vector2.zero) dir = Vector2.down;
+
+        GameObject obj = Instantiate(arrowPrefab, origin, Quaternion.identity);
+        foreach (var c in obj.GetComponentsInChildren<Collider2D>())
+            c.isTrigger = true; // иначе OnTriggerEnter2D стрелы не сработает
+        Arrow arrow = obj.GetComponent<Arrow>();
+        if (arrow != null)
+            arrow.InitEnemy(dir, arrowDamage, arrowSpeed, shootRange + 2f);
+    }
+
     void UpdateAlertState()
     {
         if (!isAlert) return;
@@ -166,9 +234,15 @@ public class SimpleEnemyAI : MonoBehaviour
         {
             // Тревога закончилась — возвращаем обычные настройки
             isAlert = false;
-            currentDetectionRange = detectionRange;
+            currentDetectionRange = BaseDetectionRange();
             currentMoveSpeed = moveSpeed;
         }
+    }
+
+    // Стрелок должен видеть дальше, чем дальность выстрела
+    float BaseDetectionRange()
+    {
+        return usingRanged ? Mathf.Max(detectionRange, shootRange) : detectionRange;
     }
 
     // Вызывается из EnemyHealth при получении урона
@@ -204,7 +278,8 @@ public class SimpleEnemyAI : MonoBehaviour
         Vector2 dirFromPlayer = (transform.position - player.position).normalized;
         if (dirFromPlayer == Vector2.zero)
             dirFromPlayer = new Vector2(lastMoveX, lastMoveY).normalized;
-        chaseTarget = player.position + (Vector3)(dirFromPlayer * stopDistance);
+        float stop = usingRanged ? Mathf.Max(0.1f, minShootDistance) : stopDistance;
+        chaseTarget = player.position + (Vector3)(dirFromPlayer * stop);
     }
 
     void Patrol()
@@ -288,6 +363,7 @@ public class SimpleEnemyAI : MonoBehaviour
         isDead = true;
         isAlert = false;
         attackPending = false;
+        shootPending = false;
         if (enemyAnimator != null)
             enemyAnimator.PlayState(EnemyAnimState.Dead, enemyAnimator.CurrentDir, true);
 
@@ -309,7 +385,7 @@ public class SimpleEnemyAI : MonoBehaviour
         transform.position = spawnPosition;
 
         // Сброс состояния
-        currentDetectionRange = detectionRange;
+        currentDetectionRange = BaseDetectionRange();
         currentMoveSpeed = moveSpeed;
         isAlert = false;
         alertTimer = 0f;
@@ -348,6 +424,12 @@ public class SimpleEnemyAI : MonoBehaviour
         // Радиус атаки
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, stopDistance);
+        // Радиус стрельбы (стрелки)
+        if (arrowPrefab != null)
+        {
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawWireSphere(transform.position, shootRange);
+        }
         // Радиус патруля
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(spawnPosition == Vector3.zero ?

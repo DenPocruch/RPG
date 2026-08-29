@@ -20,6 +20,7 @@ MonoBehaviour:
     - {fileID: 6347913539711031296, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: 2240163809329178880, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: -5321983697359815680, guid: 90743079b3353964c8a8140c71a12119, type: 3}
+    sideRight: []
   walk:
     up: []
     down: []
@@ -28,6 +29,12 @@ MonoBehaviour:
     - {fileID: -5691876839454192640, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: 3018420391056580096, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: -5465666866862494720, guid: 90743079b3353964c8a8140c71a12119, type: 3}
+    sideRight: []
+  attack:
+    up: []
+    down: []
+    side: []
+    sideRight: []
   damage:
     up: []
     down: []
@@ -36,6 +43,7 @@ MonoBehaviour:
     - {fileID: 7061353678248525824, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: -114077325894740032, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: -4180714054163889664, guid: 90743079b3353964c8a8140c71a12119, type: 3}
+    sideRight: []
   dead:
     up: []
     down: []
@@ -44,5 +52,6 @@ MonoBehaviour:
     - {fileID: 8234919979130963968, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: -3455337704489346560, guid: 90743079b3353964c8a8140c71a12119, type: 3}
     - {fileID: 3906595472285902336, guid: 90743079b3353964c8a8140c71a12119, type: 3}
-  animationFPS: 8
+    sideRight: []
+  animationFPS: 5
   sideFacesLeft: 1

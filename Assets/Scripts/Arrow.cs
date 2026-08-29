@@ -8,6 +8,7 @@ public class Arrow : MonoBehaviour
     private Vector2 direction;
     private Vector3 startPosition;
     private bool hasHit = false;
+    private bool fromEnemy = false;
 
     public void Init(Vector2 dir, float dmg, float spd, float rng)
     {
@@ -19,6 +20,13 @@ public class Arrow : MonoBehaviour
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
+    // Стрела врага: игнорирует врагов, бьёт игрока
+    public void InitEnemy(Vector2 dir, float dmg, float spd, float rng)
+    {
+        fromEnemy = true;
+        Init(dir, dmg, spd, rng);
     }
 
     void Update()
@@ -36,6 +44,20 @@ public class Arrow : MonoBehaviour
     {
         if (hasHit) return;
 
+        if (fromEnemy)
+        {
+            // Пропускаем ВСЁ, что принадлежит врагам (тег Enemy + их дочерние
+            // хитбоксы без тега, напр. Hurtbox) — иначе стрела умирает прямо
+            // в коллайдере стрелявшего гоблина
+            if (col.CompareTag("Enemy") || col.GetComponentInParent<EnemyHealth>() != null) return;
+            hasHit = true;
+            PlayerHealth ph = col.GetComponentInParent<PlayerHealth>();
+            if (ph != null)
+                ph.TakeDamage(damage);
+            Destroy(gameObject);
+            return;
+        }
+
         if (col.CompareTag("Player")) return;
         if (col.GetComponentInParent<PlayerMovement>() != null) return;
 
@@ -46,7 +68,7 @@ public class Arrow : MonoBehaviour
             if (enemy == null) enemy = col.GetComponentInParent<EnemyHealth>();
             if (enemy != null)
             {
-                // ���������� PlayerStats ��� �����
+                // ���������� PlayerStats ��� �����
                 if (PlayerStats.Instance != null && HotbarManager.Instance != null)
                 {
                     ItemData bow = HotbarManager.Instance.GetActiveItem();
