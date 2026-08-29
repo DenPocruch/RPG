@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5857462159192726999}
   - component: {fileID: 2611259922855731154}
   - component: {fileID: 596252360887399334}
-  - component: {fileID: 4262560135956940389}
   - component: {fileID: 3101344788008260899}
   - component: {fileID: 3000116840897098336}
   m_Layer: 3
@@ -200,28 +199,7 @@ MonoBehaviour:
   alertDetectionRange: 5.5
   alertDuration: 2
   alertMoveSpeed: 1.5
---- !u!95 &4262560135956940389
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6248738897704168774}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 75afb2c0eeeba7644806e934610160bf, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  enemyData: {fileID: 11400000, guid: 28abc6accbc1477fadd7d0e143bd7e2a, type: 2}
 --- !u!114 &3101344788008260899
 MonoBehaviour:
   m_ObjectHideFlags: 0

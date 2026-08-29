@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 964ce517391d4cb18ef944a9fbda4020, type: 3}
+  m_Name: SlimePinkSmall
+  m_EditorClassIdentifier: 
+  idle:
+    up: []
+    down: []
+    side:
+    - {fileID: -5394491166255703040, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 7011804702802824192, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: -1878803156363001088, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 8504379082153828352, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+  walk:
+    up: []
+    down: []
+    side:
+    - {fileID: -414529469870002560, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: -7512415038542173184, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: -8115819835928438784, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: -7959223036668663808, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+  damage:
+    up: []
+    down: []
+    side:
+    - {fileID: -1751585822254774784, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 1871210420974675968, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 8793757796306018304, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 1931985926770189824, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+  dead:
+    up: []
+    down: []
+    side:
+    - {fileID: -3078109031304176128, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 6217943313953662976, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: -7001214583432955904, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+    - {fileID: 1188457360809585664, guid: aacf139f93ead594c8b2ecd7046d77f9, type: 3}
+  animationFPS: 8
+  sideFacesLeft: 1

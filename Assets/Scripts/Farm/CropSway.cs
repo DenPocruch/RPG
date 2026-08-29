@@ -53,7 +53,7 @@ public class CropSway : MonoBehaviour
                 // Куда клонить: от игрока в сторону. Если игрок ровно на растении — по его движению
                 float dir = diff.x;
                 if (Mathf.Abs(dir) < 0.05f && playerRb != null)
-                    dir = playerRb.velocity.x;
+                    dir = playerRb.linearVelocity.x;
                 if (Mathf.Abs(dir) > 0.01f)
                     swayVel += Mathf.Sign(dir) * pushStrength * dt;
             }

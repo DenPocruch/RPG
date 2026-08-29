@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -46,11 +47,17 @@ public class SkillTreeUI : MonoBehaviour
     public Button resetButton;
     public TMP_Text resetButtonText;
 
+    [Header("Пагинация (перелистывание)")]
+    public Button pagePrevButton;
+    public Button pageNextButton;
+    [Min(1)] public int nodesPerPage = 12;
+
     private PlayerLevel.SkillBranch currentBranch = PlayerLevel.SkillBranch.Combat;
     private SkillNodeUI selectedNode = null;
     private bool isOpen = false;
     private bool justShown = false;
     private RectTransform panelRect;
+    private readonly Dictionary<PlayerLevel.SkillBranch, int> pageByBranch = new();
 
     void Awake()
     {
@@ -85,6 +92,9 @@ public class SkillTreeUI : MonoBehaviour
 
         unlockButton?.onClick.AddListener(OnUnlockClick);
         resetButton?.onClick.AddListener(OnResetClick);
+
+        pagePrevButton?.onClick.AddListener(PrevPage);
+        pageNextButton?.onClick.AddListener(NextPage);
 
         if (resetButtonText != null && SkillTreeManager.Instance != null)
             resetButtonText.text = "Сброс (" + SkillTreeManager.Instance.resetCost + "g)";
@@ -158,7 +168,48 @@ public class SkillTreeUI : MonoBehaviour
 
         selectedNode = null;
         if (detailPanel != null) detailPanel.SetActive(false);
+        ApplyPage();
         RefreshAll();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ПАГИНАЦИЯ
+    // ═══════════════════════════════════════════════════════════
+    public void NextPage() { pageByBranch[currentBranch] = GetCurrentPage() + 1; ApplyPage(); }
+    public void PrevPage() { pageByBranch[currentBranch] = GetCurrentPage() - 1; ApplyPage(); }
+
+    int GetCurrentPage()
+    {
+        pageByBranch.TryGetValue(currentBranch, out int page);
+        return page;
+    }
+
+    GameObject CurrentContainer()
+    {
+        return currentBranch switch
+        {
+            PlayerLevel.SkillBranch.Farming => farmingContainer,
+            PlayerLevel.SkillBranch.Crafting => craftingContainer,
+            _ => combatContainer,
+        };
+    }
+
+    void ApplyPage()
+    {
+        GameObject container = CurrentContainer();
+        if (container == null) return;
+
+        int perPage = Mathf.Max(1, nodesPerPage);
+        var nodes = container.GetComponentsInChildren<SkillNodeUI>(true);
+        int pageCount = Mathf.Max(1, Mathf.CeilToInt(nodes.Length / (float)perPage));
+        int page = Mathf.Clamp(GetCurrentPage(), 0, pageCount - 1);
+        pageByBranch[currentBranch] = page;
+
+        for (int i = 0; i < nodes.Length; i++)
+            nodes[i].gameObject.SetActive(i >= page * perPage && i < (page + 1) * perPage);
+
+        if (pagePrevButton != null) pagePrevButton.interactable = page > 0;
+        if (pageNextButton != null) pageNextButton.interactable = page < pageCount - 1;
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -287,6 +338,7 @@ public class SkillTreeUI : MonoBehaviour
     public void RefreshAll()
     {
         if (!isOpen) return;
+        ApplyPage();
         RefreshContainer(combatContainer);
         RefreshContainer(farmingContainer);
         RefreshContainer(craftingContainer);
