@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Luna Moth
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 6246314609626976325, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  - {fileID: -1659134498304252968, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  - {fileID: -388928617002998905, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  - {fileID: 6225718824089979981, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  - {fileID: 3975786402817366744, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  - {fileID: 205738852153643678, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  - {fileID: 8196616845547145439, guid: 214c03cc0147d3a4c9ebf8d838fc7f37, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

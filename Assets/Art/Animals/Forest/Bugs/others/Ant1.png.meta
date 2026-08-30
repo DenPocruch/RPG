@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -90,10 +90,10 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,10 +158,10 @@ TextureImporter:
       name: Ant1_0
       rect:
         serializedVersion: 2
-        x: 5
+        x: 0
         y: 16
-        width: 20
-        height: 15
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,10 +180,10 @@ TextureImporter:
       name: Ant1_1
       rect:
         serializedVersion: 2
-        x: 24
-        y: 15
-        width: 9
-        height: 7
+        x: 32
+        y: 16
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,9 +202,9 @@ TextureImporter:
       name: Ant1_2
       rect:
         serializedVersion: 2
-        x: 37
-        y: 15
-        width: 26
+        x: 64
+        y: 16
+        width: 32
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -224,10 +224,10 @@ TextureImporter:
       name: Ant1_3
       rect:
         serializedVersion: 2
-        x: 69
+        x: 96
         y: 16
-        width: 24
-        height: 15
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,10 +246,10 @@ TextureImporter:
       name: Ant1_4
       rect:
         serializedVersion: 2
-        x: 101
+        x: 128
         y: 16
-        width: 22
-        height: 15
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -268,10 +268,10 @@ TextureImporter:
       name: Ant1_5
       rect:
         serializedVersion: 2
-        x: 133
+        x: 160
         y: 16
-        width: 20
-        height: 15
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,10 +290,10 @@ TextureImporter:
       name: Ant1_6
       rect:
         serializedVersion: 2
-        x: 165
+        x: 192
         y: 16
-        width: 20
-        height: 15
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -312,10 +312,10 @@ TextureImporter:
       name: Ant1_7
       rect:
         serializedVersion: 2
-        x: 197
-        y: 16
-        width: 20
-        height: 15
+        x: 0
+        y: 0
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -334,10 +334,10 @@ TextureImporter:
       name: Ant1_8
       rect:
         serializedVersion: 2
-        x: 84
-        y: 1
-        width: 9
-        height: 7
+        x: 32
+        y: 0
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -356,10 +356,10 @@ TextureImporter:
       name: Ant1_9
       rect:
         serializedVersion: 2
-        x: 114
-        y: 3
-        width: 9
-        height: 7
+        x: 64
+        y: 0
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -378,10 +378,10 @@ TextureImporter:
       name: Ant1_10
       rect:
         serializedVersion: 2
-        x: 142
-        y: 5
-        width: 9
-        height: 7
+        x: 96
+        y: 0
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -400,10 +400,10 @@ TextureImporter:
       name: Ant1_11
       rect:
         serializedVersion: 2
-        x: 171
-        y: 7
-        width: 9
-        height: 7
+        x: 128
+        y: 0
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -422,10 +422,10 @@ TextureImporter:
       name: Ant1_12
       rect:
         serializedVersion: 2
-        x: 203
-        y: 7
-        width: 6
-        height: 7
+        x: 160
+        y: 0
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -444,10 +444,10 @@ TextureImporter:
       name: Ant1_13
       rect:
         serializedVersion: 2
-        x: 24
+        x: 192
         y: 0
-        width: 9
-        height: 6
+        width: 32
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -462,33 +462,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Ant1_14
-      rect:
-        serializedVersion: 2
-        x: 54
-        y: 0
-        width: 9
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cf0cfdfbe59e26ba0800000000000000
-      internalID: -6097054352350920452
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1d8d314345a252f439ca5d1a7d65613d
     internalID: 0
     vertices: []
     indices: 
@@ -504,7 +482,6 @@ TextureImporter:
       Ant1_11: -6358918154792289158
       Ant1_12: -6253594505118607518
       Ant1_13: 364213311083202291
-      Ant1_14: -6097054352350920452
       Ant1_2: -6332218607718234560
       Ant1_3: 7374979717825190788
       Ant1_4: 3123572654887464249

@@ -140,10 +140,10 @@ TextureImporter:
       name: Purple Dolphin_0
       rect:
         serializedVersion: 2
-        x: 16
-        y: 12
-        width: 12
-        height: 10
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,10 +162,10 @@ TextureImporter:
       name: Purple Dolphin_1
       rect:
         serializedVersion: 2
-        x: 47
-        y: 12
-        width: 13
-        height: 14
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -184,10 +184,10 @@ TextureImporter:
       name: Purple Dolphin_2
       rect:
         serializedVersion: 2
-        x: 74
-        y: 12
-        width: 20
-        height: 13
+        x: 64
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,10 +206,10 @@ TextureImporter:
       name: Purple Dolphin_3
       rect:
         serializedVersion: 2
-        x: 103
-        y: 11
-        width: 22
-        height: 13
+        x: 96
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -228,10 +228,10 @@ TextureImporter:
       name: Purple Dolphin_4
       rect:
         serializedVersion: 2
-        x: 132
-        y: 11
-        width: 25
-        height: 14
+        x: 128
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -250,10 +250,10 @@ TextureImporter:
       name: Purple Dolphin_5
       rect:
         serializedVersion: 2
-        x: 161
-        y: 16
-        width: 6
-        height: 6
+        x: 160
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -272,10 +272,10 @@ TextureImporter:
       name: Purple Dolphin_6
       rect:
         serializedVersion: 2
-        x: 163
-        y: 11
-        width: 24
-        height: 15
+        x: 192
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -294,10 +294,10 @@ TextureImporter:
       name: Purple Dolphin_7
       rect:
         serializedVersion: 2
-        x: 191
-        y: 11
-        width: 27
-        height: 18
+        x: 224
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -312,33 +312,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Purple Dolphin_8
-      rect:
-        serializedVersion: 2
-        x: 225
-        y: 11
-        width: 26
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f577e667136f0e600800000000000000
-      internalID: 495666651311535967
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 878ff3ce32e313e4287768b662788000
     internalID: 0
     vertices: []
     indices: 
@@ -356,7 +334,6 @@ TextureImporter:
       Purple Dolphin_5: -2726384514010509340
       Purple Dolphin_6: 4385759679166674752
       Purple Dolphin_7: 1431982714587981761
-      Purple Dolphin_8: 495666651311535967
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

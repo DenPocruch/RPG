@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Eggfly
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 9156719401404455622, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  - {fileID: 8168307584047777637, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  - {fileID: 8954771036347211086, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  - {fileID: 5405708245559469182, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  - {fileID: 4387244145939368994, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  - {fileID: 579469889698040949, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  - {fileID: -8695466200803633340, guid: 1e9016cbec68a6f468e1e04c53c49390, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

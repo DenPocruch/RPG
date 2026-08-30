@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Wood White
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: -5973321147123991390, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  - {fileID: 4011485090756366302, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  - {fileID: 158380301209651284, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  - {fileID: 3642255987983548818, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  - {fileID: 8962968457418829800, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  - {fileID: 8023567428910240471, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  - {fileID: 6129906227072353762, guid: 2497cba16fdb1864a8fa44a8b03fe298, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

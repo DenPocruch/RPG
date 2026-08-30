@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Emperor Butterfly
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 656413242482264031, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  - {fileID: 2637169669446663341, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  - {fileID: -1955999895462478850, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  - {fileID: 7397632530766529942, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  - {fileID: -5983136662917831462, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  - {fileID: 8399172013219036573, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  - {fileID: -4000158633375858335, guid: 0d510db3905fea24885f75c3e6470c99, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

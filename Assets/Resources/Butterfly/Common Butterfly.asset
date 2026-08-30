@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Common Butterfly
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: -1224963343440389184, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  - {fileID: 6931016063876016358, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  - {fileID: 6050985987787739760, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  - {fileID: 3163587505757272317, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  - {fileID: 260446373096918776, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  - {fileID: 5410166071536160976, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  - {fileID: 9164729358323908240, guid: 3afca79272592cf448133d85a1e877f4, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

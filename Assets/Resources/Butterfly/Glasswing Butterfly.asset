@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Glasswing Butterfly
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 1164864030047347436, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  - {fileID: -2880524761030795400, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  - {fileID: -8443642346483465083, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  - {fileID: -5041369302958935385, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  - {fileID: -3631329804705189246, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  - {fileID: -8416677147661577687, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  - {fileID: -5554423664563553605, guid: c1558e9958ed7564881fb3c5716a7cd7, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

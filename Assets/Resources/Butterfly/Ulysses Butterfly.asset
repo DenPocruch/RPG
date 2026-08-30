@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Ulysses Butterfly
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: -6598938279072310851, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  - {fileID: 1849393564776715600, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  - {fileID: 385767869742715985, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  - {fileID: -386299918955343947, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  - {fileID: 586714665168934847, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  - {fileID: 1720021254569147218, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  - {fileID: -842184697914926739, guid: 340e87920fe700f438b7ffd2ba189fa0, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

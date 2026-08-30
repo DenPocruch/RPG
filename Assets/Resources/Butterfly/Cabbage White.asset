@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Cabbage White
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 6309881767715654331, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  - {fileID: -715989111150995591, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  - {fileID: 7132484848993538075, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  - {fileID: 4841389664901084255, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  - {fileID: 2523228666596966504, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  - {fileID: -3756922779832481934, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  - {fileID: 6864126696469244001, guid: 6618f571b4be8404bbdad3f7513dd90c, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

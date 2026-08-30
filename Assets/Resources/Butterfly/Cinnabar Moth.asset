@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Cinnabar Moth
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 5221012250460654690, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  - {fileID: -3274626691786011339, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  - {fileID: -8859130769054599181, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  - {fileID: -5737960500433751626, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  - {fileID: 7498574895354394438, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  - {fileID: 4728993109838628231, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  - {fileID: 368268191053823969, guid: de0ce242f50922e4d9738f969b6a9052, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

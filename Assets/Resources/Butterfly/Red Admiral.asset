@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Red Admiral
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: -7255919496895323586, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  - {fileID: 7266991171160179151, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  - {fileID: 529069104949212322, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  - {fileID: 488301655759419036, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  - {fileID: -4265470802175955389, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  - {fileID: -3394333865502118333, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  - {fileID: 4372598068758636993, guid: ffbe5bcefd8aabc44b0206735cbcb468, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

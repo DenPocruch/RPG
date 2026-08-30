@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Io Moth
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 4789117385649619326, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  - {fileID: 5389300445672690517, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  - {fileID: -2882771911268054076, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  - {fileID: -2512824252990158747, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  - {fileID: 7527068435927155937, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  - {fileID: 5701700219829993603, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  - {fileID: 1273113992465880419, guid: d8c5d6aa99c274c429d85deb5d67b803, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1

@@ -111,6 +111,25 @@ public class BuyerManager : MonoBehaviour, ISaveable
     // ЦЕНЫ
     // ═══════════════════════════════════════════════════════════
 
+    /// <summary>Базовая цена культуры за 1 шт (без качества/спроса/репутации).</summary>
+    public static int GetBaseUnitPrice(string assetName)
+    {
+        return basePrices.TryGetValue(BaseCropName(assetName), out int p) ? p : 0;
+    }
+
+    /// <summary>Культуры, доступные игроку (семена разблокированы перками, Wheat всегда).</summary>
+    public static List<string> GetUnlockedCrops()
+    {
+        var pool = new List<string>();
+        foreach (var kvp in seedTags)
+        {
+            if (string.IsNullOrEmpty(kvp.Value) ||
+                (SkillTreeManager.Instance != null && SkillTreeManager.Instance.IsNodeUnlockedByFeature(kvp.Value)))
+                pool.Add(kvp.Key);
+        }
+        return pool;
+    }
+
     /// <summary>Базовое имя культуры (убирает суффиксы качества).</summary>
     public static string BaseCropName(string assetName)
     {

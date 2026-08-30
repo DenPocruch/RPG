@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e995f1323cb92394381188f1a1a5222a, type: 3}
+  m_Name: Silkmoth
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: -8501316050467258185, guid: b442265a218022348846eae209118996, type: 3}
+  - {fileID: 6657883434258081022, guid: b442265a218022348846eae209118996, type: 3}
+  - {fileID: -6548580391107634054, guid: b442265a218022348846eae209118996, type: 3}
+  - {fileID: 9016156200014554763, guid: b442265a218022348846eae209118996, type: 3}
+  - {fileID: 7440793842814516416, guid: b442265a218022348846eae209118996, type: 3}
+  - {fileID: 6381903074804999881, guid: b442265a218022348846eae209118996, type: 3}
+  - {fileID: -3226032846706540431, guid: b442265a218022348846eae209118996, type: 3}
+  animationFPS: 8
+  mirrorSprite: 1
