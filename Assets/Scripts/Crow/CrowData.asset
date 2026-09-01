@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49cedf218a6295d4e9a678138872bf69, type: 3}
+  m_Name: CrowData
+  m_EditorClassIdentifier: 
+  peck:
+  - {fileID: -4285408029963660783, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: -6052174583201933441, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: -188679330444342605, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: 9127496231339804771, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: 1059959780965062314, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  fly:
+  - {fileID: 3317570708084372008, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: -239155516704932448, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: 3342775206281480357, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: -4181607477936302181, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  - {fileID: -3231368211140347427, guid: 88f78bef546a57c41b8656a478dda6d2, type: 3}
+  animationFPS: 8
+  flyFPS: 0
+  flyFacesLeft: 1

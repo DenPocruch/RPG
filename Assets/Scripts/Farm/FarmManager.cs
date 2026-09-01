@@ -457,6 +457,27 @@ public class FarmManager : MonoBehaviour, ISaveable
         return harvest;
     }
 
+    // Ворона склевала растение (Этап 2: вороны/пугало)
+    // Как HarvestCrop, но без урожая игроку — грядка остаётся пустой (сухая)
+    public void CrowEatCrop(Vector3 worldPos)
+    {
+        Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
+
+        if (!crops.ContainsKey(cellPos)) return;
+
+        Destroy(crops[cellPos].gameObject);
+        crops.Remove(cellPos);
+        waterTilemap.SetTile(cellPos, null);
+
+        // Грядка снова пустая — запускаем таймер зарастания заново (сухая)
+        RegisterPlot(cellPos, false);
+
+        // Сейв по событию: растение уничтожено
+        SaveManager.Instance?.Save();
+
+        ActionLogUI.Show("[Ферма] Ворона склевала урожай!");
+    }
+
     // Проверки
     public bool IsTilled(Vector3 worldPos)
     {

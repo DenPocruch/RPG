@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public float pickaxeRange = 1.2f;
     public float sickleRange = 1.0f;
 
-    [Header("Размещение объектов (кормушка/поилка)")]
+    [Header("Размещение объектов (кормушка/поилка/пугало)")]
     [Tooltip("Дистанция призрака перед игроком")]
     public float placeDistance = 1.1f;
     [Tooltip("Радиус проверки занятости места")]
@@ -48,6 +48,9 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer ghostSr;
     private ItemData ghostItem;
     private float placeRotation = 0f;
+    private GameObject zonePreview;      // подсветка зоны пугала (3×3) при постановке
+    private SpriteRenderer zoneSr;
+    private int ghostZoneRadius = 1;     // радиус зоны пугала (из поля zoneRadiusTiles его префаба)
 
     [Header("Молоток (сбор кормушки/поилки в рюкзак)")]
     [Tooltip("Дальность разбора размещённых объектов молотком")]
@@ -429,11 +432,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // ═══════════════════════════════════════════════════════════
-    // РАЗМЕЩЕНИЕ ОБЪЕКТОВ (кормушка/поилка): ghost перед игроком,
+    // РАЗМЕЩЕНИЕ ОБЪЕКТОВ (кормушка/поилка/пугало): ghost перед игроком,
     // ходьба двигает призрак, атака ставит, смена слота отменяет
     // ═══════════════════════════════════════════════════════════
     public static bool IsPlaceable(ItemData item)
-        => item != null && (item.itemType == ItemType.Feeder || item.itemType == ItemType.WaterTrough);
+        => item != null && (item.itemType == ItemType.Feeder || item.itemType == ItemType.WaterTrough
+            || item.itemType == ItemType.Scarecrow);
 
     void UpdatePlacementGhost()
     {
@@ -449,10 +453,41 @@ public class PlayerMovement : MonoBehaviour
         Vector3 pos = transform.position + (Vector3)(dir.normalized * placeDistance);
         placementGhost.transform.position = pos;
 
+        bool canPlace = CanPlaceAt(pos);
+
+        // Пугало: подсвечиваем зону защиты вокруг призрака (размер — из префаба)
+        if (active.itemType == ItemType.Scarecrow)
+        {
+            EnsureZonePreview();
+            zonePreview.transform.position = Scarecrow.GetZoneCenter(pos);
+            zonePreview.transform.localScale = Scarecrow.GetZoneSize(ghostZoneRadius);
+            zoneSr.color = canPlace
+                ? new Color(0.55f, 1f, 0.55f, 0.5f)
+                : new Color(1f, 0.35f, 0.35f, 0.5f);
+        }
+        else DestroyZonePreview();
+
         if (ghostSr != null)
-            ghostSr.color = CanPlaceAt(pos)
+            ghostSr.color = canPlace
                 ? new Color(0.55f, 1f, 0.55f, 0.6f)
                 : new Color(1f, 0.35f, 0.35f, 0.6f);
+    }
+
+    // ── Квадрат зоны пугала (создаётся только пока пугало в руках) ──
+    void EnsureZonePreview()
+    {
+        if (zonePreview != null) return;
+        zonePreview = new GameObject("ScarecrowZonePreview");
+        zoneSr = zonePreview.AddComponent<SpriteRenderer>();
+        zoneSr.sprite = Scarecrow.GetZoneSprite();
+        zoneSr.sortingOrder = 59; // над тайлмапом, под призраком (60)
+    }
+
+    void DestroyZonePreview()
+    {
+        if (zonePreview != null) Destroy(zonePreview);
+        zonePreview = null;
+        zoneSr = null;
     }
 
     void CreateGhost(ItemData item)
@@ -460,6 +495,15 @@ public class PlayerMovement : MonoBehaviour
         DestroyGhost();
         ghostItem = item;
         placeRotation = 0f;
+
+        // Радиус зоны пугала берём из скрипта на префабе (1 = 3×3, 2 = 5×5, ...)
+        ghostZoneRadius = 1;
+        if (item.placeablePrefab != null)
+        {
+            Scarecrow sc = item.placeablePrefab.GetComponent<Scarecrow>();
+            if (sc != null) ghostZoneRadius = sc.zoneRadiusTiles;
+        }
+
         placementGhost = new GameObject("PlacementGhost");
         placementGhost.transform.localEulerAngles = Vector3.zero;
         ghostSr = placementGhost.AddComponent<SpriteRenderer>();
@@ -476,6 +520,7 @@ public class PlayerMovement : MonoBehaviour
         placementGhost = null;
         ghostSr = null;
         ghostItem = null;
+        DestroyZonePreview();
     }
 
     /// <summary>Можно ли поставить объект: нет стен/воды/других предметов в точке.
@@ -504,7 +549,14 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Instantiate(item.placeablePrefab, pos, Quaternion.Euler(0f, 0f, placeRotation));
+        GameObject placed = Instantiate(item.placeablePrefab, pos, Quaternion.Euler(0f, 0f, placeRotation));
+
+        // Пугало: короткая вспышка зоны защиты после постановки
+        if (item.itemType == ItemType.Scarecrow && placed != null)
+        {
+            Scarecrow sc = placed.GetComponent<Scarecrow>();
+            if (sc != null) sc.ShowZoneFlash();
+        }
 
         InventorySlot slot = HotbarManager.Instance != null ? HotbarManager.Instance.GetActiveSlot() : null;
         if (slot != null)
@@ -540,7 +592,7 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(WaitAndReset(cooldown));
     }
 
-    /// <summary>Ближайшая кормушка/поилка перед игроком (null — нет в зоне молотка).</summary>
+    /// <summary>Ближайшая кормушка/поилка/пугало перед игроком (null — нет в зоне молотка).</summary>
     Component FindPlaceableInFront()
     {
         Vector2 dir = new Vector2(lastMoveX, lastMoveY);
@@ -554,6 +606,8 @@ public class PlayerMovement : MonoBehaviour
             if (feeder != null) return feeder;
             WaterTrough trough = h.GetComponentInParent<WaterTrough>();
             if (trough != null) return trough;
+            Scarecrow scarecrow = h.GetComponentInParent<Scarecrow>();
+            if (scarecrow != null) return scarecrow;
         }
         return null;
     }
@@ -587,6 +641,11 @@ public class PlayerMovement : MonoBehaviour
                 ActionLogUI.Show("Вода из поилки вылилась (" + trough.water + " ед.)");
             pickupItem = ItemDatabase.Find("WaterTrough");
             nameRu = "Поилка";
+        }
+        else if (target is Scarecrow)
+        {
+            pickupItem = ItemDatabase.Find("Scarecrow");
+            nameRu = "Пугало";
         }
         else return;
 

@@ -82,6 +82,18 @@ public class PlaceablesSaveManager : MonoBehaviour, ISaveable
             });
         }
 
+        foreach (Scarecrow s in FindObjectsByType<Scarecrow>(FindObjectsSortMode.None))
+        {
+            if (s == null) continue;
+            save.items.Add(new PlaceableSave
+            {
+                itemName = "Scarecrow", // пугало: состояния нет, важна только позиция
+                x = s.transform.position.x,
+                y = s.transform.position.y,
+                z = s.transform.position.z
+            });
+        }
+
         return JsonUtility.ToJson(save);
     }
 

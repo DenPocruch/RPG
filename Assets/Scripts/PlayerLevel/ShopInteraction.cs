@@ -34,6 +34,7 @@ public class ShopInteraction : MonoBehaviour, IInteractable
         added |= TryAddFarmStock(list, "Feeder", "feeder");
         added |= TryAddFarmStock(list, "WaterTrough", "trough");
         added |= TryAddFarmStock(list, "Hammer", ""); // молоток — без перка, виден сразу
+        added |= TryAddFarmStock(list, "Scarecrow", ""); // пугало — без перка, виден сразу
         if (added) itemsForSaleAnimals = list.ToArray();
     }
 

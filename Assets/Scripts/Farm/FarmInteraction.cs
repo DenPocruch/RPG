@@ -12,6 +12,10 @@ public class FarmInteraction : MonoBehaviour
     public int xpWater = 1;   // �����
     public int xpHarvest = 10;  // ���� ������
 
+    [Header("Дроп урожая (как лут с монстров)")]
+    public GameObject lootItemPrefab;
+    public float dropRadius = 0.35f;
+
     public void UseFarmTool(ItemType toolType, float dirX, float dirY)
     {
         switch (toolType)
@@ -156,28 +160,55 @@ public class FarmInteraction : MonoBehaviour
             if (doubleChance > 0 && Random.Range(0f, 100f) < doubleChance)
             {
                 harvestAmount *= 2;
-                Debug.Log("[�����] ������� ������!");
-
-                // ����� �������� ������
-                if (DamagePopupManager.Instance != null)
-                    DamagePopupManager.Instance.Spawn(
-                        transform.position + Vector3.up,
-                        harvestAmount,
-                        DamagePopup.PopupType.Heal);
+                Debug.Log("[Ферма] Двойной урожай!");
             }
         }
 
         if (InventoryUI.Instance != null)
         {
-            bool added = InventoryUI.Instance.AddItem(harvest, harvestAmount);
+            bool added = TryDropHarvest(harvest, harvestAmount, pos);
             if (added)
-            {
-                if (PlayerLevel.Instance != null)
-                    PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpHarvest);
                 Debug.Log("�������: " + harvest.itemName + " x" + harvestAmount);
-            }
             else
                 Debug.Log("��������� �����!");
         }
+    }
+
+    // Урожай падает на землю физическим лутом (как с монстров/деревьев) —
+    // подбирается при подходе. Если префаба нет — фолбэк: сразу в инвентарь.
+    bool TryDropHarvest(ItemData harvest, int amount, Vector3 pos)
+    {
+        if (lootItemPrefab == null)
+            lootItemPrefab = Resources.Load<GameObject>("LootItemPrefab");
+
+        if (lootItemPrefab != null)
+        {
+            Vector2 offset = Random.insideUnitCircle * dropRadius;
+            Vector3 spawnPos = pos + new Vector3(offset.x, offset.y, 0);
+
+            GameObject obj = Instantiate(lootItemPrefab, spawnPos, Quaternion.identity);
+            LootItem loot = obj.GetComponent<LootItem>();
+            if (loot != null)
+            {
+                loot.itemData = harvest;
+                loot.amount = amount;
+                loot.despawnOverTime = false; // урожай не пропадает
+                loot.craftingXpReward = 0;
+                loot.farmingXpReward = xpHarvest; // XP фермерства при подборе
+            }
+
+            if (amount > 1 && DamagePopupManager.Instance != null)
+                DamagePopupManager.Instance.Spawn(
+                    transform.position + Vector3.up,
+                    amount,
+                    DamagePopup.PopupType.Heal);
+            return true;
+        }
+
+        // Фолбэк: прямое добавление в инвентарь
+        bool added = InventoryUI.Instance.AddItem(harvest, amount);
+        if (added && PlayerLevel.Instance != null)
+            PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpHarvest);
+        return added;
     }
 }

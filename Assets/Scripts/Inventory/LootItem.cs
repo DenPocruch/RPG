@@ -18,6 +18,7 @@ public class LootItem : MonoBehaviour
 
     [Header("���� �� ������")]
     public int craftingXpReward = 2; // ���� � Crafting �� ������ ����������
+    public int farmingXpReward = 0;  // XP в Farming при подборе (урожай с грядки)
 
     private SpriteRenderer spriteRenderer;
     private Vector3 startPos;
@@ -76,9 +77,14 @@ public class LootItem : MonoBehaviour
 
         if (added)
         {
-            // ���� �� ������ ����������/���������
-            if (PlayerLevel.Instance != null && craftingXpReward > 0)
-                PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Crafting, craftingXpReward);
+            // XP за подбор (крафт/фермерство)
+            if (PlayerLevel.Instance != null)
+            {
+                if (craftingXpReward > 0)
+                    PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Crafting, craftingXpReward);
+                if (farmingXpReward > 0)
+                    PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, farmingXpReward);
+            }
 
             Debug.Log("���������: " + itemData.itemName + " x" + amount);
         }

@@ -18,6 +18,21 @@ Unity 6 (6000.0.59f2), 2D ферма-RPG в стиле Stardew Valley, плат�
 - Повар (CookStorage) принимает звёздные плоды как ингредиенты: `IsSameCrop` по префиксу имени + суффиксы Silver/Gold/Purple. Списание: обычные → серебро → золото → пурпур. Считает инвентарь И хотбар (`AllSlots()`)
 - UI рецептов (CookUI) считает через `CookStorage.CountIngredients()` — НЕ имеет своего счётчика
 
+## Сбор урожая = физический дроп лута
+- Урожай НЕ кладётся сразу в инвентарь: `FarmInteraction.TryDropHarvest` спавнит `Resources/LootItemPrefab` (как лут с монстров/деревьев) в точке грядки со случайным смещением `dropRadius` (0.35). Подбор — при подходе (LootItem, pickupRadius 0.5)
+- `despawnOverTime=false` (урожай не пропадает), `craftingXpReward=0`, XP фермерства (`xpHarvest`) выдаётся при ПОДБОРЕ через новое поле `LootItem.farmingXpReward`. Попап количества (DamagePopup Heal) — при amount>1 (двойной урожай/многоплодные)
+- Если рюкзак полон — предмет лежит на земле до подбора. Фолбэк (префаб не найден) — старое прямое AddItem
+
+## Пугало (новое, требует проверки в Play)
+- **Предмет** `Resources/Items/Animals/Scarecrow.asset` (itemType 29 = ItemType.Scarecrow, добавлен В КОНЕЦ enum), иконка `Scarescrow_0` из `Assets/Art/Objects/Exterior/Scarescrow.png` (8 кадров, 16PPU, pivot {0.5,0}), цена 500g. Префаб юзер собирает сам (база Feeder.prefab: SpriteRenderer + BoxCollider2D + скрипт `Scarecrow.cs`), затем назначает в `placeablePrefab` ассета. ГРАБЛЯ (была): забыли назначить placeablePrefab → ghost вообще не появляется и пугало не ставится
+- **Скины**: 1 предмет = 1 префаб = 1 скин. Дубликат ассета (другое имя!) + дубликат префаба с другим спрайтом; сейв хранит имя предмета → скин восстанавливается сам. В магазин кодом добавляется только базовый "Scarecrow" — доп. скины руками в itemsForSaleAnimals или расширять EnsureFarmStock
+- **Размер зоны** — поле `zoneRadiusTiles` на СКРИПТЕ ПРЕФАБА (1 = 3×3, 2 = 5×5...). Ghost-превью читает радиус из префаба (CreateGhost), сама защита — из инстанса (Protects)
+- `Scarecrow.cs` (Assets/Scripts/Farm/): реестр всех пугал, статический `IsProtected(worldPos)` — защита по клеткам фермы (FarmManager.farmTilemap.WorldToCell, пугало = центральная клетка); вне фермы — квадрат метров. IInteractable (удар = сообщение). Не имеет состояния — сейвится только позиция
+- Постановка: как кормушка (`PlayerMovement.IsPlaceable` + ghost). ПРИ ПОСТАНОВКЕ подсвечивается зона: пока пугало в руках — квадрат `ScarecrowZonePreview` (sortingOrder 59, под ghost 60, зелёный/красный по CanPlaceAt), после постановки — вспышка `ShowZoneFlash()` (затухает ~1.6с). Спрайт зоны — белый квадрат с рамкой, генерится кодом (`Scarecrow.GetZoneSprite`), центр/размер зоны = `GetZoneCenter/GetZoneSize` (привязка к клетке тайлмапа)
+- Молоток: `FindPlaceableInFront`/`TryPickupPlaceable` принимают Scarecrow → в рюкзак (предмет "Scarecrow")
+- Магазин: `ShopInteraction.EnsureFarmStock` добавляет пугало кодом (без unlockTag — виден сразу)
+- **Вороны**: CrowAI.PickCrop пропускает защищённые грядки; если пугало поставили пока ворона летит/клюёт — `Scare()` (улетает). Сейв: PlaceablesSaveManager.CaptureState добавляет записи "Scarecrow" (восстановление — общий код по placeablePrefab)
+
 ## Скупщик урожая (работает)
 - `BuyerManager.cs` (объект «BuyerManager» в City, там же NPC Дрон): базовые цены 18 культур (+Rice 40, Onion 40), спрос дня ×2 (меняется раз в 4ч РЕАЛЬНОГО времени, пул — только разблокированные перками культуры, теги `seed_*`), репутация 5 уровней (0/2000/6000/15000/40000g → +0/5/10/15/20%)
 - Цена: база × качество (×1.15/1.3/1.5) × спрос (×2) × репутация
