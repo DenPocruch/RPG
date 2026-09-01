@@ -44591,7 +44591,7 @@ Tilemap:
       - {fileID: 397223597, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: 1349353767, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -1673341545, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
-      m_AnimationSpeed: 5
+      m_AnimationSpeed: 5.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -25, y: 22, z: 0}
@@ -96669,7 +96669,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1234869337}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c8a513927fa00e41a85e4f49503a377, type: 3}
   m_Name: 
@@ -130202,7 +130202,7 @@ Transform:
   m_GameObject: {fileID: 2104110084}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.167, y: 20.36, z: 0}
+  m_LocalPosition: {x: -1.4, y: -14.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

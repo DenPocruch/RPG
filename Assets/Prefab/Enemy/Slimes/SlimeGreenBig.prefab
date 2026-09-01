@@ -82,7 +82,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 11
   m_Sprite: {fileID: 3433433953614298381, guid: d0363f43069481c4e80ea556cfc7d766, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -194,6 +194,16 @@ MonoBehaviour:
   patrolWaitTime: 2
   damageToPlayer: 10
   damageCooldown: 1
+  attackRange: 1.1
+  attackHitDelay: 0.35
+  attackCooldown: 1.2
+  arrowPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  shootRange: 5
+  minShootDistance: 1.5
+  shootCooldown: 2
+  arrowSpeed: 7
+  arrowDamage: 10
   respawnTime: 5
   deathAnimDuration: 1
   alertDetectionRange: 5.5
