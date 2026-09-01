@@ -37,7 +37,6 @@ public class RecipeButtonUI : MonoBehaviour
         if (nameText != null)
         {
             nameText.text = isUnlocked ? r.recipeName : "???";
-            nameText.color = isUnlocked ? Color.white : colorLocked;
         }
 
         if (lockIcon != null) lockIcon.enabled = !isUnlocked;

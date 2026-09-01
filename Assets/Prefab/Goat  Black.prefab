@@ -185,6 +185,20 @@ MonoBehaviour:
   startAsAdult: 0
   lootItemPrefab: {fileID: 0}
   productDropRadius: 0.5
+  feedSearchRadius: 15
+  drinkInterval: 180
+  facilityStopDistance: 1.04
+  accelSpeed: 8
+  maxTurnDegPerSec: 250
+  avoidProbeDist: 0.75
+  avoidProbeRadius: 0.18
+  stuckDetectTime: 0.7
+  stuckEscapeTime: 0.7
+  wallKeepDist: 2
+  roamCenterName: RoamCenter
+  roamCenterWeight: 0.6
+  wallAvoidWeight: 1.3
+  offlineProductCap: 5
 --- !u!114 &2540161249660933025
 MonoBehaviour:
   m_ObjectHideFlags: 0
