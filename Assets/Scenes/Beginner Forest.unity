@@ -17670,7 +17670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetScene: SampleScene
-  targetSpawnId: FromFarm
+  targetSpawnId: FromForest
   triggerOnTouch: 1
 --- !u!61 &331934239
 BoxCollider2D:
@@ -64966,7 +64966,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9551b8a37b984fd43a552b2d05dccc49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnId: FromForest
+  spawnId: FromFarm
 --- !u!1001 &2045789388
 PrefabInstance:
   m_ObjectHideFlags: 0
