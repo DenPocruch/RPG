@@ -123,9 +123,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 5
-        width: 11
-        height: 11
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -144,10 +144,10 @@ TextureImporter:
       name: Apple Slices_1
       rect:
         serializedVersion: 2
-        x: 5
+        x: 16
         y: 0
-        width: 11
-        height: 11
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -162,33 +162,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Apple Slices_2
-      rect:
-        serializedVersion: 2
-        x: 15
-        y: 0
-        width: 17
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 697263477c9b5ae70800000000000000
-      internalID: 9125904486235514774
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: d1dee4365544fbe41b8f3456c0fc7654
     internalID: 0
     vertices: []
     indices: 
@@ -200,7 +178,6 @@ TextureImporter:
     nameFileIdTable:
       Apple Slices_0: -9221538603603682644
       Apple Slices_1: 7290356624486349205
-      Apple Slices_2: 9125904486235514774
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

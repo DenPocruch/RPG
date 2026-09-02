@@ -34,7 +34,13 @@ public class ShopInteraction : MonoBehaviour, IInteractable
         added |= TryAddFarmStock(list, "Feeder", "feeder");
         added |= TryAddFarmStock(list, "WaterTrough", "trough");
         added |= TryAddFarmStock(list, "Hammer", ""); // молоток — без перка, виден сразу
+        added |= TryAddFarmStock(list, "Pickaxe", ""); // кирка — добыча руды в шахте
         added |= TryAddFarmStock(list, "Scarecrow", ""); // пугало — без перка, виден сразу
+        added |= TryAddFarmStock(list, "Beehive", "");   // улей — без перка, виден сразу
+        added |= TryAddFarmStock(list, "WineBarrel", "");     // бочка брожения (виноград → вино)
+        added |= TryAddFarmStock(list, "CheesePress", "");    // сырный пресс (молоко → сыр)
+        added |= TryAddFarmStock(list, "ButterChurn", "");    // маслобойка (молоко → масло)
+        added |= TryAddFarmStock(list, "JamMaker", "");       // джем-мейкер (ягоды → джем)
         if (added) itemsForSaleAnimals = list.ToArray();
     }
 

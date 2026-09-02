@@ -197,37 +197,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Trap_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 57
-        width: 22
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 320617fbb87512d10800000000000000
-      internalID: 2099055159055310883
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Trap_1
       rect:
         serializedVersion: 2
-        x: 21
-        y: 68
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 64
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -244,12 +222,12 @@ TextureImporter:
       name: Trap_2
       rect:
         serializedVersion: 2
-        x: 32
-        y: 57
-        width: 6
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -266,12 +244,12 @@ TextureImporter:
       name: Trap_3
       rect:
         serializedVersion: 2
-        x: 37
-        y: 52
-        width: 10
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -289,11 +267,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 73
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 64
+        width: 16
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -310,12 +288,12 @@ TextureImporter:
       name: Trap_5
       rect:
         serializedVersion: 2
-        x: 53
-        y: 68
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -332,12 +310,12 @@ TextureImporter:
       name: Trap_6
       rect:
         serializedVersion: 2
-        x: 0
-        y: 47
-        width: 22
+        x: 16
+        y: 48
+        width: 16
         height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -354,12 +332,12 @@ TextureImporter:
       name: Trap_7
       rect:
         serializedVersion: 2
-        x: 16
-        y: 63
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -376,12 +354,12 @@ TextureImporter:
       name: Trap_8
       rect:
         serializedVersion: 2
-        x: 25
-        y: 63
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -398,12 +376,12 @@ TextureImporter:
       name: Trap_9
       rect:
         serializedVersion: 2
-        x: 25
-        y: 57
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -420,12 +398,12 @@ TextureImporter:
       name: Trap_10
       rect:
         serializedVersion: 2
-        x: 48
-        y: 63
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -442,12 +420,12 @@ TextureImporter:
       name: Trap_11
       rect:
         serializedVersion: 2
-        x: 48
-        y: 57
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -464,12 +442,12 @@ TextureImporter:
       name: Trap_12
       rect:
         serializedVersion: 2
-        x: 57
-        y: 63
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 48
+        y: 32
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -486,12 +464,12 @@ TextureImporter:
       name: Trap_13
       rect:
         serializedVersion: 2
-        x: 57
-        y: 57
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 16
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -509,11 +487,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 47
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 16
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -530,12 +508,12 @@ TextureImporter:
       name: Trap_15
       rect:
         serializedVersion: 2
-        x: 21
-        y: 52
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -552,12 +530,12 @@ TextureImporter:
       name: Trap_16
       rect:
         serializedVersion: 2
-        x: 25
-        y: 47
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 48
+        y: 16
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -574,12 +552,12 @@ TextureImporter:
       name: Trap_17
       rect:
         serializedVersion: 2
-        x: 32
-        y: 47
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -596,12 +574,12 @@ TextureImporter:
       name: Trap_18
       rect:
         serializedVersion: 2
-        x: 41
-        y: 47
-        width: 6
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -618,12 +596,12 @@ TextureImporter:
       name: Trap_19
       rect:
         serializedVersion: 2
-        x: 48
-        y: 47
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -640,12 +618,12 @@ TextureImporter:
       name: Trap_20
       rect:
         serializedVersion: 2
-        x: 53
-        y: 52
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 48
+        y: 0
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -658,187 +636,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Trap_21
-      rect:
-        serializedVersion: 2
-        x: 57
-        y: 47
-        width: 6
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6a428b64529aff130800000000000000
-      internalID: 3602784204485043366
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_22
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 32
-        width: 14
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: cdec0146e5b0522d0800000000000000
-      internalID: -3304222251572736292
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_23
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 32
-        width: 12
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3216a80101bfd9120800000000000000
-      internalID: 2422368221010747683
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_24
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 32
-        width: 14
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 41400e89fbc4ebc30800000000000000
-      internalID: 4377020273637983252
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_25
-      rect:
-        serializedVersion: 2
-        x: 50
-        y: 32
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f20a696980e7c5840800000000000000
-      internalID: 5214181043939483695
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_26
-      rect:
-        serializedVersion: 2
-        x: 4
-        y: 15
-        width: 56
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 7906afb453fd56c50800000000000000
-      internalID: 6657973044138107031
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_27
-      rect:
-        serializedVersion: 2
-        x: 5
-        y: 2
-        width: 21
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 71ed69d2b0926d7f0800000000000000
-      internalID: -588237573339029993
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Trap_28
-      rect:
-        serializedVersion: 2
-        x: 38
-        y: 2
-        width: 19
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 379abc3385a7f2530800000000000000
-      internalID: 3832416327160277363
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 25c243ccd94d24a4181a6cfd70323fc0
     internalID: 0
     vertices: []
     indices: 
@@ -862,14 +664,6 @@ TextureImporter:
       Trap_19: 7014600545875090362
       Trap_2: 6168736975187873401
       Trap_20: 2256430787441744322
-      Trap_21: 3602784204485043366
-      Trap_22: -3304222251572736292
-      Trap_23: 2422368221010747683
-      Trap_24: 4377020273637983252
-      Trap_25: 5214181043939483695
-      Trap_26: 6657973044138107031
-      Trap_27: -588237573339029993
-      Trap_28: 3832416327160277363
       Trap_3: 1018633133331934498
       Trap_4: 6840254211512974232
       Trap_5: -6925860838805389657

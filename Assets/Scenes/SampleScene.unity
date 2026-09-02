@@ -44217,7 +44217,7 @@ Tilemap:
       - {fileID: 451461096, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: 2132827314, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
       - {fileID: -973168032, guid: 30cf3721c05fb9a439ea7b259431d7e4, type: 3}
-      m_AnimationSpeed: 5.0000005
+      m_AnimationSpeed: 5
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -27, y: 18, z: 0}
@@ -96676,10 +96676,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   giveItemsOnStart: 1
   testItems:
-  - item: {fileID: 11400000, guid: de163238602bec74ca824cb96cbbafe5, type: 2}
-    amount: 1
-  - item: {fileID: 11400000, guid: 7d476c12afc5efc43ac70e0786060a6d, type: 2}
-    amount: 1
+  - item: {fileID: 11400000, guid: bced6de3a8483b247ad8c03ea29ac05e, type: 2}
+    amount: 5
+  - item: {fileID: 11400000, guid: 7031f144c7794413af20fe6739c78e10, type: 2}
+    amount: 5
   testGold: 500
   testCombatXp: 0
   testFarmingXp: 1000
@@ -102033,8 +102033,8 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 0.27376795}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.9375, y: 0.9375}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 2, y: 1}
     newSize: {x: 0.9375, y: 0.9375}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

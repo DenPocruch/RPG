@@ -437,7 +437,8 @@ public class PlayerMovement : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     public static bool IsPlaceable(ItemData item)
         => item != null && (item.itemType == ItemType.Feeder || item.itemType == ItemType.WaterTrough
-            || item.itemType == ItemType.Scarecrow);
+            || item.itemType == ItemType.Scarecrow || item.itemType == ItemType.Beehive
+            || item.itemType == ItemType.Processor);
 
     void UpdatePlacementGhost()
     {
@@ -608,6 +609,10 @@ public class PlayerMovement : MonoBehaviour
             if (trough != null) return trough;
             Scarecrow scarecrow = h.GetComponentInParent<Scarecrow>();
             if (scarecrow != null) return scarecrow;
+            Beehive hive = h.GetComponentInParent<Beehive>();
+            if (hive != null) return hive;
+            CraftMachine machine = h.GetComponentInParent<CraftMachine>();
+            if (machine != null) return machine;
         }
         return null;
     }
@@ -646,6 +651,18 @@ public class PlayerMovement : MonoBehaviour
         {
             pickupItem = ItemDatabase.Find("Scarecrow");
             nameRu = "Пугало";
+        }
+        else if (target is Beehive)
+        {
+            pickupItem = ItemDatabase.Find("Beehive");
+            nameRu = "Улей";
+        }
+        else if (target is CraftMachine machine)
+        {
+            // Сначала выгружаем станок: готовое — лутом на землю, вход — в рюкзак
+            if (!machine.UnloadForPickup()) return; // рюкзак полон — не разбираем
+            pickupItem = ItemDatabase.Find(machine.SelfItemName);
+            nameRu = machine.DisplayNameRu;
         }
         else return;
 

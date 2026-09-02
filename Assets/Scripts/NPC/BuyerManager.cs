@@ -57,7 +57,15 @@ public class BuyerManager : MonoBehaviour, ISaveable
     static readonly Dictionary<string, int> animalProductPrices = new Dictionary<string, int>
     {
         { "Egg", 30 }, { "Milk", 90 }, { "Goat Milk", 80 },
-        { "Truffle", 85 }, { "Wool", 70 }, { "Ostrich Egg", 100 }
+        { "Truffle", 85 }, { "Wool", 70 }, { "Ostrich Egg", 100 },
+        { "Honeycomb", 50 },
+        // Продукция станков-переработчиков (CraftMachine)
+        { "Wine", 250 }, { "Cheese", 150 }, { "Butter", 120 }, { "Jam", 130 },
+        // Руда и самоцветы из шахты
+        { "Stones", 4 }, { "Stone brick", 10 },
+        { "CopperOre", 25 }, { "IronOre", 45 }, { "SilverOre", 70 }, { "GoldOre", 120 },
+        { "Amethyst", 90 }, { "Ruby", 140 }, { "Emerald", 160 }, { "Sapphire", 220 },
+        { "Obsidian", 180 }, { "RoseQuartz", 60 }
     };
 
     // ── Теги разблокировки семян (пусто = культура доступна всегда) ──

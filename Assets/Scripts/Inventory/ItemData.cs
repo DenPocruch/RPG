@@ -33,6 +33,8 @@ public enum ItemType
     WaterTrough,
     Hammer,
     Scarecrow,
+    Beehive,
+    Processor,
 }
 
 public enum ItemRarity

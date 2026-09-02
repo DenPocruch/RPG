@@ -68,11 +68,28 @@ public class OreVeinComponent : MonoBehaviour
 
         if (veinAnimator != null)
             veinAnimator.SetTrigger("Shake");
+        else
+            StartCoroutine(PunchScale());
 
         UpdateSprite();
 
         if (currentHealth <= 0)
             StartCoroutine(DepleteVein());
+    }
+
+    // Фидбек удара без Animator: короткий пинч-скейл (для мобилки — видно, что бьёшь)
+    IEnumerator PunchScale()
+    {
+        Transform t = transform;
+        Vector3 baseScale = t.localScale;
+        float time = 0.15f;
+        for (float e = 0f; e < time; e += Time.deltaTime)
+        {
+            float k = 1f + Mathf.Sin(e / time * Mathf.PI) * 0.12f;
+            t.localScale = new Vector3(baseScale.x * k, baseScale.y * (2f - k), baseScale.z);
+            yield return null;
+        }
+        t.localScale = baseScale;
     }
 
     bool HasStrongEnoughPickaxe()
