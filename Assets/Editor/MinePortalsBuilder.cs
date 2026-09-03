@@ -71,7 +71,8 @@ public static class MinePortalsBuilder
         var exitSt = exit.AddComponent<SceneTransition>();
         exitSt.targetScene = "City";
         exitSt.targetSpawnId = "FromMine";
-        exitSt.triggerOnTouch = true;
+        exitSt.triggerOnTouch = false; // вход по кнопке атаки
+        SetAttackMode(exit);
 
         // 5 зон: спавн + дверь-лестница (как HouseDoor: DoorTeleport, вход по касанию).
         // Дверь Door_ToZoneN заранее нацелена на Spawn_ZoneN — растащи по зонам:
@@ -92,7 +93,8 @@ public static class MinePortalsBuilder
             var dt = door.AddComponent<DoorTeleport>();
             dt.targetSpawn = spawn.transform;
             dt.snapCamera = true;
-            dt.triggerOnTouch = true;
+            dt.triggerOnTouch = false; // вход по кнопке атаки
+            SetAttackMode(door);
 
             Undo.RegisterCreatedObjectUndo(spawn, "Create Spawn_Zone" + i);
             Undo.RegisterCreatedObjectUndo(door, "Create Door_ToZone" + i);
@@ -141,7 +143,8 @@ public static class MinePortalsBuilder
             var dt = door.AddComponent<DoorTeleport>();
             dt.targetSpawn = spawn.transform;
             dt.snapCamera = true;
-            dt.triggerOnTouch = true;
+            dt.triggerOnTouch = false; // вход по кнопке атаки
+            SetAttackMode(door);
 
             Undo.RegisterCreatedObjectUndo(door, "Create Door_BackToZone" + i);
         }
@@ -149,6 +152,39 @@ public static class MinePortalsBuilder
         Selection.activeGameObject = root;
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         Debug.Log("[Mine] Обратные двери созданы. Растащи: BackToZone1 в зону 2, BackToZone2 в зону 3 и т.д. Сохрани сцену (Ctrl+S).");
+    }
+
+    // ── 2в) Перевести двери на кнопку атаки ──────────────────────
+    // Ставит уже расставленным дверям/выходу слой Interactable и выключает
+    // вход по касанию: переход срабатывает ударом (как разговор с NPC).
+    [MenuItem("Tools/Mine/2c. Mine: двери по кнопке атаки (открой Mine)")]
+    public static void ConvertDoorsToAttack()
+    {
+        if (!RequireScene("Mine")) return;
+
+        int n = 0;
+        foreach (GameObject go in SceneManager.GetActiveScene().GetRootGameObjects())
+            n += ConvertRecursive(go);
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        Debug.Log("[Mine] Переведено на кнопку атаки: " + n + ". Сохрани сцену (Ctrl+S).");
+    }
+
+    static int ConvertRecursive(GameObject go)
+    {
+        int n = 0;
+        if (go.name.StartsWith("Door_ToZone") || go.name.StartsWith("Door_BackToZone") || go.name == "Exit_ToCity")
+        {
+            Undo.RecordObject(go, "Door attack mode");
+            var dt = go.GetComponent<DoorTeleport>();
+            if (dt != null) { Undo.RecordObject(dt, "Door attack mode"); dt.triggerOnTouch = false; }
+            var st = go.GetComponent<SceneTransition>();
+            if (st != null) { Undo.RecordObject(st, "Door attack mode"); st.triggerOnTouch = false; }
+            SetAttackMode(go);
+            n = 1;
+        }
+        foreach (Transform child in go.transform)
+            n += ConvertRecursive(child.gameObject);
+        return n;
     }
 
     // ── 3) Mine в Build Settings ─────────────────────────────────
@@ -167,6 +203,13 @@ public static class MinePortalsBuilder
     }
 
     // ── helpers ──────────────────────────────────────────────────
+    // Слой Interactable (8): детектор атаки находит только этот слой.
+    static void SetAttackMode(GameObject go)
+    {
+        int layer = LayerMask.NameToLayer("Interactable");
+        go.layer = layer >= 0 ? layer : 8;
+    }
+
     static bool RequireScene(string name)
     {
         if (SceneManager.GetActiveScene().name == name) return true;
