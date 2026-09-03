@@ -39,8 +39,8 @@ public static class MinePortalsBuilder
         back.transform.position = new Vector3(-2f, -3f, 0f);
         back.AddComponent<SceneSpawnPoint>().spawnId = "FromMine";
 
-        Undo.RegisterCreatedObject(portal, "Create PortalToMine");
-        Undo.RegisterCreatedObject(back, "Create Spawn_FromMine");
+        Undo.RegisterCreatedObjectUndo(portal, "Create PortalToMine");
+        Undo.RegisterCreatedObjectUndo(back, "Create Spawn_FromMine");
         Selection.activeGameObject = portal;
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         Debug.Log("[Mine] PortalToMine + Spawn_FromMine созданы. Подвинь к кузнецу и сохрани сцену (Ctrl+S).");
@@ -94,13 +94,13 @@ public static class MinePortalsBuilder
             dt.snapCamera = true;
             dt.triggerOnTouch = true;
 
-            Undo.RegisterCreatedObject(spawn, "Create Spawn_Zone" + i);
-            Undo.RegisterCreatedObject(door, "Create Door_ToZone" + i);
+            Undo.RegisterCreatedObjectUndo(spawn, "Create Spawn_Zone" + i);
+            Undo.RegisterCreatedObjectUndo(door, "Create Door_ToZone" + i);
         }
 
-        Undo.RegisterCreatedObject(root, "Create MinePortals root");
-        Undo.RegisterCreatedObject(entry, "Create Spawn_FromCity");
-        Undo.RegisterCreatedObject(exit, "Create Exit_ToCity");
+        Undo.RegisterCreatedObjectUndo(root, "Create MinePortals root");
+        Undo.RegisterCreatedObjectUndo(entry, "Create Spawn_FromCity");
+        Undo.RegisterCreatedObjectUndo(exit, "Create Exit_ToCity");
         Selection.activeGameObject = root;
         EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
         Debug.Log("[Mine] Спавны и двери созданы под MinePortals. Растащи по 5 зонам и сохрани сцену (Ctrl+S).");
