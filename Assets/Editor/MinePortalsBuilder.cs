@@ -187,6 +187,75 @@ public static class MinePortalsBuilder
         return n;
     }
 
+    // ── 2г) Связки-лестницы между уровнями ───────────────────────
+    // Одна связка Stairs_N_M = весь переход «уровень N ⇄ уровень N+1» в одном объекте:
+    //   DownLadder (лестница вниз, класть в зону N) → TopSpawn (появление в зоне N+1)
+    //   UpLadder   (лестница вверх, класть в зону N+1 рядом с TopSpawn) → BottomSpawn (появление в зоне N)
+    // Связи уже настроены — растащи 4 детей по зонам. Вход по кнопке атаки.
+    [MenuItem("Tools/Mine/2d. Mine: создать связки-лестницы (открой Mine)")]
+    public static void CreateStairsLinks()
+    {
+        if (!RequireScene("Mine")) return;
+
+        GameObject parent = GameObject.Find("MineStairs");
+        if (parent == null)
+        {
+            parent = new GameObject("MineStairs");
+            Undo.RegisterCreatedObjectUndo(parent, "Create MineStairs");
+        }
+
+        for (int i = 1; i <= 4; i++)
+        {
+            string linkName = "Stairs_" + i + "_" + (i + 1);
+            if (GameObject.Find(linkName) != null)
+            {
+                Debug.Log("[Mine] " + linkName + " уже есть — пропускаю.");
+                continue;
+            }
+
+            GameObject link = new GameObject(linkName);
+            link.transform.SetParent(parent.transform);
+            link.transform.position = new Vector3(i * 8f, 12f, 0f);
+
+            GameObject topSpawn = MakeStairsPoint(link, "TopSpawn", new Vector3(0f, 1.5f, 0f));
+            GameObject upLadder = MakeStairsLadder(link, "UpLadder", new Vector3(2f, 1.5f, 0f), null); // цель ниже
+            GameObject downLadder = MakeStairsLadder(link, "DownLadder", new Vector3(0f, 0f, 0f), topSpawn.transform);
+            GameObject bottomSpawn = MakeStairsPoint(link, "BottomSpawn", new Vector3(2f, 0f, 0f));
+            upLadder.GetComponent<DoorTeleport>().targetSpawn = bottomSpawn.transform;
+
+            Undo.RegisterCreatedObjectUndo(link, "Create " + linkName);
+        }
+
+        Selection.activeGameObject = parent;
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        Debug.Log("[Mine] Связки созданы под MineStairs. Растащи детей: DownLadder+BottomSpawn в верхнюю зону, TopSpawn+UpLadder в нижнюю. Старые Door_*/Spawn_Zone* удали вручную. Сохрани (Ctrl+S).");
+    }
+
+    static GameObject MakeStairsPoint(GameObject parent, string name, Vector3 localPos)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.SetParent(parent.transform);
+        go.transform.localPosition = localPos;
+        return go;
+    }
+
+    static GameObject MakeStairsLadder(GameObject parent, string name, Vector3 localPos, Transform target)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.SetParent(parent.transform);
+        go.transform.localPosition = localPos;
+        SetSprite(go, "Props Mine_180"); // лестница
+        var col = go.AddComponent<BoxCollider2D>();
+        col.isTrigger = true;
+        col.size = new Vector2(1f, 1f);
+        var dt = go.AddComponent<DoorTeleport>();
+        dt.targetSpawn = target;
+        dt.snapCamera = true;
+        dt.triggerOnTouch = false; // вход по кнопке атаки
+        SetAttackMode(go);
+        return go;
+    }
+
     // ── 3) Mine в Build Settings ─────────────────────────────────
     [MenuItem("Tools/Mine/3. Добавить Mine в Build Settings")]
     public static void AddMineToBuildSettings()
