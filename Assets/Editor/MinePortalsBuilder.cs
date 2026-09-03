@@ -106,6 +106,51 @@ public static class MinePortalsBuilder
         Debug.Log("[Mine] Спавны и двери созданы под MinePortals. Растащи по 5 зонам и сохрани сцену (Ctrl+S).");
     }
 
+    // ── 2б) Обратные двери (наверх) ─────────────────────────────
+    // Door_BackToZoneN ведёт на Spawn_ZoneN: клади в зону ГЛУБЖЕ,
+    // чтобы можно было подняться обратно (цепочка: зона N+1 → зона N → … → зона 1 → Exit_ToCity).
+    [MenuItem("Tools/Mine/2b. Mine: создать обратные двери (открой Mine)")]
+    public static void CreateMineBackDoors()
+    {
+        if (!RequireScene("Mine")) return;
+
+        GameObject root = GameObject.Find("MinePortals");
+        if (root == null) root = new GameObject("MinePortals");
+
+        for (int i = 1; i <= 4; i++)
+        {
+            GameObject spawn = GameObject.Find("Spawn_Zone" + i);
+            if (spawn == null)
+            {
+                Debug.LogError("[Mine] Не найден Spawn_Zone" + i + " — сначала выполни пункт 2.");
+                continue;
+            }
+            if (GameObject.Find("Door_BackToZone" + i) != null)
+            {
+                Debug.Log("[Mine] Door_BackToZone" + i + " уже есть — пропускаю.");
+                continue;
+            }
+
+            GameObject door = new GameObject("Door_BackToZone" + i);
+            door.transform.SetParent(root.transform);
+            door.transform.position = spawn.transform.position + new Vector3(1f, -2f, 0f);
+            SetSprite(door, "Props Mine_180"); // лестница
+            var dc = door.AddComponent<BoxCollider2D>();
+            dc.isTrigger = true;
+            dc.size = new Vector2(1f, 1f);
+            var dt = door.AddComponent<DoorTeleport>();
+            dt.targetSpawn = spawn.transform;
+            dt.snapCamera = true;
+            dt.triggerOnTouch = true;
+
+            Undo.RegisterCreatedObjectUndo(door, "Create Door_BackToZone" + i);
+        }
+
+        Selection.activeGameObject = root;
+        EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
+        Debug.Log("[Mine] Обратные двери созданы. Растащи: BackToZone1 в зону 2, BackToZone2 в зону 3 и т.д. Сохрани сцену (Ctrl+S).");
+    }
+
     // ── 3) Mine в Build Settings ─────────────────────────────────
     [MenuItem("Tools/Mine/3. Добавить Mine в Build Settings")]
     public static void AddMineToBuildSettings()
