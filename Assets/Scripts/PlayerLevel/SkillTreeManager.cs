@@ -54,7 +54,10 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
         {
             if (n == null) continue;
             bool isFarm = System.Array.Exists(farmTags, t => n.unlocksFeature == t);
-            if (isFarm && !existing.Contains(n.unlocksFeature))
+            // Перки экипировки (equip_*) — тот же рантайм-фолбэк: работают даже
+            // если их ещё не добавили в allNodes в инспекторе
+            bool isEquip = !string.IsNullOrEmpty(n.unlocksFeature) && n.unlocksFeature.StartsWith("equip_");
+            if ((isFarm || isEquip) && !existing.Contains(n.unlocksFeature))
                 missing.Add(n);
         }
 
@@ -65,7 +68,7 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
         {
             merged.Add(n);
             nodeRanks[n] = 0;
-            Debug.Log("[SkillTree] Автодобавлен фарм-перк: " + n.name + " (" + n.unlocksFeature + ")");
+            Debug.Log("[SkillTree] Автодобавлен перк: " + n.name + " (" + n.unlocksFeature + ")");
         }
         allNodes = merged.ToArray();
     }
@@ -228,6 +231,12 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
             case SkillEffectType.BonusBlockChance:
                 if (ps != null) { ps.baseBlockChance += node.effectValue; Recalculate(); }
                 break;
+            case SkillEffectType.BonusAccuracy:
+                if (ps != null) { ps.baseAccuracy += node.effectValue; Recalculate(); }
+                break;
+            case SkillEffectType.BonusPenetration:
+                if (ps != null) { ps.basePenetration += node.effectValue; Recalculate(); }
+                break;
             case SkillEffectType.ExtraInventorySlot:
                 Debug.Log("[SkillTree] +" + (int)node.effectValue + " слот(а) инвентаря");
                 break;
@@ -306,6 +315,8 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
             case SkillEffectType.BonusCritDamage: ps.baseCritDamage -= node.effectValue; break;
             case SkillEffectType.BonusDodgeChance: ps.baseDodgeChance -= node.effectValue; break;
             case SkillEffectType.BonusBlockChance: ps.baseBlockChance -= node.effectValue; break;
+            case SkillEffectType.BonusAccuracy: ps.baseAccuracy -= node.effectValue; break;
+            case SkillEffectType.BonusPenetration: ps.basePenetration -= node.effectValue; break;
         }
         Recalculate();
     }
@@ -313,10 +324,15 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
     void Recalculate()
     {
         if (PlayerStats.Instance != null)
+        {
+            // Разблокировка экипировки могла сделать активное оружие легальным —
+            // перечитываем его (иначе бонусы появятся только после смены слота)
+            PlayerStats.Instance.RefreshActiveWeapon();
             PlayerStats.Instance.RecalculateBonuses(
                 EquipmentManager.Instance != null
                     ? EquipmentManager.Instance.GetAllEquipped()
                     : new List<ItemData>());
+        }
     }
 
         /// <summary>Ранг перка по тегу unlocksFeature (0 = не куплен).</summary>

@@ -233,6 +233,14 @@ public class TreeComponent : MonoBehaviour
         ItemData wood = isStaticTree ? staticWoodItem : treeData?.treeWoodItem;
         int amount = isStaticTree ? staticWoodAmount : (treeData?.treeWoodAmount ?? 3);
 
+        // Бонус добычи от редкости топора (0/25/50/100/150)
+        if (HotbarManager.Instance != null)
+        {
+            ItemData axe = HotbarManager.Instance.GetActiveItem();
+            if (axe != null && axe.itemType == ItemType.Axe)
+                amount += ItemData.RollBonusDrops(axe);
+        }
+
         if (wood != null)
             DropItemsIndividually(wood, amount, woodDropRadius);
 

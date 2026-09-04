@@ -2,13 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// Точка появления игрока в сцене. У каждой свой spawnId.
-/// Портал (SceneTransition) указывает в какую точку поставить игрока
-/// после загрузки новой сцены.
+/// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ. пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ spawnId.
+/// пїЅпїЅпїЅпїЅпїЅпїЅ (SceneTransition) пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+/// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
 /// </summary>
 public class SceneSpawnPoint : MonoBehaviour
 {
-    [Tooltip("Уникальное имя точки, напр. 'FromFarm', 'CityEntrance'")]
+    [Tooltip("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ. 'FromFarm', 'CityEntrance'")]
     public string spawnId = "Default";
 
     private static readonly List<SceneSpawnPoint> all = new List<SceneSpawnPoint>();
@@ -20,8 +20,11 @@ public class SceneSpawnPoint : MonoBehaviour
     {
         foreach (SceneSpawnPoint s in all)
             if (s != null && s.spawnId == id) return s;
-        // Если не нашли по id — вернём первую попавшуюся (чтобы не потерять игрока)
-        return all.Count > 0 ? all[0] : null;
+        // РµСЃР»Рё РЅРµ РЅР°С€Р»Рё РїРѕ id вЂ” РІРµСЂРЅСѓС‚СЊ РїРµСЂРІСѓСЋ РїРѕРїР°РІС€СѓСЋСЃСЏ (С‡С‚РѕР±С‹ РЅРµ Р·Р°СЃС‚СЂСЏС‚СЊ Сѓ РїРѕСЂС‚Р°Р»Р°)
+        SceneSpawnPoint fallback = all.Count > 0 ? all[0] : null;
+        Debug.LogWarning("[РЎРїР°РІРЅ] РўРѕС‡РєР° '" + id + "' РЅРµ РЅР°Р№РґРµРЅР°! РСЃРїРѕР»СЊР·СѓСЋ РїРµСЂРІСѓСЋ РїРѕРїР°РІС€СѓСЋСЃСЏ: " +
+                         (fallback != null ? fallback.name + " (" + fallback.spawnId + ")" : "<РЅРµС‚ С‚РѕС‡РµРє РІ СЃС†РµРЅРµ>"));
+        return fallback;
     }
 
     void OnDrawGizmos()

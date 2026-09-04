@@ -14,9 +14,11 @@ public class SkillTreeUI : MonoBehaviour
     public Button tabCombat;
     public Button tabFarming;
     public Button tabCrafting;
+    public Button tabEquipment; // привяжи новую кнопку ветки экипировки (опц.)
     public Image tabCombatBg;
     public Image tabFarmingBg;
     public Image tabCraftingBg;
+    public Image tabEquipmentBg;
     public Color tabActiveColor = new Color(0.9f, 0.7f, 0.2f);
     public Color tabInactiveColor = new Color(0.3f, 0.3f, 0.3f);
 
@@ -24,6 +26,11 @@ public class SkillTreeUI : MonoBehaviour
     public GameObject combatContainer;
     public GameObject farmingContainer;
     public GameObject craftingContainer;
+    public GameObject equipmentContainer; // контейнер кнопок ветки (узлы добавит юзер)
+
+    [Header("Автокнопки ветки экипировки")]
+    [Tooltip("Префаб кнопки узла (SkillNodeButton). Перетащи раз — 45 кнопок построятся сами сеткой 9 видов × 5 тиров")]
+    public GameObject nodeButtonPrefab;
 
     [Header("Панель деталей")]
     public GameObject detailPanel;
@@ -89,6 +96,7 @@ public class SkillTreeUI : MonoBehaviour
         tabCombat?.onClick.AddListener(() => SwitchTab(PlayerLevel.SkillBranch.Combat));
         tabFarming?.onClick.AddListener(() => SwitchTab(PlayerLevel.SkillBranch.Farming));
         tabCrafting?.onClick.AddListener(() => SwitchTab(PlayerLevel.SkillBranch.Crafting));
+        tabEquipment?.onClick.AddListener(() => SwitchTab(PlayerLevel.SkillBranch.Equipment));
 
         unlockButton?.onClick.AddListener(OnUnlockClick);
         resetButton?.onClick.AddListener(OnResetClick);
@@ -100,7 +108,81 @@ public class SkillTreeUI : MonoBehaviour
             resetButtonText.text = "Сброс (" + SkillTreeManager.Instance.resetCost + "g)";
 
         if (detailPanel != null) detailPanel.SetActive(false);
+        EnsureEquipmentButtons();
         SwitchTab(PlayerLevel.SkillBranch.Combat);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // АВТОКНОПКИ ВЕТКИ ЭКИПИРОВКИ (45 узлов руками — не вариант)
+    // Сетка: колонки = виды (меч/лук/.../топор), строки = тиры (медь→обсидиан).
+    // Только для Equipment — остальные ветки ручные, их не трогаем.
+    // ═══════════════════════════════════════════════════════════
+    void EnsureEquipmentButtons()
+    {
+        if (nodeButtonPrefab == null || equipmentContainer == null) return;
+        if (SkillTreeManager.Instance == null || SkillTreeManager.Instance.allNodes == null) return;
+
+        // Чистим чужое: контейнер могли склонировать из другой ветки —
+        // кнопки не-Equipment удаляем (только в рантайме, файл сцены не трогаем)
+        foreach (SkillNodeUI ui in equipmentContainer.GetComponentsInChildren<SkillNodeUI>(true))
+        {
+            if (ui == null) continue;
+            if (ui.node == null || ui.node.branch != PlayerLevel.SkillBranch.Equipment)
+                Destroy(ui.gameObject);
+        }
+
+        // Какие узлы уже имеют кнопки
+        var hasButton = new System.Collections.Generic.HashSet<SkillNode>();
+        foreach (SkillNodeUI ui in equipmentContainer.GetComponentsInChildren<SkillNodeUI>(true))
+            if (ui != null && ui.node != null) hasButton.Add(ui.node);
+
+        // Узлы ветки по порядку: уровень (тир), затем имя (вид)
+        var equipNodes = new System.Collections.Generic.List<SkillNode>();
+        foreach (SkillNode n in SkillTreeManager.Instance.allNodes)
+        {
+            if (n == null || n.branch != PlayerLevel.SkillBranch.Equipment) continue;
+            if (hasButton.Contains(n)) continue;
+            equipNodes.Add(n);
+        }
+        if (equipNodes.Count == 0) return;
+
+        equipNodes.Sort((a, b) =>
+        {
+            int d = a.requiredLevel.CompareTo(b.requiredLevel);
+            return d != 0 ? d : string.CompareOrdinal(a.nodeName, b.nodeName);
+        });
+
+        // Существующие СВОИ кнопки задают смещение (чужие выше уже помечены на удаление)
+        int startIndex = 0;
+        foreach (SkillNodeUI ui in equipmentContainer.GetComponentsInChildren<SkillNodeUI>(true))
+            if (ui != null && ui.node != null && ui.node.branch == PlayerLevel.SkillBranch.Equipment)
+                startIndex++;
+
+        // Если на контейнере висит LayoutGroup (как Grid Layout Group) —
+        // раскладкой занимается он, позиции руками не ставим
+        bool autoLayout = equipmentContainer.GetComponent<UnityEngine.UI.LayoutGroup>() != null;
+
+        const float cellX = 115f, cellY = 130f;
+        const int cols = 9;
+        for (int i = 0; i < equipNodes.Count; i++)
+        {
+            int slot = startIndex + i;
+            GameObject go = Instantiate(nodeButtonPrefab, equipmentContainer.transform);
+            go.name = "EquipNodeBtn_" + equipNodes[i].name;
+            var ui = go.GetComponent<SkillNodeUI>();
+            if (ui == null) { Destroy(go); continue; }
+            ui.node = equipNodes[i];
+            var btn = go.GetComponentInChildren<UnityEngine.UI.Button>();
+            if (btn != null) btn.onClick.AddListener(ui.OnClick);
+            if (!autoLayout)
+            {
+                var rt = go.GetComponent<RectTransform>();
+                if (rt != null)
+                    rt.anchoredPosition = new Vector2((slot % cols) * cellX, -(slot / cols) * cellY);
+            }
+            ui.Refresh();
+        }
+        Debug.Log("[SkillTree] Автокнопки экипировки: " + equipNodes.Count);
     }
 
     void Update()
@@ -137,6 +219,7 @@ public class SkillTreeUI : MonoBehaviour
         if (pm != null) pm.enabled = false;
 
         UpdateInfoBar();
+        EnsureEquipmentButtons(); // на случай узлов, подъехавших позже Start
         RefreshAll();
     }
 
@@ -161,15 +244,24 @@ public class SkillTreeUI : MonoBehaviour
         if (combatContainer != null) combatContainer.SetActive(branch == PlayerLevel.SkillBranch.Combat);
         if (farmingContainer != null) farmingContainer.SetActive(branch == PlayerLevel.SkillBranch.Farming);
         if (craftingContainer != null) craftingContainer.SetActive(branch == PlayerLevel.SkillBranch.Crafting);
+        if (equipmentContainer != null) equipmentContainer.SetActive(branch == PlayerLevel.SkillBranch.Equipment);
 
         if (tabCombatBg != null) tabCombatBg.color = branch == PlayerLevel.SkillBranch.Combat ? tabActiveColor : tabInactiveColor;
         if (tabFarmingBg != null) tabFarmingBg.color = branch == PlayerLevel.SkillBranch.Farming ? tabActiveColor : tabInactiveColor;
         if (tabCraftingBg != null) tabCraftingBg.color = branch == PlayerLevel.SkillBranch.Crafting ? tabActiveColor : tabInactiveColor;
+        if (tabEquipmentBg != null) tabEquipmentBg.color = branch == PlayerLevel.SkillBranch.Equipment ? tabActiveColor : tabInactiveColor;
 
         selectedNode = null;
         if (detailPanel != null) detailPanel.SetActive(false);
         ApplyPage();
         RefreshAll();
+    }
+
+    /// <summary>Открыть вкладку экипировки извне (повесь на новую кнопку ветки).</summary>
+    public void ShowEquipmentTab()
+    {
+        if (!isOpen) Open();
+        SwitchTab(PlayerLevel.SkillBranch.Equipment);
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -190,6 +282,7 @@ public class SkillTreeUI : MonoBehaviour
         {
             PlayerLevel.SkillBranch.Farming => farmingContainer,
             PlayerLevel.SkillBranch.Crafting => craftingContainer,
+            PlayerLevel.SkillBranch.Equipment => equipmentContainer != null ? equipmentContainer : combatContainer,
             _ => combatContainer,
         };
     }
@@ -342,6 +435,7 @@ public class SkillTreeUI : MonoBehaviour
         RefreshContainer(combatContainer);
         RefreshContainer(farmingContainer);
         RefreshContainer(craftingContainer);
+        RefreshContainer(equipmentContainer);
     }
 
     void RefreshContainer(GameObject container)

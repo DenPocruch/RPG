@@ -55,6 +55,7 @@ public class SimpleEnemyAI : MonoBehaviour
 
     private Transform player;
     private PlayerHealth playerHealth;
+    private EnemyHealth enemyHealth; // свои боевые статы (точность/пробитие для ударов)
     private float lastDamageTime;
     private Vector3 spawnPosition;
 
@@ -109,6 +110,9 @@ public class SimpleEnemyAI : MonoBehaviour
         usingMeleeAttack = !usingRanged && EnemyData.Has(enemyData != null ? enemyData.attack : null);
         currentDetectionRange = BaseDetectionRange();
 
+        // Свои боевые статы (точность/пробитие для ударов по игроку)
+        enemyHealth = GetComponent<EnemyHealth>();
+
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null)
         {
@@ -137,7 +141,7 @@ public class SimpleEnemyAI : MonoBehaviour
             attackPending = false;
             if (!isDead && playerHealth != null &&
                 Vector2.Distance(transform.position, player.position) <= attackRange * 1.4f)
-                playerHealth.TakeDamage(damageToPlayer);
+                playerHealth.TakeDamage(damageToPlayer, MyAccuracy(), MyPenetration());
         }
 
         // Отложенный выстрел (момент выпуска стрелы в анимации)
@@ -165,7 +169,7 @@ public class SimpleEnemyAI : MonoBehaviour
             {
                 lastDamageTime = Time.time;
                 if (playerHealth != null)
-                    playerHealth.TakeDamage(damageToPlayer);
+                    playerHealth.TakeDamage(damageToPlayer, MyAccuracy(), MyPenetration());
             }
         }
     }
@@ -208,6 +212,10 @@ public class SimpleEnemyAI : MonoBehaviour
         }
     }
 
+    // Точность/пробитие этого врага (нули если нет EnemyHealth)
+    float MyAccuracy() => enemyHealth != null ? enemyHealth.accuracy : 0f;
+    float MyPenetration() => enemyHealth != null ? enemyHealth.penetration : 0f;
+
     // Выстрел: стрела из firePoint (или центра) в игрока
     void ShootArrow()
     {
@@ -222,7 +230,7 @@ public class SimpleEnemyAI : MonoBehaviour
             c.isTrigger = true; // иначе OnTriggerEnter2D стрелы не сработает
         Arrow arrow = obj.GetComponent<Arrow>();
         if (arrow != null)
-            arrow.InitEnemy(dir, arrowDamage, arrowSpeed, shootRange + 2f);
+            arrow.InitEnemy(dir, arrowDamage, arrowSpeed, shootRange + 2f, MyAccuracy(), MyPenetration());
     }
 
     void UpdateAlertState()

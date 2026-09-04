@@ -151,7 +151,7 @@ MonoBehaviour:
   oreItem: {fileID: 11400000, guid: 2a6f95b9224d724468c09dd16a990c0d, type: 2}
   oreAmount: 1
   maxHealth: 2
-  requiredToolTier: 1
+  requiredToolTier: 3
   fullSprite: {fileID: -1943715052, guid: ded7716a8cb36834dba49754d13e5c68, type: 3}
   crackedSprite: {fileID: 0}
   dropRadius: 0.5
@@ -159,6 +159,7 @@ MonoBehaviour:
   respawnTime: 300
   veinAnimator: {fileID: 0}
   lootItemPrefab: {fileID: 7900571498798456413, guid: 991ed91f9fdb15b488630216b3f87de3, type: 3}
+  veinId: 
   weakPickaxeMessageCooldown: 1
 --- !u!114 &245581623381296334
 MonoBehaviour:

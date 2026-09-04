@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 769539280796125169}
   - component: {fileID: 6353038480302496339}
   - component: {fileID: 7171625805984401314}
+  - component: {fileID: 7450869797839337370}
   m_Layer: 7
   m_Name: OreVein_CopperOre_Rich
   m_TagString: Untagged
@@ -97,7 +98,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2986152842327628658}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -151,7 +152,7 @@ MonoBehaviour:
   oreItem: {fileID: 11400000, guid: c77121d945037314da914c301e7dc23f, type: 2}
   oreAmount: 4
   maxHealth: 4
-  requiredToolTier: 1
+  requiredToolTier: 2
   fullSprite: {fileID: -5737864391340081735, guid: ded7716a8cb36834dba49754d13e5c68, type: 3}
   crackedSprite: {fileID: 0}
   dropRadius: 0.5
@@ -159,6 +160,7 @@ MonoBehaviour:
   respawnTime: 300
   veinAnimator: {fileID: 0}
   lootItemPrefab: {fileID: 7900571498798456413, guid: 991ed91f9fdb15b488630216b3f87de3, type: 3}
+  veinId: 
   weakPickaxeMessageCooldown: 1
 --- !u!114 &7171625805984401314
 MonoBehaviour:
@@ -173,3 +175,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOffset: 0
+--- !u!60 &7450869797839337370
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2986152842327628658}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 2, y: 1}
+    newSize: {x: 2, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.38173237, y: 0.7478684}
+      - {x: -0.37174585, y: 0.5462527}
+      - {x: -0.7405246, y: 0.40962386}
+      - {x: -0.75107676, y: 0.1585471}
+      - {x: -0.62255937, y: 0.031656772}
+      - {x: -0.1969941, y: 0.021373251}
+      - {x: -0.0668172, y: 0.1880313}
+      - {x: 0.46656147, y: 0.19496563}
+      - {x: 0.6804652, y: 0.393951}
+      - {x: 0.68505925, y: 0.6563936}
+      - {x: 0.19613796, y: 0.7432284}
+  m_UseDelaunayMesh: 0

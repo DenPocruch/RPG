@@ -33,8 +33,9 @@ public class PlayerHealth : MonoBehaviour
 
     /// <summary>
     /// Получить урон с учётом защиты, уворота и блока из PlayerStats.
+    /// Точность/пробитие атакующего срезают уворот/защиту (враги со статами).
     /// </summary>
-    public void TakeDamage(float incomingDamage)
+    public void TakeDamage(float incomingDamage, float attackerAccuracy = 0f, float attackerPenetration = 0f)
     {
         if (isDead) return;
 
@@ -44,8 +45,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (ps != null)
         {
-            // Уворот — попап "Промах!" и выход
-            if (ps.TryDodge())
+            // Уворот — попап "Промах!" и выход (точность врага срезает уворот)
+            if (ps.TryDodge(attackerAccuracy))
             {
                 if (DamagePopupManager.Instance != null)
                     DamagePopupManager.Instance.Spawn(
@@ -60,8 +61,8 @@ public class PlayerHealth : MonoBehaviour
                 wasBlocked = true;
             }
 
-            // Защита
-            incomingDamage = ps.ApplyDefense(incomingDamage);
+            // Защита (пробитие врага игнорирует часть защиты)
+            incomingDamage = ps.ApplyDefense(incomingDamage, attackerPenetration);
         }
 
         currentHealth -= incomingDamage;

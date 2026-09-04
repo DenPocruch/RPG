@@ -3,18 +3,28 @@ using System.Collections;
 
 public class EnemyHealth : MonoBehaviour
 {
-    [Header("Здоровье")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public float maxHealth = 100f;
     public float currentHealth;
 
-    [Header("Спрайт")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)")]
+    [Tooltip("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)")]
+    public float defense = 0f;
+    [Tooltip("пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ %: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 1пїЅ1, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ 0. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ >100 (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)")]
+    public float dodgeChance = 0f;
+    [Tooltip("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public float penetration = 0f;
+    [Tooltip("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ %: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public float accuracy = 0f;
+
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ")]
     public SpriteRenderer spriteRenderer;
 
-    [Header("Позиция попапа")]
-    public Vector2 popupOffset = new Vector2(0f, 1f); // настрой под высоту персонажа
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public Vector2 popupOffset = new Vector2(0f, 1f); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
-    [Header("Опыт за убийство")]
-    public int xpReward = 20; // сколько Combat XP даёт убийство
+    [Header("пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
+    public int xpReward = 20; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ Combat XP пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 
     void Start()
     {
@@ -23,21 +33,39 @@ public class EnemyHealth : MonoBehaviour
             spriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
-    /// <summary>Получить урон с информацией о крите для попапа.</summary>
-    public void TakeDamage(float damage, bool isCrit = false)
+    /// <summary>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ вЂ” пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.</summary>
+    public void TakeDamage(float damage, bool isCrit = false, float attackerAccuracy = 0f, float attackerPenetration = 0f)
     {
         if (currentHealth <= 0) return;
 
-        currentHealth -= damage;
+        // пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        float effectiveDodge = Mathf.Max(0f, dodgeChance - attackerAccuracy);
+        if (effectiveDodge > 0f && Random.Range(0f, 100f) < effectiveDodge)
+        {
+            if (DamagePopupManager.Instance != null)
+                DamagePopupManager.Instance.Spawn(
+                    (Vector2)transform.position + popupOffset, 0, DamagePopup.PopupType.Dodge);
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ), пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
+            SimpleEnemyAI alertAi = GetComponent<SimpleEnemyAI>();
+            if (alertAi != null) alertAi.OnDamage();
+            return;
+        }
 
-        // Всплывающий урон над врагом
+        // пїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+        float effectiveDefense = Mathf.Max(0f, defense - attackerPenetration);
+        float finalDamage = Mathf.Max(damage - effectiveDefense, 1f);
+
+        currentHealth -= finalDamage;
+
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         if (DamagePopupManager.Instance != null)
         {
             DamagePopup.PopupType type = isCrit
                 ? DamagePopup.PopupType.Crit
                 : DamagePopup.PopupType.Normal;
             DamagePopupManager.Instance.Spawn(
-                (Vector2)transform.position + popupOffset, damage, type);
+                (Vector2)transform.position + popupOffset, finalDamage, type);
         }
 
         SimpleEnemyAI ai = GetComponent<SimpleEnemyAI>();
@@ -61,7 +89,7 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = 0;
 
-        // Опыт за убийство
+        // пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (PlayerLevel.Instance != null && xpReward > 0)
             PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Combat, xpReward);
 

@@ -23,6 +23,42 @@ public class ShopInteraction : MonoBehaviour, IInteractable
     void Awake()
     {
         EnsureFarmStock();
+        EnsureWeaponStock();
+    }
+
+    // Оружие/броня Common низких тиров + инструменты Common ВСЕХ тиров —
+    // кодом, сцену править не нужно. Редкие тиры оружия/брони — только лут и ковка.
+    void EnsureWeaponStock()
+    {
+        var list = new List<ShopManager.ShopItem>(itemsForSaleAnimals ?? new ShopManager.ShopItem[0]);
+        bool added = false;
+        foreach (string assetName in new[] {
+            "WoodSword_Common", "WoodHelmet_Common", "WoodChestplate_Common", "WoodLeggings_Common", "WoodBoots_Common",
+            "CopperSword_Common", "CopperHelmet_Common", "CopperChestplate_Common", "CopperLeggings_Common", "CopperBoots_Common",
+            "WoodBow_Common", "WoodStaff_Common", "CopperBow_Common", "CopperStaff_Common",
+            // Инструменты — Common ВСЕХ тиров (гейт прогрессии шахты/рубки, цена вместо лута)
+            "WoodPickaxe_Common", "CopperPickaxe_Common", "IronPickaxe_Common",
+            "GoldPickaxe_Common", "PlatinumPickaxe_Common", "ObsidianPickaxe_Common",
+            "WoodAxe_Common", "CopperAxe_Common", "IronAxe_Common",
+            "GoldAxe_Common", "PlatinumAxe_Common", "ObsidianAxe_Common" })
+        {
+            if (list.Exists(si => si != null && si.item != null && si.item.name == assetName)) continue;
+            ItemData item = ItemDatabase.Find(assetName);
+            if (item == null) continue; // ассеты ещё не сгенерированы (Tools → Equipment → 1) — молча пропускаем
+            // Замок древа: медь+ видна только после перка (ShopUI фильтрует по тегу сам)
+            string kind = EquipmentLocks.KindOf(item);
+            string tier = EquipmentLocks.TierOf(item);
+            string tag = (kind != null && tier != null && tier != "Wood")
+                ? EquipmentLocks.TagFor(tier, kind) : "";
+            list.Add(new ShopManager.ShopItem
+            {
+                item = item,
+                price = item.shopPrice > 0 ? item.shopPrice : 100,
+                unlockTag = tag
+            });
+            added = true;
+        }
+        if (added) itemsForSaleAnimals = list.ToArray();
     }
 
     // Кормушка/поилка добавляются кодом — сцену править не нужно.

@@ -2,32 +2,35 @@ using UnityEngine;
 using System.Collections.Generic;
 
 /// <summary>
-/// Вешай на каждый AttackArea_Down/Up/Right/Left (хитбокс атаки).
-/// При активации ищет IInteractable в своей зоне и вызывает Interact().
-/// Если несколько — выбирает ближайший к игроку.
+/// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ AttackArea_Down/Up/Right/Left (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ).
+/// пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ IInteractable пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ Interact().
+/// пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
 /// </summary>
 public class InteractionDetector : MonoBehaviour
 {
-    [Header("Слой интерактивных объектов")]
+    [Header("пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public LayerMask interactableLayer;
 
-    [Header("Размер зоны проверки")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public Vector2 boxSize = new Vector2(1f, 1f);
 
-    [Header("Смещение зоны")]
-    public Vector2 boxOffset = Vector2.zero; // X — влево/вправо, Y — вверх/вниз
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ")]
+    public Vector2 boxOffset = Vector2.zero; // X пїЅ пїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ, Y пїЅ пїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅ
 
     private Transform playerTransform;
 
     void Awake()
     {
-        // Ищем игрока (родительский объект Player)
-        playerTransform = transform.root;
+        // Р’РђР–РќРћ: transform.root РґР°С‘С‚ PersistentRoot (РёРіСЂРѕРє вЂ” РµРіРѕ СЂРµР±С‘РЅРѕРє, СЃР°Рј РѕРЅ РІ 0,0,0),
+        // РёР·-Р·Р° С‡РµРіРѕ В«Р±Р»РёР¶Р°Р№С€РёР№ РёРЅС‚РµСЂР°РєС‚РёРІВ» РІС‹Р±РёСЂР°Р»СЃСЏ РїРѕ РґРёСЃС‚Р°РЅС†РёРё РѕС‚ С†РµРЅС‚СЂР° РјРёСЂР°.
+        // РС‰РµРј РёРјРµРЅРЅРѕ РёРіСЂРѕРєР° РїРѕ С‚РµРіСѓ.
+        GameObject player = GameObject.FindWithTag("Player");
+        playerTransform = player != null ? player.transform : transform.root;
     }
 
     /// <summary>
-    /// Вызывается из PlayerMovement когда игрок нажимает атаку.
-    /// Возвращает true если нашли и активировали интерактивный объект.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ PlayerMovement пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.
+    /// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ true пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
     /// </summary>
     public bool TryInteract()
     {
@@ -41,7 +44,7 @@ public class InteractionDetector : MonoBehaviour
 
         if (hits.Length == 0) return false;
 
-        // Ищем ближайший интерактивный объект
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         IInteractable closest = null;
         float minDist = float.MaxValue;
 
@@ -64,6 +67,11 @@ public class InteractionDetector : MonoBehaviour
 
         if (closest != null)
         {
+            // РћС‚Р»Р°РґРєР° С‚РµР»РµРїРѕСЂС‚РѕРІ: РїРѕРєР°Р·С‹РІР°РµРј, РєРѕРіРѕ РёРјРµРЅРЅРѕ РїРѕР№РјР°Р» СѓРґР°СЂ
+            if (closest is DoorTeleport || closest is SceneTransition)
+                Debug.Log("[РЈРґР°СЂ] РџРѕР№РјР°РЅ " + closest.GetTransform().name +
+                          " (" + (Vector2)closest.GetTransform().position + "), РґРёСЃС‚Р°РЅС†РёСЏ " +
+                          Vector2.Distance(playerTransform.position, closest.GetTransform().position).ToString("F2"));
             closest.Interact(playerTransform.gameObject);
             return true;
         }
@@ -78,7 +86,7 @@ public class InteractionDetector : MonoBehaviour
         Gizmos.DrawCube(center, boxSize);
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireCube(center, boxSize);
-        // Точка центра
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(center, 0.05f);
     }

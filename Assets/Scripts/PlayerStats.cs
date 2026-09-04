@@ -23,6 +23,8 @@ public class PlayerStats : MonoBehaviour
     public float baseCritDamage = 50f;  // % к урону крита (50 = +50%, итого x1.5)
     public float baseDodgeChance = 0f;   // %
     public float baseBlockChance = 0f;   // %
+    public float baseAccuracy = 0f;      // %: срезает уворот цели 1к1
+    public float basePenetration = 0f;   // плоское: игнорирует защиту цели
 
     // ═══════════════════════════════════════════════════════════
     // СОБРАННЫЕ БОНУСЫ ОТ ЭКИПИРОВКИ (обновляются автоматически)
@@ -37,6 +39,8 @@ public class PlayerStats : MonoBehaviour
     [SerializeField] private float bonusCritDamage;
     [SerializeField] private float bonusDodgeChance;
     [SerializeField] private float bonusBlockChance;
+    [SerializeField] private float bonusAccuracy;
+    [SerializeField] private float bonusPenetration;
 
     // ═══════════════════════════════════════════════════════════
     // ИТОГОВЫЕ ХАРАКТЕРИСТИКИ (база + бонусы)
@@ -50,6 +54,8 @@ public class PlayerStats : MonoBehaviour
     public float TotalCritDamage => baseCritDamage + bonusCritDamage;
     public float TotalDodgeChance => baseDodgeChance + bonusDodgeChance;
     public float TotalBlockChance => baseBlockChance + bonusBlockChance;
+    public float TotalAccuracy => baseAccuracy + bonusAccuracy;
+    public float TotalPenetration => basePenetration + bonusPenetration;
 
     // Событие — стат изменились (UI подписывается чтобы обновлять отображение)
     public System.Action onStatsChanged;
@@ -79,9 +85,13 @@ public class PlayerStats : MonoBehaviour
     /// <summary>Вызывается из HotbarManager когда меняется активный предмет.</summary>
     public void OnActiveWeaponChanged(ItemData item)
     {
-        // Запоминаем активное оружие (только Weapon и RangedWeapon дают бонусы)
+        // Запоминаем активное оружие (Weapon/RangedWeapon/Axe дают бонусы;
+        // топор — ещё и оружие, кирка — только инструмент).
+        // Закрытое перком оружие — как будто пустые руки (бонусов нет).
         if (item != null &&
-           (item.itemType == ItemType.Weapon || item.itemType == ItemType.RangedWeapon))
+            (item.itemType == ItemType.Weapon || item.itemType == ItemType.RangedWeapon
+             || item.itemType == ItemType.Axe)
+            && EquipmentLocks.IsUnlocked(item))
             activeWeapon = item;
         else
             activeWeapon = null;
@@ -91,6 +101,14 @@ public class PlayerStats : MonoBehaviour
             RecalculateBonuses(EquipmentManager.Instance.GetAllEquipped());
         else
             RecalculateBonuses(new System.Collections.Generic.List<ItemData>());
+    }
+
+    /// <summary>Перечитать активное оружие из хотбара (после покупки перка —
+    /// закрытый меч в руках мог стать легальным). Зовёт SkillTreeManager.</summary>
+    public void RefreshActiveWeapon()
+    {
+        if (HotbarManager.Instance != null)
+            OnActiveWeaponChanged(HotbarManager.Instance.GetActiveItem());
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -109,6 +127,8 @@ public class PlayerStats : MonoBehaviour
         bonusCritDamage = 0f;
         bonusDodgeChance = 0f;
         bonusBlockChance = 0f;
+        bonusAccuracy = 0f;
+        bonusPenetration = 0f;
 
         // Суммируем бонусы от всех надетых предметов (броня, кольца...)
         foreach (ItemData item in equippedItems)
@@ -123,6 +143,8 @@ public class PlayerStats : MonoBehaviour
             bonusCritDamage += item.bonusCritDamage;
             bonusDodgeChance += item.bonusDodgeChance;
             bonusBlockChance += item.bonusBlockChance;
+            bonusAccuracy += item.bonusAccuracy;
+            bonusPenetration += item.bonusPenetration;
         }
 
         // Добавляем бонусы от активного оружия в хотбаре
@@ -132,6 +154,8 @@ public class PlayerStats : MonoBehaviour
             bonusCritChance += activeWeapon.bonusCritChance;
             bonusCritDamage += activeWeapon.bonusCritDamage;
             bonusAttackSpeed += activeWeapon.bonusAttackSpeed;
+            bonusAccuracy += activeWeapon.bonusAccuracy;
+            bonusPenetration += activeWeapon.bonusPenetration;
         }
 
         // Бонусы от активного баффа еды (PlayerBuffs)
@@ -180,6 +204,8 @@ public class PlayerStats : MonoBehaviour
     {
         public float damage;
         public bool isCrit;
+        public float accuracy;    // точность атакующего (срезает уворот цели)
+        public float penetration; // пробитие атакующего (игнорирует защиту цели)
     }
 
     public DamageResult CalculateDamage(ItemData weapon)
@@ -191,6 +217,8 @@ public class PlayerStats : MonoBehaviour
         DamageResult result = new DamageResult();
         result.damage = baseDmg;
         result.isCrit = false;
+        result.accuracy = TotalAccuracy;
+        result.penetration = TotalPenetration;
 
         // Крит?
         if (Random.Range(0f, 100f) < TotalCritChance)
@@ -203,10 +231,11 @@ public class PlayerStats : MonoBehaviour
         return result;
     }
 
-    // Шанс уклониться от атаки
-    public bool TryDodge()
+    // Шанс уклониться от атаки (точность атакующего срезает уворот 1к1, минимум 0)
+    public bool TryDodge(float attackerAccuracy = 0f)
     {
-        return Random.Range(0f, 100f) < TotalDodgeChance;
+        float effective = Mathf.Max(0f, TotalDodgeChance - attackerAccuracy);
+        return Random.Range(0f, 100f) < effective;
     }
 
     // Шанс заблокировать атаку
@@ -215,10 +244,11 @@ public class PlayerStats : MonoBehaviour
         return Random.Range(0f, 100f) < TotalBlockChance;
     }
 
-    // Итоговый урон после защиты
-    public float ApplyDefense(float incomingDamage)
+    // Итоговый урон после защиты (пробитие игнорирует часть защиты, минимум 0)
+    public float ApplyDefense(float incomingDamage, float attackerPenetration = 0f)
     {
-        float reduced = incomingDamage - TotalDefense;
+        float effectiveDefense = Mathf.Max(0f, TotalDefense - attackerPenetration);
+        float reduced = incomingDamage - effectiveDefense;
         return Mathf.Max(reduced, 1f); // минимум 1 урона
     }
 }

@@ -27,6 +27,8 @@ public class StatsUI : MonoBehaviour
     public TMP_Text critDamageText;
     public TMP_Text dodgeChanceText;
     public TMP_Text blockChanceText;
+    public TMP_Text accuracyText;     // привяжи в инспекторе (опц. — без привязки просто не показывается)
+    public TMP_Text penetrationText;  // привяжи в инспекторе (опц.)
 
     [Header("Цвета значений")]
     public Color baseColor = new Color(1f, 1f, 1f);
@@ -191,6 +193,16 @@ public class StatsUI : MonoBehaviour
             ps.baseBlockChance,
             ps.TotalBlockChance - ps.baseBlockChance,
             "Блок", "0.#", "%");
+
+        SetStatFloat(accuracyText,
+            ps.baseAccuracy,
+            ps.TotalAccuracy - ps.baseAccuracy,
+            "Точность", "0.#", "%");
+
+        SetStatFloat(penetrationText,
+            ps.basePenetration,
+            ps.TotalPenetration - ps.basePenetration,
+            "Пробитие", "0.#");
     }
 
     // Целочисленный стат

@@ -19,11 +19,18 @@ public class DoorTeleport : MonoBehaviour, IInteractable
     [Tooltip("Если true — телепорт срабатывает при входе в триггер, без нажатия атаки")]
     public bool triggerOnTouch = false;
 
+    // Антипинг-понг: после ЛЮБОГО телепорта короткое время новые телепорты игнорируются.
+    // Нужен, потому что точки спавна часто стоят вплотную к обратной лестнице —
+    // без этого первый же удар/триггер после прибытия сразу выбрасывает игрока обратно.
+    private const float RetriggerGraceSeconds = 0.75f;
+    private static float lastTeleportTime = -999f;
+
     // ── IInteractable ──────────────────────────────────────────
     public Transform GetTransform() => transform;
 
     public void Interact(GameObject player)
     {
+        Debug.Log("[Телепорт] Удар по " + gameObject.name + " (" + (Vector2)transform.position + ")");
         DoTeleport(player);
     }
     // ───────────────────────────────────────────────────────────
@@ -37,6 +44,14 @@ public class DoorTeleport : MonoBehaviour, IInteractable
 
     void DoTeleport(GameObject player)
     {
+        // Только что телепортировались — игнорируем (удар по соседней лестнице
+        // или триггер, в который попали точкой спавна)
+        if (Time.unscaledTime - lastTeleportTime < RetriggerGraceSeconds)
+        {
+            Debug.Log("[Телепорт] " + gameObject.name + " — игнор (антипинг-понг)");
+            return;
+        }
+
         if (targetSpawn == null)
         {
             Debug.LogWarning("[Дверь] Не задан targetSpawn на " + gameObject.name);
@@ -56,9 +71,14 @@ public class DoorTeleport : MonoBehaviour, IInteractable
 
     void MovePlayer(GameObject player)
     {
+        // Отсчёт антипинг-понга — от момента фактического переноса (после фейда)
+        lastTeleportTime = Time.unscaledTime;
+
         // Переносим игрока
         Vector3 newPos = targetSpawn.position;
         newPos.z = player.transform.position.z; // сохраняем Z игрока
+        Debug.Log("[Телепорт] " + gameObject.name + " (" + (Vector2)transform.position + ") → " +
+                  targetSpawn.name + " (" + (Vector2)targetSpawn.position + ")");
         player.transform.position = newPos;
 
         // Сбрасываем скорость (чтобы не «уехал» по инерции)

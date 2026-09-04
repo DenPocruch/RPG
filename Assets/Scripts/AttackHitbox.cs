@@ -61,6 +61,8 @@ public class AttackHitbox : MonoBehaviour
 
             float finalDamage;
             bool isCrit = false;
+            float accuracy = 0f;
+            float penetration = 0f;
 
             if (PlayerStats.Instance != null)
             {
@@ -68,13 +70,15 @@ public class AttackHitbox : MonoBehaviour
                 PlayerStats.DamageResult result = PlayerStats.Instance.CalculateDamage(activeItem);
                 finalDamage = result.damage;
                 isCrit = result.isCrit;
+                accuracy = result.accuracy;
+                penetration = result.penetration;
             }
             else
             {
                 finalDamage = damage;
             }
 
-            enemy.TakeDamage(finalDamage, isCrit);
+            enemy.TakeDamage(finalDamage, isCrit, accuracy, penetration);
         }
     }
 }

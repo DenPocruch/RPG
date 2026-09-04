@@ -98,6 +98,7 @@ public class SaveManager : MonoBehaviour
         TreeSaveManager.EnsureInScene(scene);
         AnimalSaveManager.EnsureInScene(scene);
         PlaceablesSaveManager.EnsureInScene(scene);
+        OreVeinSaveManager.EnsureInScene(scene);
 
         // Кормушки/поилки уже заспавнены — теперь можно симулировать офлайн-расход
         // корма и воды животными (они восстанавливаются РАНЬШЕ кормушек).

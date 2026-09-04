@@ -5,8 +5,9 @@ using System.Linq;
 /// <summary>
 /// Генератор ассетов шахты: предметы руды/самоцветов (Resources/Items/Ore/)
 /// и префабы жил (Prefab/Mine/) со скриптом OreVeinComponent.
-/// Запуск: Tools → Mine → Create Ores and Veins. Повторный запуск обновляет данные,
-/// префабы пересоздаются.
+/// Запуск: Tools → Mine → Create Ores and Veins. Повторный запуск обновляет данные
+/// in place (guid префабов и инстансы в сценах целы, crackedSprite не затирается).
+/// Тир кирки: камень 1, медь 2, железо 3, серебро/золото 4, самоцветы 5, обсидиан 6.
 /// Карты спрайтов (листы уже нарезаны, pivot {0.5,0}). Все стили листа идут
 /// 10 колонками минералов в одном порядке: медь, серебро, золото, железо,
 /// аметист, рубин, изумруд, сапфир, обсидиан, розовый кварц. Спрайт минерала N
@@ -42,21 +43,22 @@ public static class MineBuilder
         public int iconIndex;      // индекс иконки предмета
         public string iconTex;     // лист с иконкой (MineralsTex = самоцвет-капля, PropsTex = кусок руды)
         public int hits;           // ударов большой жилой
+        public int toolTier;       // уровень кирки: камень 1, медь 2, железо 3, серебро/золото 4, самоцветы 5, обсидиан 6
     }
 
     // Порядок колонок листа: медь, серебро, золото, железо, аметист, рубин, изумруд, сапфир, обсидиан, кварц
     static readonly MineralSpec[] Minerals = new MineralSpec[]
     {
-        new MineralSpec { asset="CopperOre",  title="Медная руда",    rarity=ItemRarity.Common,   iconTex=PropsTex,    iconIndex=182, hits=4, desc="Обычная руда. Годится для переплавки." },
-        new MineralSpec { asset="SilverOre",  title="Серебряная руда",rarity=ItemRarity.Uncommon, iconTex=PropsTex,    iconIndex=183, hits=5, desc="Редкая руда. Годится для переплавки." },
-        new MineralSpec { asset="GoldOre",    title="Золотая руда",   rarity=ItemRarity.Rare,     iconTex=PropsTex,    iconIndex=184, hits=6, desc="Ценная руда. Годится для переплавки." },
-        new MineralSpec { asset="IronOre",    title="Железная руда",  rarity=ItemRarity.Common,   iconTex=PropsTex,    iconIndex=185, hits=5, desc="Крепкая руда. Годится для переплавки." },
-        new MineralSpec { asset="Amethyst",   title="Аметист",        rarity=ItemRarity.Uncommon, iconTex=MineralsTex, iconIndex=109, hits=5, desc="Фиолетовый самоцвет." },
-        new MineralSpec { asset="Ruby",       title="Рубин",          rarity=ItemRarity.Rare,     iconTex=MineralsTex, iconIndex=110, hits=5, desc="Красный самоцвет." },
-        new MineralSpec { asset="Emerald",    title="Изумруд",        rarity=ItemRarity.Rare,     iconTex=MineralsTex, iconIndex=111, hits=5, desc="Зелёный самоцвет." },
-        new MineralSpec { asset="Sapphire",   title="Сапфир",         rarity=ItemRarity.Epic,     iconTex=MineralsTex, iconIndex=112, hits=6, desc="Синий самоцвет. Дорогая находка." },
-        new MineralSpec { asset="Obsidian",   title="Обсидиан",       rarity=ItemRarity.Epic,     iconTex=MineralsTex, iconIndex=113, hits=6, desc="Чёрный вулканический камень с острыми гранями." },
-        new MineralSpec { asset="RoseQuartz", title="Розовый кварц",  rarity=ItemRarity.Uncommon, iconTex=MineralsTex, iconIndex=114, hits=5, desc="Нежно-розовый самоцвет." },
+        new MineralSpec { asset="CopperOre",  title="Медная руда",    rarity=ItemRarity.Common,   iconTex=PropsTex,    iconIndex=182, hits=4, toolTier=2, desc="Обычная руда. Годится для переплавки." },
+        new MineralSpec { asset="SilverOre",  title="Серебряная руда",rarity=ItemRarity.Uncommon, iconTex=PropsTex,    iconIndex=183, hits=5, toolTier=4, desc="Редкая руда. Годится для переплавки." },
+        new MineralSpec { asset="GoldOre",    title="Золотая руда",   rarity=ItemRarity.Rare,     iconTex=PropsTex,    iconIndex=184, hits=6, toolTier=4, desc="Ценная руда. Годится для переплавки." },
+        new MineralSpec { asset="IronOre",    title="Железная руда",  rarity=ItemRarity.Common,   iconTex=PropsTex,    iconIndex=185, hits=5, toolTier=3, desc="Крепкая руда. Годится для переплавки." },
+        new MineralSpec { asset="Amethyst",   title="Аметист",        rarity=ItemRarity.Uncommon, iconTex=MineralsTex, iconIndex=109, hits=5, toolTier=5, desc="Фиолетовый самоцвет." },
+        new MineralSpec { asset="Ruby",       title="Рубин",          rarity=ItemRarity.Rare,     iconTex=MineralsTex, iconIndex=110, hits=5, toolTier=5, desc="Красный самоцвет." },
+        new MineralSpec { asset="Emerald",    title="Изумруд",        rarity=ItemRarity.Rare,     iconTex=MineralsTex, iconIndex=111, hits=5, toolTier=5, desc="Зелёный самоцвет." },
+        new MineralSpec { asset="Sapphire",   title="Сапфир",         rarity=ItemRarity.Epic,     iconTex=MineralsTex, iconIndex=112, hits=6, toolTier=5, desc="Синий самоцвет. Дорогая находка." },
+        new MineralSpec { asset="Obsidian",   title="Обсидиан",       rarity=ItemRarity.Epic,     iconTex=MineralsTex, iconIndex=113, hits=6, toolTier=6, desc="Чёрный вулканический камень с острыми гранями." },
+        new MineralSpec { asset="RoseQuartz", title="Розовый кварц",  rarity=ItemRarity.Uncommon, iconTex=MineralsTex, iconIndex=114, hits=5, toolTier=5, desc="Нежно-розовый самоцвет." },
     };
 
     class VeinStyle
@@ -102,8 +104,8 @@ public static class MineBuilder
             CreateOre(m);
 
         // ── 3) Жилы: все стили × 10 минералов + камень без руды ──
-        CreateVein("OreVein_Stone", stones, 0, 3, 2, lootPrefab);
-        CreateVein("OreVein_Stone_Rich", stones, 14, 3, 4, lootPrefab);
+        CreateVein("OreVein_Stone", stones, 0, 3, 2, 1, lootPrefab);
+        CreateVein("OreVein_Stone_Rich", stones, 14, 3, 4, 1, lootPrefab);
 
         for (int col = 0; col < Minerals.Length; col++)
         {
@@ -119,7 +121,7 @@ public static class MineBuilder
                 bool isBig = style.baseIndex == 1, isRich = style.baseIndex == 15;
                 int hits = isBig || isRich ? m.hits : style.hits;
                 int amount = isRich ? baseAmount * 2 : (isBig ? baseAmount : style.amount);
-                CreateVein(name, item, style.baseIndex + col, hits, amount, lootPrefab);
+                CreateVein(name, item, style.baseIndex + col, hits, amount, m.toolTier, lootPrefab);
             }
         }
 
@@ -163,15 +165,17 @@ public static class MineBuilder
         item.isStackable = true;
         item.maxStack = 99;
         item.resourceCategory = "Ore";
-        item.requiredToolTier = 1;
+        item.requiredToolTier = m.toolTier;
         EditorUtility.SetDirty(item);
     }
 
     // ═══════════════════════════════════════════════════════════
     // ПРЕФАБ ЖИЛЫ
     // ═══════════════════════════════════════════════════════════
+    // Префаб жилы. ОБНОВЛЯЕТ in place (guid и инстансы в сценах целы,
+    // ручные правки crackedSprite не затираются) — перезапуск безопасен.
     static void CreateVein(string prefabName, ItemData ore, int spriteIndex,
-        int hits, int amount, GameObject lootPrefab)
+        int hits, int amount, int toolTier, GameObject lootPrefab)
     {
         EnsureFolder("Assets/Prefab/Mine");
         string prefabPath = "Assets/Prefab/Mine/" + prefabName + ".prefab";
@@ -183,37 +187,63 @@ public static class MineBuilder
             return;
         }
 
-        GameObject existing = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-        if (existing != null) AssetDatabase.DeleteAsset(prefabPath);
+        GameObject root = null;
+        bool isNew = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) == null;
+        if (isNew)
+        {
+            root = new GameObject(prefabName);
+            root.layer = LayerMask.NameToLayer("Tree");
+            var srNew = root.AddComponent<SpriteRenderer>();
+            srNew.sprite = full;
+            var colNew = root.AddComponent<BoxCollider2D>();
+            colNew.isTrigger = false;
+            root.AddComponent<OreVeinComponent>();
+            root.AddComponent<YSort>();
+        }
+        else
+        {
+            root = PrefabUtility.LoadPrefabContents(prefabPath);
+            if (root == null) { Debug.LogError("[Mine] Не открылся префаб: " + prefabPath); return; }
+            root.layer = LayerMask.NameToLayer("Tree");
+        }
 
-        GameObject root = new GameObject(prefabName);
-        root.layer = LayerMask.NameToLayer("Tree");
+        var sr = root.GetComponent<SpriteRenderer>();
+        if (sr != null) sr.sprite = full;
 
-        var sr = root.AddComponent<SpriteRenderer>();
-        sr.sprite = full;
+        var col = root.GetComponent<BoxCollider2D>();
+        if (col != null)
+        {
+            bool twoTiles = full.rect.width > 24f; // большие жилы 32px (2 тайла), остальные 16px
+            col.isTrigger = false;
+            col.offset = new Vector2(0f, 0.25f);
+            col.size = new Vector2(twoTiles ? 1.9f : 0.9f, 0.5f);
+        }
 
-        var col = root.AddComponent<BoxCollider2D>();
-        col.isTrigger = false;
-        bool twoTiles = full.rect.width > 24f; // большие жилы 32px (2 тайла), остальные 16px
-        col.offset = new Vector2(0f, 0.25f);
-        col.size = new Vector2(twoTiles ? 1.9f : 0.9f, 0.5f);
-
-        var vein = root.AddComponent<OreVeinComponent>();
+        var vein = root.GetComponent<OreVeinComponent>();
+        if (vein == null) vein = root.AddComponent<OreVeinComponent>();
         vein.oreItem = ore;
         vein.oreAmount = amount;
         vein.maxHealth = hits;
-        vein.requiredToolTier = 1;
+        vein.requiredToolTier = toolTier;
         vein.fullSprite = full;
-        vein.crackedSprite = null; // ставится вручную, если найдётся подходящий спрайт
+        // crackedSprite НЕ трогаем — ставится вручную, если найдётся подходящий спрайт
         vein.dropRadius = 0.5f;
         vein.respawns = true;
         vein.respawnTime = 300f;
         vein.lootItemPrefab = lootPrefab;
 
-        root.AddComponent<YSort>();
+        if (root.GetComponent<YSort>() == null) root.AddComponent<YSort>();
 
-        PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
-        Object.DestroyImmediate(root);
+        if (isNew)
+        {
+            PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
+            Object.DestroyImmediate(root);
+        }
+        else
+        {
+            PrefabUtility.SaveAsPrefabAsset(root, prefabPath); // тот же путь = guid цел
+            PrefabUtility.UnloadPrefabContents(root);
+        }
     }
 
     static Sprite LoadSprite(string path, string spriteName)

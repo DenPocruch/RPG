@@ -59,6 +59,18 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.598
       objectReference: {fileID: 0}
+    - target: {fileID: 3000116840897098336, guid: c64b0c41d2156924f804a2799129f4a5, type: 3}
+      propertyPath: goldMax
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000116840897098336, guid: c64b0c41d2156924f804a2799129f4a5, type: 3}
+      propertyPath: goldMin
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3000116840897098336, guid: c64b0c41d2156924f804a2799129f4a5, type: 3}
+      propertyPath: lootTable
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ae653141707b014d87d84570e2db69b, type: 2}
     - target: {fileID: 3500630466508787477, guid: c64b0c41d2156924f804a2799129f4a5, type: 3}
       propertyPath: m_Sprite
       value: 

@@ -31,12 +31,57 @@ public class CraftingManager : MonoBehaviour
     public int xpRareToEpic = 100;
     public int xpEpicToLegendary = 250;
 
-    public const int REQUIRED_ITEMS = 9;
+    [Header("Руда за крафт (штук тира вещи)")]
+    public int oreCostCommonToUncommon = 5;
+    public int oreCostUncommonToRare = 10;
+    public int oreCostRareToEpic = 20;
+    public int oreCostEpicToLegendary = 35;
+
+    public const int REQUIRED_ITEMS = 9; // размер сетки слотов в UI
+
+    /// <summary>Сколько вещей нужно на апгрейд С текущей редкости: 9/6/3/3.
+    /// Синхронно с EquipmentBuilder.UPGRADE_COUNT!</summary>
+    public static int RequiredForRarity(ItemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ItemRarity.Common: return 9;
+            case ItemRarity.Uncommon: return 6;
+            case ItemRarity.Rare: return 3;
+            case ItemRarity.Epic: return 3;
+            default: return 9;
+        }
+    }
 
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        EnsurePools();
+    }
+
+    /// <summary>Пустые пулы в инспекторе добираем из Equipment-ассетов —
+    /// сцену править не нужно (MCP не умеет биндить ссылки).</summary>
+    void EnsurePools()
+    {
+        if (uncommonPool == null || uncommonPool.Length == 0)
+            uncommonPool = LoadPool(ItemRarity.Uncommon);
+        if (rarePool == null || rarePool.Length == 0)
+            rarePool = LoadPool(ItemRarity.Rare);
+        if (epicPool == null || epicPool.Length == 0)
+            epicPool = LoadPool(ItemRarity.Epic);
+        if (legendaryPool == null || legendaryPool.Length == 0)
+            legendaryPool = LoadPool(ItemRarity.Legendary);
+    }
+
+    ItemData[] LoadPool(ItemRarity rarity)
+    {
+        ItemData[] all = Resources.LoadAll<ItemData>("Items/Equipment");
+        var list = new List<ItemData>();
+        foreach (ItemData a in all)
+            if (a != null && a.rarity == rarity) list.Add(a);
+        list.Sort((x, y) => string.CompareOrdinal(x.name, y.name));
+        return list.ToArray();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -51,26 +96,45 @@ public class CraftingManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Попытка крафта. Принимает 9 слотов.
-    /// Возвращает результат (успех/провал/ошибка).
+    /// Попытка крафта. Слоты могут быть заполнены частично: нужно столько
+    /// вещей текущей редкости, сколько требует шаг (9/6/3/3) + руда тира.
+    /// Возвращает результат (успех/провал/ошибка). Списание вещей и руды
+    /// делает вызывающий код (CraftingUI) при успехе.
     /// </summary>
     public CraftResult TryCraft(InventorySlot[] inputSlots)
     {
         CraftResult result = new CraftResult();
 
-        // Проверяем что все 9 слотов заполнены
-        if (!AllSlotsFilled(inputSlots, out string fillError))
+        // Собираем непустые слоты
+        var filled = new List<InventorySlot>();
+        foreach (InventorySlot slot in inputSlots)
+            if (slot != null && !slot.IsEmpty() && slot.currentItem != null)
+                filled.Add(slot);
+
+        if (filled.Count == 0)
         {
             result.success = false;
-            result.message = fillError;
+            result.message = "Положи предметы для ковки!";
             return result;
         }
 
-        // Проверяем что все предметы одной редкости
-        if (!AllSameRarity(inputSlots, out ItemRarity rarity, out string rarityError))
+        // Все предметы одной редкости?
+        ItemRarity rarity = filled[0].currentItem.rarity;
+        foreach (InventorySlot slot in filled)
+        {
+            if (slot.currentItem.rarity != rarity)
+            {
+                result.success = false;
+                result.message = "Все предметы должны быть одной редкости!";
+                return result;
+            }
+        }
+
+        int required = RequiredForRarity(rarity);
+        if (filled.Count != required)
         {
             result.success = false;
-            result.message = rarityError;
+            result.message = "Нужно " + required + " шт. (" + TranslateRarity(rarity) + ")!";
             return result;
         }
 
@@ -80,6 +144,18 @@ public class CraftingManager : MonoBehaviour
         {
             result.success = false;
             result.message = "Легендарные предметы уже максимальной редкости!";
+            return result;
+        }
+
+        // Руда тира (берём у первого входа, где она задана; нет ни у кого — без руды)
+        ItemData ore = null;
+        foreach (InventorySlot slot in filled)
+            if (slot.currentItem.upgradeOre != null) { ore = slot.currentItem.upgradeOre; break; }
+        int oreNeed = GetOreCost(rarity);
+        if (ore != null && oreNeed > 0 && CountItem(ore) < oreNeed)
+        {
+            result.success = false;
+            result.message = "Нужно руды: " + oreNeed + " × " + ore.itemName + "!";
             return result;
         }
 
@@ -99,7 +175,7 @@ public class CraftingManager : MonoBehaviour
         }
 
         // УСПЕХ — определяем выходной предмет
-        ItemData outputItem = DetermineOutput(inputSlots, rarity, nextRarity);
+        ItemData outputItem = DetermineOutput(filled, rarity, nextRarity);
         if (outputItem == null)
         {
             result.success = false;
@@ -120,42 +196,85 @@ public class CraftingManager : MonoBehaviour
     }
 
     // ═══════════════════════════════════════════════════════════
-    // ПРОВЕРКИ
+    // РУДА — требование и подсчёт (для превью в UI)
     // ═══════════════════════════════════════════════════════════
-    bool AllSlotsFilled(InventorySlot[] slots, out string error)
+    public int GetOreCost(ItemRarity rarity)
     {
-        error = "";
-        foreach (InventorySlot slot in slots)
+        switch (rarity)
         {
-            if (slot.IsEmpty())
-            {
-                error = "Заполни все " + REQUIRED_ITEMS + " слотов!";
-                return false;
-            }
+            case ItemRarity.Common: return oreCostCommonToUncommon;
+            case ItemRarity.Uncommon: return oreCostUncommonToRare;
+            case ItemRarity.Rare: return oreCostRareToEpic;
+            case ItemRarity.Epic: return oreCostEpicToLegendary;
+        }
+        return 0;
+    }
+
+    /// <summary>Какая руда и сколько нужна для текущих слотов (для превью).
+    /// ore=null — руда не требуется.</summary>
+    public void GetOreRequirement(InventorySlot[] inputSlots, out ItemData ore, out int need, out int have)
+    {
+        ore = null; need = 0; have = 0;
+        if (inputSlots == null) return;
+        ItemRarity? rarity = null;
+        foreach (InventorySlot slot in inputSlots)
+        {
+            if (slot == null || slot.IsEmpty() || slot.currentItem == null) continue;
+            if (rarity == null) rarity = slot.currentItem.rarity;
+            else if (slot.currentItem.rarity != rarity) return; // mixed — превью не показываем
+            if (ore == null && slot.currentItem.upgradeOre != null)
+                ore = slot.currentItem.upgradeOre;
+        }
+        if (rarity == null || ore == null) return;
+        need = GetOreCost(rarity.Value);
+        have = CountItem(ore);
+    }
+
+    /// <summary>Сколько штук предмета в инвентаре + хотбаре.</summary>
+    public int CountItem(ItemData item)
+    {
+        if (item == null) return 0;
+        int total = 0;
+        foreach (InventorySlot s in AllPlayerSlots())
+            if (s != null && !s.IsEmpty() && s.currentItem == item)
+                total += Mathf.Max(s.quantity, 1);
+        return total;
+    }
+
+    /// <summary>Списать штуки предмета из инвентаря + хотбара (по нескольким
+    /// слотам при нужде). Возвращает false если не хватило (не списывает).</summary>
+    public bool ConsumeItem(ItemData item, int amount)
+    {
+        if (item == null || amount <= 0) return true;
+        if (CountItem(item) < amount) return false;
+        int left = amount;
+        foreach (InventorySlot s in AllPlayerSlots())
+        {
+            if (left <= 0) break;
+            if (s == null || s.IsEmpty() || s.currentItem != item) continue;
+            int take = Mathf.Min(Mathf.Max(s.quantity, 1), left);
+            s.quantity -= take;
+            left -= take;
+            if (s.quantity <= 0) s.ClearSlot();
+            else s.UpdateUI();
         }
         return true;
     }
 
-    bool AllSameRarity(InventorySlot[] slots, out ItemRarity rarity, out string error)
+    System.Collections.Generic.IEnumerable<InventorySlot> AllPlayerSlots()
     {
-        rarity = slots[0].currentItem.rarity;
-        error = "";
-        foreach (InventorySlot slot in slots)
-        {
-            if (slot.currentItem.rarity != rarity)
-            {
-                error = "Все предметы должны быть одной редкости!";
-                rarity = ItemRarity.Common;
-                return false;
-            }
-        }
-        return true;
+        if (InventoryUI.Instance != null && InventoryUI.Instance.slots != null)
+            foreach (InventorySlot s in InventoryUI.Instance.slots)
+                if (s != null) yield return s;
+        if (HotbarManager.Instance != null && HotbarManager.Instance.slots != null)
+            foreach (InventorySlot s in HotbarManager.Instance.slots)
+                if (s != null) yield return s;
     }
 
     // ═══════════════════════════════════════════════════════════
     // ОПРЕДЕЛЕНИЕ ВЫХОДНОГО ПРЕДМЕТА
     // ═══════════════════════════════════════════════════════════
-    ItemData DetermineOutput(InventorySlot[] slots, ItemRarity currentRarity, ItemRarity nextRarity)
+    ItemData DetermineOutput(List<InventorySlot> slots, ItemRarity currentRarity, ItemRarity nextRarity)
     {
         // Проверяем — все одинаковые предметы?
         ItemData firstItem = slots[0].currentItem;

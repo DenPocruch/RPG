@@ -9,13 +9,17 @@ public class Arrow : MonoBehaviour
     private Vector3 startPosition;
     private bool hasHit = false;
     private bool fromEnemy = false;
+    private float attackerAccuracy = 0f;
+    private float attackerPenetration = 0f;
 
-    public void Init(Vector2 dir, float dmg, float spd, float rng)
+    public void Init(Vector2 dir, float dmg, float spd, float rng, float accuracy = 0f, float penetration = 0f)
     {
         direction = dir;
         damage = dmg;
         speed = spd;
         range = rng;
+        attackerAccuracy = accuracy;
+        attackerPenetration = penetration;
         startPosition = transform.position;
 
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -23,10 +27,10 @@ public class Arrow : MonoBehaviour
     }
 
     // Стрела врага: игнорирует врагов, бьёт игрока
-    public void InitEnemy(Vector2 dir, float dmg, float spd, float rng)
+    public void InitEnemy(Vector2 dir, float dmg, float spd, float rng, float accuracy = 0f, float penetration = 0f)
     {
         fromEnemy = true;
-        Init(dir, dmg, spd, rng);
+        Init(dir, dmg, spd, rng, accuracy, penetration);
     }
 
     void Update()
@@ -53,7 +57,7 @@ public class Arrow : MonoBehaviour
             hasHit = true;
             PlayerHealth ph = col.GetComponentInParent<PlayerHealth>();
             if (ph != null)
-                ph.TakeDamage(damage);
+                ph.TakeDamage(damage, attackerAccuracy, attackerPenetration);
             Destroy(gameObject);
             return;
         }
@@ -73,11 +77,11 @@ public class Arrow : MonoBehaviour
                 {
                     ItemData bow = HotbarManager.Instance.GetActiveItem();
                     PlayerStats.DamageResult result = PlayerStats.Instance.CalculateDamage(bow);
-                    enemy.TakeDamage(result.damage, result.isCrit);
+                    enemy.TakeDamage(result.damage, result.isCrit, result.accuracy, result.penetration);
                 }
                 else
                 {
-                    enemy.TakeDamage(damage);
+                    enemy.TakeDamage(damage, false, attackerAccuracy, attackerPenetration);
                 }
             }
             Destroy(gameObject);

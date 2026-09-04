@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: CopperAxe_Common
+  m_EditorClassIdentifier: 
+  itemName: "\u041C\u0435\u0434\u043D\u044B\u0439 \u0442\u043E\u043F\u043E\u0440"
+  description: "\u0410\u043F\u0433\u0440\u0435\u0439\u0434 \u0443 \u043A\u0443\u0437\u043D\u0435\u0446\u0430:
+    9 \u0442\u0430\u043A\u0438\u0445 + 5 \u043C\u0435\u0434\u043D\u043E\u0439 \u0440\u0443\u0434\u044B."
+  icon: {fileID: -5825250732961213246, guid: f5d23944ed08a984fb4657a6d9478b21, type: 3}
+  worldSprite: {fileID: -316209040919722149, guid: f5d23944ed08a984fb4657a6d9478b21, type: 3}
+  itemType: 5
+  rarity: 0
+  isStackable: 0
+  maxStack: 1
+  damage: 10
+  attackRange: 1
+  attackSpeed: 0.8
+  weaponPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 0}
+  arrowSpeed: 10
+  arrowRange: 8
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  maxWater: 10
+  animalPrefab: {fileID: 0}
+  placeablePrefab: {fileID: 0}
+  shopPrice: 300
+  isFertilizer: 0
+  healAmount: 0
+  foodBuffType: 0
+  foodBuffValue: 0
+  foodBuffDuration: 0
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 0}
+  treeFruitSprite: {fileID: 0}
+  treeNoFruitSprite: {fileID: 0}
+  treeDriedSprite: {fileID: 0}
+  isFruitTree: 0
+  treeFruitItem: {fileID: 0}
+  treeFruitAmount: 1
+  treeFruitGrowTime: 120
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 0}
+  treeWoodAmount: 3
+  treeMaxHealth: 5
+  nextRarityVersion: {fileID: 11400000, guid: 19fe96963049d3e478e7bc46c36a1fc6, type: 2}
+  upgradeOre: {fileID: 11400000, guid: c77121d945037314da914c301e7dc23f, type: 2}
+  resourceCategory: 
+  convertsToItem: {fileID: 0}
+  conversionRatio: 1
+  conversionGoldCost: 0
+  conversionTimePerUnit: 0
+  requiredToolTier: 1
+  toolTier: 2
+  equipSlot: 0
+  bonusHealth: 0
+  bonusAttack: 0
+  bonusDefense: 0
+  bonusAttackSpeed: 0
+  bonusMoveSpeed: 0
+  bonusCritChance: 0
+  bonusCritDamage: 0
+  bonusDodgeChance: 0
+  bonusBlockChance: 0
+  bonusAccuracy: 0
+  bonusPenetration: 0
+  bonusYield: 0

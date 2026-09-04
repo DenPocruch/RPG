@@ -9,7 +9,7 @@ public class PlayerLevel : MonoBehaviour, ISaveable
 {
     public static PlayerLevel Instance { get; private set; }
 
-    public enum SkillBranch { Combat, Farming, Crafting }
+    public enum SkillBranch { Combat, Farming, Crafting, Equipment }
 
     [Header("Очки навыков за уровень")]
     public int skillPointsPerLevel = 3;

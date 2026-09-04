@@ -138,6 +138,8 @@ public class ItemTooltip : MonoBehaviour
         // Если экипировка — показываем слот
         if (item.IsEquipment)
             return TranslateSlot(item.equipSlot) + " · " + TranslateRarity(item.rarity);
+        if (item.itemType == ItemType.RangedWeapon && item.isStaff)
+            return "Посох · " + TranslateRarity(item.rarity);
         return TranslateType(item.itemType) + " · " + TranslateRarity(item.rarity);
     }
 
@@ -160,6 +162,9 @@ public class ItemTooltip : MonoBehaviour
         if (item.bonusCritDamage != 0) sb.AppendLine(FormatBonus("Урон крита", item.bonusCritDamage, false, "%"));
         if (item.bonusDodgeChance != 0) sb.AppendLine(FormatBonus("Уворот", item.bonusDodgeChance, false, "%"));
         if (item.bonusBlockChance != 0) sb.AppendLine(FormatBonus("Блок", item.bonusBlockChance, false, "%"));
+        if (item.bonusAccuracy != 0) sb.AppendLine(FormatBonus("Точность", item.bonusAccuracy, false, "%"));
+        if (item.bonusPenetration != 0) sb.AppendLine(FormatBonus("Пробитие", item.bonusPenetration));
+        if (item.bonusYield != 0) sb.AppendLine(FormatBonus("Добыча", item.bonusYield, false, "%"));
 
         // Стак
         if (item.isStackable && item.maxStack > 1)

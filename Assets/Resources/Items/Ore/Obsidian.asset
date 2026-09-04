@@ -61,12 +61,13 @@ MonoBehaviour:
   treeWoodAmount: 3
   treeMaxHealth: 5
   nextRarityVersion: {fileID: 0}
+  upgradeOre: {fileID: 0}
   resourceCategory: Ore
   convertsToItem: {fileID: 0}
   conversionRatio: 1
   conversionGoldCost: 0
   conversionTimePerUnit: 0
-  requiredToolTier: 1
+  requiredToolTier: 6
   toolTier: 1
   equipSlot: 0
   bonusHealth: 0
@@ -78,3 +79,6 @@ MonoBehaviour:
   bonusCritDamage: 0
   bonusDodgeChance: 0
   bonusBlockChance: 0
+  bonusAccuracy: 0
+  bonusPenetration: 0
+  bonusYield: 0

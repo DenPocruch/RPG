@@ -146,4 +146,6 @@ public enum SkillEffectType
     QualityBonus,        // +% шанс серебряного урожая
     GoldQualityBonus,    // +% шанс золотого урожая
     PurpleQualityBonus,  // +% шанс пурпурного урожая
+    BonusAccuracy,       // +Точность (срезает уворот врагов)
+    BonusPenetration,    // +Пробитие (игнорирует защиту врагов)
 }

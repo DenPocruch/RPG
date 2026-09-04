@@ -105,6 +105,8 @@ public class ItemData : ScriptableObject
     public GameObject arrowPrefab;
     public float arrowSpeed = 10f;
     public float arrowRange = 8f;
+    [Tooltip("Посох (магический снаряд) — в тултипе показывается как Посох, а не Лук")]
+    public bool isStaff = false;
 
     [Header("Семена (для посадки на грядке)")]
     public Sprite[] growthStages;
@@ -166,6 +168,8 @@ public class ItemData : ScriptableObject
     // ════════════════════════════════════════════════════════════════════
     [Header("Крафт — следующая версия предмета")]
     public ItemData nextRarityVersion; // Common меч → Uncommon меч (заполни в Inspector)
+    [Tooltip("Руда для апгрейда редкости этого предмета у кузнеца (9/6/3/3 вещей + руда). Null = без руды (старые цепочки)")]
+    public ItemData upgradeOre; // например CopperOre для медных вещей
 
     // ════════════════════════════════════════════════════════════════════
     // ПЕРЕРАБОТКА (лесоруб, шахтёр, повар и т.д.)
@@ -210,4 +214,18 @@ public class ItemData : ScriptableObject
     public float bonusCritDamage = 0f;  // в процентах: 50f = +50% урона от крита
     public float bonusDodgeChance = 0f;
     public float bonusBlockChance = 0f;
+    public float bonusAccuracy = 0f;    // в процентах: срезает уворот цели 1к1
+    public float bonusPenetration = 0f; // плоское: игнорирует столько защиты цели
+    [Tooltip("Бонус добычи инструмента в %: 25 = шанс 25% на +1 ресурс, 150 = +1 гарант. и 50% на ещё +1")]
+    public int bonusYield = 0;
+
+    /// <summary>Сколько ДОП. ресурсов даст инструмент сверх базы.
+    /// Сотни = гарантия, остаток = шанс: 150 → +1 и 50% на ещё +1.</summary>
+    public static int RollBonusDrops(ItemData tool)
+    {
+        if (tool == null || tool.bonusYield <= 0) return 0;
+        int bonus = tool.bonusYield / 100;
+        if (Random.Range(0, 100) < tool.bonusYield % 100) bonus++;
+        return bonus;
+    }
 }

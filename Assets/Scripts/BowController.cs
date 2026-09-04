@@ -5,21 +5,21 @@ public class BowController : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
 
-    [Header("Лук")]
+    [Header("пїЅпїЅпїЅ")]
     public bool bowEquipped = false;
 
-    [Header("Задержка до выстрела (сек)")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ)")]
     public float shootDelay = 0.2f;
 
-    [Header("4 точки выстрела")]
+    [Header("4 пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ")]
     public Transform spawnDown;
     public Transform spawnUp;
     public Transform spawnRight;
     public Transform spawnLeft;
 
     [Header("Aim Assist")]
-    public float aimAssistRadius = 3f;   // радиус поиска врага
-    public float aimAssistStrength = 0.4f; // сила притяжения 0-1 (0.4 = мягко)
+    public float aimAssistRadius = 3f;   // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+    public float aimAssistStrength = 0.4f; // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ 0-1 (0.4 = пїЅпїЅпїЅпїЅпїЅ)
 
     void Start()
     {
@@ -45,14 +45,14 @@ public class BowController : MonoBehaviour
         if (!bowEquipped) return;
         if (bowData.arrowPrefab == null)
         {
-            Debug.LogWarning("Arrow Prefab не задан в ItemData лука!");
+            Debug.LogWarning("Arrow Prefab пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ ItemData пїЅпїЅпїЅпїЅ!");
             return;
         }
 
         Vector2 direction = new Vector2(dirX, dirY).normalized;
         if (direction == Vector2.zero) direction = Vector2.down;
 
-        // Применяем aim assist
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ aim assist
         direction = ApplyAimAssist(direction);
 
         StartCoroutine(ShootCoroutine(direction, bowData));
@@ -60,16 +60,16 @@ public class BowController : MonoBehaviour
 
     Vector2 ApplyAimAssist(Vector2 playerDirection)
     {
-        // Ищем ближайшего врага в радиусе
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         Collider2D[] enemies = Physics2D.OverlapCircleAll(
             transform.position, aimAssistRadius,
             LayerMask.GetMask("Enemy"));
 
         if (enemies.Length == 0) return playerDirection;
 
-        // Находим лучшего кандидата:
-        // 1. Враг должен быть примерно в том же направлении
-        // 2. Чем ближе к прицелу — тем лучше
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ:
+        // 1. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        // 2. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Transform bestTarget = null;
         float bestScore = -1f;
 
@@ -78,13 +78,13 @@ public class BowController : MonoBehaviour
             Vector2 toEnemy = (col.transform.position - transform.position);
             Vector2 toEnemyDir = toEnemy.normalized;
 
-            // Угол между направлением игрока и врагом
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             float dot = Vector2.Dot(playerDirection, toEnemyDir);
 
-            // Берём только врагов в конусе 120° перед игроком (dot > 0.5)
+            // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ 120пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (dot > 0.5)
             if (dot < 0.5f) continue;
 
-            // Чем выше dot (ближе к прицелу) и чем ближе — тем лучше
+            // пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ dot (пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ) пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
             float distance = toEnemy.magnitude;
             float score = dot / (distance + 0.1f);
 
@@ -97,10 +97,10 @@ public class BowController : MonoBehaviour
 
         if (bestTarget == null) return playerDirection;
 
-        // Направление к лучшему врагу
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
         Vector2 toTargetDir = (bestTarget.position - transform.position).normalized;
 
-        // Мягко смешиваем направление игрока с направлением к врагу
+        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
         Vector2 assistedDir = Vector2.Lerp(playerDirection, toTargetDir, aimAssistStrength);
         return assistedDir.normalized;
     }
@@ -118,8 +118,12 @@ public class BowController : MonoBehaviour
             bowData.arrowPrefab, spawnPos, Quaternion.identity);
         Arrow arrow = arrowObj.GetComponent<Arrow>();
         if (arrow != null)
+        {
+            float acc = PlayerStats.Instance != null ? PlayerStats.Instance.TotalAccuracy : 0f;
+            float pen = PlayerStats.Instance != null ? PlayerStats.Instance.TotalPenetration : 0f;
             arrow.Init(direction, bowData.damage,
-                bowData.arrowSpeed, bowData.arrowRange);
+                bowData.arrowSpeed, bowData.arrowRange, acc, pen);
+        }
 
         if (spriteRenderer != null)
             spriteRenderer.enabled = false;

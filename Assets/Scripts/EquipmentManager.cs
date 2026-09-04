@@ -102,6 +102,13 @@ public class EquipmentManager : MonoBehaviour, ISaveable
     {
         if (item == null || !item.IsEquipment) return null;
 
+        // Замок древа: медь+ надевается только после перка
+        if (!EquipmentLocks.IsUnlocked(item))
+        {
+            ActionLogUI.Show(EquipmentLocks.LockMessage(item));
+            return null;
+        }
+
         // Проверка совместимости
         if (!IsSlotCompatible(item, targetSlot))
         {

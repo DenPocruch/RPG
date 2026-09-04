@@ -185,6 +185,16 @@ public class PlayerMovement : MonoBehaviour
         if (farmInteraction != null)
             farmInteraction.CheckHarvest();
 
+        // Замок древа: закрытой экипировкой (медь+ без перка) бить/копать нельзя
+        if (activeItem != null &&
+            (activeItem.itemType == ItemType.Weapon || activeItem.itemType == ItemType.RangedWeapon ||
+             activeItem.itemType == ItemType.Axe || activeItem.itemType == ItemType.Pickaxe) &&
+            !EquipmentLocks.IsUnlocked(activeItem))
+        {
+            ActionLogUI.Show(EquipmentLocks.LockMessage(activeItem));
+            return;
+        }
+
         float cooldown = activeItem != null ? activeItem.attackSpeed : 0.6f;
 
         if (Time.time - lastAttackTime < cooldown) return;

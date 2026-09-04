@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: PlatinumChestplate_Legendary
+  m_EditorClassIdentifier: 
+  itemName: "\u041F\u043B\u0430\u0442\u0438\u043D\u043E\u0432\u044B\u0439 \u043D\u0430\u0433\u0440\u0443\u0434\u043D\u0438\u043A"
+  description: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0430\u044F
+    \u0440\u0435\u0434\u043A\u043E\u0441\u0442\u044C."
+  icon: {fileID: -7308674868924902590, guid: 508d93629fab84e439919d1cf7c1d3e4, type: 3}
+  worldSprite: {fileID: -1450548261483005908, guid: 508d93629fab84e439919d1cf7c1d3e4, type: 3}
+  itemType: 15
+  rarity: 4
+  isStackable: 0
+  maxStack: 1
+  damage: 0
+  attackRange: 1
+  attackSpeed: 1
+  weaponPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 0}
+  arrowSpeed: 10
+  arrowRange: 8
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  maxWater: 10
+  animalPrefab: {fileID: 0}
+  placeablePrefab: {fileID: 0}
+  shopPrice: 0
+  isFertilizer: 0
+  healAmount: 0
+  foodBuffType: 0
+  foodBuffValue: 0
+  foodBuffDuration: 0
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 0}
+  treeFruitSprite: {fileID: 0}
+  treeNoFruitSprite: {fileID: 0}
+  treeDriedSprite: {fileID: 0}
+  isFruitTree: 0
+  treeFruitItem: {fileID: 0}
+  treeFruitAmount: 1
+  treeFruitGrowTime: 120
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 0}
+  treeWoodAmount: 3
+  treeMaxHealth: 5
+  nextRarityVersion: {fileID: 0}
+  upgradeOre: {fileID: 11400000, guid: 26eb9bbc6e0b92e458d708295fe30df2, type: 2}
+  resourceCategory: 
+  convertsToItem: {fileID: 0}
+  conversionRatio: 1
+  conversionGoldCost: 0
+  conversionTimePerUnit: 0
+  requiredToolTier: 1
+  toolTier: 1
+  equipSlot: 2
+  bonusHealth: 240
+  bonusAttack: 0
+  bonusDefense: 14
+  bonusAttackSpeed: 0
+  bonusMoveSpeed: 0
+  bonusCritChance: 0
+  bonusCritDamage: 0
+  bonusDodgeChance: 4
+  bonusBlockChance: 5
+  bonusAccuracy: 0
+  bonusPenetration: 0
+  bonusYield: 0

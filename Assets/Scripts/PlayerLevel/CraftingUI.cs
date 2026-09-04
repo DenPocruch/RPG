@@ -155,24 +155,28 @@ public class CraftingUI : MonoBehaviour
         if (CraftingManager.Instance == null) return;
 
         int filledCount = CountFilledSlots();
-        bool allFilled = filledCount == CraftingManager.REQUIRED_ITEMS;
 
-        // Подсказка
-        if (hintText != null)
-            hintText.text = allFilled
-                ? ""
-                : "Заполни все 9 слотов одинаковой редкостью";
-
-        if (!allFilled)
+        // Редкость определяем по первому непустому слоту (слоты можно
+        // заполнять частично: шаг требует 9/6/3/3 вещей)
+        ItemRarity? rarity = null;
+        bool mixed = false;
+        foreach (InventorySlot slot in inputSlots)
         {
+            if (slot == null || slot.IsEmpty() || slot.currentItem == null) continue;
+            if (rarity == null) rarity = slot.currentItem.rarity;
+            else if (slot.currentItem.rarity != rarity) { mixed = true; break; }
+        }
+
+        if (rarity == null)
+        {
+            if (hintText != null) hintText.text = "Положи предметы для ковки";
             HideOutput();
             if (craftButton != null) craftButton.interactable = false;
             if (failChanceText != null) failChanceText.text = "";
             return;
         }
 
-        // Проверяем редкость
-        if (!AllSameRarity(out ItemRarity rarity))
+        if (mixed)
         {
             HideOutput();
             if (hintText != null) hintText.text = "Все предметы должны быть одной редкости!";
@@ -181,12 +185,37 @@ public class CraftingUI : MonoBehaviour
             return;
         }
 
-        // Показываем превью
-        ItemRarity nextRarity = GetNextRarity(rarity);
-        ShowOutputPreview(rarity, nextRarity);
+        int required = CraftingManager.RequiredForRarity(rarity.Value);
+        string rarityName = CraftingManager.Instance.TranslateRarity(rarity.Value);
+
+        if (filledCount != required)
+        {
+            HideOutput();
+            if (hintText != null)
+                hintText.text = "Нужно " + required + " шт. (" + rarityName + "), сейчас " + filledCount;
+            if (craftButton != null) craftButton.interactable = false;
+            if (failChanceText != null) failChanceText.text = "";
+            return;
+        }
+
+        // Всё заполнено — превью результата + руда
+        ItemRarity nextRarity = GetNextRarity(rarity.Value);
+        ShowOutputPreview(rarity.Value, nextRarity);
+
+        CraftingManager.Instance.GetOreRequirement(inputSlots, out ItemData ore, out int oreNeed, out int oreHave);
+        bool oreOk = ore == null || oreNeed <= 0 || oreHave >= oreNeed;
+        if (hintText != null)
+        {
+            if (ore != null && oreNeed > 0)
+            {
+                hintText.text = "Руда: " + oreNeed + " × " + ore.itemName + " (есть " + oreHave + ")";
+                hintText.color = oreOk ? Color.green : new Color(1f, 0.4f, 0.4f);
+            }
+            else hintText.text = "";
+        }
 
         // Шанс провала
-        float failChance = CraftingManager.Instance.GetCurrentFailChance(rarity);
+        float failChance = CraftingManager.Instance.GetCurrentFailChance(rarity.Value);
         if (failChanceText != null)
         {
             failChanceText.text = failChance > 0
@@ -197,21 +226,25 @@ public class CraftingUI : MonoBehaviour
 
         if (craftButton != null)
         {
-            craftButton.interactable = nextRarity != rarity;
+            bool canCraft = nextRarity != rarity.Value && oreOk;
+            craftButton.interactable = canCraft;
             if (craftButtonText != null)
-                craftButtonText.text = nextRarity == rarity
+                craftButtonText.text = nextRarity == rarity.Value
                     ? "Макс. редкость"
-                    : "Выковать";
+                    : (!oreOk ? "Нет руды" : "Выковать");
         }
     }
 
     void ShowOutputPreview(ItemRarity currentRarity, ItemRarity nextRarity)
     {
-        // Проверяем — все одинаковые?
-        ItemData firstItem = inputSlots[0].currentItem;
-        bool allSame = true;
+        // Проверяем — все одинаковые? (первый НЕПУСТОЙ слот — сетка может быть заполнена частично)
+        ItemData firstItem = null;
         foreach (InventorySlot slot in inputSlots)
-            if (!slot.IsEmpty() && slot.currentItem != firstItem) { allSame = false; break; }
+            if (slot != null && !slot.IsEmpty() && slot.currentItem != null) { firstItem = slot.currentItem; break; }
+        bool allSame = firstItem != null;
+        if (allSame)
+            foreach (InventorySlot slot in inputSlots)
+                if (slot != null && !slot.IsEmpty() && slot.currentItem != firstItem) { allSame = false; break; }
 
         if (outputIcon != null)
         {
@@ -290,18 +323,19 @@ public class CraftingUI : MonoBehaviour
         }
 
         ItemRarity targetRarity = bestItem != null ? bestItem.rarity : ItemRarity.Common;
+        int need = CraftingManager.RequiredForRarity(targetRarity);
         int filled = 0;
 
         // Шаг 1: берём одинаковые предметы
         if (bestItem != null)
-            filled = TakeFromInventory(bestItem, invSlots, filled);
+            filled = TakeFromInventory(bestItem, invSlots, filled, need);
 
         // Шаг 2: добираем разные той же редкости если не хватило
-        if (filled < CraftingManager.REQUIRED_ITEMS)
+        if (filled < need)
         {
             foreach (InventorySlot invSlot in invSlots)
             {
-                if (filled >= CraftingManager.REQUIRED_ITEMS) break;
+                if (filled >= need) break;
                 if (invSlot.IsEmpty()) continue;
                 if (invSlot.currentItem == bestItem) continue;
                 if (invSlot.currentItem.rarity != targetRarity) continue;
@@ -318,15 +352,15 @@ public class CraftingUI : MonoBehaviour
             ShowResult("Нет подходящих предметов!", false);
     }
 
-    int TakeFromInventory(ItemData item, InventorySlot[] invSlots, int startIndex)
+    int TakeFromInventory(ItemData item, InventorySlot[] invSlots, int startIndex, int need)
     {
         int filled = startIndex;
         foreach (InventorySlot invSlot in invSlots)
         {
-            if (filled >= CraftingManager.REQUIRED_ITEMS) break;
+            if (filled >= need) break;
             if (invSlot.IsEmpty() || invSlot.currentItem != item) continue;
 
-            while (invSlot.quantity > 0 && filled < CraftingManager.REQUIRED_ITEMS)
+            while (invSlot.quantity > 0 && filled < need)
             {
                 inputSlots[filled].SetItem(item, 1);
                 invSlot.quantity--;
@@ -357,6 +391,11 @@ public class CraftingUI : MonoBehaviour
 
         if (result.success)
         {
+            // Списываем руду (проверка уже была в TryCraft — тут не может не хватить)
+            CraftingManager.Instance.GetOreRequirement(inputSlots, out ItemData ore, out int oreNeed, out int _);
+            if (ore != null && oreNeed > 0)
+                CraftingManager.Instance.ConsumeItem(ore, oreNeed);
+
             // Убираем предметы из слотов
             foreach (InventorySlot slot in inputSlots)
                 slot.ClearSlot();
@@ -398,16 +437,6 @@ public class CraftingUI : MonoBehaviour
         foreach (InventorySlot slot in inputSlots)
             if (!slot.IsEmpty()) count++;
         return count;
-    }
-
-    bool AllSameRarity(out ItemRarity rarity)
-    {
-        rarity = ItemRarity.Common;
-        if (inputSlots[0].IsEmpty()) return false;
-        rarity = inputSlots[0].currentItem.rarity;
-        foreach (InventorySlot slot in inputSlots)
-            if (!slot.IsEmpty() && slot.currentItem.rarity != rarity) return false;
-        return true;
     }
 
     ItemRarity GetNextRarity(ItemRarity r)
