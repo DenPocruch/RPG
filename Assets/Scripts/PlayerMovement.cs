@@ -237,6 +237,10 @@ public class PlayerMovement : MonoBehaviour
             case ItemType.Sickle:
                 StartSickleUse(activeItem);
                 break;
+            case ItemType.FishingRod:
+                if (FishingController.Instance != null)
+                    FishingController.Instance.OnAttackPress();
+                break;
             case ItemType.Seed:
                 if (farmInteraction != null)
                     farmInteraction.TryPlantOrHarvest();

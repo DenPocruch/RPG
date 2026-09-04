@@ -165,6 +165,8 @@ public class ItemTooltip : MonoBehaviour
         if (item.bonusAccuracy != 0) sb.AppendLine(FormatBonus("Точность", item.bonusAccuracy, false, "%"));
         if (item.bonusPenetration != 0) sb.AppendLine(FormatBonus("Пробитие", item.bonusPenetration));
         if (item.bonusYield != 0) sb.AppendLine(FormatBonus("Добыча", item.bonusYield, false, "%"));
+        if (item.fishingZoneBonus != 0) sb.AppendLine(FormatBonus("Зона клёва", item.fishingZoneBonus));
+        if (item.fishingSpeedBonus != 0) sb.AppendLine(FormatBonus("Скорость ловли", item.fishingSpeedBonus));
 
         // Стак
         if (item.isStackable && item.maxStack > 1)
@@ -224,6 +226,7 @@ public class ItemTooltip : MonoBehaviour
             case ItemType.Pickaxe: return "Кирка";
             case ItemType.BugNet: return "Сачок";
             case ItemType.Axe: return "Топор";
+            case ItemType.FishingRod: return "Удочка";
             case ItemType.Sickle: return "Серп";
             case ItemType.Sapling: return "Саженец";
             case ItemType.WateringCan: return "Лейка";

@@ -1,0 +1,86 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: PlatinumStaff_Common
+  m_EditorClassIdentifier: 
+  itemName: "\u041F\u043B\u0430\u0442\u0438\u043D\u043E\u0432\u044B\u0439 \u043F\u043E\u0441\u043E\u0445"
+  description: "\u0410\u043F\u0433\u0440\u0435\u0439\u0434 \u0443 \u043A\u0443\u0437\u043D\u0435\u0446\u0430:
+    9 \u0442\u0430\u043A\u0438\u0445 + 5 \u0441\u0435\u0440\u0435\u0431\u0440\u044F\u043D\u043E\u0439
+    \u0440\u0443\u0434\u044B."
+  icon: {fileID: -5940781818166149764, guid: c014bd75e7e01f546b70d9b21328e6da, type: 3}
+  worldSprite: {fileID: 3527205280244131103, guid: c014bd75e7e01f546b70d9b21328e6da, type: 3}
+  itemType: 1
+  rarity: 0
+  isStackable: 0
+  maxStack: 1
+  damage: 34
+  attackRange: 1
+  attackSpeed: 1.3
+  weaponPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 9047070698356693707, guid: 89e402295ceff584f88340de02b346ea, type: 3}
+  arrowSpeed: 9
+  arrowRange: 7
+  isStaff: 1
+  fishingZoneBonus: 0
+  fishingSpeedBonus: 0
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  maxWater: 10
+  animalPrefab: {fileID: 0}
+  placeablePrefab: {fileID: 0}
+  shopPrice: 0
+  isFertilizer: 0
+  healAmount: 0
+  foodBuffType: 0
+  foodBuffValue: 0
+  foodBuffDuration: 0
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 0}
+  treeFruitSprite: {fileID: 0}
+  treeNoFruitSprite: {fileID: 0}
+  treeDriedSprite: {fileID: 0}
+  isFruitTree: 0
+  treeFruitItem: {fileID: 0}
+  treeFruitAmount: 1
+  treeFruitGrowTime: 120
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 0}
+  treeWoodAmount: 3
+  treeMaxHealth: 5
+  nextRarityVersion: {fileID: 11400000, guid: b97b54c7cb49b854e80880d1aef36f02, type: 2}
+  upgradeOre: {fileID: 11400000, guid: 26eb9bbc6e0b92e458d708295fe30df2, type: 2}
+  resourceCategory: 
+  convertsToItem: {fileID: 0}
+  conversionRatio: 1
+  conversionGoldCost: 0
+  conversionTimePerUnit: 0
+  requiredToolTier: 1
+  toolTier: 1
+  equipSlot: 6
+  bonusHealth: 0
+  bonusAttack: 0
+  bonusDefense: 0
+  bonusAttackSpeed: 0
+  bonusMoveSpeed: 0
+  bonusCritChance: 0
+  bonusCritDamage: 0
+  bonusDodgeChance: 0
+  bonusBlockChance: 0
+  bonusAccuracy: 0
+  bonusPenetration: 0
+  bonusYield: 0

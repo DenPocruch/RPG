@@ -26,6 +26,18 @@ TextureImporter:
   - first:
       213: 5081259028579631066
     second: Jellyfish_7
+  - first:
+      213: 4664913265292160246
+    second: Jellyfish_8
+  - first:
+      213: 7483713750386185885
+    second: Jellyfish_9
+  - first:
+      213: 5736359947974247577
+    second: Jellyfish_10
+  - first:
+      213: 8185881636804695497
+    second: Jellyfish_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -137,12 +149,12 @@ TextureImporter:
       name: Jellyfish_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 49
-        width: 12
-        height: 14
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,12 +171,12 @@ TextureImporter:
       name: Jellyfish_1
       rect:
         serializedVersion: 2
-        x: 18
-        y: 49
-        width: 12
-        height: 14
+        x: 16
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +193,12 @@ TextureImporter:
       name: Jellyfish_2
       rect:
         serializedVersion: 2
-        x: 34
-        y: 49
-        width: 12
-        height: 14
+        x: 32
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,12 +215,12 @@ TextureImporter:
       name: Jellyfish_3
       rect:
         serializedVersion: 2
-        x: 1
-        y: 32
-        width: 14
+        x: 0
+        y: 16
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +237,12 @@ TextureImporter:
       name: Jellyfish_4
       rect:
         serializedVersion: 2
-        x: 17
-        y: 32
-        width: 14
+        x: 16
+        y: 16
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +259,12 @@ TextureImporter:
       name: Jellyfish_5
       rect:
         serializedVersion: 2
-        x: 33
-        y: 32
-        width: 14
+        x: 32
+        y: 16
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +281,12 @@ TextureImporter:
       name: Jellyfish_6
       rect:
         serializedVersion: 2
-        x: 2
-        y: 17
-        width: 12
-        height: 14
+        x: 0
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +303,12 @@ TextureImporter:
       name: Jellyfish_7
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1
-        width: 12
-        height: 14
+        x: 16
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -305,6 +317,94 @@ TextureImporter:
       bones: []
       spriteID: adf3c323a22448640800000000000000
       internalID: 5081259028579631066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jellyfish_8
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6fc2fb526e91db040800000000000000
+      internalID: 4664913265292160246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jellyfish_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d96997c610e7bd760800000000000000
+      internalID: 7483713750386185885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jellyfish_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99488caeaf4ab9f40800000000000000
+      internalID: 5736359947974247577
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Jellyfish_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c5132f5af71a9170800000000000000
+      internalID: 8185881636804695497
       vertices: []
       indices: 
       edges: []
@@ -325,12 +425,16 @@ TextureImporter:
     nameFileIdTable:
       Jellyfish_0: 1965404493759735644
       Jellyfish_1: 3468323384984400375
+      Jellyfish_10: 5736359947974247577
+      Jellyfish_11: 8185881636804695497
       Jellyfish_2: 9061350252532723052
       Jellyfish_3: 3360472189278244205
       Jellyfish_4: -8095093003050493519
       Jellyfish_5: 7408578770711283848
       Jellyfish_6: 4392754375380778802
       Jellyfish_7: 5081259028579631066
+      Jellyfish_8: 4664913265292160246
+      Jellyfish_9: 7483713750386185885
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

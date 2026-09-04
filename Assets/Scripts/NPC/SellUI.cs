@@ -58,6 +58,11 @@ public class SellUI : MonoBehaviour
     private TMP_Text repBarText;        // «1200 / 2000» на баре
     private TMP_Text repLevelText;      // название уровня
 
+    // Режим Морека: та же панель, но продаём рыбу по ценам FishData ×1.5
+    // (без спроса дня и репутации). Включается через OpenFish().
+    private bool fishMode = false;
+    private Dictionary<ItemData, int> fishPrices = new Dictionary<ItemData, int>();
+
     void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
@@ -116,6 +121,8 @@ public class SellUI : MonoBehaviour
             Debug.LogError("[SellUI] Открытие невозможно — панель 'Sell Panel' не найдена в Canvas!");
             return;
         }
+        fishMode = false;
+        ApplySellerStyle();
         sellPanel.SetActive(true);
         isOpen = true;
 
@@ -131,6 +138,64 @@ public class SellUI : MonoBehaviour
         RefreshDemandHeader();
         RefreshReputation();
         RebuildList();
+    }
+
+    /// <summary>Режим Морека: продажа рыбы (цены FishData ×1.5, без спроса/репутации).</summary>
+    public void OpenFish()
+    {
+        if (sellPanel == null) EnsureBuiltUI();
+        if (sellPanel == null)
+        {
+            Debug.LogError("[SellUI] Открытие невозможно — панель 'Sell Panel' не найдена в Canvas!");
+            return;
+        }
+        fishMode = true;
+        fishPrices = LoadFishPrices();
+        ApplySellerStyle();
+        sellPanel.SetActive(true);
+        isOpen = true;
+
+        InventoryPanelMover.Instance?.SetOffsetX(-shiftDistance);
+        targetPos = new Vector2(shiftDistance, panelY);
+
+        if (InventoryUI.Instance != null)
+            InventoryUI.Instance.OpenInventory();
+
+        PlayerMovement pm = FindFirstObjectByType<PlayerMovement>();
+        if (pm != null) pm.enabled = false;
+
+        RebuildList();
+    }
+
+    // Шапка под продавца: имя/подзаголовок + спрос/репутация только у Дрона
+    void ApplySellerStyle()
+    {
+        var t = sellPanel.transform;
+        var title = t.Find("TitleText");
+        if (title != null)
+        {
+            var tmp = title.GetComponent<TMP_Text>();
+            if (tmp != null) tmp.text = fishMode ? "Морек" : "Скупщик Дрон";
+        }
+        var sub = t.Find("SubtitleText");
+        if (sub != null)
+        {
+            var tmp = sub.GetComponent<TMP_Text>();
+            if (tmp != null) tmp.text = fishMode ? "Свежая рыба — беру всё!" : "Я покупаю только лучшее!";
+        }
+        var demand = t.Find("DemandBox");
+        if (demand != null) demand.gameObject.SetActive(!fishMode);
+        var rep = t.Find("RepBox");
+        if (rep != null) rep.gameObject.SetActive(!fishMode);
+    }
+
+    Dictionary<ItemData, int> LoadFishPrices()
+    {
+        var d = new Dictionary<ItemData, int>();
+        foreach (FishData f in Resources.LoadAll<FishData>("Fish"))
+            if (f != null && f.fishItem != null && !d.ContainsKey(f.fishItem))
+                d[f.fishItem] = Mathf.Max(1, Mathf.RoundToInt(f.price * 1.5f));
+        return d;
     }
 
     public void Close()
@@ -533,7 +598,8 @@ public class SellUI : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     void RebuildList()
     {
-        if (itemListContent == null || BuyerManager.Instance == null) return;
+        if (itemListContent == null) return;
+        if (!fishMode && BuyerManager.Instance == null) return;
 
         foreach (Transform child in itemListContent)
             Destroy(child.gameObject);
@@ -541,7 +607,11 @@ public class SellUI : MonoBehaviour
         var counts = new Dictionary<ItemData, int>();
         foreach (InventorySlot s in AllSlots())
         {
-            if (s.IsEmpty() || !BuyerManager.Instance.IsSellable(s.currentItem)) continue;
+            if (s.IsEmpty()) continue;
+            bool sellable = fishMode
+                ? fishPrices.ContainsKey(s.currentItem)
+                : BuyerManager.Instance.IsSellable(s.currentItem);
+            if (!sellable) continue;
             if (!counts.ContainsKey(s.currentItem)) counts[s.currentItem] = 0;
             counts[s.currentItem] += s.quantity;
         }
@@ -550,7 +620,9 @@ public class SellUI : MonoBehaviour
         {
             var empty = NewRect("EmptyHint", itemListContent);
             var tmp = empty.AddComponent<TextMeshProUGUI>();
-            tmp.text = "Пока нечего продать.\nСкупщик покупает урожай (не семена).\nВырасти урожай и возвращайся!";
+            tmp.text = fishMode
+                ? "Пока нечего продать.\nУдочку в руки — и на пляж!"
+                : "Пока нечего продать.\nСкупщик покупает урожай (не семена).\nВырасти урожай и возвращайся!";
             tmp.fontSize = 21;
             tmp.alignment = TextAlignmentOptions.Center;
             tmp.color = new Color(0.35f, 0.24f, 0.14f, 0.9f);
@@ -561,7 +633,7 @@ public class SellUI : MonoBehaviour
             return;
         }
 
-        foreach (var kvp in counts.OrderByDescending(k => BuyerManager.Instance.GetUnitPrice(k.Key)))
+        foreach (var kvp in counts.OrderByDescending(k => fishMode ? fishPrices[k.Key] : BuyerManager.Instance.GetUnitPrice(k.Key)))
         {
             CreateRow(kvp.Key, kvp.Value);
         }
@@ -630,8 +702,10 @@ public class SellUI : MonoBehaviour
             coinRt.sizeDelta = new Vector2(26f, 26f);
         }
 
-        int unit = BuyerManager.Instance.GetUnitPrice(item);
-        bool inDemand = BuyerManager.Instance.IsInDemand(item);
+        int unit = fishMode && fishPrices.TryGetValue(item, out int fp)
+            ? fp
+            : BuyerManager.Instance.GetUnitPrice(item);
+        bool inDemand = !fishMode && BuyerManager.Instance.IsInDemand(item);
         var priceText = MakeText(row.transform, "Price",
             "<b>" + unit + "</b>" + (inDemand ? " <color=#FFD54A>×2</color>" : ""),
             (TextAlignmentOptions)TextAnchor.MiddleRight, 24);
@@ -665,8 +739,19 @@ public class SellUI : MonoBehaviour
         int sellCount = Mathf.Min(count, have);
         if (sellCount <= 0) return;
 
-        int gold = BuyerManager.Instance.Sell(item, sellCount);
-        if (gold <= 0) return;
+        int gold;
+        if (fishMode)
+        {
+            if (!fishPrices.TryGetValue(item, out int fp)) return;
+            gold = sellCount * fp;
+            if (CurrencyManager.Instance == null) return;
+            CurrencyManager.Instance.AddGold(gold);
+        }
+        else
+        {
+            gold = BuyerManager.Instance.Sell(item, sellCount);
+            if (gold <= 0) return;
+        }
 
         int left = sellCount;
         foreach (InventorySlot s in AllSlots())
@@ -681,9 +766,12 @@ public class SellUI : MonoBehaviour
         }
         HotbarManager.Instance?.NotifyActiveItemChanged();
 
-        ActionLogUI.Show("[Скупщик] Продано: " + item.itemName + " ×" + sellCount + " за " + gold + "g");
+        if (fishMode)
+            ActionLogUI.Show("[Морек] Продано: " + item.itemName + " ×" + sellCount + " за " + gold + "g");
+        else
+            ActionLogUI.Show("[Скупщик] Продано: " + item.itemName + " ×" + sellCount + " за " + gold + "g");
 
-        RefreshReputation();
+        if (!fishMode) RefreshReputation();
         RebuildList();
     }
 

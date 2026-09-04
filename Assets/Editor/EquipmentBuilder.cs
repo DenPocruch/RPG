@@ -133,6 +133,14 @@ public static class EquipmentBuilder
     // Бонус добычи инструментов по редкости [C,U,R,E,L]: 0/25/50/100/150
     static readonly int[] TOOL_YIELD = { 0, 25, 50, 100, 150 };
 
+    // Удочки: зона мини-игры + скорость прогресса. База тира + прибавка редкости.
+    // Файлы <Tier>Rod_<Rarity> (CopperRod_Common…), PNG "Fishing Rod".
+    static readonly float[] ROD_ZONE_TIER = { 0f, 0.02f, 0.04f, 0.06f, 0.08f, 0.10f }; // Wood..Obsidian
+    static readonly float[] ROD_SPEED_TIER = { 0f, 0.1f, 0.2f, 0.3f, 0.4f, 0.5f };
+    static readonly float[] ROD_ZONE_RAR = { 0f, 0.02f, 0.04f, 0.06f, 0.08f };
+    static readonly float[] ROD_SPEED_RAR = { 0f, 0.1f, 0.2f, 0.3f, 0.4f };
+    static readonly int[] ROD_PRICE = { 200, 500, 1200, 3000, 7000, 15000 };
+
     // Дальнобой: лук (точный, быстрый) и посох (критовый, медленный).
     // Урон = доля базы меча тира. Работают через BowController БЕЗ кода:
     // RangedWeapon + arrowPrefab (лук — общая стрела, посох — MagicBolt).
@@ -246,6 +254,24 @@ public static class EquipmentBuilder
                     if (t.fullChain)
                     {
                         string key = t.id + rd.id;
+                        if (!chains.ContainsKey(key)) chains[key] = new List<ItemData>();
+                        chains[key].Add(a);
+                    }
+                }
+
+                // Удочка тира — та же цепочка редкостей
+                {
+                    string file = t.id + "Rod_" + RARITY_FILES[r];
+                    string path = OUT + t.id + "/" + file + ".asset";
+                    bool exists = AssetDatabase.LoadAssetAtPath<ItemData>(path) != null;
+
+                    ItemData a = GetOrCreate(path);
+                    FillRodAsset(a, t, TIERS_INDEX(t), r, ore);
+                    if (exists) updated++; else made++;
+
+                    if (t.fullChain)
+                    {
+                        string key = t.id + "Rod";
                         if (!chains.ContainsKey(key)) chains[key] = new List<ItemData>();
                         chains[key].Add(a);
                     }
@@ -483,6 +509,48 @@ public static class EquipmentBuilder
         GameObject saved = PrefabUtility.SaveAsPrefabAsset(inst, BOLT_PREFAB);
         Object.DestroyImmediate(inst);
         return saved;
+    }
+
+    static int TIERS_INDEX(TierDef t)
+    {
+        for (int i = 0; i < TIERS.Length; i++)
+            if (TIERS[i].id == t.id) return i;
+        return 0;
+    }
+
+    static void FillRodAsset(ItemData a, TierDef t, int ti, int r, ItemData ore)
+    {
+        a.itemName = t.adjF + " удочка";
+        a.itemType = ItemType.FishingRod;
+        a.rarity = (ItemRarity)r;
+        a.equipSlot = EquipmentSlotType.None;
+        a.isStackable = false;
+        a.maxStack = 1;
+        a.upgradeOre = ore;
+        a.toolTier = t.toolTier;
+        a.fishingZoneBonus = ROD_ZONE_TIER[ti] + ROD_ZONE_RAR[r];
+        a.fishingSpeedBonus = ROD_SPEED_TIER[ti] + ROD_SPEED_RAR[r];
+
+        Sprite[] sprites = LoadSprites(ART + t.artFolder + "/Fishing Rod.png", "Fishing Rod");
+        a.icon = sprites.Length > 0 ? sprites[0] : null;
+        a.worldSprite = sprites.Length > 1 ? sprites[1] : a.icon;
+
+        a.damage = 0; a.attackRange = 1; a.attackSpeed = 1f;
+        a.bonusHealth = 0; a.bonusAttack = 0; a.bonusDefense = 0;
+        a.bonusAttackSpeed = 0; a.bonusMoveSpeed = 0;
+        a.bonusCritChance = 0; a.bonusCritDamage = 0;
+        a.bonusDodgeChance = 0; a.bonusBlockChance = 0;
+        a.bonusAccuracy = 0; a.bonusPenetration = 0;
+        a.bonusYield = 0;
+        a.nextRarityVersion = null;
+        a.shopPrice = 0;
+
+        if (r == 0) a.shopPrice = ROD_PRICE[ti];
+        a.description = r < 4 && ore != null
+            ? "Апгрейд у кузнеца: " + UPGRADE_COUNT[r] + " таких + " + ORE_COST[r] + " " + t.oreRu + "."
+            : "Максимальная редкость.";
+
+        EditorUtility.SetDirty(a);
     }
 
     static Sprite[] LoadSprites(string pngPath, string baseName)

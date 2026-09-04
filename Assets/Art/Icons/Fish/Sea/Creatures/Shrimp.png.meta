@@ -20,6 +20,12 @@ TextureImporter:
   - first:
       213: 3270253692567787895
     second: Shrimp_5
+  - first:
+      213: 8471585545496000331
+    second: Shrimp_6
+  - first:
+      213: -5999796749314259983
+    second: Shrimp_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -66,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -90,7 +96,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -131,12 +137,12 @@ TextureImporter:
       name: Shrimp_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 32
-        width: 13
-        height: 17
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -153,12 +159,12 @@ TextureImporter:
       name: Shrimp_1
       rect:
         serializedVersion: 2
-        x: 2
-        y: 49
-        width: 11
-        height: 15
+        x: 16
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -175,12 +181,12 @@ TextureImporter:
       name: Shrimp_2
       rect:
         serializedVersion: 2
-        x: 17
-        y: 32
-        width: 13
-        height: 17
+        x: 0
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -197,12 +203,12 @@ TextureImporter:
       name: Shrimp_3
       rect:
         serializedVersion: 2
-        x: 18
-        y: 49
-        width: 11
-        height: 15
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -219,12 +225,12 @@ TextureImporter:
       name: Shrimp_4
       rect:
         serializedVersion: 2
-        x: 2
-        y: 17
-        width: 11
-        height: 15
+        x: 0
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -241,12 +247,12 @@ TextureImporter:
       name: Shrimp_5
       rect:
         serializedVersion: 2
-        x: 2
-        y: 1
-        width: 11
-        height: 15
+        x: 16
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -255,6 +261,50 @@ TextureImporter:
       bones: []
       spriteID: 77999e62866426d20800000000000000
       internalID: 3270253692567787895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shrimp_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b477f935b2e119570800000000000000
+      internalID: 8471585545496000331
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shrimp_7
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f3849015a07cbca0800000000000000
+      internalID: -5999796749314259983
       vertices: []
       indices: 
       edges: []
@@ -279,6 +329,8 @@ TextureImporter:
       Shrimp_3: -7316000346214774501
       Shrimp_4: -5328195895729086788
       Shrimp_5: 3270253692567787895
+      Shrimp_6: 8471585545496000331
+      Shrimp_7: -5999796749314259983
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

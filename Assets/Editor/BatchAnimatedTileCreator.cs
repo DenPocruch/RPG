@@ -32,6 +32,13 @@ public class BatchAnimatedTileCreator : EditorWindow
     private bool randomizeStart = true;
     private Vector2 scroll;
 
+    // ── Режим B: серии по смещениям ──
+    private string seriesPrefix = "BeachWater";
+    private int seriesCount = 12;
+    private string seriesStarts = "0, 93, 186, 279"; // стартовые номера кадров 1..N через запятую
+    private string seriesFixes = ""; // дырки: "99=98, 150=151" — нет спрайта → взять указанный
+    private bool seriesCompress = true; // сжать дырки: ряд берёт N СУЩЕСТВУЮЩИХ спрайтов от старта (пустые ячейки пропускаются)
+
     [MenuItem("Tools/Batch Create Animated Tiles")]
     static void Open()
     {
@@ -73,9 +80,34 @@ public class BatchAnimatedTileCreator : EditorWindow
 
         GUILayout.Space(10);
         GUI.enabled = sourceTexture != null;
-        if (GUILayout.Button("Создать Animated Tiles", GUILayout.Height(32)))
+        if (GUILayout.Button("Создать Animated Tiles (режим А)", GUILayout.Height(32)))
         {
             CreateFromDefinitions();
+        }
+        GUI.enabled = true;
+
+        GUILayout.Space(16);
+        GUILayout.Label("Режим Б: серия тайлов по смещениям", EditorStyles.boldLabel);
+        EditorGUILayout.HelpBox(
+            "Для листов где кадры лежат блоками: тайл i берёт спрайты\n" +
+            "[старт1+i, старт2+i, ...].\n\n" +
+            "Пример: 12 тайлов воды, кадр1 = спрайты 0–11, кадр2 = 93–104,\n" +
+            "кадр3 = 186–197, кадр4 = 279–290:\n" +
+            "Префикс: BeachWater | Количество: 12 | Старты: 0, 93, 186, 279\n\n" +
+            "Получится BeachWater_0 = [0, 93, 186, 279], BeachWater_1 = [1, 94, 187, 280]...",
+            MessageType.Info);
+
+        seriesPrefix = EditorGUILayout.TextField("Префикс имени", seriesPrefix);
+        seriesCount = EditorGUILayout.IntField("Количество тайлов", seriesCount);
+        seriesStarts = EditorGUILayout.TextField("Старты кадров (через запятую)", seriesStarts);
+        seriesFixes = EditorGUILayout.TextField("Дырки-подмены (напр. 99=98)", seriesFixes);
+        seriesCompress = EditorGUILayout.Toggle("Сжать дырки (пропускать пустые)", seriesCompress);
+
+        GUILayout.Space(6);
+        GUI.enabled = sourceTexture != null;
+        if (GUILayout.Button("Создать серию (режим Б)", GUILayout.Height(32)))
+        {
+            CreateFromOffsets();
         }
         GUI.enabled = true;
     }
@@ -189,6 +221,124 @@ public class BatchAnimatedTileCreator : EditorWindow
         if (errors.Count > 0)
             report += "\n\nОшибки:\n" + string.Join("\n", errors);
 
+        EditorUtility.DisplayDialog("Готово", report, "Ок");
+    }
+
+    // Режим Б: N тайлов, тайл i = [старт1+i, старт2+i, ...]
+    void CreateFromOffsets()
+    {
+        var byIndex = GetSpritesByIndex();
+        if (byIndex.Count == 0)
+        {
+            EditorUtility.DisplayDialog("Ошибка",
+                "В текстуре не найдено нарезанных спрайтов (Sprite Mode должен быть Multiple).", "Ок");
+            return;
+        }
+
+        List<int> starts = new List<int>();
+        foreach (string part in seriesStarts.Split(','))
+        {
+            if (int.TryParse(part.Trim(), out int s)) starts.Add(s);
+        }
+        // Дырки: "99=98" — спрайта 99 нет, вместо него берём 98
+        Dictionary<int, int> fixes = new Dictionary<int, int>();
+        foreach (string part in seriesFixes.Split(','))
+        {
+            string[] kv = part.Split('=');
+            if (kv.Length == 2 && int.TryParse(kv[0].Trim(), out int miss) && int.TryParse(kv[1].Trim(), out int sub))
+                fixes[miss] = sub;
+        }
+        if (starts.Count < 2)
+        {
+            EditorUtility.DisplayDialog("Ошибка", "Нужно минимум 2 старта кадров через запятую.", "Ок");
+            return;
+        }
+        if (seriesCount < 1) seriesCount = 1;
+        string prefix = string.IsNullOrWhiteSpace(seriesPrefix) ? "Anim" : seriesPrefix.Trim();
+
+        // Ряды кадров: строгая арифметика [старт+i] или сжатие
+        // (первые N СУЩЕСТВУЮЩИХ спрайтов от старта — дырки пропускаются)
+        List<List<Sprite>> rows = new List<List<Sprite>>();
+        List<string> errors = new List<string>();
+        foreach (int st in starts)
+        {
+            var row = new List<Sprite>();
+            if (seriesCompress)
+            {
+                int idx = st;
+                int guard = 0;
+                while (row.Count < seriesCount && guard < 10000)
+                {
+                    if (byIndex.TryGetValue(idx, out Sprite sp)) row.Add(sp);
+                    idx++;
+                    guard++;
+                }
+                if (row.Count < seriesCount)
+                    errors.Add("Ряд от " + st + ": хватило только " + row.Count + " из " + seriesCount);
+            }
+            else
+            {
+                for (int i = 0; i < seriesCount; i++)
+                {
+                    if (byIndex.TryGetValue(st + i, out Sprite sp)) row.Add(sp);
+                    else row.Add(null);
+                }
+            }
+            rows.Add(row);
+        }
+        if (errors.Count > 0)
+        {
+            EditorUtility.DisplayDialog("Ошибка", string.Join("\n", errors), "Ок");
+            return;
+        }
+
+        string folder = Path.GetDirectoryName(AssetDatabase.GetAssetPath(sourceTexture));
+        int created = 0;
+
+        for (int i = 0; i < seriesCount; i++)
+        {
+            List<Sprite> frames = new List<Sprite>();
+            bool ok = true;
+            for (int f = 0; f < rows.Count; f++)
+            {
+                Sprite sp = rows[f][i];
+                if (sp == null && seriesCompress) { ok = false; break; } // не должно случиться
+                if (sp == null)
+                {
+                    // Строгий режим: пробуем подмену, иначе пропуск тайла
+                    int idx = starts[f] + i;
+                    if (fixes.TryGetValue(idx, out int sub))
+                        byIndex.TryGetValue(sub, out sp);
+                }
+                if (sp == null)
+                {
+                    errors.Add(prefix + "_" + i + ": спрайт " + (starts[f] + i) + " не найден");
+                    ok = false;
+                    break;
+                }
+                frames.Add(sp);
+            }
+            if (!ok) continue;
+
+            string assetPath = AssetDatabase.GenerateUniqueAssetPath(
+                Path.Combine(folder, prefix + "_" + i + "_Animated.asset"));
+
+            AnimatedTile tile = ScriptableObject.CreateInstance<AnimatedTile>();
+            tile.m_AnimatedSprites = frames.ToArray();
+            tile.m_MinSpeed = minSpeed;
+            tile.m_MaxSpeed = maxSpeed;
+            tile.m_AnimationStartTime = randomizeStart ? Random.Range(0f, 1f) : 0f;
+
+            AssetDatabase.CreateAsset(tile, assetPath);
+            created++;
+        }
+
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        string report = "Создано Animated Tile: " + created + " шт.";
+        if (errors.Count > 0)
+            report += "\n\nОшибки:\n" + string.Join("\n", errors.Take(20));
         EditorUtility.DisplayDialog("Готово", report, "Ок");
     }
 }

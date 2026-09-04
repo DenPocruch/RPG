@@ -35,6 +35,7 @@ public enum ItemType
     Scarecrow,
     Beehive,
     Processor,
+    FishingRod,
 }
 
 public enum ItemRarity
@@ -107,6 +108,12 @@ public class ItemData : ScriptableObject
     public float arrowRange = 8f;
     [Tooltip("Посох (магический снаряд) — в тултипе показывается как Посох, а не Лук")]
     public bool isStaff = false;
+
+    [Header("Удочка")]
+    [Tooltip("+ширина зелёной зоны мини-игры (доля шкалы 0-1)")]
+    public float fishingZoneBonus = 0f;
+    [Tooltip("+скорость заполнения прогресса мини-игры в сек")]
+    public float fishingSpeedBonus = 0f;
 
     [Header("Семена (для посадки на грядке)")]
     public Sprite[] growthStages;

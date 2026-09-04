@@ -26,6 +26,18 @@ TextureImporter:
   - first:
       213: 3329743465697559656
     second: Shell_7
+  - first:
+      213: 6622670797165493016
+    second: Shell_8
+  - first:
+      213: 2740469507764075697
+    second: Shell_9
+  - first:
+      213: 7756458696490364875
+    second: Shell_10
+  - first:
+      213: 2413702871413304145
+    second: Shell_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -137,12 +149,12 @@ TextureImporter:
       name: Shell_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 49
-        width: 10
-        height: 12
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,12 +171,12 @@ TextureImporter:
       name: Shell_1
       rect:
         serializedVersion: 2
-        x: 19
-        y: 49
-        width: 10
-        height: 12
+        x: 16
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +193,12 @@ TextureImporter:
       name: Shell_2
       rect:
         serializedVersion: 2
-        x: 35
-        y: 49
-        width: 10
-        height: 12
+        x: 32
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,12 +215,12 @@ TextureImporter:
       name: Shell_3
       rect:
         serializedVersion: 2
-        x: 2
-        y: 32
-        width: 12
-        height: 14
+        x: 0
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +237,12 @@ TextureImporter:
       name: Shell_4
       rect:
         serializedVersion: 2
-        x: 18
-        y: 32
-        width: 12
-        height: 14
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +259,12 @@ TextureImporter:
       name: Shell_5
       rect:
         serializedVersion: 2
-        x: 34
-        y: 32
-        width: 12
-        height: 14
+        x: 32
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +281,12 @@ TextureImporter:
       name: Shell_6
       rect:
         serializedVersion: 2
-        x: 3
-        y: 17
-        width: 10
-        height: 12
+        x: 0
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +303,12 @@ TextureImporter:
       name: Shell_7
       rect:
         serializedVersion: 2
-        x: 3
-        y: 1
-        width: 10
-        height: 12
+        x: 16
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -305,6 +317,94 @@ TextureImporter:
       bones: []
       spriteID: 864c4125a00a53e20800000000000000
       internalID: 3329743465697559656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shell_8
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 81bf669600478eb50800000000000000
+      internalID: 6622670797165493016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shell_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1bc31186f7a180620800000000000000
+      internalID: 2740469507764075697
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shell_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bcf2c47c61a74ab60800000000000000
+      internalID: 7756458696490364875
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shell_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 15b2ee329f13f7120800000000000000
+      internalID: 2413702871413304145
       vertices: []
       indices: 
       edges: []
@@ -325,12 +425,16 @@ TextureImporter:
     nameFileIdTable:
       Shell_0: -300394245976103344
       Shell_1: -2701347192778347039
+      Shell_10: 7756458696490364875
+      Shell_11: 2413702871413304145
       Shell_2: 3096129496190655462
       Shell_3: -1039664410368253671
       Shell_4: -4218152051262346409
       Shell_5: 4533561571233013557
       Shell_6: 7711895973261499419
       Shell_7: 3329743465697559656
+      Shell_8: 6622670797165493016
+      Shell_9: 2740469507764075697
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

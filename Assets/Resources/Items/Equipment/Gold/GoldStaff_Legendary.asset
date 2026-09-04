@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f07d358f4c7dc4e9db77e6a78fffd7, type: 3}
+  m_Name: GoldStaff_Legendary
+  m_EditorClassIdentifier: 
+  itemName: "\u0417\u043E\u043B\u043E\u0442\u043E\u0439 \u043F\u043E\u0441\u043E\u0445"
+  description: "\u041C\u0430\u043A\u0441\u0438\u043C\u0430\u043B\u044C\u043D\u0430\u044F
+    \u0440\u0435\u0434\u043A\u043E\u0441\u0442\u044C."
+  icon: {fileID: -5940781818166149764, guid: d27ad41dfde98c142a960afe5f4a3061, type: 3}
+  worldSprite: {fileID: 3527205280244131103, guid: d27ad41dfde98c142a960afe5f4a3061, type: 3}
+  itemType: 1
+  rarity: 4
+  isStackable: 0
+  maxStack: 1
+  damage: 44
+  attackRange: 1
+  attackSpeed: 1.3
+  weaponPrefab: {fileID: 0}
+  arrowPrefab: {fileID: 9047070698356693707, guid: 89e402295ceff584f88340de02b346ea, type: 3}
+  arrowSpeed: 9
+  arrowRange: 7
+  isStaff: 1
+  fishingZoneBonus: 0
+  fishingSpeedBonus: 0
+  growthStages: []
+  growthStagesCount: 4
+  growthTimeWatered: 300
+  growthTimeNormal: 600
+  harvestItem: {fileID: 0}
+  harvestAmount: 1
+  maxWater: 10
+  animalPrefab: {fileID: 0}
+  placeablePrefab: {fileID: 0}
+  shopPrice: 0
+  isFertilizer: 0
+  healAmount: 0
+  foodBuffType: 0
+  foodBuffValue: 0
+  foodBuffDuration: 0
+  treePrefab: {fileID: 0}
+  treeGrowthTime: 600
+  treeGrowthStages: []
+  treeAdultSprite: {fileID: 0}
+  treeFruitSprite: {fileID: 0}
+  treeNoFruitSprite: {fileID: 0}
+  treeDriedSprite: {fileID: 0}
+  isFruitTree: 0
+  treeFruitItem: {fileID: 0}
+  treeFruitAmount: 1
+  treeFruitGrowTime: 120
+  treeMaxFruitHarvests: 3
+  treeWoodItem: {fileID: 0}
+  treeWoodAmount: 3
+  treeMaxHealth: 5
+  nextRarityVersion: {fileID: 0}
+  upgradeOre: {fileID: 11400000, guid: 1571649b550b559448e859e5af29403d, type: 2}
+  resourceCategory: 
+  convertsToItem: {fileID: 0}
+  conversionRatio: 1
+  conversionGoldCost: 0
+  conversionTimePerUnit: 0
+  requiredToolTier: 1
+  toolTier: 1
+  equipSlot: 6
+  bonusHealth: 80
+  bonusAttack: 16
+  bonusDefense: 0
+  bonusAttackSpeed: 0
+  bonusMoveSpeed: 0
+  bonusCritChance: 11
+  bonusCritDamage: 160
+  bonusDodgeChance: 0
+  bonusBlockChance: 0
+  bonusAccuracy: 0
+  bonusPenetration: 0
+  bonusYield: 0

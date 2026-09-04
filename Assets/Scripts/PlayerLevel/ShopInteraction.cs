@@ -36,6 +36,8 @@ public class ShopInteraction : MonoBehaviour, IInteractable
             "WoodSword_Common", "WoodHelmet_Common", "WoodChestplate_Common", "WoodLeggings_Common", "WoodBoots_Common",
             "CopperSword_Common", "CopperHelmet_Common", "CopperChestplate_Common", "CopperLeggings_Common", "CopperBoots_Common",
             "WoodBow_Common", "WoodStaff_Common", "CopperBow_Common", "CopperStaff_Common",
+            "WoodRod_Common", "CopperRod_Common", "IronRod_Common",
+            "GoldRod_Common", "PlatinumRod_Common", "ObsidianRod_Common",
             // Инструменты — Common ВСЕХ тиров (гейт прогрессии шахты/рубки, цена вместо лута)
             "WoodPickaxe_Common", "CopperPickaxe_Common", "IronPickaxe_Common",
             "GoldPickaxe_Common", "PlatinumPickaxe_Common", "ObsidianPickaxe_Common",

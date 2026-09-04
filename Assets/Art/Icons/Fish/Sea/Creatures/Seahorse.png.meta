@@ -26,6 +26,18 @@ TextureImporter:
   - first:
       213: -3037534586751017320
     second: Seahorse_7
+  - first:
+      213: 4125548679746790634
+    second: Seahorse_8
+  - first:
+      213: -8981335187564651353
+    second: Seahorse_9
+  - first:
+      213: 1597075335654805716
+    second: Seahorse_10
+  - first:
+      213: 5176401985358389383
+    second: Seahorse_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +84,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -96,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -137,12 +149,12 @@ TextureImporter:
       name: Seahorse_0
       rect:
         serializedVersion: 2
-        x: 2
-        y: 31
-        width: 14
-        height: 18
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -159,12 +171,12 @@ TextureImporter:
       name: Seahorse_1
       rect:
         serializedVersion: 2
-        x: 3
-        y: 48
-        width: 12
+        x: 16
+        y: 0
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -181,12 +193,12 @@ TextureImporter:
       name: Seahorse_2
       rect:
         serializedVersion: 2
-        x: 18
-        y: 31
-        width: 14
-        height: 18
+        x: 32
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -203,12 +215,12 @@ TextureImporter:
       name: Seahorse_3
       rect:
         serializedVersion: 2
-        x: 19
-        y: 48
-        width: 12
+        x: 0
+        y: 16
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +237,12 @@ TextureImporter:
       name: Seahorse_4
       rect:
         serializedVersion: 2
-        x: 34
-        y: 31
-        width: 14
-        height: 18
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +259,12 @@ TextureImporter:
       name: Seahorse_5
       rect:
         serializedVersion: 2
-        x: 35
-        y: 48
-        width: 12
+        x: 32
+        y: 16
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +281,12 @@ TextureImporter:
       name: Seahorse_6
       rect:
         serializedVersion: 2
-        x: 3
-        y: 16
-        width: 12
+        x: 0
+        y: 32
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +303,12 @@ TextureImporter:
       name: Seahorse_7
       rect:
         serializedVersion: 2
-        x: 3
-        y: 0
-        width: 12
+        x: 16
+        y: 32
+        width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -305,6 +317,94 @@ TextureImporter:
       bones: []
       spriteID: 89e1ebb036288d5d0800000000000000
       internalID: -3037534586751017320
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Seahorse_8
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae4a3e78aa4e04930800000000000000
+      internalID: 4125548679746790634
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Seahorse_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ac1e786b33eb5380800000000000000
+      internalID: -8981335187564651353
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Seahorse_10
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d01e3d5e83f92610800000000000000
+      internalID: 1597075335654805716
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Seahorse_11
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 780e9ef0e2646d740800000000000000
+      internalID: 5176401985358389383
       vertices: []
       indices: 
       edges: []
@@ -325,12 +425,16 @@ TextureImporter:
     nameFileIdTable:
       Seahorse_0: -675077305428329604
       Seahorse_1: 3152794796827760949
+      Seahorse_10: 1597075335654805716
+      Seahorse_11: 5176401985358389383
       Seahorse_2: -9217003658105536024
       Seahorse_3: 4581944153398848666
       Seahorse_4: 8880137704626499636
       Seahorse_5: -1920643227733524748
       Seahorse_6: 2806910568339326767
       Seahorse_7: -3037534586751017320
+      Seahorse_8: 4125548679746790634
+      Seahorse_9: -8981335187564651353
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
