@@ -36,6 +36,7 @@ public enum ItemType
     Beehive,
     Processor,
     FishingRod,
+    FishingHook,
 }
 
 public enum ItemRarity
@@ -114,6 +115,14 @@ public class ItemData : ScriptableObject
     public float fishingZoneBonus = 0f;
     [Tooltip("+скорость заполнения прогресса мини-игры в сек")]
     public float fishingSpeedBonus = 0f;
+
+    [Header("Крючок (FishingHook)")]
+    [Tooltip("Мин. вес рыбы (кг), которая на него клюёт")]
+    public float hookMinKg = 0f;
+    [Tooltip("Макс. вес рыбы (кг), которую он держит")]
+    public float hookMaxKg = 0.5f;
+    [Tooltip("Прочность: сколько забросов выдерживает (0 = вечный)")]
+    public int hookMaxCasts = 20;
 
     [Header("Семена (для посадки на грядке)")]
     public Sprite[] growthStages;

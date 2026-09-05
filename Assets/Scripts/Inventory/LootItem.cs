@@ -17,7 +17,9 @@ public class LootItem : MonoBehaviour
     public float itemScale = 0.5f;
 
     [Header("���� �� ������")]
-    public int craftingXpReward = 2; // ���� � Crafting �� ������ ����������
+    public int craftingXpReward = 2;
+    [Tooltip("Вес рыбы в кг — переносится в слот при подборе")]
+    public float fishWeightKg = 0f; // ���� � Crafting �� ������ ����������
     public int farmingXpReward = 0;  // XP в Farming при подборе (урожай с грядки)
 
     private SpriteRenderer spriteRenderer;
@@ -73,7 +75,7 @@ public class LootItem : MonoBehaviour
 
         bool added = false;
         if (InventoryUI.Instance != null)
-            added = InventoryUI.Instance.AddItem(itemData, amount);
+            added = InventoryUI.Instance.AddItem(itemData, amount, fishWeightKg);
 
         if (added)
         {

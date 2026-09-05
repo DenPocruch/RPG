@@ -149,7 +149,9 @@ public class ChestUI : MonoBehaviour
                 uiSlot.SetItemWithWater(
                     slots[i].currentItem,
                     slots[i].quantity,
-                    slots[i].currentWater);
+                    slots[i].currentWater,
+                    slots[i].fishWeightKg,
+                    slots[i].hookCastsLeft);
         }
     }
 }

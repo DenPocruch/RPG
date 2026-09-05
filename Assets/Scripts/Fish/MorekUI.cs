@@ -125,7 +125,7 @@ public class MorekUI : MonoBehaviour
         foreach (Transform child in collectionGrid)
             Destroy(child.gameObject);
 
-        FishData[] all = Resources.LoadAll<FishData>("Fish");
+        FishData[] all = FishData.LoadAll();
         System.Array.Sort(all, (a, b) => a.difficulty.CompareTo(b.difficulty));
         foreach (FishData f in all)
         {

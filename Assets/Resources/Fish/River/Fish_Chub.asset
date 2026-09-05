@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea473b4ce8d4b1b4c9edf4c4856a6378, type: 3}
+  m_Name: Fish_Chub
+  m_EditorClassIdentifier: 
+  fishName: "\u0413\u043E\u043B\u0430\u0432\u043B\u044C"
+  icon: {fileID: 5217242515685064863, guid: 08ee3a2f32705c848adb5066cf313347, type: 3}
+  description: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u0440\u0435\u0447\u043D\u0430\u044F
+    \u0440\u044B\u0431\u0430."
+  fishItem: {fileID: 11400000, guid: 2deb6bc68e5073048b4ed4f23cbb0360, type: 2}
+  difficulty: 0
+  fishTier: 1
+  price: 20
+  firstCatchBonus: 15
+  minWeightKg: 0.2
+  maxWeightKg: 1.5

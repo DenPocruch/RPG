@@ -51,6 +51,8 @@ public class InventoryUI : MonoBehaviour, ISaveable
         public string itemName;
         public int quantity;
         public int water;
+        public float weight;
+        public int hook;
     }
     [System.Serializable]
     private class InventorySave { public List<SlotSave> slots = new List<SlotSave>(); }
@@ -69,7 +71,9 @@ public class InventoryUI : MonoBehaviour, ISaveable
                 index = i,
                 itemName = s.currentItem.name,
                 quantity = s.quantity,
-                water = s.currentWater
+                water = s.currentWater,
+                weight = s.fishWeightKg,
+                hook = s.hookCastsLeft
             });
         }
         return JsonUtility.ToJson(save);
@@ -101,7 +105,7 @@ public class InventoryUI : MonoBehaviour, ISaveable
                 Debug.LogWarning("[Save] Предмет не найден: " + ss.itemName);
                 continue;
             }
-            slots[ss.index].SetItemWithWater(item, ss.quantity, ss.water);
+            slots[ss.index].SetItemWithWater(item, ss.quantity, ss.water, ss.weight, ss.hook);
         }
     }
 
@@ -183,13 +187,16 @@ public class InventoryUI : MonoBehaviour, ISaveable
         if (pm != null) pm.enabled = true;
     }
 
-    public bool AddItem(ItemData item, int amount = 1)
+    public bool IsOpen() => isOpen;
+
+    public bool AddItem(ItemData item, int amount = 1, float weightKg = 0f)
     {
         if (item == null) return false;
 
         int remaining = amount;
 
-        if (item.isStackable)
+        // Взвешенная рыба не доливается в стаки: у каждой свой вес
+        if (item.isStackable && weightKg <= 0f)
         {
             remaining = FillExistingStacks(item, remaining, slots);
 
@@ -216,7 +223,7 @@ public class InventoryUI : MonoBehaviour, ISaveable
                 ? Mathf.Min(item.maxStack, remaining)
                 : 1;
 
-            emptySlot.SetItem(item, addAmount);
+            emptySlot.SetItemWithWater(item, addAmount, 0, weightKg);
             remaining -= addAmount;
         }
 
@@ -229,6 +236,7 @@ public class InventoryUI : MonoBehaviour, ISaveable
         {
             if (remaining <= 0) break;
             if (slot == null || slot.IsEmpty() || slot.currentItem != item) continue;
+            if (slot.fishWeightKg > 0f) continue; // взвешенную рыбу не смешиваем
             int canAdd = item.maxStack - slot.quantity;
             if (canAdd > 0)
             {

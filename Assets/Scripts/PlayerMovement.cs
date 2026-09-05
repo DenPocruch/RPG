@@ -34,6 +34,10 @@ public class PlayerMovement : MonoBehaviour
     public float bowAttackDuration = 1.0f;
     public float toolUseDuration = 0.8f;
 
+    [Header("Рыбалка")]
+    [Tooltip("Блокировка движения пока идёт рыбалка (тапы удочки при этом работают)")]
+    public bool isFishing = false;
+
     [Header("Дальность инструментов")]
     public float axeRange = 1.2f;
     public float pickaxeRange = 1.2f;
@@ -84,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
             Attack();
 
-        if (isAttacking) return;
+        if (isAttacking || isFishing) return;
 
         float h = joystick != null && joystick.Horizontal != 0
                     ? joystick.Horizontal
@@ -138,8 +142,16 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (isAttacking) { rb.linearVelocity = Vector2.zero; return; }
+        if (isAttacking || isFishing) { rb.linearVelocity = Vector2.zero; return; }
         rb.linearVelocity = movement * moveSpeed;
+    }
+
+    /// <summary>Рыбалка: блокирует движение, но тапы удочки в Attack() продолжают работать.</summary>
+    public void SetFishingLock(bool v)
+    {
+        isFishing = v;
+        if (v && rb != null) rb.linearVelocity = Vector2.zero;
+        if (animator != null) animator.SetFloat("Speed", 0f);
     }
 
     public void ToggleEquip()
@@ -168,6 +180,15 @@ public class PlayerMovement : MonoBehaviour
         if (isAttacking) return;
 
         ItemData activeItem = HotbarManager.Instance?.GetActiveItem();
+
+        // Рыбалка: пока идёт цикл (заброс/ожидание/поклёвка) работают только тапы удочки
+        if (isFishing)
+        {
+            if (activeItem != null && activeItem.itemType == ItemType.FishingRod
+                && FishingController.Instance != null)
+                FishingController.Instance.OnAttackPress();
+            return;
+        }
 
         // Молоток: удар = разобрать кормушку/поилку в рюкзак.
         // Проверяем ДО детектора — иначе удар по кормушке откроет FeedUI
@@ -270,6 +291,19 @@ public class PlayerMovement : MonoBehaviour
         else
             return lastMoveY > 0 ? detectorUp : detectorDown;
     }
+
+    /// <summary>Направление взгляда (нормализовано). Нужно рыбалке для заброса с берега.</summary>
+    public Vector2 FacingDirection
+    {
+        get
+        {
+            Vector2 d = new Vector2(lastMoveX, lastMoveY);
+            return d.sqrMagnitude > 0.01f ? d.normalized : Vector2.down;
+        }
+    }
+
+    /// <summary>Детектор активной стороны (зона удара перед игроком). Нужно рыбалке.</summary>
+    public InteractionDetector ActiveDetector => GetActiveDetector();
 
     void StartWateringCanUse(ItemData toolData)
     {

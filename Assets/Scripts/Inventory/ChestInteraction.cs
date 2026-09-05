@@ -56,6 +56,8 @@ public class ChestInteraction : MonoBehaviour, IInteractable, ISaveable
         public string itemName;
         public int quantity;
         public int water;
+        public float weight;
+        public int hook;
     }
     [System.Serializable]
     private class ChestSave { public List<ChestSlotSave> slots = new List<ChestSlotSave>(); }
@@ -72,7 +74,9 @@ public class ChestInteraction : MonoBehaviour, IInteractable, ISaveable
                 index = i,
                 itemName = s.currentItem.name,
                 quantity = s.quantity,
-                water = s.currentWater
+                water = s.currentWater,
+                weight = s.fishWeightKg,
+                hook = s.hookCastsLeft
             });
         }
         return JsonUtility.ToJson(save);
@@ -95,7 +99,7 @@ public class ChestInteraction : MonoBehaviour, IInteractable, ISaveable
                 Debug.LogWarning("[Save] Предмет в сундуке не найден: " + ss.itemName);
                 continue;
             }
-            chestSlots[ss.index].SetItemWithWater(item, ss.quantity, ss.water);
+            chestSlots[ss.index].SetItemWithWater(item, ss.quantity, ss.water, ss.weight, ss.hook);
         }
     }
 

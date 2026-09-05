@@ -54,11 +54,21 @@ public class FarmManager : MonoBehaviour, ISaveable
             return;
         }
         Instance = this;
+
+        // Сцены без грядок (Beach и т.п.) не должны ронять сейв:
+        // если тайлмапы не назначены — не регистрируемся в SaveManager.
+        if (farmTilemap == null || waterTilemap == null)
+        {
+            Debug.LogWarning("[Farm] Нет тайлмапов в сцене " + gameObject.scene.name + " — FarmManager отключён.");
+            return;
+        }
         SaveManager.Instance?.Register(this);
     }
 
     void Start()
     {
+        // Без тайлмапов (сцена без фермы) грузить нечего
+        if (farmTilemap == null || waterTilemap == null) return;
         // Грузим сохранённое состояние фермы (вспаханные/политые клетки + растения)
         SaveManager.Instance?.LoadInto(this);
     }
@@ -84,7 +94,7 @@ public class FarmManager : MonoBehaviour, ISaveable
     // ═══════════════════════════════════════════════════════════
     void TickPlotDecay()
     {
-        if (plotTimers.Count == 0) return;
+        if (plotTimers.Count == 0 || farmTilemap == null || waterTilemap == null) return;
 
         float dt = Time.deltaTime;
         // Копируем ключи — можем удалять во время обхода
@@ -176,6 +186,10 @@ public class FarmManager : MonoBehaviour, ISaveable
             savedAtTicks = DateTime.UtcNow.Ticks
         };
 
+        // Нет тайлмапов (сцена без фермы) — отдаём пустой сейв вместо исключения
+        if (farmTilemap == null || waterTilemap == null)
+            return JsonUtility.ToJson(save);
+
         // Все вспаханные клетки (и заодно — политы ли)
         BoundsInt bounds = farmTilemap.cellBounds;
         TileBase[] allTiles = farmTilemap.GetTilesBlock(bounds);
@@ -240,6 +254,9 @@ public class FarmManager : MonoBehaviour, ISaveable
     {
         FarmSave save = JsonUtility.FromJson<FarmSave>(json);
         if (save == null) return;
+
+        // Нет тайлмапов (сцена без фермы) — восстанавливать нечего
+        if (farmTilemap == null || waterTilemap == null || tilledSoilTile == null) return;
 
         // Убираем текущие растения (на случай повторной загрузки в этой же сессии)
         foreach (CropTile crop in crops.Values)
@@ -321,6 +338,7 @@ public class FarmManager : MonoBehaviour, ISaveable
     // Вскопать землю
     public bool TillSoil(Vector3 worldPos)
     {
+        if (farmTilemap == null) return false;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
         if (farmTilemap.GetTile(cellPos) != null) return false;
 
@@ -362,6 +380,7 @@ public class FarmManager : MonoBehaviour, ISaveable
     // Полить грядку
     public bool WaterSoil(Vector3 worldPos)
     {
+        if (farmTilemap == null || waterTilemap == null) return false;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
         if (farmTilemap.GetTile(cellPos) == null) return false;
         waterTilemap.SetTile(cellPos, wateredSoilTile);
@@ -383,6 +402,7 @@ public class FarmManager : MonoBehaviour, ISaveable
     // Удобрить растение на клетке (рост ×2)
     public bool FertilizeCrop(Vector3 worldPos)
     {
+        if (farmTilemap == null) return false;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
         if (!crops.ContainsKey(cellPos)) return false;
 
@@ -396,6 +416,7 @@ public class FarmManager : MonoBehaviour, ISaveable
 
     // Посадить семена
     public bool PlantSeed(Vector3 worldPos, ItemData seedData)    {
+        if (farmTilemap == null || waterTilemap == null) return false;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
 
         if (farmTilemap.GetTile(cellPos) == null)
@@ -427,6 +448,7 @@ public class FarmManager : MonoBehaviour, ISaveable
     public ItemData HarvestCrop(Vector3 worldPos, out int quality)
     {
         quality = 0;
+        if (farmTilemap == null || waterTilemap == null) return null;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
 
         if (!crops.ContainsKey(cellPos)) return null;
@@ -461,6 +483,7 @@ public class FarmManager : MonoBehaviour, ISaveable
     // Как HarvestCrop, но без урожая игроку — грядка остаётся пустой (сухая)
     public void CrowEatCrop(Vector3 worldPos)
     {
+        if (farmTilemap == null || waterTilemap == null) return;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
 
         if (!crops.ContainsKey(cellPos)) return;
@@ -481,21 +504,25 @@ public class FarmManager : MonoBehaviour, ISaveable
     // Проверки
     public bool IsTilled(Vector3 worldPos)
     {
+        if (farmTilemap == null) return false;
         return farmTilemap.GetTile(farmTilemap.WorldToCell(worldPos)) != null;
     }
 
     public bool IsWatered(Vector3 worldPos)
     {
+        if (farmTilemap == null || waterTilemap == null) return false;
         return waterTilemap.GetTile(waterTilemap.WorldToCell(worldPos)) != null;
     }
 
     public bool HasCrop(Vector3 worldPos)
     {
+        if (farmTilemap == null) return false;
         return crops.ContainsKey(farmTilemap.WorldToCell(worldPos));
     }
 
     public bool IsCropReady(Vector3 worldPos)
     {
+        if (farmTilemap == null) return false;
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
         return crops.ContainsKey(cellPos) && crops[cellPos].isReady;
     }

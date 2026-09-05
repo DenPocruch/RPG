@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea473b4ce8d4b1b4c9edf4c4856a6378, type: 3}
+  m_Name: Fish_SmallmouthBass
+  m_EditorClassIdentifier: 
+  fishName: "\u041C\u0430\u043B\u043E\u0440\u043E\u0442\u044B\u0439 \u043E\u043A\u0443\u043D\u044C"
+  icon: {fileID: -5775526850707409381, guid: 844d692fb94f69f48a8840e9edb622d5, type: 3}
+  description: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u043C\u043E\u0440\u0441\u043A\u0430\u044F
+    \u0440\u044B\u0431\u0430."
+  fishItem: {fileID: 11400000, guid: b88d6e8d0aa8ecc45be57b70c54a6070, type: 2}
+  difficulty: 0
+  fishTier: 2
+  price: 40
+  firstCatchBonus: 30
+  minWeightKg: 0.3
+  maxWeightKg: 3

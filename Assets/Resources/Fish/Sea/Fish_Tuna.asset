@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea473b4ce8d4b1b4c9edf4c4856a6378, type: 3}
+  m_Name: Fish_Tuna
+  m_EditorClassIdentifier: 
+  fishName: "\u0422\u0443\u043D\u0435\u0446"
+  icon: {fileID: -4895150494573996402, guid: f8d6458c3407b7449a1f3fccb2b0564a, type: 3}
+  description: "\u0420\u0435\u0434\u043A\u0430\u044F \u043C\u043E\u0440\u0441\u043A\u0430\u044F
+    \u0440\u044B\u0431\u0430."
+  fishItem: {fileID: 11400000, guid: c98fe8d591472cb4ea7ca5885ad9c8c9, type: 2}
+  difficulty: 1
+  fishTier: 5
+  price: 110
+  firstCatchBonus: 82
+  minWeightKg: 10
+  maxWeightKg: 120

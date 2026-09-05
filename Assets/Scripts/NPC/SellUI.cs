@@ -192,7 +192,7 @@ public class SellUI : MonoBehaviour
     Dictionary<ItemData, int> LoadFishPrices()
     {
         var d = new Dictionary<ItemData, int>();
-        foreach (FishData f in Resources.LoadAll<FishData>("Fish"))
+        foreach (FishData f in FishData.LoadAll())
             if (f != null && f.fishItem != null && !d.ContainsKey(f.fishItem))
                 d[f.fishItem] = Mathf.Max(1, Mathf.RoundToInt(f.price * 1.5f));
         return d;
@@ -596,6 +596,163 @@ public class SellUI : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     // СПИСОК ПРОДАЖИ
     // ═══════════════════════════════════════════════════════════
+    // Рыбный режим: строки ПО СЛОТАМ (у каждой рыбы свой вес и цена)
+    private Dictionary<ItemData, FishData> fishByItem = new Dictionary<ItemData, FishData>();
+
+    void RebuildFishList()
+    {
+        fishByItem.Clear();
+        foreach (FishData f in FishData.LoadAll())
+            if (f != null && f.fishItem != null && !fishByItem.ContainsKey(f.fishItem))
+                fishByItem[f.fishItem] = f;
+
+        var rows = new List<System.Tuple<InventorySlot, FishData, int>>();
+        foreach (InventorySlot s in AllSlots())
+        {
+            if (s.IsEmpty()) continue;
+            if (!fishByItem.TryGetValue(s.currentItem, out FishData f)) continue;
+            rows.Add(System.Tuple.Create(s, f, FishSlotPrice(f, s)));
+        }
+
+        if (rows.Count == 0)
+        {
+            var empty = NewRect("EmptyHint", itemListContent);
+            var tmp = empty.AddComponent<TextMeshProUGUI>();
+            tmp.text = "Пока нечего продать.\nУдочку в руки — и на пляж!";
+            tmp.fontSize = 21;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.color = new Color(0.35f, 0.24f, 0.14f, 0.9f);
+            tmp.raycastTarget = false;
+            var le = empty.AddComponent<LayoutElement>();
+            le.minHeight = 140f;
+            le.preferredHeight = 140f;
+            return;
+        }
+
+        rows.Sort((a, b) => b.Item3.CompareTo(a.Item3));
+        foreach (var r in rows)
+            CreateFishRow(r.Item1, r.Item2, r.Item3);
+    }
+
+    /// <summary>Цена слота с рыбой: за кг по весу, старым стакам без веса — по штукам.</summary>
+    int FishSlotPrice(FishData f, InventorySlot s)
+    {
+        if (s.fishWeightKg > 0f)
+            return Mathf.Max(1, Mathf.RoundToInt(f.price * s.fishWeightKg * 1.5f));
+        return Mathf.Max(1, Mathf.RoundToInt(f.price * 1.5f)) * Mathf.Max(1, s.quantity);
+    }
+
+    void CreateFishRow(InventorySlot slot, FishData fish, int price)
+    {
+        ItemData item = slot.currentItem;
+        string sub = slot.fishWeightKg > 0f
+            ? FishData.FormatWeight(slot.fishWeightKg)
+            : "×" + slot.quantity;
+        GameObject row = new GameObject("SellRow_" + item.name, typeof(RectTransform), typeof(Image), typeof(LayoutElement));
+        row.transform.SetParent(itemListContent, false);
+
+        var rowImg = row.GetComponent<Image>();
+        rowImg.color = new Color(0.25f, 0.17f, 0.11f, 0.98f);
+        ApplySlice(rowImg);
+
+        var le = row.GetComponent<LayoutElement>();
+        le.minHeight = 72f;
+        le.preferredHeight = 72f;
+
+        var slotBg = NewRect("IconSlot", row.transform);
+        var slotBgImg = slotBg.AddComponent<Image>();
+        slotBgImg.color = new Color(0.55f, 0.42f, 0.24f, 1f);
+        ApplySlice(slotBgImg);
+        var slotRt = slotBg.GetComponent<RectTransform>();
+        slotRt.anchorMin = new Vector2(0f, 0.5f);
+        slotRt.anchorMax = new Vector2(0f, 0.5f);
+        slotRt.pivot = new Vector2(0f, 0.5f);
+        slotRt.anchoredPosition = new Vector2(10f, 0f);
+        slotRt.sizeDelta = new Vector2(56f, 56f);
+
+        GameObject iconGo = NewRect("Icon", slotBg.transform);
+        var iconImg = iconGo.AddComponent<Image>();
+        iconImg.sprite = item.icon;
+        iconImg.preserveAspect = true;
+        iconImg.raycastTarget = false;
+        Anchor(iconGo.GetComponent<RectTransform>(), Vector2.zero, Vector2.one,
+            new Vector2(5f, 5f), new Vector2(-5f, -5f));
+
+        var nameText = MakeText(row.transform, "Name",
+            "<b>" + Colored(item.itemName, QualityHex(item.name)) + "</b> <size=17><alpha=#B0>" + sub + "</size>",
+            (TextAlignmentOptions)TextAnchor.MiddleLeft, 23);
+        Anchor(nameText.rectTransform, new Vector2(0f, 0f), new Vector2(1f, 1f),
+            new Vector2(78f, 6f), new Vector2(-330f, -6f));
+
+        if (coinSprite != null)
+        {
+            var coin = NewRect("Coin", row.transform);
+            var coinImg = coin.AddComponent<Image>();
+            coinImg.sprite = coinSprite;
+            coinImg.preserveAspect = true;
+            coinImg.raycastTarget = false;
+            var coinRt = coin.GetComponent<RectTransform>();
+            coinRt.anchorMin = new Vector2(1f, 0.5f);
+            coinRt.anchorMax = new Vector2(1f, 0.5f);
+            coinRt.pivot = new Vector2(1f, 0.5f);
+            coinRt.anchoredPosition = new Vector2(-186f, 0f);
+            coinRt.sizeDelta = new Vector2(26f, 26f);
+        }
+
+        var priceText = MakeText(row.transform, "Price", "<b>" + price + "</b>",
+            (TextAlignmentOptions)TextAnchor.MiddleRight, 24);
+        priceText.color = HexColor("#F5C542");
+        Anchor(priceText.rectTransform, new Vector2(1f, 0f), new Vector2(1f, 1f),
+            new Vector2(-320f, 4f), new Vector2(-192f, -4f));
+
+        InventorySlot captured = slot;
+        CreateSellButton(row.transform, "Sell1", "×1", -166f, -94f,
+            new Color(0.36f, 0.25f, 0.14f, 1f), () => SellFishSlot(captured));
+        CreateSellButton(row.transform, "SellAll", "Всё", -88f, -8f,
+            new Color(0.83f, 0.6f, 0.18f, 1f), () => SellAllFish());
+
+        var btn = row.AddComponent<Button>();
+        btn.targetGraphic = rowImg;
+        var cols = btn.colors;
+        cols.pressedColor = new Color(1f, 1f, 1f, 0.6f);
+        cols.fadeDuration = 0.08f;
+        btn.colors = cols;
+        btn.onClick.AddListener(() => SellFishSlot(captured));
+    }
+
+    void SellFishSlot(InventorySlot s)
+    {
+        if (s == null || s.IsEmpty()) return;
+        if (!fishByItem.TryGetValue(s.currentItem, out FishData f)) return;
+        int gold = FishSlotPrice(f, s);
+        if (CurrencyManager.Instance == null) return;
+        CurrencyManager.Instance.AddGold(gold);
+        string desc = s.currentItem.itemName + " "
+            + (s.fishWeightKg > 0f ? FishData.FormatWeight(s.fishWeightKg) : "×" + s.quantity);
+        s.ClearSlot();
+        HotbarManager.Instance?.NotifyActiveItemChanged();
+        ActionLogUI.Show("[Морек] Продано: " + desc + " за " + gold + "g");
+        RebuildList();
+    }
+
+    void SellAllFish()
+    {
+        int total = 0, n = 0;
+        foreach (InventorySlot s in AllSlots())
+        {
+            if (s.IsEmpty()) continue;
+            if (!fishByItem.TryGetValue(s.currentItem, out FishData f)) continue;
+            total += FishSlotPrice(f, s);
+            n++;
+            s.ClearSlot();
+        }
+        if (n <= 0 || CurrencyManager.Instance == null) return;
+        CurrencyManager.Instance.AddGold(total);
+        HotbarManager.Instance?.NotifyActiveItemChanged();
+        ActionLogUI.Show("[Морек] Продано рыб: " + n + " за " + total + "g");
+        RebuildList();
+    }
+
     void RebuildList()
     {
         if (itemListContent == null) return;
@@ -603,6 +760,8 @@ public class SellUI : MonoBehaviour
 
         foreach (Transform child in itemListContent)
             Destroy(child.gameObject);
+
+        if (fishMode) { RebuildFishList(); return; }
 
         var counts = new Dictionary<ItemData, int>();
         foreach (InventorySlot s in AllSlots())

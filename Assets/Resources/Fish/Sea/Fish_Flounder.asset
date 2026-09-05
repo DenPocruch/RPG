@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea473b4ce8d4b1b4c9edf4c4856a6378, type: 3}
+  m_Name: Fish_Flounder
+  m_EditorClassIdentifier: 
+  fishName: "\u041A\u0430\u043C\u0431\u0430\u043B\u0430"
+  icon: {fileID: 1422176302660019449, guid: 535081b1a01c7c34bb119596df6645e8, type: 3}
+  description: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u043C\u043E\u0440\u0441\u043A\u0430\u044F
+    \u0440\u044B\u0431\u0430."
+  fishItem: {fileID: 11400000, guid: 2df83884cfcdd4e49a9928d9110ec79d, type: 2}
+  difficulty: 0
+  fishTier: 2
+  price: 35
+  firstCatchBonus: 26
+  minWeightKg: 0.3
+  maxWeightKg: 3

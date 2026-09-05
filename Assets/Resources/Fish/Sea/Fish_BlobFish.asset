@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea473b4ce8d4b1b4c9edf4c4856a6378, type: 3}
+  m_Name: Fish_BlobFish
+  m_EditorClassIdentifier: 
+  fishName: "\u0420\u044B\u0431\u0430-\u043A\u0430\u043F\u043B\u044F"
+  icon: {fileID: -3855055314772718720, guid: ee0bd17d31812e44f87652e3e25ff531, type: 3}
+  description: "\u041E\u0431\u044B\u0447\u043D\u0430\u044F \u043C\u043E\u0440\u0441\u043A\u0430\u044F
+    \u0440\u044B\u0431\u0430."
+  fishItem: {fileID: 11400000, guid: 5ffbe67058f18584693d9536ef27fe0b, type: 2}
+  difficulty: 0
+  fishTier: 1
+  price: 65
+  firstCatchBonus: 48
+  minWeightKg: 2
+  maxWeightKg: 10

@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 941e060bb49757048a872fda229334ed, type: 3}
+  m_Name: FishingTuning
+  m_EditorClassIdentifier: 
+  distanceMeters: 100
+  metersPerSecond: 20
+  holdRiseAtLimit: 1.1
+  riseCurve: 2
+  holdRiseMin: 0.05
+  relaxFall: 0.6
+  diffRiseBonus: 0.15
+  rodMaxKgByTier:
+  - 1
+  - 5
+  - 10
+  - 20
+  - 50
+  - 100
+  attackRodSkin: {fileID: -2079672956035839229, guid: 83837e2c2f050254090b8098fae13da8, type: 3}
+  escapeTop: 0.12
+  greenTop: 0.55
+  redStart: 1
+  rodWidensSafeZone: 1
+  bonusFishByRarity: 0000000019000000320000006400000096000000
+  fightTimeout: 0
+  biteClip: {fileID: 0}
+  snapClip: {fileID: 0}
+  catchClip: {fileID: 0}
+  vibrateOnBite: 1
+  vibrateOnSnap: 1
+  debugLog: 0
+  greenColor: {r: 0.25, g: 0.85, b: 0.35, a: 0.55}
+  yellowColor: {r: 0.95, g: 0.8, b: 0.2, a: 0.55}
+  redColor: {r: 0.95, g: 0.25, b: 0.2, a: 0.6}
+  tensionColor: {r: 1, g: 1, b: 1, a: 0.95}
+  panelSize: {x: 420, y: 560}
+  trackPos: {x: -80, y: 10}
+  trackSize: {x: 70, y: 380}
+  progressPos: {x: 0, y: -225}
+  progressSize: {x: 320, y: 26}
+  titleFontSize: 34
+  hintFontSize: 24
+  panelRootName: FishingTuning
+  tensionFillName: HPBarFill
+  progressMarkerName: Fishing
+  progressTrackName: 
+  markerInsetLeft: 10
+  markerInsetRight: 10

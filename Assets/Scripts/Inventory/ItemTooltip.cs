@@ -50,7 +50,7 @@ public class ItemTooltip : MonoBehaviour
     }
 
     /// <summary>Показать tooltip для предмета у позиции на экране.</summary>
-    public void Show(ItemData item, Vector2 screenPos)
+    public void Show(ItemData item, Vector2 screenPos, float weightKg = 0f)
     {
         if (item == null || tooltipRoot == null) return;
 
@@ -72,9 +72,9 @@ public class ItemTooltip : MonoBehaviour
         if (typeText != null)
             typeText.text = GetTypeDisplayName(item);
 
-        // Бонусы
+        // Бонусы (+ вес рыбы первой строкой)
         if (statsText != null)
-            statsText.text = BuildStatsText(item);
+            statsText.text = BuildStatsText(item, weightKg);
 
         // Описание
         if (descriptionText != null)
@@ -143,9 +143,13 @@ public class ItemTooltip : MonoBehaviour
         return TranslateType(item.itemType) + " · " + TranslateRarity(item.rarity);
     }
 
-    string BuildStatsText(ItemData item)
+    string BuildStatsText(ItemData item, float weightKg = 0f)
     {
         System.Text.StringBuilder sb = new System.Text.StringBuilder();
+
+        // Вес рыбы — первой строкой
+        if (weightKg > 0f)
+            sb.AppendLine("<color=#9ADCFF>Вес: " + FishData.FormatWeight(weightKg) + "</color>");
 
         // Урон оружия
         if ((item.itemType == ItemType.Weapon || item.itemType == ItemType.RangedWeapon)
@@ -167,6 +171,16 @@ public class ItemTooltip : MonoBehaviour
         if (item.bonusYield != 0) sb.AppendLine(FormatBonus("Добыча", item.bonusYield, false, "%"));
         if (item.fishingZoneBonus != 0) sb.AppendLine(FormatBonus("Зона клёва", item.fishingZoneBonus));
         if (item.fishingSpeedBonus != 0) sb.AppendLine(FormatBonus("Скорость ловли", item.fishingSpeedBonus));
+
+        // Крючок: диапазон веса + прочность
+        if (item.itemType == ItemType.FishingHook)
+        {
+            sb.AppendLine("<color=#9ADCFF>Рыба: " + FishData.FormatWeight(item.hookMinKg)
+                + " – " + FishData.FormatWeight(item.hookMaxKg) + "</color>");
+            sb.AppendLine(item.hookMaxCasts > 0
+                ? "Прочность: " + item.hookMaxCasts + " забр."
+                : "Прочность: ∞");
+        }
 
         // Стак
         if (item.isStackable && item.maxStack > 1)
@@ -227,6 +241,7 @@ public class ItemTooltip : MonoBehaviour
             case ItemType.BugNet: return "Сачок";
             case ItemType.Axe: return "Топор";
             case ItemType.FishingRod: return "Удочка";
+            case ItemType.FishingHook: return "Крючок";
             case ItemType.Sickle: return "Серп";
             case ItemType.Sapling: return "Саженец";
             case ItemType.WateringCan: return "Лейка";

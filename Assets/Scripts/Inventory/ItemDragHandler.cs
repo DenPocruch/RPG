@@ -46,8 +46,9 @@ public class ItemDragHandler : MonoBehaviour,
         ItemData item = GetItemForTooltip();
         if (item == null) return;
 
+        float w = parentSlot != null ? parentSlot.fishWeightKg : 0f;
         if (ItemTooltip.Instance != null)
-            ItemTooltip.Instance.Show(item, eventData.position);
+            ItemTooltip.Instance.Show(item, eventData.position, w);
     }
 
     ItemData GetItemForTooltip()
@@ -235,6 +236,24 @@ public class ItemDragHandler : MonoBehaviour,
         {
             SwapInventorySlots(sourceSlot, invTarget);
             NotifyHotbarIfNeeded(sourceSlot, invTarget);
+            return;
+        }
+
+        // ─── СЛОТ КРЮЧКА на кнопке атаки ───
+        // Смотрим ВСЮ цепочку попаданий (поверх слота бывает фон панелей),
+        // а не только первый объект — иначе дроп глухо теряется
+        if (sourceSlot.currentItem != null && HookSocketUI.HasInstance)
+        {
+            var hits = GetDropTargetsGO(eventData);
+            if (HookSocketUI.Instance.IsSocketHitAny(hits))
+            {
+                if (sourceSlot.currentItem.itemType == ItemType.FishingHook)
+                    HookSocketUI.Instance.TrySocketFromSlot(sourceSlot);
+                else
+                    ActionLogUI.Show("[Крючок] Сюда можно положить только крючок!");
+                NotifyHotbarIfNeeded(sourceSlot, null);
+                return;
+            }
         }
     }
 
@@ -304,7 +323,7 @@ public class ItemDragHandler : MonoBehaviour,
             if (to.IsEmpty())
             {
                 int take = Mathf.Min(from.quantity, maxStack);
-                to.SetItemWithWater(from.currentItem, take, from.currentWater);
+                to.SetItemWithWater(from.currentItem, take, from.currentWater, from.fishWeightKg, from.hookCastsLeft);
                 from.quantity -= take;
                 if (from.quantity <= 0) from.ClearSlot(); else from.UpdateUI();
                 return;
@@ -331,7 +350,7 @@ public class ItemDragHandler : MonoBehaviour,
                 int add = Mathf.Min(cap - already, from.quantity);
                 if (add > 0)
                 {
-                    if (to.IsEmpty()) to.SetItemWithWater(from.currentItem, add, from.currentWater);
+                    if (to.IsEmpty()) to.SetItemWithWater(from.currentItem, add, from.currentWater, from.fishWeightKg, from.hookCastsLeft);
                     else { to.quantity += add; to.UpdateUI(); }
                     from.quantity -= add;
                     if (from.quantity <= 0) from.ClearSlot(); else from.UpdateUI();
@@ -366,7 +385,7 @@ public class ItemDragHandler : MonoBehaviour,
         if (toIsSilo && to.IsEmpty() && from.currentItem != null)
         {
             int take = Mathf.Min(from.quantity, siloStack);
-            to.SetItemWithWater(from.currentItem, take, from.currentWater);
+            to.SetItemWithWater(from.currentItem, take, from.currentWater, from.fishWeightKg, from.hookCastsLeft);
             from.quantity -= take;
             if (from.quantity <= 0) from.ClearSlot(); else from.UpdateUI();
             return;
@@ -389,7 +408,7 @@ public class ItemDragHandler : MonoBehaviour,
             }
             if (to.IsEmpty())
             {
-                to.SetItemWithWater(from.currentItem, take, from.currentWater);
+                to.SetItemWithWater(from.currentItem, take, from.currentWater, from.fishWeightKg, from.hookCastsLeft);
                 from.quantity -= take;
                 if (from.quantity <= 0) from.ClearSlot(); else from.UpdateUI();
             }
@@ -415,14 +434,16 @@ public class ItemDragHandler : MonoBehaviour,
         ItemData tempItem = to.currentItem;
         int tempQty = to.quantity;
         int tempWater = to.currentWater;
+        float tempWeight = to.fishWeightKg;
+        int tempHook = to.hookCastsLeft;
 
         if (from.currentItem != null)
-            to.SetItemWithWater(from.currentItem, from.quantity, from.currentWater);
+            to.SetItemWithWater(from.currentItem, from.quantity, from.currentWater, from.fishWeightKg, from.hookCastsLeft);
         else
             to.ClearSlot();
 
         if (tempItem != null)
-            from.SetItemWithWater(tempItem, tempQty, tempWater);
+            from.SetItemWithWater(tempItem, tempQty, tempWater, tempWeight, tempHook);
         else
             from.ClearSlot();
     }
@@ -430,6 +451,15 @@ public class ItemDragHandler : MonoBehaviour,
     // ─────────────────────────────────────────────────────────────────
     // ПОИСК СЛОТОВ
     // ─────────────────────────────────────────────────────────────────
+    System.Collections.Generic.List<GameObject> GetDropTargetsGO(PointerEventData eventData)
+    {
+        var list = new System.Collections.Generic.List<GameObject>();
+        var results = new System.Collections.Generic.List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+        foreach (var r in results)
+            if (r.gameObject != null) list.Add(r.gameObject);
+        return list;
+    }
     InventorySlot GetInventorySlotUnderPointer(PointerEventData eventData)
     {
         var results = new System.Collections.Generic.List<RaycastResult>();
@@ -439,6 +469,9 @@ public class ItemDragHandler : MonoBehaviour,
             if (r.gameObject == null) continue;
             if (r.gameObject.GetComponentInParent<EquipmentSlot>() != null) continue;
             InventorySlot slot = r.gameObject.GetComponentInParent<InventorySlot>();
+            // Слот крючка на кнопке атаки — не инвентарь (у него своя логика дропа)
+            if (slot != null && HookSocketUI.HasInstance && HookSocketUI.Instance.IsSocketSlot(slot))
+                continue;
             if (slot != null && slot != sourceSlot) return slot;
         }
         return null;

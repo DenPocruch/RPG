@@ -60,6 +60,29 @@ public class ShopInteraction : MonoBehaviour, IInteractable
             });
             added = true;
         }
+        // Крючки — кодом, без перков (видны сразу). Ассетов нет (билд не запускали) — молча пропускаем
+        foreach (string hookName in new[] {
+            "Hook_Copper_I", "Hook_Copper_II",
+            "Hook_Silver_I", "Hook_Silver_II",
+            "Hook_Gold_I", "Hook_Gold_II",
+            "Hook_Iron_I", "Hook_Iron_II",
+            "Hook_Ruby_I", "Hook_Ruby_II",
+            "Hook_Sapphire_I", "Hook_Sapphire_II",
+            "Hook_Amethyst_I", "Hook_Amethyst_II",
+            "Hook_Rose_I", "Hook_Rose_II",
+            "Hook_Obsidian_I", "Hook_Obsidian_II" })
+        {
+            if (list.Exists(si => si != null && si.item != null && si.item.name == hookName)) continue;
+            ItemData hook = ItemDatabase.Find(hookName);
+            if (hook == null) continue;
+            list.Add(new ShopManager.ShopItem
+            {
+                item = hook,
+                price = hook.shopPrice > 0 ? hook.shopPrice : 100,
+                unlockTag = ""
+            });
+            added = true;
+        }
         if (added) itemsForSaleAnimals = list.ToArray();
     }
 

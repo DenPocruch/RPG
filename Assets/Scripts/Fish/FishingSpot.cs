@@ -27,6 +27,13 @@ public class FishingSpot : MonoBehaviour
 
     public FishData RollFish()
     {
+        return RollFish(0f, float.MaxValue);
+    }
+
+    /// <summary>Ролл с фильтром крючка: клюют только виды, чей весовой диапазон
+    /// пересекается с [minKg, maxKg]. null — на этот крючок здесь не клюёт.</summary>
+    public FishData RollFish(float minKg, float maxKg)
+    {
         if (fishTable == null || fishTable.Length == 0) return null;
 
         float roll = Random.Range(0f, 100f);
@@ -34,12 +41,26 @@ public class FishingSpot : MonoBehaviour
 
         var fit = new List<FishData>();
         foreach (FishData f in fishTable)
-            if (f != null && f.difficulty == want) fit.Add(f);
+            if (f != null && f.difficulty == want && Overlaps(f, minKg, maxKg)) fit.Add(f);
         if (fit.Count == 0)
             foreach (FishData f in fishTable)
-                if (f != null) fit.Add(f);
+                if (f != null && Overlaps(f, minKg, maxKg)) fit.Add(f);
         if (fit.Count == 0) return null;
         return fit[Random.Range(0, fit.Count)];
+    }
+
+    /// <summary>Хоть один вид в точке пересекается с диапазоном крючка?</summary>
+    public bool HasOverlap(float minKg, float maxKg)
+    {
+        if (fishTable == null) return false;
+        foreach (FishData f in fishTable)
+            if (f != null && Overlaps(f, minKg, maxKg)) return true;
+        return false;
+    }
+
+    static bool Overlaps(FishData f, float minKg, float maxKg)
+    {
+        return f.maxWeightKg >= minKg && f.minWeightKg <= maxKg;
     }
 
     // Подсветка зоны в Scene View (в игре триггеры невидимы)

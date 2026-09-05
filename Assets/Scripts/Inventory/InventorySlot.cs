@@ -4,35 +4,39 @@ using TMPro;
 
 public class InventorySlot : MonoBehaviour
 {
-    [Header("Данные слота")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
     public ItemData currentItem;
     public int quantity = 0;
     public int currentWater = 0;
+    [Tooltip("Р’РµСЃ СЂС‹Р±С‹ РІ РєРі (0 = РЅРµС‚). Р С‹Р±Р° РЅРµ СЃС‚Р°РєР°РµС‚СЃСЏ: 1 СЃР»РѕС‚ = 1 СЂС‹Р±Р°.")]
+    public float fishWeightKg = 0f;
+    [Tooltip("РћСЃС‚Р°С‚РѕРє Р·Р°Р±СЂРѕСЃРѕРІ РєСЂСЋС‡РєР° (-1 = РїРѕР»РЅС‹Р№/РЅРµ С‚СЂРѕРЅСѓС‚). РљСЂСЋС‡РєРё РЅРµ СЃС‚Р°РєР°СЋС‚СЃСЏ: 1 СЃР»РѕС‚ = 1 РєСЂСЋС‡РѕРє.")]
+    public int hookCastsLeft = -1;
 
-    [Header("UI слота")]
+    [Header("UI пїЅпїЅпїЅпїЅпїЅ")]
     public Image iconImage;
     public TMP_Text quantityText;
 
-    [Header("Тип слота")]
+    [Header("пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ")]
     public bool isHotbarSlot = false;
     public int slotIndex = 0;
 
     [HideInInspector] public InventorySlot linkedChestSlot = null;
 
-    [Header("Переполнение (склад со своим лимитом, напр. выход лесопилки)")]
-    [Tooltip("Если true — слот может хранить БОЛЬШЕ чем item.maxStack. При перетаскивании ИЗ такого слота игроку переносится не больше обычного maxStack предмета, остаток остаётся здесь.")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ)")]
+    [Tooltip("пїЅпїЅпїЅпїЅ true пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ item.maxStack. пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ maxStack пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ.")]
     public bool allowOverflow = false;
-    [Tooltip("0 = без ограничения сверху")]
+    [Tooltip("0 = пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ")]
     public int overflowCapacity = 0;
 
-    [Tooltip("Если false — игрок НЕ может вручную положить предмет в этот слот drag&drop'ом (только система). Используется для выходных складов мастерских (доски/слитки) — туда кладёт только сама переработка.")]
+    [Tooltip("пїЅпїЅпїЅпїЅ false пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ drag&drop'пїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ). пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ) пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.")]
     public bool acceptsManualDeposit = true;
 
-    [Header("Фильтр по категории ресурса (для складов лесопилки/шахты и т.д.)")]
-    [Tooltip("Пусто = без ограничения. Иначе принимает только предметы с таким же ItemData.resourceCategory (например \"Wood\" или \"Ore\")")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅ пїЅ пїЅ.пїЅ.)")]
+    [Tooltip("пїЅпїЅпїЅпїЅпїЅ = пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ ItemData.resourceCategory (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ \"Wood\" пїЅпїЅпїЅ \"Ore\")")]
     public string allowedResourceCategory = "";
 
-    /// <summary>Можно ли положить этот предмет в слот (с учётом фильтра категории).</summary>
+    /// <summary>пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ).</summary>
     public bool IsItemAllowed(ItemData item)
     {
         if (string.IsNullOrEmpty(allowedResourceCategory)) return true;
@@ -40,7 +44,7 @@ public class InventorySlot : MonoBehaviour
         return item.resourceCategory == allowedResourceCategory;
     }
 
-    // Эффект редкости (найдётся автоматически если есть на объекте)
+    // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
     private SlotRarityGlow rarityGlow;
 
     void Start()
@@ -54,15 +58,19 @@ public class InventorySlot : MonoBehaviour
         currentItem = item;
         quantity = amount;
         currentWater = 0;
+        fishWeightKg = 0f;
+        hookCastsLeft = -1;
         UpdateUI();
         SyncToChest();
     }
 
-    public void SetItemWithWater(ItemData item, int amount, int water)
+    public void SetItemWithWater(ItemData item, int amount, int water, float weightKg = 0f, int hookCasts = -1)
     {
         currentItem = item;
         quantity = amount;
         currentWater = water;
+        fishWeightKg = weightKg;
+        hookCastsLeft = hookCasts;
         UpdateUI();
         SyncToChest();
     }
@@ -72,6 +80,8 @@ public class InventorySlot : MonoBehaviour
         currentItem = null;
         quantity = 0;
         currentWater = 0;
+        fishWeightKg = 0f;
+        hookCastsLeft = -1;
         UpdateUI();
         SyncToChest();
     }
@@ -82,6 +92,8 @@ public class InventorySlot : MonoBehaviour
         linkedChestSlot.currentItem = currentItem;
         linkedChestSlot.quantity = quantity;
         linkedChestSlot.currentWater = currentWater;
+        linkedChestSlot.fishWeightKg = fishWeightKg;
+        linkedChestSlot.hookCastsLeft = hookCastsLeft;
     }
 
     public bool IsEmpty() => currentItem == null;
@@ -115,7 +127,7 @@ public class InventorySlot : MonoBehaviour
 
     public void UpdateUI()
     {
-        // Эффект редкости
+        // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (rarityGlow == null) rarityGlow = GetComponentInChildren<SlotRarityGlow>();
         if (rarityGlow != null)
         {
