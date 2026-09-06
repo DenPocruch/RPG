@@ -5,6 +5,51 @@ TextureImporter:
   - first:
       213: -3899891994886426009
     second: Bloco de mapa 1_0
+  - first:
+      213: 6089943239509625619
+    second: Bloco de mapa 1_1
+  - first:
+      213: 3479405918977920840
+    second: Bloco de mapa 1_2
+  - first:
+      213: 3962318999602224840
+    second: Bloco de mapa 1_3
+  - first:
+      213: -7737790435091337190
+    second: Bloco de mapa 1_4
+  - first:
+      213: 7275210432358207321
+    second: Bloco de mapa 1_5
+  - first:
+      213: 2133824187723902767
+    second: Bloco de mapa 1_6
+  - first:
+      213: 5440982276065642349
+    second: Bloco de mapa 1_7
+  - first:
+      213: 1076532040623483867
+    second: Bloco de mapa 1_8
+  - first:
+      213: -6970292550163070077
+    second: Bloco de mapa 1_9
+  - first:
+      213: -8508546578480602000
+    second: Bloco de mapa 1_10
+  - first:
+      213: -8892214317734401195
+    second: Bloco de mapa 1_11
+  - first:
+      213: -7858562115594818755
+    second: Bloco de mapa 1_12
+  - first:
+      213: 566204415029888225
+    second: Bloco de mapa 1_13
+  - first:
+      213: -8028369103611659955
+    second: Bloco de mapa 1_14
+  - first:
+      213: 4308008911625126449
+    second: Bloco de mapa 1_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -37,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -47,11 +92,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -75,7 +120,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -118,9 +163,9 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 512
+        width: 32
         height: 32
-      alignment: 0
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -130,6 +175,336 @@ TextureImporter:
       bones: []
       spriteID: 762b766a4ecc0e9c0800000000000000
       internalID: -3899891994886426009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31b43454c13d38450800000000000000
+      internalID: 6089943239509625619
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 84f0216af35594030800000000000000
+      internalID: 3479405918977920840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8ce521a032cfcf630800000000000000
+      internalID: 3962318999602224840
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a1037f98898dd9490800000000000000
+      internalID: -7737790435091337190
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 95f4deea75db6f460800000000000000
+      internalID: 7275210432358207321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2f6b621bcddc9d10800000000000000
+      internalID: 2133824187723902767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d67c6127d80428b40800000000000000
+      internalID: 5440982276065642349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bdb60beef2c90fe00800000000000000
+      internalID: 1076532040623483867
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3838af61bdb844f90800000000000000
+      internalID: -6970292550163070077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0746cc297f19be980800000000000000
+      internalID: -8508546578480602000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55b6cc4e032889480800000000000000
+      internalID: -8892214317734401195
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3be0ae6467c0f290800000000000000
+      internalID: -7858562115594818755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1e44d146aef8bd700800000000000000
+      internalID: 566204415029888225
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d49718d16d0859090800000000000000
+      internalID: -8028369103611659955
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Bloco de mapa 1_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13202a2c74f19cb30800000000000000
+      internalID: 4308008911625126449
       vertices: []
       indices: 
       edges: []
@@ -149,6 +524,21 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Bloco de mapa 1_0: -3899891994886426009
+      Bloco de mapa 1_1: 6089943239509625619
+      Bloco de mapa 1_10: -8508546578480602000
+      Bloco de mapa 1_11: -8892214317734401195
+      Bloco de mapa 1_12: -7858562115594818755
+      Bloco de mapa 1_13: 566204415029888225
+      Bloco de mapa 1_14: -8028369103611659955
+      Bloco de mapa 1_15: 4308008911625126449
+      Bloco de mapa 1_2: 3479405918977920840
+      Bloco de mapa 1_3: 3962318999602224840
+      Bloco de mapa 1_4: -7737790435091337190
+      Bloco de mapa 1_5: 7275210432358207321
+      Bloco de mapa 1_6: 2133824187723902767
+      Bloco de mapa 1_7: 5440982276065642349
+      Bloco de mapa 1_8: 1076532040623483867
+      Bloco de mapa 1_9: -6970292550163070077
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

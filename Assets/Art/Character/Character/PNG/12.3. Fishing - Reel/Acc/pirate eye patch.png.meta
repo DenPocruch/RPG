@@ -38,6 +38,18 @@ TextureImporter:
   - first:
       213: -1241685201603502849
     second: pirate eye patch_11
+  - first:
+      213: -3031256565693676656
+    second: pirate eye patch_12
+  - first:
+      213: -1037004141405332858
+    second: pirate eye patch_13
+  - first:
+      213: -2429512744009085803
+    second: pirate eye patch_14
+  - first:
+      213: -6089560488976128023
+    second: pirate eye patch_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -70,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -80,11 +92,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,7 +120,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -149,11 +161,11 @@ TextureImporter:
       name: pirate eye patch_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 17
-        width: 9
-        height: 8
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -171,11 +183,11 @@ TextureImporter:
       name: pirate eye patch_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 17
-        width: 9
-        height: 8
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -193,11 +205,11 @@ TextureImporter:
       name: pirate eye patch_2
       rect:
         serializedVersion: 2
-        x: 76
-        y: 17
-        width: 9
-        height: 8
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -215,11 +227,11 @@ TextureImporter:
       name: pirate eye patch_3
       rect:
         serializedVersion: 2
-        x: 108
-        y: 17
-        width: 9
-        height: 8
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -237,11 +249,11 @@ TextureImporter:
       name: pirate eye patch_4
       rect:
         serializedVersion: 2
-        x: 267
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -259,11 +271,11 @@ TextureImporter:
       name: pirate eye patch_5
       rect:
         serializedVersion: 2
-        x: 299
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -281,11 +293,11 @@ TextureImporter:
       name: pirate eye patch_6
       rect:
         serializedVersion: 2
-        x: 331
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -303,11 +315,11 @@ TextureImporter:
       name: pirate eye patch_7
       rect:
         serializedVersion: 2
-        x: 363
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -325,11 +337,11 @@ TextureImporter:
       name: pirate eye patch_8
       rect:
         serializedVersion: 2
-        x: 395
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -347,11 +359,11 @@ TextureImporter:
       name: pirate eye patch_9
       rect:
         serializedVersion: 2
-        x: 427
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -369,11 +381,11 @@ TextureImporter:
       name: pirate eye patch_10
       rect:
         serializedVersion: 2
-        x: 459
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -391,11 +403,11 @@ TextureImporter:
       name: pirate eye patch_11
       rect:
         serializedVersion: 2
-        x: 491
-        y: 16
-        width: 11
-        height: 9
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -405,6 +417,94 @@ TextureImporter:
       bones: []
       spriteID: ffc509b43e5a4cee0800000000000000
       internalID: -1241685201603502849
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pirate eye patch_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09302cab630dee5d0800000000000000
+      internalID: -3031256565693676656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pirate eye patch_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68a1de84a32db91f0800000000000000
+      internalID: -1037004141405332858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pirate eye patch_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59ccd0c0803a84ed0800000000000000
+      internalID: -2429512744009085803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: pirate eye patch_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e7e258cff88d7ba0800000000000000
+      internalID: -6089560488976128023
       vertices: []
       indices: 
       edges: []
@@ -427,6 +527,10 @@ TextureImporter:
       pirate eye patch_1: 8356366353750573700
       pirate eye patch_10: -7328304877258342327
       pirate eye patch_11: -1241685201603502849
+      pirate eye patch_12: -3031256565693676656
+      pirate eye patch_13: -1037004141405332858
+      pirate eye patch_14: -2429512744009085803
+      pirate eye patch_15: -6089560488976128023
       pirate eye patch_2: -7385821833864954698
       pirate eye patch_3: -1597094167315728378
       pirate eye patch_4: 8467355773937520487

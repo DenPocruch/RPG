@@ -106,7 +106,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -116,11 +116,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -144,7 +144,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -185,11 +185,11 @@ TextureImporter:
       name: Santa hat_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 17
-        width: 16
-        height: 11
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -207,11 +207,11 @@ TextureImporter:
       name: Santa hat_1
       rect:
         serializedVersion: 2
-        x: 41
-        y: 16
-        width: 16
-        height: 11
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -229,11 +229,11 @@ TextureImporter:
       name: Santa hat_2
       rect:
         serializedVersion: 2
-        x: 73
-        y: 16
-        width: 16
-        height: 11
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -251,11 +251,11 @@ TextureImporter:
       name: Santa hat_3
       rect:
         serializedVersion: 2
-        x: 105
-        y: 16
-        width: 16
-        height: 11
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -273,11 +273,11 @@ TextureImporter:
       name: Santa hat_4
       rect:
         serializedVersion: 2
-        x: 137
-        y: 17
-        width: 16
-        height: 11
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -295,11 +295,11 @@ TextureImporter:
       name: Santa hat_5
       rect:
         serializedVersion: 2
-        x: 169
-        y: 16
-        width: 16
-        height: 11
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -317,11 +317,11 @@ TextureImporter:
       name: Santa hat_6
       rect:
         serializedVersion: 2
-        x: 198
-        y: 17
-        width: 16
-        height: 11
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -339,11 +339,11 @@ TextureImporter:
       name: Santa hat_7
       rect:
         serializedVersion: 2
-        x: 230
-        y: 18
-        width: 16
-        height: 11
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -361,11 +361,11 @@ TextureImporter:
       name: Santa hat_8
       rect:
         serializedVersion: 2
-        x: 262
-        y: 17
-        width: 16
-        height: 11
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -383,11 +383,11 @@ TextureImporter:
       name: Santa hat_9
       rect:
         serializedVersion: 2
-        x: 294
-        y: 16
-        width: 16
-        height: 11
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -405,11 +405,11 @@ TextureImporter:
       name: Santa hat_10
       rect:
         serializedVersion: 2
-        x: 326
-        y: 16
-        width: 16
-        height: 11
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -427,11 +427,11 @@ TextureImporter:
       name: Santa hat_11
       rect:
         serializedVersion: 2
-        x: 358
-        y: 18
-        width: 16
-        height: 11
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -449,11 +449,11 @@ TextureImporter:
       name: Santa hat_12
       rect:
         serializedVersion: 2
-        x: 388
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -471,11 +471,11 @@ TextureImporter:
       name: Santa hat_13
       rect:
         serializedVersion: 2
-        x: 421
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -493,11 +493,11 @@ TextureImporter:
       name: Santa hat_14
       rect:
         serializedVersion: 2
-        x: 453
-        y: 13
-        width: 16
-        height: 11
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -515,11 +515,11 @@ TextureImporter:
       name: Santa hat_15
       rect:
         serializedVersion: 2
-        x: 484
-        y: 13
-        width: 16
-        height: 11
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -537,11 +537,11 @@ TextureImporter:
       name: Santa hat_16
       rect:
         serializedVersion: 2
-        x: 516
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -559,11 +559,11 @@ TextureImporter:
       name: Santa hat_17
       rect:
         serializedVersion: 2
-        x: 548
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -581,11 +581,11 @@ TextureImporter:
       name: Santa hat_18
       rect:
         serializedVersion: 2
-        x: 588
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -603,11 +603,11 @@ TextureImporter:
       name: Santa hat_19
       rect:
         serializedVersion: 2
-        x: 619
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -625,11 +625,11 @@ TextureImporter:
       name: Santa hat_20
       rect:
         serializedVersion: 2
-        x: 651
-        y: 13
-        width: 16
-        height: 11
-      alignment: 0
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -647,11 +647,11 @@ TextureImporter:
       name: Santa hat_21
       rect:
         serializedVersion: 2
-        x: 684
-        y: 13
-        width: 16
-        height: 11
-      alignment: 0
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -669,11 +669,11 @@ TextureImporter:
       name: Santa hat_22
       rect:
         serializedVersion: 2
-        x: 716
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -691,11 +691,11 @@ TextureImporter:
       name: Santa hat_23
       rect:
         serializedVersion: 2
-        x: 748
-        y: 14
-        width: 16
-        height: 11
-      alignment: 0
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 

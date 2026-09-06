@@ -14,6 +14,30 @@ TextureImporter:
   - first:
       213: -9005655868214505512
     second: Beret_3
+  - first:
+      213: -1777571791378565960
+    second: Beret_4
+  - first:
+      213: -2461342805288614550
+    second: Beret_5
+  - first:
+      213: -6275758329927264820
+    second: Beret_6
+  - first:
+      213: -3255661158965540952
+    second: Beret_7
+  - first:
+      213: -5665588639513721140
+    second: Beret_8
+  - first:
+      213: -9169928360739837253
+    second: Beret_9
+  - first:
+      213: -8495724987237664514
+    second: Beret_10
+  - first:
+      213: -8003150424052247557
+    second: Beret_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -56,11 +80,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,11 +149,11 @@ TextureImporter:
       name: Beret_0
       rect:
         serializedVersion: 2
-        x: 74
-        y: 11
-        width: 13
-        height: 9
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -147,11 +171,11 @@ TextureImporter:
       name: Beret_1
       rect:
         serializedVersion: 2
-        x: 170
-        y: 11
-        width: 13
-        height: 9
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -169,11 +193,11 @@ TextureImporter:
       name: Beret_2
       rect:
         serializedVersion: 2
-        x: 266
-        y: 10
-        width: 14
-        height: 9
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -191,11 +215,11 @@ TextureImporter:
       name: Beret_3
       rect:
         serializedVersion: 2
-        x: 361
-        y: 10
-        width: 14
-        height: 9
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -205,6 +229,182 @@ TextureImporter:
       bones: []
       spriteID: 8df89ada3bb750380800000000000000
       internalID: -9005655868214505512
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b4302cafdbc457e0800000000000000
+      internalID: -1777571791378565960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a650f4462cd87ddd0800000000000000
+      internalID: -2461342805288614550
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc59c70ac0708e8a0800000000000000
+      internalID: -6275758329927264820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8a782d6dc6191d2d0800000000000000
+      internalID: -3255661158965540952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc6cb426629cf51b0800000000000000
+      internalID: -5665588639513721140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bba62528dbeddb080800000000000000
+      internalID: -9169928360739837253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ef8f94ae22f191a80800000000000000
+      internalID: -8495724987237664514
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beret_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bf3595287191fe090800000000000000
+      internalID: -8003150424052247557
       vertices: []
       indices: 
       edges: []
@@ -225,8 +425,16 @@ TextureImporter:
     nameFileIdTable:
       Beret_0: 5614855595903771947
       Beret_1: -6546029437669207435
+      Beret_10: -8495724987237664514
+      Beret_11: -8003150424052247557
       Beret_2: 3161870223071742692
       Beret_3: -9005655868214505512
+      Beret_4: -1777571791378565960
+      Beret_5: -2461342805288614550
+      Beret_6: -6275758329927264820
+      Beret_7: -3255661158965540952
+      Beret_8: -5665588639513721140
+      Beret_9: -9169928360739837253
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

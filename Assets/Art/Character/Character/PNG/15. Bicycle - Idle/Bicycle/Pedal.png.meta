@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: -2477501998937862763
     second: Pedal_3
+  - first:
+      213: -8002432071389457908
+    second: Pedal_4
+  - first:
+      213: 7073500040339004287
+    second: Pedal_5
+  - first:
+      213: 6478008681120359775
+    second: Pedal_6
+  - first:
+      213: 3474343608385745718
+    second: Pedal_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -56,11 +68,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +96,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,11 +137,11 @@ TextureImporter:
       name: Pedal_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 3
-        width: 136
-        height: 10
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -147,11 +159,11 @@ TextureImporter:
       name: Pedal_1
       rect:
         serializedVersion: 2
-        x: 171
-        y: 5
-        width: 7
-        height: 8
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -169,11 +181,11 @@ TextureImporter:
       name: Pedal_2
       rect:
         serializedVersion: 2
-        x: 206
-        y: 5
-        width: 7
-        height: 8
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -191,11 +203,11 @@ TextureImporter:
       name: Pedal_3
       rect:
         serializedVersion: 2
-        x: 238
-        y: 5
-        width: 7
-        height: 8
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -205,6 +217,94 @@ TextureImporter:
       bones: []
       spriteID: 59d0dfeee052e9dd0800000000000000
       internalID: -2477501998937862763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pedal_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0253a50e66a1f090800000000000000
+      internalID: -8002432071389457908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pedal_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f7b1e174fce1a2260800000000000000
+      internalID: 7073500040339004287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pedal_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f556312d29286e950800000000000000
+      internalID: 6478008681120359775
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pedal_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6333b7d9a19573030800000000000000
+      internalID: 3474343608385745718
       vertices: []
       indices: 
       edges: []
@@ -227,6 +327,10 @@ TextureImporter:
       Pedal_1: 8077011433058289809
       Pedal_2: 7352811214860585184
       Pedal_3: -2477501998937862763
+      Pedal_4: -8002432071389457908
+      Pedal_5: 7073500040339004287
+      Pedal_6: 6478008681120359775
+      Pedal_7: 3474343608385745718
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

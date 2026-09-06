@@ -20,6 +20,24 @@ TextureImporter:
   - first:
       213: 6534441128267502912
     second: Blue_5
+  - first:
+      213: -4376590647097162214
+    second: Blue_6
+  - first:
+      213: 4208607686195526434
+    second: Blue_7
+  - first:
+      213: -5608541240922819171
+    second: Blue_8
+  - first:
+      213: -4260601082722757067
+    second: Blue_9
+  - first:
+      213: 2341889305116284032
+    second: Blue_10
+  - first:
+      213: 4598295003502512739
+    second: Blue_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -52,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -62,11 +80,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -90,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -131,11 +149,11 @@ TextureImporter:
       name: Blue_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 17
-        width: 197
-        height: 10
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -153,11 +171,11 @@ TextureImporter:
       name: Blue_1
       rect:
         serializedVersion: 2
-        x: 231
-        y: 17
-        width: 9
-        height: 6
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -175,11 +193,11 @@ TextureImporter:
       name: Blue_2
       rect:
         serializedVersion: 2
-        x: 263
-        y: 16
-        width: 9
-        height: 6
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -197,11 +215,11 @@ TextureImporter:
       name: Blue_3
       rect:
         serializedVersion: 2
-        x: 304
-        y: 17
-        width: 9
-        height: 6
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -219,11 +237,11 @@ TextureImporter:
       name: Blue_4
       rect:
         serializedVersion: 2
-        x: 336
-        y: 17
-        width: 9
-        height: 6
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -241,11 +259,11 @@ TextureImporter:
       name: Blue_5
       rect:
         serializedVersion: 2
-        x: 368
-        y: 16
-        width: 9
-        height: 6
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -255,6 +273,138 @@ TextureImporter:
       bones: []
       spriteID: 0455610d59ffeaa50800000000000000
       internalID: 6534441128267502912
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a160a70aef93343c0800000000000000
+      internalID: -4376590647097162214
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 22bb9a6746af76a30800000000000000
+      internalID: 4208607686195526434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d95baaae4757a22b0800000000000000
+      internalID: -5608541240922819171
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5365aae83ed4fd4c0800000000000000
+      internalID: -4260601082722757067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0841eb64aef008020800000000000000
+      internalID: 2341889305116284032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Blue_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 36a883061fc60df30800000000000000
+      internalID: 4598295003502512739
       vertices: []
       indices: 
       edges: []
@@ -275,10 +425,16 @@ TextureImporter:
     nameFileIdTable:
       Blue_0: -6429493399158520243
       Blue_1: 3648764528808031850
+      Blue_10: 2341889305116284032
+      Blue_11: 4598295003502512739
       Blue_2: -3688568089006841474
       Blue_3: -7608935580259569964
       Blue_4: 8832018557762821792
       Blue_5: 6534441128267502912
+      Blue_6: -4376590647097162214
+      Blue_7: 4208607686195526434
+      Blue_8: -5608541240922819171
+      Blue_9: -4260601082722757067
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

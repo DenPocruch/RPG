@@ -38,6 +38,18 @@ TextureImporter:
   - first:
       213: -2148530501938679830
     second: Purple_11
+  - first:
+      213: 83938953421708647
+    second: Purple_12
+  - first:
+      213: -5400761825225490789
+    second: Purple_13
+  - first:
+      213: -4004006821000467505
+    second: Purple_14
+  - first:
+      213: -5509338419380726490
+    second: Purple_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -70,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -80,11 +92,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -108,7 +120,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -149,11 +161,11 @@ TextureImporter:
       name: Purple_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 6
-        width: 9
-        height: 6
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -171,11 +183,11 @@ TextureImporter:
       name: Purple_1
       rect:
         serializedVersion: 2
-        x: 43
-        y: 5
-        width: 9
-        height: 6
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -193,11 +205,11 @@ TextureImporter:
       name: Purple_2
       rect:
         serializedVersion: 2
-        x: 75
-        y: 6
-        width: 9
-        height: 6
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -215,11 +227,11 @@ TextureImporter:
       name: Purple_3
       rect:
         serializedVersion: 2
-        x: 107
-        y: 5
-        width: 41
-        height: 6
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -237,11 +249,11 @@ TextureImporter:
       name: Purple_4
       rect:
         serializedVersion: 2
-        x: 171
-        y: 2
-        width: 104
-        height: 8
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -259,11 +271,11 @@ TextureImporter:
       name: Purple_5
       rect:
         serializedVersion: 2
-        x: 300
-        y: 1
-        width: 7
-        height: 7
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -281,11 +293,11 @@ TextureImporter:
       name: Purple_6
       rect:
         serializedVersion: 2
-        x: 332
-        y: 2
-        width: 7
-        height: 7
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -303,11 +315,11 @@ TextureImporter:
       name: Purple_7
       rect:
         serializedVersion: 2
-        x: 364
-        y: 1
-        width: 7
-        height: 7
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -325,11 +337,11 @@ TextureImporter:
       name: Purple_8
       rect:
         serializedVersion: 2
-        x: 398
-        y: 2
-        width: 7
-        height: 7
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -347,11 +359,11 @@ TextureImporter:
       name: Purple_9
       rect:
         serializedVersion: 2
-        x: 430
-        y: 1
-        width: 7
-        height: 7
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -369,11 +381,11 @@ TextureImporter:
       name: Purple_10
       rect:
         serializedVersion: 2
-        x: 462
-        y: 2
-        width: 7
-        height: 7
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -391,11 +403,11 @@ TextureImporter:
       name: Purple_11
       rect:
         serializedVersion: 2
-        x: 494
-        y: 1
-        width: 7
-        height: 7
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -405,6 +417,94 @@ TextureImporter:
       bones: []
       spriteID: aef6ad254e2ee22e0800000000000000
       internalID: -2148530501938679830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_12
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 76dd48d88063a2100800000000000000
+      internalID: 83938953421708647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_13
+      rect:
+        serializedVersion: 2
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9eb1f20cb3ac05b0800000000000000
+      internalID: -5400761825225490789
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_14
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fcba60ca209ee68c0800000000000000
+      internalID: -4004006821000467505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple_15
+      rect:
+        serializedVersion: 2
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6255665b5e5ea83b0800000000000000
+      internalID: -5509338419380726490
       vertices: []
       indices: 
       edges: []
@@ -427,6 +527,10 @@ TextureImporter:
       Purple_1: -5645376200931320486
       Purple_10: -8426474168591060697
       Purple_11: -2148530501938679830
+      Purple_12: 83938953421708647
+      Purple_13: -5400761825225490789
+      Purple_14: -4004006821000467505
+      Purple_15: -5509338419380726490
       Purple_2: 9214806981023359645
       Purple_3: 7023335495681361342
       Purple_4: -753657338236177858

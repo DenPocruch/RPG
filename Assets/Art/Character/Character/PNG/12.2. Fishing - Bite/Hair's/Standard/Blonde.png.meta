@@ -130,7 +130,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -140,11 +140,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -168,7 +168,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -209,11 +209,11 @@ TextureImporter:
       name: Blonde_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -231,11 +231,11 @@ TextureImporter:
       name: Blonde_1
       rect:
         serializedVersion: 2
-        x: 42
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -253,11 +253,11 @@ TextureImporter:
       name: Blonde_2
       rect:
         serializedVersion: 2
-        x: 74
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -275,11 +275,11 @@ TextureImporter:
       name: Blonde_3
       rect:
         serializedVersion: 2
-        x: 106
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -297,11 +297,11 @@ TextureImporter:
       name: Blonde_4
       rect:
         serializedVersion: 2
-        x: 138
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -319,11 +319,11 @@ TextureImporter:
       name: Blonde_5
       rect:
         serializedVersion: 2
-        x: 170
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -341,11 +341,11 @@ TextureImporter:
       name: Blonde_6
       rect:
         serializedVersion: 2
-        x: 202
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -363,11 +363,11 @@ TextureImporter:
       name: Blonde_7
       rect:
         serializedVersion: 2
-        x: 234
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -385,11 +385,11 @@ TextureImporter:
       name: Blonde_8
       rect:
         serializedVersion: 2
-        x: 266
-        y: 14
-        width: 13
-        height: 11
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -407,11 +407,11 @@ TextureImporter:
       name: Blonde_9
       rect:
         serializedVersion: 2
-        x: 298
-        y: 14
-        width: 13
-        height: 11
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -429,11 +429,11 @@ TextureImporter:
       name: Blonde_10
       rect:
         serializedVersion: 2
-        x: 330
-        y: 15
-        width: 13
-        height: 11
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -451,11 +451,11 @@ TextureImporter:
       name: Blonde_11
       rect:
         serializedVersion: 2
-        x: 362
-        y: 15
-        width: 13
-        height: 11
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -473,11 +473,11 @@ TextureImporter:
       name: Blonde_12
       rect:
         serializedVersion: 2
-        x: 394
-        y: 14
-        width: 13
-        height: 11
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -495,11 +495,11 @@ TextureImporter:
       name: Blonde_13
       rect:
         serializedVersion: 2
-        x: 426
-        y: 14
-        width: 13
-        height: 11
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -517,11 +517,11 @@ TextureImporter:
       name: Blonde_14
       rect:
         serializedVersion: 2
-        x: 458
-        y: 15
-        width: 13
-        height: 11
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -539,11 +539,11 @@ TextureImporter:
       name: Blonde_15
       rect:
         serializedVersion: 2
-        x: 490
-        y: 15
-        width: 13
-        height: 11
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -561,11 +561,11 @@ TextureImporter:
       name: Blonde_16
       rect:
         serializedVersion: 2
-        x: 522
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -583,11 +583,11 @@ TextureImporter:
       name: Blonde_17
       rect:
         serializedVersion: 2
-        x: 554
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -605,11 +605,11 @@ TextureImporter:
       name: Blonde_18
       rect:
         serializedVersion: 2
-        x: 586
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -627,11 +627,11 @@ TextureImporter:
       name: Blonde_19
       rect:
         serializedVersion: 2
-        x: 618
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -649,11 +649,11 @@ TextureImporter:
       name: Blonde_20
       rect:
         serializedVersion: 2
-        x: 650
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -671,11 +671,11 @@ TextureImporter:
       name: Blonde_21
       rect:
         serializedVersion: 2
-        x: 682
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -693,11 +693,11 @@ TextureImporter:
       name: Blonde_22
       rect:
         serializedVersion: 2
-        x: 714
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -715,11 +715,11 @@ TextureImporter:
       name: Blonde_23
       rect:
         serializedVersion: 2
-        x: 746
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -737,11 +737,11 @@ TextureImporter:
       name: Blonde_24
       rect:
         serializedVersion: 2
-        x: 778
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 768
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -759,11 +759,11 @@ TextureImporter:
       name: Blonde_25
       rect:
         serializedVersion: 2
-        x: 810
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 800
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -781,11 +781,11 @@ TextureImporter:
       name: Blonde_26
       rect:
         serializedVersion: 2
-        x: 842
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 832
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -803,11 +803,11 @@ TextureImporter:
       name: Blonde_27
       rect:
         serializedVersion: 2
-        x: 874
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 864
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -825,11 +825,11 @@ TextureImporter:
       name: Blonde_28
       rect:
         serializedVersion: 2
-        x: 906
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 896
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -847,11 +847,11 @@ TextureImporter:
       name: Blonde_29
       rect:
         serializedVersion: 2
-        x: 938
-        y: 15
-        width: 13
-        height: 10
-      alignment: 0
+        x: 928
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -869,11 +869,11 @@ TextureImporter:
       name: Blonde_30
       rect:
         serializedVersion: 2
-        x: 970
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 960
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -891,11 +891,11 @@ TextureImporter:
       name: Blonde_31
       rect:
         serializedVersion: 2
-        x: 1002
-        y: 16
-        width: 13
-        height: 10
-      alignment: 0
+        x: 992
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 

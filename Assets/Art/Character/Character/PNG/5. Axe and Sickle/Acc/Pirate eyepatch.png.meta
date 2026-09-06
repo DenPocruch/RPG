@@ -56,6 +56,24 @@ TextureImporter:
   - first:
       213: 8435859340896564628
     second: Pirate eyepatch_17
+  - first:
+      213: 6572533333654250273
+    second: Pirate eyepatch_18
+  - first:
+      213: 9208876000916214444
+    second: Pirate eyepatch_19
+  - first:
+      213: -3568271849993488581
+    second: Pirate eyepatch_20
+  - first:
+      213: -1738931277006573147
+    second: Pirate eyepatch_21
+  - first:
+      213: -3018171413175192102
+    second: Pirate eyepatch_22
+  - first:
+      213: 1248390240338541303
+    second: Pirate eyepatch_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -88,7 +106,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -98,11 +116,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -126,7 +144,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -167,11 +185,11 @@ TextureImporter:
       name: Pirate eyepatch_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -189,11 +207,11 @@ TextureImporter:
       name: Pirate eyepatch_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 16
-        width: 9
-        height: 8
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -211,11 +229,11 @@ TextureImporter:
       name: Pirate eyepatch_2
       rect:
         serializedVersion: 2
-        x: 76
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -233,11 +251,11 @@ TextureImporter:
       name: Pirate eyepatch_3
       rect:
         serializedVersion: 2
-        x: 108
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -255,11 +273,11 @@ TextureImporter:
       name: Pirate eyepatch_4
       rect:
         serializedVersion: 2
-        x: 140
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -277,11 +295,11 @@ TextureImporter:
       name: Pirate eyepatch_5
       rect:
         serializedVersion: 2
-        x: 172
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -299,11 +317,11 @@ TextureImporter:
       name: Pirate eyepatch_6
       rect:
         serializedVersion: 2
-        x: 397
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -321,11 +339,11 @@ TextureImporter:
       name: Pirate eyepatch_7
       rect:
         serializedVersion: 2
-        x: 429
-        y: 16
-        width: 9
-        height: 8
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -343,11 +361,11 @@ TextureImporter:
       name: Pirate eyepatch_8
       rect:
         serializedVersion: 2
-        x: 460
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -365,11 +383,11 @@ TextureImporter:
       name: Pirate eyepatch_9
       rect:
         serializedVersion: 2
-        x: 492
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -387,11 +405,11 @@ TextureImporter:
       name: Pirate eyepatch_10
       rect:
         serializedVersion: 2
-        x: 524
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -409,11 +427,11 @@ TextureImporter:
       name: Pirate eyepatch_11
       rect:
         serializedVersion: 2
-        x: 555
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -431,11 +449,11 @@ TextureImporter:
       name: Pirate eyepatch_12
       rect:
         serializedVersion: 2
-        x: 587
-        y: 15
-        width: 9
-        height: 8
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -453,11 +471,11 @@ TextureImporter:
       name: Pirate eyepatch_13
       rect:
         serializedVersion: 2
-        x: 619
-        y: 16
-        width: 9
-        height: 8
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -475,11 +493,11 @@ TextureImporter:
       name: Pirate eyepatch_14
       rect:
         serializedVersion: 2
-        x: 650
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -497,11 +515,11 @@ TextureImporter:
       name: Pirate eyepatch_15
       rect:
         serializedVersion: 2
-        x: 682
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -519,11 +537,11 @@ TextureImporter:
       name: Pirate eyepatch_16
       rect:
         serializedVersion: 2
-        x: 714
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -541,11 +559,11 @@ TextureImporter:
       name: Pirate eyepatch_17
       rect:
         serializedVersion: 2
-        x: 747
-        y: 14
-        width: 11
-        height: 9
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -555,6 +573,138 @@ TextureImporter:
       bones: []
       spriteID: 495fc4d1061321570800000000000000
       internalID: 8435859340896564628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pirate eyepatch_18
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12320e28e34563b50800000000000000
+      internalID: 6572533333654250273
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pirate eyepatch_19
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca21b3f9eef7ccf70800000000000000
+      internalID: 9208876000916214444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pirate eyepatch_20
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b37bc1f68a3fa7ec0800000000000000
+      internalID: -3568271849993488581
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pirate eyepatch_21
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a1f43187331ed7e0800000000000000
+      internalID: -1738931277006573147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pirate eyepatch_22
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad53476371d4d16d0800000000000000
+      internalID: -3018171413175192102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pirate eyepatch_23
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7fa71703f4c235110800000000000000
+      internalID: 1248390240338541303
       vertices: []
       indices: 
       edges: []
@@ -583,7 +733,13 @@ TextureImporter:
       Pirate eyepatch_15: -5058409211597333912
       Pirate eyepatch_16: -3182146148143026411
       Pirate eyepatch_17: 8435859340896564628
+      Pirate eyepatch_18: 6572533333654250273
+      Pirate eyepatch_19: 9208876000916214444
       Pirate eyepatch_2: -3978122283478583575
+      Pirate eyepatch_20: -3568271849993488581
+      Pirate eyepatch_21: -1738931277006573147
+      Pirate eyepatch_22: -3018171413175192102
+      Pirate eyepatch_23: 1248390240338541303
       Pirate eyepatch_3: 3339865472086238480
       Pirate eyepatch_4: -8667862601460261298
       Pirate eyepatch_5: 4502850615273495842

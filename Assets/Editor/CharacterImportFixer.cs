@@ -65,8 +65,13 @@ public static class CharacterImportFixer
                 importer.spritePixelsToUnits = PPU;
                 importer.filterMode = FilterMode.Point;
                 importer.textureCompression = TextureImporterCompression.Uncompressed;
-                importer.spriteMeshType = SpriteMeshType.FullRect;
-                importer.spriteExtrude = 0;
+                // spriteMeshType/spriteExtrude — только через TextureImporterSettings
+                // (прямого API на TextureImporter нет, проверено по докам Unity 6)
+                var texSettings = new TextureImporterSettings();
+                importer.ReadTextureSettings(texSettings);
+                texSettings.spriteMeshType = SpriteMeshType.FullRect;
+                texSettings.spriteExtrude = 0;
+                importer.SetTextureSettings(texSettings);
                 importer.wrapMode = TextureWrapMode.Clamp;
                 importer.mipmapEnabled = false;
                 importer.sRGBTexture = true;

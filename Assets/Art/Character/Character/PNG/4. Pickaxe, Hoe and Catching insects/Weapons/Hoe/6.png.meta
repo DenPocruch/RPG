@@ -53,6 +53,27 @@ TextureImporter:
   - first:
       213: -755337768716430943
     second: 6_16
+  - first:
+      213: -5533006462685910801
+    second: 6_17
+  - first:
+      213: -5465840575609006351
+    second: 6_18
+  - first:
+      213: -6476347335761983709
+    second: 6_19
+  - first:
+      213: -4400707033769654136
+    second: 6_20
+  - first:
+      213: -6294263568043735178
+    second: 6_21
+  - first:
+      213: -4590863279018221228
+    second: 6_22
+  - first:
+      213: -1224057986642310971
+    second: 6_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -95,7 +116,7 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
@@ -164,11 +185,11 @@ TextureImporter:
       name: 6_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 8
-        width: 7
-        height: 9
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -186,11 +207,11 @@ TextureImporter:
       name: 6_1
       rect:
         serializedVersion: 2
-        x: 45
-        y: 13
-        width: 7
-        height: 15
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -208,11 +229,11 @@ TextureImporter:
       name: 6_2
       rect:
         serializedVersion: 2
-        x: 77
-        y: 6
-        width: 38
-        height: 21
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -230,11 +251,11 @@ TextureImporter:
       name: 6_3
       rect:
         serializedVersion: 2
-        x: 173
+        x: 96
         y: 0
-        width: 71
-        height: 28
-      alignment: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -252,11 +273,11 @@ TextureImporter:
       name: 6_4
       rect:
         serializedVersion: 2
-        x: 302
-        y: 11
-        width: 99
-        height: 21
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -274,11 +295,11 @@ TextureImporter:
       name: 6_5
       rect:
         serializedVersion: 2
-        x: 422
-        y: 17
-        width: 9
-        height: 9
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -296,11 +317,11 @@ TextureImporter:
       name: 6_6
       rect:
         serializedVersion: 2
-        x: 455
-        y: 15
-        width: 9
-        height: 9
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -318,11 +339,11 @@ TextureImporter:
       name: 6_7
       rect:
         serializedVersion: 2
-        x: 486
-        y: 8
-        width: 23
-        height: 14
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -340,11 +361,11 @@ TextureImporter:
       name: 6_8
       rect:
         serializedVersion: 2
-        x: 532
-        y: 8
-        width: 9
-        height: 9
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -362,11 +383,11 @@ TextureImporter:
       name: 6_9
       rect:
         serializedVersion: 2
-        x: 592
-        y: 11
-        width: 9
-        height: 9
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -384,11 +405,11 @@ TextureImporter:
       name: 6_10
       rect:
         serializedVersion: 2
-        x: 626
-        y: 17
-        width: 9
-        height: 9
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -406,11 +427,11 @@ TextureImporter:
       name: 6_11
       rect:
         serializedVersion: 2
-        x: 657
-        y: 15
-        width: 9
-        height: 9
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -428,11 +449,11 @@ TextureImporter:
       name: 6_12
       rect:
         serializedVersion: 2
-        x: 676
-        y: 8
-        width: 23
-        height: 14
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -450,11 +471,11 @@ TextureImporter:
       name: 6_13
       rect:
         serializedVersion: 2
-        x: 708
-        y: 8
-        width: 9
-        height: 9
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -472,11 +493,11 @@ TextureImporter:
       name: 6_14
       rect:
         serializedVersion: 2
-        x: 141
-        y: 3
-        width: 7
-        height: 13
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -494,11 +515,11 @@ TextureImporter:
       name: 6_15
       rect:
         serializedVersion: 2
-        x: 560
-        y: 2
-        width: 9
-        height: 9
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -516,11 +537,11 @@ TextureImporter:
       name: 6_16
       rect:
         serializedVersion: 2
-        x: 744
-        y: 2
-        width: 9
-        height: 9
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -530,6 +551,160 @@ TextureImporter:
       bones: []
       spriteID: 1a198322d408485f0800000000000000
       internalID: -755337768716430943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_17
+      rect:
+        serializedVersion: 2
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fe86aa3ffefc633b0800000000000000
+      internalID: -5533006462685910801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_18
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1f698eba4fe6524b0800000000000000
+      internalID: -5465840575609006351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_19
+      rect:
+        serializedVersion: 2
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3270cd949646f16a0800000000000000
+      internalID: -6476347335761983709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_20
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 888c89bc44c8de2c0800000000000000
+      internalID: -4400707033769654136
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_21
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 677021022a846a8a0800000000000000
+      internalID: -6294263568043735178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_22
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 451ebb1db2af940c0800000000000000
+      internalID: -4590863279018221228
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: 6_23
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c884b91fb5430fe0800000000000000
+      internalID: -1224057986642310971
       vertices: []
       indices: 
       edges: []
@@ -557,7 +732,14 @@ TextureImporter:
       6_14: -1429104992643050931
       6_15: -6780353597698120861
       6_16: -755337768716430943
+      6_17: -5533006462685910801
+      6_18: -5465840575609006351
+      6_19: -6476347335761983709
       6_2: -9091539399625358973
+      6_20: -4400707033769654136
+      6_21: -6294263568043735178
+      6_22: -4590863279018221228
+      6_23: -1224057986642310971
       6_3: 781045095500365311
       6_4: -5358480406590413813
       6_5: 6039802702475973591

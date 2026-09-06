@@ -14,6 +14,18 @@ TextureImporter:
   - first:
       213: -3962920276799938668
     second: Pink_3
+  - first:
+      213: 6815019005497079155
+    second: Pink_4
+  - first:
+      213: 4966520737234555678
+    second: Pink_5
+  - first:
+      213: -2993699658363159222
+    second: Pink_6
+  - first:
+      213: -4353293926914191365
+    second: Pink_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -56,11 +68,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +96,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,11 +137,11 @@ TextureImporter:
       name: Pink_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 17
-        width: 133
-        height: 10
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -147,11 +159,11 @@ TextureImporter:
       name: Pink_1
       rect:
         serializedVersion: 2
-        x: 167
-        y: 16
-        width: 9
-        height: 6
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -169,11 +181,11 @@ TextureImporter:
       name: Pink_2
       rect:
         serializedVersion: 2
-        x: 208
-        y: 17
-        width: 9
-        height: 6
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -191,11 +203,11 @@ TextureImporter:
       name: Pink_3
       rect:
         serializedVersion: 2
-        x: 240
-        y: 16
-        width: 9
-        height: 6
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -205,6 +217,94 @@ TextureImporter:
       bones: []
       spriteID: 49f95243101e009c0800000000000000
       internalID: -3962920276799938668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37570309dafc39e50800000000000000
+      internalID: 6815019005497079155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e131a78fb40ace440800000000000000
+      internalID: 4966520737234555678
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4d3e03a50e3476d0800000000000000
+      internalID: -2993699658363159222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pink_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bff0a6bfc3ef593c0800000000000000
+      internalID: -4353293926914191365
       vertices: []
       indices: 
       edges: []
@@ -227,6 +327,10 @@ TextureImporter:
       Pink_1: 139881317523503543
       Pink_2: -2698069653466453940
       Pink_3: -3962920276799938668
+      Pink_4: 6815019005497079155
+      Pink_5: 4966520737234555678
+      Pink_6: -2993699658363159222
+      Pink_7: -4353293926914191365
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

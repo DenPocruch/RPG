@@ -106,7 +106,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -116,11 +116,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -144,7 +144,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -185,11 +185,11 @@ TextureImporter:
       name: Green_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 7
-        width: 9
-        height: 8
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -207,11 +207,11 @@ TextureImporter:
       name: Green_1
       rect:
         serializedVersion: 2
-        x: 44
-        y: 7
-        width: 9
-        height: 9
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -229,11 +229,11 @@ TextureImporter:
       name: Green_2
       rect:
         serializedVersion: 2
-        x: 76
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -251,11 +251,11 @@ TextureImporter:
       name: Green_3
       rect:
         serializedVersion: 2
-        x: 108
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -273,11 +273,11 @@ TextureImporter:
       name: Green_4
       rect:
         serializedVersion: 2
-        x: 140
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -295,11 +295,11 @@ TextureImporter:
       name: Green_5
       rect:
         serializedVersion: 2
-        x: 172
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -317,11 +317,11 @@ TextureImporter:
       name: Green_6
       rect:
         serializedVersion: 2
-        x: 204
-        y: 7
-        width: 9
-        height: 8
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -339,11 +339,11 @@ TextureImporter:
       name: Green_7
       rect:
         serializedVersion: 2
-        x: 236
-        y: 7
-        width: 9
-        height: 9
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -361,11 +361,11 @@ TextureImporter:
       name: Green_8
       rect:
         serializedVersion: 2
-        x: 269
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -383,11 +383,11 @@ TextureImporter:
       name: Green_9
       rect:
         serializedVersion: 2
-        x: 301
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -405,11 +405,11 @@ TextureImporter:
       name: Green_10
       rect:
         serializedVersion: 2
-        x: 333
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -427,11 +427,11 @@ TextureImporter:
       name: Green_11
       rect:
         serializedVersion: 2
-        x: 365
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -449,11 +449,11 @@ TextureImporter:
       name: Green_12
       rect:
         serializedVersion: 2
-        x: 396
-        y: 7
-        width: 9
-        height: 8
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -471,11 +471,11 @@ TextureImporter:
       name: Green_13
       rect:
         serializedVersion: 2
-        x: 428
-        y: 7
-        width: 9
-        height: 9
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -493,11 +493,11 @@ TextureImporter:
       name: Green_14
       rect:
         serializedVersion: 2
-        x: 461
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -515,11 +515,11 @@ TextureImporter:
       name: Green_15
       rect:
         serializedVersion: 2
-        x: 493
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -537,11 +537,11 @@ TextureImporter:
       name: Green_16
       rect:
         serializedVersion: 2
-        x: 525
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -559,11 +559,11 @@ TextureImporter:
       name: Green_17
       rect:
         serializedVersion: 2
-        x: 557
-        y: 7
-        width: 7
-        height: 8
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -581,11 +581,11 @@ TextureImporter:
       name: Green_18
       rect:
         serializedVersion: 2
-        x: 588
-        y: 7
-        width: 9
-        height: 8
-      alignment: 0
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -603,11 +603,11 @@ TextureImporter:
       name: Green_19
       rect:
         serializedVersion: 2
-        x: 620
-        y: 7
-        width: 9
-        height: 9
-      alignment: 0
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -625,11 +625,11 @@ TextureImporter:
       name: Green_20
       rect:
         serializedVersion: 2
-        x: 652
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -647,11 +647,11 @@ TextureImporter:
       name: Green_21
       rect:
         serializedVersion: 2
-        x: 684
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -669,11 +669,11 @@ TextureImporter:
       name: Green_22
       rect:
         serializedVersion: 2
-        x: 716
-        y: 7
-        width: 8
-        height: 8
-      alignment: 0
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -691,11 +691,11 @@ TextureImporter:
       name: Green_23
       rect:
         serializedVersion: 2
-        x: 749
-        y: 7
-        width: 7
-        height: 8
-      alignment: 0
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 

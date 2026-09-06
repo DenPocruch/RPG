@@ -214,7 +214,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -224,11 +224,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -252,7 +252,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -293,11 +293,11 @@ TextureImporter:
       name: Brown_0
       rect:
         serializedVersion: 2
-        x: 10
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -315,11 +315,11 @@ TextureImporter:
       name: Brown_1
       rect:
         serializedVersion: 2
-        x: 42
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -337,11 +337,11 @@ TextureImporter:
       name: Brown_2
       rect:
         serializedVersion: 2
-        x: 74
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -359,11 +359,11 @@ TextureImporter:
       name: Brown_3
       rect:
         serializedVersion: 2
-        x: 106
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -381,11 +381,11 @@ TextureImporter:
       name: Brown_4
       rect:
         serializedVersion: 2
-        x: 138
-        y: 13
-        width: 13
-        height: 15
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -403,11 +403,11 @@ TextureImporter:
       name: Brown_5
       rect:
         serializedVersion: 2
-        x: 170
-        y: 13
-        width: 13
-        height: 15
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -425,11 +425,11 @@ TextureImporter:
       name: Brown_6
       rect:
         serializedVersion: 2
-        x: 202
-        y: 13
-        width: 13
-        height: 15
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -447,11 +447,11 @@ TextureImporter:
       name: Brown_7
       rect:
         serializedVersion: 2
-        x: 234
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -469,11 +469,11 @@ TextureImporter:
       name: Brown_8
       rect:
         serializedVersion: 2
-        x: 266
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -491,11 +491,11 @@ TextureImporter:
       name: Brown_9
       rect:
         serializedVersion: 2
-        x: 298
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -513,11 +513,11 @@ TextureImporter:
       name: Brown_10
       rect:
         serializedVersion: 2
-        x: 330
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -535,11 +535,11 @@ TextureImporter:
       name: Brown_11
       rect:
         serializedVersion: 2
-        x: 362
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -557,11 +557,11 @@ TextureImporter:
       name: Brown_12
       rect:
         serializedVersion: 2
-        x: 394
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -579,11 +579,11 @@ TextureImporter:
       name: Brown_13
       rect:
         serializedVersion: 2
-        x: 426
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -601,11 +601,11 @@ TextureImporter:
       name: Brown_14
       rect:
         serializedVersion: 2
-        x: 458
-        y: 14
-        width: 13
-        height: 15
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -623,11 +623,11 @@ TextureImporter:
       name: Brown_15
       rect:
         serializedVersion: 2
-        x: 490
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -645,11 +645,11 @@ TextureImporter:
       name: Brown_16
       rect:
         serializedVersion: 2
-        x: 522
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -667,11 +667,11 @@ TextureImporter:
       name: Brown_17
       rect:
         serializedVersion: 2
-        x: 554
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -689,11 +689,11 @@ TextureImporter:
       name: Brown_18
       rect:
         serializedVersion: 2
-        x: 586
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -711,11 +711,11 @@ TextureImporter:
       name: Brown_19
       rect:
         serializedVersion: 2
-        x: 618
-        y: 11
-        width: 13
-        height: 17
-      alignment: 0
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -733,11 +733,11 @@ TextureImporter:
       name: Brown_20
       rect:
         serializedVersion: 2
-        x: 650
-        y: 11
-        width: 13
-        height: 17
-      alignment: 0
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -755,11 +755,11 @@ TextureImporter:
       name: Brown_21
       rect:
         serializedVersion: 2
-        x: 682
-        y: 11
-        width: 13
-        height: 17
-      alignment: 0
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -777,11 +777,11 @@ TextureImporter:
       name: Brown_22
       rect:
         serializedVersion: 2
-        x: 714
-        y: 11
-        width: 13
-        height: 17
-      alignment: 0
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -799,11 +799,11 @@ TextureImporter:
       name: Brown_23
       rect:
         serializedVersion: 2
-        x: 746
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -821,11 +821,11 @@ TextureImporter:
       name: Brown_24
       rect:
         serializedVersion: 2
-        x: 778
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 768
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -843,11 +843,11 @@ TextureImporter:
       name: Brown_25
       rect:
         serializedVersion: 2
-        x: 810
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 800
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -865,11 +865,11 @@ TextureImporter:
       name: Brown_26
       rect:
         serializedVersion: 2
-        x: 842
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 832
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -887,11 +887,11 @@ TextureImporter:
       name: Brown_27
       rect:
         serializedVersion: 2
-        x: 874
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 864
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -909,11 +909,11 @@ TextureImporter:
       name: Brown_28
       rect:
         serializedVersion: 2
-        x: 906
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 896
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -931,11 +931,11 @@ TextureImporter:
       name: Brown_29
       rect:
         serializedVersion: 2
-        x: 938
-        y: 12
-        width: 13
-        height: 17
-      alignment: 0
+        x: 928
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -953,11 +953,11 @@ TextureImporter:
       name: Brown_30
       rect:
         serializedVersion: 2
-        x: 969
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 960
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -975,11 +975,11 @@ TextureImporter:
       name: Brown_31
       rect:
         serializedVersion: 2
-        x: 1001
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 992
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -997,11 +997,11 @@ TextureImporter:
       name: Brown_32
       rect:
         serializedVersion: 2
-        x: 1033
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1024
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1019,11 +1019,11 @@ TextureImporter:
       name: Brown_33
       rect:
         serializedVersion: 2
-        x: 1065
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1056
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1041,11 +1041,11 @@ TextureImporter:
       name: Brown_34
       rect:
         serializedVersion: 2
-        x: 1097
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1088
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1063,11 +1063,11 @@ TextureImporter:
       name: Brown_35
       rect:
         serializedVersion: 2
-        x: 1129
-        y: 11
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1120
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1085,11 +1085,11 @@ TextureImporter:
       name: Brown_36
       rect:
         serializedVersion: 2
-        x: 1161
-        y: 11
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1152
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1107,11 +1107,11 @@ TextureImporter:
       name: Brown_37
       rect:
         serializedVersion: 2
-        x: 1193
-        y: 11
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1184
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1129,11 +1129,11 @@ TextureImporter:
       name: Brown_38
       rect:
         serializedVersion: 2
-        x: 1225
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1216
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1151,11 +1151,11 @@ TextureImporter:
       name: Brown_39
       rect:
         serializedVersion: 2
-        x: 1257
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1248
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1173,11 +1173,11 @@ TextureImporter:
       name: Brown_40
       rect:
         serializedVersion: 2
-        x: 1289
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1280
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1195,11 +1195,11 @@ TextureImporter:
       name: Brown_41
       rect:
         serializedVersion: 2
-        x: 1321
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1312
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1217,11 +1217,11 @@ TextureImporter:
       name: Brown_42
       rect:
         serializedVersion: 2
-        x: 1353
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1344
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1239,11 +1239,11 @@ TextureImporter:
       name: Brown_43
       rect:
         serializedVersion: 2
-        x: 1385
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1376
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1261,11 +1261,11 @@ TextureImporter:
       name: Brown_44
       rect:
         serializedVersion: 2
-        x: 1417
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1408
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1283,11 +1283,11 @@ TextureImporter:
       name: Brown_45
       rect:
         serializedVersion: 2
-        x: 1450
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1440
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1305,11 +1305,11 @@ TextureImporter:
       name: Brown_46
       rect:
         serializedVersion: 2
-        x: 1482
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1472
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1327,11 +1327,11 @@ TextureImporter:
       name: Brown_47
       rect:
         serializedVersion: 2
-        x: 1514
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1504
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1349,11 +1349,11 @@ TextureImporter:
       name: Brown_48
       rect:
         serializedVersion: 2
-        x: 1546
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1536
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1371,11 +1371,11 @@ TextureImporter:
       name: Brown_49
       rect:
         serializedVersion: 2
-        x: 1578
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1568
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1393,11 +1393,11 @@ TextureImporter:
       name: Brown_50
       rect:
         serializedVersion: 2
-        x: 1610
-        y: 11
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1600
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1415,11 +1415,11 @@ TextureImporter:
       name: Brown_51
       rect:
         serializedVersion: 2
-        x: 1642
-        y: 11
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1632
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1437,11 +1437,11 @@ TextureImporter:
       name: Brown_52
       rect:
         serializedVersion: 2
-        x: 1674
-        y: 11
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1664
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1459,11 +1459,11 @@ TextureImporter:
       name: Brown_53
       rect:
         serializedVersion: 2
-        x: 1706
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1696
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1481,11 +1481,11 @@ TextureImporter:
       name: Brown_54
       rect:
         serializedVersion: 2
-        x: 1738
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1728
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1503,11 +1503,11 @@ TextureImporter:
       name: Brown_55
       rect:
         serializedVersion: 2
-        x: 1770
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1760
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1525,11 +1525,11 @@ TextureImporter:
       name: Brown_56
       rect:
         serializedVersion: 2
-        x: 1802
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1792
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1547,11 +1547,11 @@ TextureImporter:
       name: Brown_57
       rect:
         serializedVersion: 2
-        x: 1834
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1824
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1569,11 +1569,11 @@ TextureImporter:
       name: Brown_58
       rect:
         serializedVersion: 2
-        x: 1866
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1856
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -1591,11 +1591,11 @@ TextureImporter:
       name: Brown_59
       rect:
         serializedVersion: 2
-        x: 1898
-        y: 12
-        width: 14
-        height: 16
-      alignment: 0
+        x: 1888
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 

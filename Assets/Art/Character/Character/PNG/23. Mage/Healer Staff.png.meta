@@ -65,6 +65,15 @@ TextureImporter:
   - first:
       213: 787599136073086740
     second: Healer Staff_20
+  - first:
+      213: -2465753130473173774
+    second: Healer Staff_21
+  - first:
+      213: 7448423070790351796
+    second: Healer Staff_22
+  - first:
+      213: 1333669945852720915
+    second: Healer Staff_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -97,7 +106,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -107,11 +116,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -135,7 +144,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -176,11 +185,11 @@ TextureImporter:
       name: Healer Staff_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 5
-        width: 7
-        height: 17
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -198,11 +207,11 @@ TextureImporter:
       name: Healer Staff_1
       rect:
         serializedVersion: 2
-        x: 41
-        y: 6
-        width: 7
-        height: 17
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -220,11 +229,11 @@ TextureImporter:
       name: Healer Staff_2
       rect:
         serializedVersion: 2
-        x: 73
-        y: 7
-        width: 7
-        height: 17
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -242,11 +251,11 @@ TextureImporter:
       name: Healer Staff_3
       rect:
         serializedVersion: 2
-        x: 105
-        y: 7
-        width: 7
-        height: 17
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -264,11 +273,11 @@ TextureImporter:
       name: Healer Staff_4
       rect:
         serializedVersion: 2
-        x: 137
-        y: 7
-        width: 8
-        height: 19
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -286,11 +295,11 @@ TextureImporter:
       name: Healer Staff_5
       rect:
         serializedVersion: 2
-        x: 166
-        y: 7
-        width: 13
-        height: 21
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -308,11 +317,11 @@ TextureImporter:
       name: Healer Staff_6
       rect:
         serializedVersion: 2
-        x: 211
-        y: 5
-        width: 6
-        height: 17
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -330,11 +339,11 @@ TextureImporter:
       name: Healer Staff_7
       rect:
         serializedVersion: 2
-        x: 243
-        y: 6
-        width: 38
-        height: 18
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -352,11 +361,11 @@ TextureImporter:
       name: Healer Staff_8
       rect:
         serializedVersion: 2
-        x: 307
-        y: 7
-        width: 73
-        height: 21
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -374,11 +383,11 @@ TextureImporter:
       name: Healer Staff_9
       rect:
         serializedVersion: 2
-        x: 394
-        y: 5
-        width: 7
-        height: 17
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -396,11 +405,11 @@ TextureImporter:
       name: Healer Staff_10
       rect:
         serializedVersion: 2
-        x: 426
-        y: 6
-        width: 7
-        height: 17
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -418,11 +427,11 @@ TextureImporter:
       name: Healer Staff_11
       rect:
         serializedVersion: 2
-        x: 458
-        y: 7
-        width: 7
-        height: 17
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -440,11 +449,11 @@ TextureImporter:
       name: Healer Staff_12
       rect:
         serializedVersion: 2
-        x: 490
-        y: 7
-        width: 7
-        height: 17
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -462,11 +471,11 @@ TextureImporter:
       name: Healer Staff_13
       rect:
         serializedVersion: 2
-        x: 522
-        y: 7
-        width: 13
-        height: 19
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -484,11 +493,11 @@ TextureImporter:
       name: Healer Staff_14
       rect:
         serializedVersion: 2
-        x: 551
-        y: 7
-        width: 13
-        height: 21
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -506,11 +515,11 @@ TextureImporter:
       name: Healer Staff_15
       rect:
         serializedVersion: 2
-        x: 592
-        y: 5
-        width: 7
-        height: 17
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -528,11 +537,11 @@ TextureImporter:
       name: Healer Staff_16
       rect:
         serializedVersion: 2
-        x: 624
-        y: 6
-        width: 7
-        height: 17
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -550,11 +559,11 @@ TextureImporter:
       name: Healer Staff_17
       rect:
         serializedVersion: 2
-        x: 656
-        y: 7
-        width: 7
-        height: 17
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -572,11 +581,11 @@ TextureImporter:
       name: Healer Staff_18
       rect:
         serializedVersion: 2
-        x: 688
-        y: 7
-        width: 7
-        height: 17
-      alignment: 0
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -594,11 +603,11 @@ TextureImporter:
       name: Healer Staff_19
       rect:
         serializedVersion: 2
-        x: 714
-        y: 7
-        width: 13
-        height: 19
-      alignment: 0
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -616,11 +625,11 @@ TextureImporter:
       name: Healer Staff_20
       rect:
         serializedVersion: 2
-        x: 749
-        y: 7
-        width: 13
-        height: 21
-      alignment: 0
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -630,6 +639,72 @@ TextureImporter:
       bones: []
       spriteID: 4177a0bcd3d1eea00800000000000000
       internalID: 787599136073086740
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_21
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2fcc65a8792e7cdd0800000000000000
+      internalID: -2465753130473173774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_22
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4bb7847c15d1e5760800000000000000
+      internalID: 7448423070790351796
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Healer Staff_23
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3177a2aefb5228210800000000000000
+      internalID: 1333669945852720915
       vertices: []
       indices: 
       edges: []
@@ -662,6 +737,9 @@ TextureImporter:
       Healer Staff_19: -5620496009446878533
       Healer Staff_2: 3301455583819055894
       Healer Staff_20: 787599136073086740
+      Healer Staff_21: -2465753130473173774
+      Healer Staff_22: 7448423070790351796
+      Healer Staff_23: 1333669945852720915
       Healer Staff_3: 8390911203793460257
       Healer Staff_4: 6823234393313762086
       Healer Staff_5: -6331643120018421351

@@ -14,6 +14,30 @@ TextureImporter:
   - first:
       213: -4273265362979462100
     second: Santa hat_3
+  - first:
+      213: 5634620442908485576
+    second: Santa hat_4
+  - first:
+      213: 2778841003378341610
+    second: Santa hat_5
+  - first:
+      213: 4045612990121768410
+    second: Santa hat_6
+  - first:
+      213: 7903938047552622553
+    second: Santa hat_7
+  - first:
+      213: 6927619703253419555
+    second: Santa hat_8
+  - first:
+      213: -5936634523647067950
+    second: Santa hat_9
+  - first:
+      213: -8262443572958151001
+    second: Santa hat_10
+  - first:
+      213: -7575506150934248633
+    second: Santa hat_11
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +70,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -56,11 +80,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +108,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -125,11 +149,11 @@ TextureImporter:
       name: Santa hat_0
       rect:
         serializedVersion: 2
-        x: 74
-        y: 11
-        width: 16
-        height: 11
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -147,11 +171,11 @@ TextureImporter:
       name: Santa hat_1
       rect:
         serializedVersion: 2
-        x: 167
-        y: 11
-        width: 16
-        height: 11
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -169,11 +193,11 @@ TextureImporter:
       name: Santa hat_2
       rect:
         serializedVersion: 2
-        x: 263
-        y: 11
-        width: 16
-        height: 11
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -191,11 +215,11 @@ TextureImporter:
       name: Santa hat_3
       rect:
         serializedVersion: 2
-        x: 362
-        y: 11
-        width: 16
-        height: 11
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -205,6 +229,182 @@ TextureImporter:
       bones: []
       spriteID: c24e0a80bcf42b4c0800000000000000
       internalID: -4273265362979462100
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c7e6b77071323e40800000000000000
+      internalID: 5634620442908485576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae6f7ad6b2d609620800000000000000
+      internalID: 2778841003378341610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad5f9e67497e42830800000000000000
+      internalID: 4045612990121768410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9df811307cd60bd60800000000000000
+      internalID: 7903938047552622553
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 326ca6f7a69d32060800000000000000
+      internalID: 6927619703253419555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2d832b8ba56dc9da0800000000000000
+      internalID: -5936634523647067950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7aebe11c857e55d80800000000000000
+      internalID: -8262443572958151001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Santa hat_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 74307cfda456ed690800000000000000
+      internalID: -7575506150934248633
       vertices: []
       indices: 
       edges: []
@@ -225,8 +425,16 @@ TextureImporter:
     nameFileIdTable:
       Santa hat_0: -3405999711858381672
       Santa hat_1: 4909510498765782836
+      Santa hat_10: -8262443572958151001
+      Santa hat_11: -7575506150934248633
       Santa hat_2: 5117081812005086382
       Santa hat_3: -4273265362979462100
+      Santa hat_4: 5634620442908485576
+      Santa hat_5: 2778841003378341610
+      Santa hat_6: 4045612990121768410
+      Santa hat_7: 7903938047552622553
+      Santa hat_8: 6927619703253419555
+      Santa hat_9: -5936634523647067950
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

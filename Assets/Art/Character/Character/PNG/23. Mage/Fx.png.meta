@@ -62,6 +62,18 @@ TextureImporter:
   - first:
       213: -4619870811368791544
     second: Fx_19
+  - first:
+      213: 6567140131494312543
+    second: Fx_20
+  - first:
+      213: 9145266545989686736
+    second: Fx_21
+  - first:
+      213: -80318886806724026
+    second: Fx_22
+  - first:
+      213: -1655404201735625655
+    second: Fx_23
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -94,7 +106,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -104,11 +116,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -132,7 +144,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -173,11 +185,11 @@ TextureImporter:
       name: Fx_0
       rect:
         serializedVersion: 2
-        x: 100
-        y: 6
-        width: 21
-        height: 21
-      alignment: 0
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -195,11 +207,11 @@ TextureImporter:
       name: Fx_1
       rect:
         serializedVersion: 2
-        x: 132
-        y: 5
-        width: 22
-        height: 27
-      alignment: 0
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -217,11 +229,11 @@ TextureImporter:
       name: Fx_2
       rect:
         serializedVersion: 2
-        x: 163
-        y: 12
-        width: 22
-        height: 19
-      alignment: 0
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -239,11 +251,11 @@ TextureImporter:
       name: Fx_3
       rect:
         serializedVersion: 2
-        x: 164
-        y: 6
-        width: 7
-        height: 7
-      alignment: 0
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -261,11 +273,11 @@ TextureImporter:
       name: Fx_4
       rect:
         serializedVersion: 2
-        x: 179
-        y: 4
-        width: 7
-        height: 7
-      alignment: 0
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -283,11 +295,11 @@ TextureImporter:
       name: Fx_5
       rect:
         serializedVersion: 2
-        x: 292
-        y: 6
-        width: 21
-        height: 21
-      alignment: 0
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -305,11 +317,11 @@ TextureImporter:
       name: Fx_6
       rect:
         serializedVersion: 2
-        x: 324
-        y: 5
-        width: 22
-        height: 27
-      alignment: 0
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -327,11 +339,11 @@ TextureImporter:
       name: Fx_7
       rect:
         serializedVersion: 2
-        x: 355
-        y: 12
-        width: 22
-        height: 19
-      alignment: 0
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -349,11 +361,11 @@ TextureImporter:
       name: Fx_8
       rect:
         serializedVersion: 2
-        x: 356
-        y: 6
-        width: 7
-        height: 7
-      alignment: 0
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -371,11 +383,11 @@ TextureImporter:
       name: Fx_9
       rect:
         serializedVersion: 2
-        x: 371
-        y: 4
-        width: 7
-        height: 7
-      alignment: 0
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -393,11 +405,11 @@ TextureImporter:
       name: Fx_10
       rect:
         serializedVersion: 2
-        x: 484
-        y: 6
-        width: 21
-        height: 21
-      alignment: 0
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -415,11 +427,11 @@ TextureImporter:
       name: Fx_11
       rect:
         serializedVersion: 2
-        x: 516
-        y: 5
-        width: 22
-        height: 27
-      alignment: 0
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -437,11 +449,11 @@ TextureImporter:
       name: Fx_12
       rect:
         serializedVersion: 2
-        x: 547
-        y: 12
-        width: 22
-        height: 19
-      alignment: 0
+        x: 384
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -459,11 +471,11 @@ TextureImporter:
       name: Fx_13
       rect:
         serializedVersion: 2
-        x: 548
-        y: 6
-        width: 7
-        height: 7
-      alignment: 0
+        x: 416
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -481,11 +493,11 @@ TextureImporter:
       name: Fx_14
       rect:
         serializedVersion: 2
-        x: 563
-        y: 4
-        width: 7
-        height: 7
-      alignment: 0
+        x: 448
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -503,11 +515,11 @@ TextureImporter:
       name: Fx_15
       rect:
         serializedVersion: 2
-        x: 680
-        y: 6
-        width: 21
-        height: 21
-      alignment: 0
+        x: 480
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -525,11 +537,11 @@ TextureImporter:
       name: Fx_16
       rect:
         serializedVersion: 2
-        x: 711
-        y: 5
-        width: 22
-        height: 27
-      alignment: 0
+        x: 512
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -547,11 +559,11 @@ TextureImporter:
       name: Fx_17
       rect:
         serializedVersion: 2
-        x: 743
-        y: 4
-        width: 7
-        height: 7
-      alignment: 0
+        x: 544
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -569,11 +581,11 @@ TextureImporter:
       name: Fx_18
       rect:
         serializedVersion: 2
-        x: 744
-        y: 12
-        width: 22
-        height: 19
-      alignment: 0
+        x: 576
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -591,11 +603,11 @@ TextureImporter:
       name: Fx_19
       rect:
         serializedVersion: 2
-        x: 758
-        y: 6
-        width: 7
-        height: 7
-      alignment: 0
+        x: 608
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
@@ -605,6 +617,94 @@ TextureImporter:
       bones: []
       spriteID: 802ea2469fbe2efb0800000000000000
       internalID: -4619870811368791544
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fx_20
+      rect:
+        serializedVersion: 2
+        x: 640
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f5a3ee7c72b232b50800000000000000
+      internalID: 6567140131494312543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fx_21
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0d59af948738aee70800000000000000
+      internalID: 9145266545989686736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fx_22
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6426123e566a2eef0800000000000000
+      internalID: -80318886806724026
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fx_23
+      rect:
+        serializedVersion: 2
+        x: 736
+        y: 0
+        width: 32
+        height: 32
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 944ebd336a2d609e0800000000000000
+      internalID: -1655404201735625655
       vertices: []
       indices: 
       edges: []
@@ -636,6 +736,10 @@ TextureImporter:
       Fx_18: 5818941067870445469
       Fx_19: -4619870811368791544
       Fx_2: 3672501552335719866
+      Fx_20: 6567140131494312543
+      Fx_21: 9145266545989686736
+      Fx_22: -80318886806724026
+      Fx_23: -1655404201735625655
       Fx_3: -2951584615803150260
       Fx_4: -4669625126791405345
       Fx_5: 7676477496101642890
