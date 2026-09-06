@@ -138,11 +138,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 63
-        width: 17
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 80
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -160,11 +160,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 63
-        width: 17
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 80
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -182,11 +182,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 63
-        width: 17
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 80
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -204,11 +204,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 63
+        y: 80
         width: 16
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -225,12 +225,12 @@ TextureImporter:
       name: Beach Exterior_4
       rect:
         serializedVersion: 2
-        x: 8
-        y: 37
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 64
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -247,12 +247,12 @@ TextureImporter:
       name: Beach Exterior_5
       rect:
         serializedVersion: 2
-        x: 40
-        y: 37
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 16
+        y: 64
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -269,12 +269,12 @@ TextureImporter:
       name: Beach Exterior_6
       rect:
         serializedVersion: 2
-        x: 8
-        y: 5
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 64
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -291,12 +291,12 @@ TextureImporter:
       name: Beach Exterior_7
       rect:
         serializedVersion: 2
-        x: 40
-        y: 5
-        width: 17
-        height: 20
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 48
+        y: 64
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -309,11 +309,99 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Beach Exterior_8
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 38
+        width: 15
+        height: 18
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 051dd521cad6fba4b935e5d41a20e537
+      internalID: 856286474
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beach Exterior_10
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 38
+        width: 15
+        height: 18
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c54d86d5205e6f1478dce6cf7ac22ff7
+      internalID: 720642618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beach Exterior_16
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 6
+        width: 15
+        height: 18
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 546c19006f038134eb946d3a5233fb33
+      internalID: 1436172948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Beach Exterior_18
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 6
+        width: 15
+        height: 18
+      alignment: 9
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fb5d65e2c87d4c469bb4b1b887d2556
+      internalID: -298690140
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 37a7dfbd309226a469d262c5ddb0c54c
     internalID: 0
     vertices: []
     indices: 
@@ -325,12 +413,28 @@ TextureImporter:
     nameFileIdTable:
       Beach Exterior_0: -2642594726881246619
       Beach Exterior_1: -4393666861257273428
+      Beach Exterior_10: 720642618
+      Beach Exterior_11: 1661587713
+      Beach Exterior_12: -2060220624
+      Beach Exterior_13: 1043668937
+      Beach Exterior_14: 412407538
+      Beach Exterior_15: -1049166995
+      Beach Exterior_16: 1436172948
+      Beach Exterior_17: -227724194
+      Beach Exterior_18: -298690140
+      Beach Exterior_19: 1090130793
       Beach Exterior_2: -6855814021562089660
+      Beach Exterior_20: -1542818253
+      Beach Exterior_21: 994723003
+      Beach Exterior_22: -640617214
+      Beach Exterior_23: 2068992591
       Beach Exterior_3: 2779532038639143801
       Beach Exterior_4: 89329396529826718
       Beach Exterior_5: 6031721951838829846
       Beach Exterior_6: 1339196639244577487
       Beach Exterior_7: 786214138290763017
+      Beach Exterior_8: 856286474
+      Beach Exterior_9: -657763227
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
