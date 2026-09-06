@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: FishNode_Rod_Gold
+  m_EditorClassIdentifier: 
+  nodeName: "\u0417\u043E\u043B\u043E\u0442\u0430\u044F \u0443\u0434\u043E\u0447\u043A\u0430"
+  description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435:
+    \u0417\u043E\u043B\u043E\u0442\u0430\u044F \u0443\u0434\u043E\u0447\u043A\u0430.
+    \u0411\u0435\u0437 \u043F\u0435\u0440\u043A\u0430 \u0443 \u0442\u043E\u0440\u0433\u043E\u0432\u0446\u0430
+    \u0442\u043E\u043B\u044C\u043A\u043E \u0434\u0435\u0440\u0435\u0432\u044F\u043D\u043D\u0430\u044F."
+  icon: {fileID: -2858176563081021727, guid: 954c9121dfa924e4d852672337606594, type: 3}
+  branch: 4
+  requiredLevel: 15
+  skillPointsCost: 7
+  goldCost: 0
+  requiredNodes:
+  - {fileID: 11400000, guid: d734c97a65d97e049a6256b6ee85b805, type: 2}
+  maxRanks: 1
+  rankCostMultiplier: 1
+  rankPointCosts: 
+  effectType: 10
+  effectValue: 0
+  unlocksItem: {fileID: 11400000, guid: 8f2d3b3a13b5bd444b937f3540c5a734, type: 2}
+  unlocksFeature: fish_rod_Gold

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: FishNode_Hook_Iron_II
+  m_EditorClassIdentifier: 
+  nodeName: "\u0416\u0435\u043B\u0435\u0437\u043D\u044B\u0439 \u043A\u0440\u044E\u0447\u043E\u043A
+    II"
+  description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435:
+    \u0416\u0435\u043B\u0435\u0437\u043D\u044B\u0439 \u043A\u0440\u044E\u0447\u043E\u043A
+    II (5\u201320 \u043A\u0433)."
+  icon: {fileID: 8761367711321917771, guid: 19c358a28a62d074c9c31e227e5dac98, type: 3}
+  branch: 4
+  requiredLevel: 19
+  skillPointsCost: 1
+  goldCost: 0
+  requiredNodes:
+  - {fileID: 11400000, guid: acce27d0edad3e8488d220ea11023492, type: 2}
+  maxRanks: 1
+  rankCostMultiplier: 1
+  rankPointCosts: 
+  effectType: 10
+  effectValue: 0
+  unlocksItem: {fileID: 11400000, guid: b2635b50795aad04081daa08494ec70e, type: 2}
+  unlocksFeature: fish_hook_Iron_II

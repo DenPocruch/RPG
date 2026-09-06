@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: FishNode_Hook_Ruby_I
+  m_EditorClassIdentifier: 
+  nodeName: "\u0420\u0443\u0431\u0438\u043D\u043E\u0432\u044B\u0439 \u043A\u0440\u044E\u0447\u043E\u043A
+    I"
+  description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435:
+    \u0420\u0443\u0431\u0438\u043D\u043E\u0432\u044B\u0439 \u043A\u0440\u044E\u0447\u043E\u043A
+    I (8\u201330 \u043A\u0433)."
+  icon: {fileID: 1530294201, guid: 19c358a28a62d074c9c31e227e5dac98, type: 3}
+  branch: 4
+  requiredLevel: 21
+  skillPointsCost: 1
+  goldCost: 0
+  requiredNodes:
+  - {fileID: 11400000, guid: 694fc913e53efac4fbc8ead5aad6961a, type: 2}
+  maxRanks: 1
+  rankCostMultiplier: 1
+  rankPointCosts: 
+  effectType: 10
+  effectValue: 0
+  unlocksItem: {fileID: 11400000, guid: 279fc727f184cf04192b462e03e3ee09, type: 2}
+  unlocksFeature: fish_hook_Ruby_I

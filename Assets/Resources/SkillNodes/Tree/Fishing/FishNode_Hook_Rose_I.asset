@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db67f6fdfe992c544bfb9738d9d6adc3, type: 3}
+  m_Name: FishNode_Hook_Rose_I
+  m_EditorClassIdentifier: 
+  nodeName: "\u041A\u0440\u044E\u0447\u043E\u043A \u0440\u043E\u0437\u043E\u0432\u043E\u0433\u043E
+    \u043A\u0432\u0430\u0440\u0446\u0430 I"
+  description: "\u041E\u0442\u043A\u0440\u044B\u0432\u0430\u0435\u0442 \u0432 \u043C\u0430\u0433\u0430\u0437\u0438\u043D\u0435:
+    \u041A\u0440\u044E\u0447\u043E\u043A \u0440\u043E\u0437\u043E\u0432\u043E\u0433\u043E
+    \u043A\u0432\u0430\u0440\u0446\u0430 I (50\u2013170 \u043A\u0433)."
+  icon: {fileID: 188951939, guid: 19c358a28a62d074c9c31e227e5dac98, type: 3}
+  branch: 4
+  requiredLevel: 33
+  skillPointsCost: 1
+  goldCost: 0
+  requiredNodes:
+  - {fileID: 11400000, guid: 6a1aa66679f77f840b1badfeaacdfa2d, type: 2}
+  maxRanks: 1
+  rankCostMultiplier: 1
+  rankPointCosts: 
+  effectType: 10
+  effectValue: 0
+  unlocksItem: {fileID: 11400000, guid: 9a124d1a8cfe001429fbe1eac824aee4, type: 2}
+  unlocksFeature: fish_hook_Rose_I

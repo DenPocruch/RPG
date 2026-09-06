@@ -23,6 +23,8 @@ public class SkillNode : ScriptableObject
     [Header("Система рангов")]
     public int maxRanks = 1;    // макс количество прокачек (1 = нет рангов)
     public float rankCostMultiplier = 1.5f; // множитель стоимости за каждый ранг
+    [Tooltip("Цена в очках за каждый ранг (индекс = текущий ранг). Если задано — множитель игнорируется")]
+    public int[] rankPointCosts; // напр. {1,2,3,4,5} для перков веса удочек
 
     [Header("Эффект узла")]
     public SkillEffectType effectType = SkillEffectType.None;
@@ -38,6 +40,8 @@ public class SkillNode : ScriptableObject
     // Стоимость для следующего ранга
     public int GetSkillPointsCost(int currentRank)
     {
+        if (rankPointCosts != null && currentRank >= 0 && currentRank < rankPointCosts.Length)
+            return Mathf.Max(0, rankPointCosts[currentRank]);
         return Mathf.RoundToInt(skillPointsCost * Mathf.Pow(rankCostMultiplier, currentRank));
     }
 
@@ -103,6 +107,8 @@ public class SkillNode : ScriptableObject
                 return "-" + val + "с к времени переработки";
             case SkillEffectType.IncreaseStorageCapacity:
                 return "+" + (int)val + " мест на складе мастерской";
+            case SkillEffectType.FishingRodWeight:
+                return "+" + (val * 100f).ToString("0") + "% к макс. весу улова удочки";
         }
         return "";
     }
@@ -148,4 +154,5 @@ public enum SkillEffectType
     PurpleQualityBonus,  // +% шанс пурпурного урожая
     BonusAccuracy,       // +Точность (срезает уворот врагов)
     BonusPenetration,    // +Пробитие (игнорирует защиту врагов)
+    FishingRodWeight,    // +% к макс. весу улова удочки (ветка Fishing)
 }

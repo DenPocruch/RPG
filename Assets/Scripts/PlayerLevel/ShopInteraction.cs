@@ -60,7 +60,22 @@ public class ShopInteraction : MonoBehaviour, IInteractable
             });
             added = true;
         }
-        // Крючки — кодом, без перков (видны сразу). Ассетов нет (билд не запускали) — молча пропускаем
+        // Удочки — за перками ветки Fishing: дерево свободно (подарок Морека),
+        // медь+ только после разблокировки (fish_rod_*). Тег обновляем и у уже
+        // добавленных товаров (раньше удочки лежали с пустым тегом).
+        foreach (string rodName in new[] {
+            "WoodRod_Common", "CopperRod_Common", "IronRod_Common",
+            "GoldRod_Common", "PlatinumRod_Common", "ObsidianRod_Common" })
+        {
+            string rodTag = rodName.StartsWith("Wood") ? "" : "fish_rod_" + rodName.Substring(0, rodName.IndexOf("Rod_"));
+            ShopManager.ShopItem existingRod = list.Find(si => si != null && si.item != null && si.item.name == rodName);
+            if (existingRod != null)
+            {
+                if (existingRod.unlockTag != rodTag) { existingRod.unlockTag = rodTag; added = true; }
+            }
+        }
+        // Крючки — кодом, за перками ветки Fishing (fish_hook_*).
+        // Тег обновляем и у уже добавленных товаров (миграция со старых сейвов сцены).
         foreach (string hookName in new[] {
             "Hook_Copper_I", "Hook_Copper_II",
             "Hook_Silver_I", "Hook_Silver_II",
@@ -72,14 +87,20 @@ public class ShopInteraction : MonoBehaviour, IInteractable
             "Hook_Rose_I", "Hook_Rose_II",
             "Hook_Obsidian_I", "Hook_Obsidian_II" })
         {
-            if (list.Exists(si => si != null && si.item != null && si.item.name == hookName)) continue;
+            string hookTag = "fish_hook_" + hookName.Substring("Hook_".Length);
+            ShopManager.ShopItem existing = list.Find(si => si != null && si.item != null && si.item.name == hookName);
+            if (existing != null)
+            {
+                if (existing.unlockTag != hookTag) { existing.unlockTag = hookTag; added = true; }
+                continue;
+            }
             ItemData hook = ItemDatabase.Find(hookName);
-            if (hook == null) continue;
+            if (hook == null) continue; // ассетов нет (билд не запускали) — молча пропускаем
             list.Add(new ShopManager.ShopItem
             {
                 item = hook,
                 price = hook.shopPrice > 0 ? hook.shopPrice : 100,
-                unlockTag = ""
+                unlockTag = hookTag
             });
             added = true;
         }

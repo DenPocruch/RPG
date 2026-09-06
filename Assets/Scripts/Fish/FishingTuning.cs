@@ -119,12 +119,30 @@ public class FishingTuning : ScriptableObject
         }
     }
 
-    /// <summary>Лимит веса (кг) для тира удочки 1-6. Нет в таблице — без лимита.</summary>
+    /// <summary>Лимит веса (кг) для тира удочки 1-6. Нет в таблице — без лимита.
+    /// Умножается на перки ветки Fishing (fish_rod_&lt;Тир&gt;_w, +20% за узел).</summary>
     public float RodLimitKg(int rodTier)
     {
         if (rodMaxKgByTier == null || rodMaxKgByTier.Length == 0) return float.MaxValue;
         int i = Mathf.Clamp(rodTier - 1, 0, rodMaxKgByTier.Length - 1);
         float v = rodMaxKgByTier[i];
-        return v > 0f ? v : float.MaxValue;
+        if (v <= 0f) return float.MaxValue;
+        if (SkillTreeManager.Instance != null)
+            v *= SkillTreeManager.Instance.GetRodWeightMult(RodTierId(rodTier));
+        return v;
+    }
+
+    /// <summary>Тир удочки (toolTier 1-6) → id тира для тегов перков.</summary>
+    public static string RodTierId(int rodTier)
+    {
+        switch (rodTier)
+        {
+            case 1: return "Wood";
+            case 2: return "Copper";
+            case 3: return "Iron";
+            case 4: return "Gold";
+            case 5: return "Platinum";
+            default: return "Obsidian";
+        }
     }
 }

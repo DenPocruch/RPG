@@ -57,7 +57,10 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
             // Перки экипировки (equip_*) — тот же рантайм-фолбэк: работают даже
             // если их ещё не добавили в allNodes в инспекторе
             bool isEquip = !string.IsNullOrEmpty(n.unlocksFeature) && n.unlocksFeature.StartsWith("equip_");
-            if ((isFarm || isEquip) && !existing.Contains(n.unlocksFeature))
+            // Перки рыбалки (fish_*) — удочки/крючки/вес: тот же фолбэк,
+            // иначе магазин не увидит теги разблокировки
+            bool isFish = !string.IsNullOrEmpty(n.unlocksFeature) && n.unlocksFeature.StartsWith("fish_");
+            if ((isFarm || isEquip || isFish) && !existing.Contains(n.unlocksFeature))
                 missing.Add(n);
         }
 
@@ -258,6 +261,9 @@ public class SkillTreeManager : MonoBehaviour, ISaveable
                 break;
             case SkillEffectType.GoldBonus:
                 Debug.Log("[SkillTree] Бонус золота +" + (node.effectValue * 100f) + "%");
+                break;
+            case SkillEffectType.FishingRodWeight:
+                Debug.Log("[SkillTree] Вес улова удочки +" + (node.effectValue * 100f) + "% (" + node.unlocksFeature + ")");
                 break;
         }
     }
@@ -509,5 +515,22 @@ public bool IsNodeUnlockedByFeature(string feature)
             if (kvp.Value > 0 && kvp.Key.effectType == SkillEffectType.IncreaseStorageCapacity)
                 total += (int)(kvp.Key.effectValue * kvp.Value);
         return total;
+    }
+
+    /// <summary>Множитель макс. веса улова удочки тира (1.2 = +20%).
+    /// Один перк fish_rod_&lt;Тир&gt;_w на 5 рангов (+20% за ранг).</summary>
+    public float GetRodWeightMult(string tierId)
+    {
+        if (string.IsNullOrEmpty(tierId) || Instance == null) return 1f;
+        string prefix = "fish_rod_" + tierId + "_w";
+        float bonus = 0f;
+        foreach (var kvp in nodeRanks)
+        {
+            if (kvp.Value <= 0 || kvp.Key == null) continue;
+            if (kvp.Key.effectType != SkillEffectType.FishingRodWeight) continue;
+            if (!string.IsNullOrEmpty(kvp.Key.unlocksFeature) && kvp.Key.unlocksFeature.StartsWith(prefix))
+                bonus += kvp.Key.effectValue * kvp.Value;
+        }
+        return 1f + bonus;
     }
 }
