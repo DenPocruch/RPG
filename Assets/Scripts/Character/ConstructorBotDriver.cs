@@ -27,7 +27,7 @@ public class ConstructorBotDriver : MonoBehaviour
                 testActions.Add(a.actionName);
         if (testActions.Count == 0)
             testActions.Add(lastTest);
-        Debug.Log("[Bot] WASD ходить | Space повторить | T след. анимация (" + testActions.Count + ") | Z/X/C/V/B/G слои | J эффекты | I инфо | P пауза | -/+ скорость | ,/. кадр");
+        Debug.Log("[Bot] WASD ходить | Space повторить | T след. анимация (" + testActions.Count + ") | Z/X/C/V/B/G слои | N борода | M уши | J эффекты | I инфо | P пауза | -/+ скорость | ,/. кадр");
     }
 
     void Update()
@@ -93,6 +93,8 @@ public class ConstructorBotDriver : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C)) Cycle("Clothers");
         if (Input.GetKeyDown(KeyCode.V)) Cycle("Hair's");
         if (Input.GetKeyDown(KeyCode.B)) Cycle("Acc");
+        if (Input.GetKeyDown(KeyCode.N)) Cycle("Beard");
+        if (Input.GetKeyDown(KeyCode.M)) Cycle("Elf");
         if (Input.GetKeyDown(KeyCode.G)) Cycle("Weapons");
         if (Input.GetKeyDown(KeyCode.J)) Cycle("FX");
         if (Input.GetKeyDown(KeyCode.I)) Debug.Log("[Bot] " + visual.GetDebugInfo());

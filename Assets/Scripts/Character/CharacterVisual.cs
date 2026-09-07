@@ -46,6 +46,8 @@ public class CharacterVisual : MonoBehaviour
     public float playbackSpeed = 1f;
     [Header("Выбор внешности")]
     public List<CategoryChoice> choices = new List<CategoryChoice>();
+    [Header("Категории скрытые по умолчанию (борода/уши/питомец/шапка)")]
+    public List<string> defaultHiddenCategories = new List<string> { "Beard", "Elf", "Butterfly", "Acc" };
 
     CharacterAction currentAction;
     CharDir dir = CharDir.Down;
@@ -150,6 +152,13 @@ public class CharacterVisual : MonoBehaviour
             SetDirection(v.x > 0 ? CharDir.Right : CharDir.Left);
         else
             SetDirection(v.y > 0 ? CharDir.Up : CharDir.Down);
+    }
+
+    /// <summary>Текущий вариант категории ("" = скрыт/нет).</summary>
+    public string GetVariant(string category)
+    {
+        if (string.IsNullOrEmpty(category)) return "";
+        return selection.ContainsKey(category) ? selection[category] : "";
     }
 
     public void SetVariant(string category, string variant)
@@ -262,12 +271,38 @@ public class CharacterVisual : MonoBehaviour
             }
         foreach (var kv in all)
             foreach (var catName in kv.Value)
+            {
+                if (IsHiddenByDefault(catName))
+                {
+                    selection[catName] = "";
+                    if (!HasChoice(catName))
+                        choices.Add(new CategoryChoice { category = catName, variant = "" });
+                    continue;
+                }
                 if (!selection.ContainsKey(catName) || string.IsNullOrEmpty(selection[catName]))
                 {
                     string first = FirstVariantAnywhere(catName);
                     selection[catName] = first ?? "";
-                    choices.Add(new CategoryChoice { category = catName, variant = first ?? "" });
+                    if (!HasChoice(catName))
+                        choices.Add(new CategoryChoice { category = catName, variant = first ?? "" });
                 }
+            }
+    }
+
+    bool HasChoice(string category)
+    {
+        foreach (var c in choices)
+            if (string.Equals(c.category, category, StringComparison.OrdinalIgnoreCase))
+                return true;
+        return false;
+    }
+
+    bool IsHiddenByDefault(string category)
+    {
+        foreach (var h in defaultHiddenCategories)
+            if (string.Equals(h, category, StringComparison.OrdinalIgnoreCase))
+                return true;
+        return false;
     }
 
     string FirstVariantAnywhere(string category)

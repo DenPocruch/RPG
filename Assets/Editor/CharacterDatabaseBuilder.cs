@@ -77,7 +77,7 @@ public static class CharacterDatabaseBuilder
     {
         "Horse", "Bicycle", "Bear", "Bed",
         "Skins", "Elf", "Clothers", "Eyes", "Beard", "Hair", "Hair's",
-        "Acc", "Weapons", "Box", "FX"
+        "Acc", "Butterfly", "Weapons", "Box", "FX"
     };
 
     static int RenderOrderOf(string category)
@@ -152,6 +152,12 @@ public static class CharacterDatabaseBuilder
                 string assetPath = png.Replace('\\', '/');
                 string variantName = assetPath.Substring(baseDirFwd.Length + 1);
                 variantName = variantName.Substring(0, variantName.Length - 4); // без .png
+                variantName = variantName.Trim();
+                // Мусор слоёв-тайлмапов из Aseprite — не тянем
+                if (variantName.StartsWith("Bloco de mapa")) return;
+                // Очепятки автора: тот же предмет ("Leprechaun " с хвостовым пробелом,
+                // "Pirate eyepatch" одним словом) — сводим к каноническому имени
+                if (variantName == "Pirate eyepatch") variantName = "pirate eye patch";
                 Object[] reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(assetPath);
                 var sprites = new List<Sprite>();
                 foreach (var o in reps)
@@ -193,7 +199,20 @@ public static class CharacterDatabaseBuilder
                     // взаимоисключают удочку/лук
                     string rel = png.Replace('\\', '/').Substring(catDirFwd.Length + 1);
                     string catName = (rawCat == "Weapons" && IsFx(rel)) ? "FX" : rawCat;
-                    AddFile(catName, catDirFwd, png);
+                    string baseFwd = catDirFwd;
+                    // Acc делим по подпапкам: Beard/Elf/Butterfly — отдельные комбинируемые слои,
+                    // иначе борода XOR шапка XOR уши (а в арте они независимы)
+                    if (rawCat == "Acc")
+                    {
+                        int slash = rel.IndexOf('/');
+                        if (slash > 0)
+                        {
+                            string sub = rel.Substring(0, slash);
+                            catName = sub;
+                            baseFwd = catDirFwd + "/" + sub;
+                        }
+                    }
+                    AddFile(catName, baseFwd, png);
                 }
             }
             // PNG прямо в папке действия: FX → слой FX, пропс (Flute, Healer Staff) →
