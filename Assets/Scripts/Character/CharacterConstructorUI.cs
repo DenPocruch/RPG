@@ -66,6 +66,13 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     [Serializable] class Entry { public string key; public string value; }
     [Serializable] class Blob { public List<Entry> entries = new List<Entry>(); }
 
+    /// <summary>Сохранённый выбор внешности (копия). Смена выбора — событие OnAppearanceSaved.</summary>
+    public Dictionary<string, string> GetSavedSelection()
+    {
+        return new Dictionary<string, string>(savedSelection, StringComparer.OrdinalIgnoreCase);
+    }
+    public static event Action OnAppearanceSaved;
+
     readonly List<RowUI> rows = new List<RowUI>();
     readonly Dictionary<string, string> savedSelection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
@@ -171,6 +178,7 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         {
             SaveBotSelection();
             if (SaveManager.Instance != null) SaveManager.Instance.Save();
+            if (OnAppearanceSaved != null) OnAppearanceSaved.Invoke();
         }
         // Бота НЕ удаляем — следующее открытие мгновенное
         if (lockedMovement != null) { lockedMovement.enabled = true; lockedMovement = null; }

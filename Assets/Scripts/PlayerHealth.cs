@@ -85,6 +85,14 @@ public class PlayerHealth : MonoBehaviour
 
     IEnumerator FlashRed()
     {
+        PlayerVisualDriver driver = GetComponent<PlayerVisualDriver>();
+        if (driver != null)
+        {
+            driver.SetTint(Color.red);
+            yield return new WaitForSeconds(0.15f);
+            driver.SetTint(Color.white);
+            yield break;
+        }
         if (spriteRenderer != null)
             spriteRenderer.color = Color.red;
         yield return new WaitForSeconds(0.15f);
@@ -102,6 +110,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (animator != null)
             animator.SetTrigger("Death");
+        PlayerVisualDriver driver = GetComponent<PlayerVisualDriver>();
+        if (driver != null) driver.PlayDeath();
 
         StartCoroutine(RespawnCoroutine());
     }
@@ -114,7 +124,6 @@ public class PlayerHealth : MonoBehaviour
             spriteRenderer.enabled = false;
 
         yield return new WaitForSeconds(respawnDelay);
-
         transform.position = spawnPosition;
         currentHealth = maxHealth;
         isDead = false;
@@ -127,8 +136,11 @@ public class PlayerHealth : MonoBehaviour
             animator.SetFloat("LastMoveY", -1f);
             animator.Play("Idle", 0, 0f);
         }
+        PlayerVisualDriver reviveDriver = GetComponent<PlayerVisualDriver>();
+        if (reviveDriver != null) reviveDriver.Revive();
 
-        if (spriteRenderer != null)
+        // Старый спрайт включаем только без код-визуала (иначе будет «два персонажа»)
+        if (spriteRenderer != null && GetComponent<PlayerVisualDriver>() == null)
             spriteRenderer.enabled = true;
 
         if (movement != null)

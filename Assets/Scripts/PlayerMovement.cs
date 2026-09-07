@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator animator;
     private FarmInteraction farmInteraction;
+    private PlayerVisualDriver visualDriver;
     private Vector2 movement;
 
     private float lastMoveX = 0f;
@@ -79,6 +80,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         farmInteraction = GetComponent<FarmInteraction>();
+        visualDriver = GetComponent<PlayerVisualDriver>();
+        if (visualDriver == null) visualDriver = gameObject.AddComponent<PlayerVisualDriver>();
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
     }
@@ -324,6 +327,7 @@ public class PlayerMovement : MonoBehaviour
     {
         isAttacking = true;
         animator.SetTrigger("Attack");
+        if (visualDriver != null) visualDriver.PlayMelee(duration > 0 ? duration : meleeAttackDuration);
 
         WeaponController weapon = GetComponentInChildren<WeaponController>();
         if (weapon != null)
@@ -342,6 +346,7 @@ public class PlayerMovement : MonoBehaviour
 
         isAttacking = true;
         animator.SetTrigger("BowShoot");
+        if (visualDriver != null) visualDriver.PlayBow(bowData.attackSpeed > 0 ? bowData.attackSpeed : bowAttackDuration);
         bowController.Shoot(lastMoveX, lastMoveY, bowData);
 
         float duration = bowData.attackSpeed > 0 ? bowData.attackSpeed : bowAttackDuration;
@@ -355,6 +360,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger(animTrigger);
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
+        if (visualDriver != null) visualDriver.PlayTool(toolData.itemType, toolData.toolTier,
+            toolData.attackSpeed > 0 ? toolData.attackSpeed : toolUseDuration);
 
         if (toolController != null)
             toolController.UseTool(toolData.itemType, lastMoveX, lastMoveY,
@@ -374,6 +381,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("AxeSickle");
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
+        if (visualDriver != null) visualDriver.PlayTool(axeData.itemType, axeData.toolTier,
+            axeData.attackSpeed > 0 ? axeData.attackSpeed : toolUseDuration);
 
         if (toolController != null)
             toolController.UseTool(axeData.itemType, lastMoveX, lastMoveY,
@@ -392,6 +401,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("Tools");
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
+        if (visualDriver != null) visualDriver.PlayTool(pickaxeData.itemType, pickaxeData.toolTier,
+            pickaxeData.attackSpeed > 0 ? pickaxeData.attackSpeed : toolUseDuration);
 
         if (toolController != null)
             toolController.UseTool(pickaxeData.itemType, lastMoveX, lastMoveY,
@@ -410,6 +421,8 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("AxeSickle");
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
+        if (visualDriver != null) visualDriver.PlayTool(sickleData.itemType, sickleData.toolTier,
+            sickleData.attackSpeed > 0 ? sickleData.attackSpeed : toolUseDuration);
 
         if (toolController != null)
             toolController.UseTool(sickleData.itemType, lastMoveX, lastMoveY,
@@ -635,6 +648,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetTrigger("Tools");
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
+        if (visualDriver != null) visualDriver.PlayTool(hammer.itemType, 1, cooldown);
 
         TryPickupPlaceable();
 

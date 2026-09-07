@@ -44,6 +44,8 @@ public class CharacterVisual : MonoBehaviour
     public List<string> mountCategories = new List<string> { "Horse", "Bicycle", "Bear", "Bed" };
     [Header("Множитель скорости анимации (0 = стоп-кадр)")]
     public float playbackSpeed = 1f;
+    [Header("Базовый сдвиг всех слоёв (подгонка ног под старый спрайт)")]
+    public Vector2 baseOffset = Vector2.zero;
     [Header("Выбор внешности")]
     public List<CategoryChoice> choices = new List<CategoryChoice>();
     [Header("Категории скрытые по умолчанию (борода/уши/питомец/шапка)")]
@@ -114,7 +116,7 @@ public class CharacterVisual : MonoBehaviour
     }
 
     // ── Управление ──────────────────────────────────────────────
-    public bool Play(string actionName, bool loopAction = true)
+    public bool Play(string actionName, bool loopAction = true, float speedMult = 1f)
     {
         var a = database.FindAction(actionName);
         if (a == null)
@@ -127,13 +129,21 @@ public class CharacterVisual : MonoBehaviour
         onDone = null;
         frame = 0;
         timer = 0f;
+        playbackSpeed = Mathf.Max(0f, speedMult);
         Refresh();
         return true;
     }
 
-    public bool PlayOnce(string actionName, Action done = null)
+    /// <summary>One-shot; fitDuration&gt;0 — подогнать скорость под длительность (механика).</summary>
+    public bool PlayOnce(string actionName, Action done = null, float fitDuration = 0f)
     {
         if (!Play(actionName, false)) return false;
+        if (fitDuration > 0f)
+        {
+            int count = currentAction.DirCount((int)dir);
+            float clipLen = count / Mathf.Max(1f, currentAction.fps);
+            if (clipLen > 0f) playbackSpeed = clipLen / fitDuration;
+        }
         onDone = done;
         return true;
     }
@@ -152,6 +162,37 @@ public class CharacterVisual : MonoBehaviour
             SetDirection(v.x > 0 ? CharDir.Right : CharDir.Left);
         else
             SetDirection(v.y > 0 ? CharDir.Up : CharDir.Down);
+    }
+
+    /// <summary>Тинт всех слоёв (урон/баффы).</summary>
+    public void SetTint(Color c)
+    {
+        foreach (var kv in layers)
+            if (kv.Value != null) kv.Value.color = c;
+    }
+
+    public void SetLayersVisible(bool v)
+    {
+        foreach (var kv in layers)
+            if (kv.Value != null) kv.Value.enabled = v;
+        if (v) Refresh();
+    }
+
+    public void SetSortingLayer(string layerName)
+    {
+        foreach (var kv in layers)
+            if (kv.Value != null) kv.Value.sortingLayerName = layerName;
+    }
+
+    /// <summary>Динамический порядок для YSort: база + индекс слоя.</summary>
+    public void SetDynamicOrder(int baseOrder)
+    {
+        for (int i = 0; i < orderedCategories.Count; i++)
+        {
+            SpriteRenderer sr;
+            if (layers.TryGetValue(orderedCategories[i], out sr) && sr != null)
+                sr.sortingOrder = baseOrder + i;
+        }
     }
 
     /// <summary>Текущий вариант категории ("" = скрыт/нет).</summary>
@@ -377,7 +418,7 @@ public class CharacterVisual : MonoBehaviour
             }
             sr.sprite = s;
             sr.enabled = s != null;
-            Vector2 off = Vector2.zero;
+            Vector2 off = baseOffset;
             if (string.Equals(catName, "Weapons", StringComparison.OrdinalIgnoreCase))
                 off += weaponsLayerOffset;
             Vector2 mOff = MountOffsetFor();

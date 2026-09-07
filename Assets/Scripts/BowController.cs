@@ -17,6 +17,9 @@ public class BowController : MonoBehaviour
     public Transform spawnRight;
     public Transform spawnLeft;
 
+    [Tooltip("Оверлей-спрайт отключён: лук рисует слой тела (конструктор персонажа)")]
+    public bool overlayDisabled = false;
+
     [Header("Aim Assist")]
     public float aimAssistRadius = 3f;   // ������ ������ �����
     public float aimAssistStrength = 0.4f; // ���� ���������� 0-1 (0.4 = �����)
@@ -107,7 +110,7 @@ public class BowController : MonoBehaviour
 
     IEnumerator ShootCoroutine(Vector2 direction, ItemData bowData)
     {
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && !overlayDisabled)
             spriteRenderer.enabled = true;
 
         yield return new WaitForSeconds(shootDelay);

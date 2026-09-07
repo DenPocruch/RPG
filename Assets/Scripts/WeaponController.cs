@@ -5,8 +5,11 @@ public class WeaponController : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Animator animator;
 
-    [Header("Оружие")]
+    [Header("пїЅпїЅпїЅпїЅпїЅпїЅ")]
     public bool weaponEquipped = false;
+
+    [Tooltip("РћРІРµСЂР»РµР№-СЃРїСЂР°Р№С‚ РѕС‚РєР»СЋС‡С‘РЅ: РѕСЂСѓР¶РёРµ СЂРёСЃСѓРµС‚ СЃР»РѕР№ С‚РµР»Р° (РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РїРµСЂСЃРѕРЅР°Р¶Р°)")]
+    public bool overlayDisabled = false;
 
     void Start()
     {
@@ -15,14 +18,14 @@ public class WeaponController : MonoBehaviour
         spriteRenderer.enabled = false;
     }
 
-    // Переключить меч
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ
     public void ToggleWeapon()
     {
         weaponEquipped = !weaponEquipped;
-        spriteRenderer.enabled = weaponEquipped;
+        spriteRenderer.enabled = weaponEquipped && !overlayDisabled;
     }
 
-    // Принудительно убрать
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     public void ForceUnequip()
     {
         weaponEquipped = false;
@@ -30,7 +33,7 @@ public class WeaponController : MonoBehaviour
             spriteRenderer.enabled = false;
     }
 
-    // Анимация атаки мечом
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
     public void PlayAttackAnimation(float dirX, float dirY)
     {
         if (!weaponEquipped) return;

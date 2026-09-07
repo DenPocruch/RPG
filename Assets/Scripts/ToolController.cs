@@ -6,6 +6,9 @@ public class ToolController : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
+    [Tooltip("Оверлей-спрайт отключён: инструмент рисует слой тела (конструктор персонажа)")]
+    public bool overlayDisabled = false;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -21,7 +24,7 @@ public class ToolController : MonoBehaviour
 
     IEnumerator UseToolCoroutine(ItemType toolType, float dirX, float dirY, float duration)
     {
-        if (spriteRenderer != null)
+        if (spriteRenderer != null && !overlayDisabled)
             spriteRenderer.enabled = true;
 
         if (animator != null)

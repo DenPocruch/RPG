@@ -77,6 +77,9 @@ public class FishingController : MonoBehaviour, ISaveable
         if (a == null) return;
         foreach (string t in FishTriggers) a.ResetTrigger(t);
         a.SetTrigger(trigger);
+        GameObject player = GameObject.FindWithTag("Player");
+        PlayerVisualDriver driver = player != null ? player.GetComponent<PlayerVisualDriver>() : null;
+        if (driver != null) driver.PlayFish(trigger);
     }
 
     private void LockFishing(bool v)
