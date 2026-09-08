@@ -158,6 +158,10 @@ public static class CharacterDatabaseBuilder
                 // Очепятки автора: тот же предмет ("Leprechaun " с хвостовым пробелом,
                 // "Pirate eyepatch" одним словом) — сводим к каноническому имени
                 if (variantName == "Pirate eyepatch") variantName = "pirate eye patch";
+                if (variantName == "Pirate eye patch") variantName = "pirate eye patch";
+                if (variantName == "Santa Hat") variantName = "Santa hat";
+                // Дубликат арта (8. SwordAttack/Weapons/Sword/1 1.png попиксельно = 1.png) — не тянем
+                if (variantName.EndsWith(" 1")) return;
                 Object[] reps = AssetDatabase.LoadAllAssetRepresentationsAtPath(assetPath);
                 var sprites = new List<Sprite>();
                 foreach (var o in reps)

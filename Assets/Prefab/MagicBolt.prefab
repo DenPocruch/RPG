@@ -52,6 +52,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -991856633171417929, guid: 7263ed7696a05a64898853c94ac29e5c, type: 3}
+    - target: {fileID: 6157121762182899694, guid: 67e5a515f47a8634588b0a7ce3708c38, type: 3}
+      propertyPath: m_SortingOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 7791161127038358501, guid: 67e5a515f47a8634588b0a7ce3708c38, type: 3}
       propertyPath: m_Name
       value: MagicBolt

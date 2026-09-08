@@ -31,6 +31,9 @@ MonoBehaviour:
   isStaff: 0
   fishingZoneBonus: 0
   fishingSpeedBonus: 0
+  hookMinKg: 0
+  hookMaxKg: 0.5
+  hookMaxCasts: 20
   growthStages: []
   growthStagesCount: 4
   growthTimeWatered: 300

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 using System;
 using System.Collections.Generic;
 
@@ -11,7 +12,7 @@ public class CharacterVisual : MonoBehaviour
 {
     const string DB_RESOURCE_PATH = "Character/CharacterDatabase";
     const string IDLE_ACTION = "1. Idle";
-    const float DIR_DEADZONE = 0.3f;
+    const float DIR_DEADZONE = 0.47f; // ≈25° допуска от оси: вверх/вниз держится при уводе джойстика
 
     [Serializable]
     public class CategoryChoice
@@ -82,6 +83,10 @@ public class CharacterVisual : MonoBehaviour
                 selection[c.category] = c.variant ?? "";
         EnsureDefaultChoices();
         RebuildLayers();
+        // Группа сортировки: весь персонаж сортируется против мира КАК ОДНО ЦЕЛОЕ.
+        // Без неё у каждого слоя свой order (base+i) и тонкий объект (забор) с order
+        // внутри этого диапазона разрезает персонажа: тело за забором, волосы поверх
+        EnsureSortingGroup();
         if (!Play(IDLE_ACTION) && database.actions.Count > 0)
             Play(database.actions[0].actionName);
     }
@@ -158,6 +163,9 @@ public class CharacterVisual : MonoBehaviour
     public void SetDirectionFromVector(Vector2 v)
     {
         if (v.sqrMagnitude < 0.0001f) return;
+        // Нормализуем: на вход приходит и скорость Rigidbody (ед/с), и аналог джойстика —
+        // без этого порог зависит от скорости (при беге бок включался уже с ~6° увода)
+        v.Normalize();
         if (Mathf.Abs(v.x) > DIR_DEADZONE)
             SetDirection(v.x > 0 ? CharDir.Right : CharDir.Left);
         else
@@ -180,13 +188,24 @@ public class CharacterVisual : MonoBehaviour
 
     public void SetSortingLayer(string layerName)
     {
+        var sg = GetComponent<SortingGroup>();
+        if (sg != null) sg.sortingLayerName = layerName;
         foreach (var kv in layers)
             if (kv.Value != null) kv.Value.sortingLayerName = layerName;
     }
 
-    /// <summary>Динамический порядок для YSort: база + индекс слоя.</summary>
+    /// <summary>Группа целиком на baseOrder, слои внутри держат относительный порядок.</summary>
+    public void EnsureSortingGroup()
+    {
+        if (GetComponent<SortingGroup>() == null)
+            gameObject.AddComponent<SortingGroup>();
+    }
+
+    /// <summary>Динамический порядок для YSort: группа целиком, слои внутри не расползаются.</summary>
     public void SetDynamicOrder(int baseOrder)
     {
+        var sg = GetComponent<SortingGroup>();
+        if (sg != null) { sg.sortingOrder = baseOrder; return; }
         for (int i = 0; i < orderedCategories.Count; i++)
         {
             SpriteRenderer sr;

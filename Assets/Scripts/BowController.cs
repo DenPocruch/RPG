@@ -24,6 +24,9 @@ public class BowController : MonoBehaviour
     public float aimAssistRadius = 3f;   // ������ ������ �����
     public float aimAssistStrength = 0.4f; // ���� ���������� 0-1 (0.4 = �����)
 
+    [Header("Посох: самонаведение")]
+    public float staffHomingTurn = 540f; // град/с — быстрый доворот, почти гарантия попадания
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -100,12 +103,25 @@ public class BowController : MonoBehaviour
 
         if (bestTarget == null) return playerDirection;
 
-        // ����������� � ������� �����
         Vector2 toTargetDir = (bestTarget.position - transform.position).normalized;
-
-        // ����� ��������� ����������� ������ � ������������ � �����
         Vector2 assistedDir = Vector2.Lerp(playerDirection, toTargetDir, aimAssistStrength);
         return assistedDir.normalized;
+    }
+
+    /// <summary>Ближайший враг к точке в радиусе (для самонаведения посоха).</summary>
+    Transform FindHomingTarget(Vector3 from, float radius)
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(
+            from, radius, LayerMask.GetMask("Enemy"));
+        Transform best = null;
+        float bestDist = float.MaxValue;
+        foreach (Collider2D col in enemies)
+        {
+            if (col == null) continue;
+            float d = Vector2.Distance(from, col.transform.position);
+            if (d < bestDist) { bestDist = d; best = col.transform; }
+        }
+        return best;
     }
 
     IEnumerator ShootCoroutine(Vector2 direction, ItemData bowData)
@@ -119,6 +135,10 @@ public class BowController : MonoBehaviour
 
         GameObject arrowObj = Instantiate(
             bowData.arrowPrefab, spawnPos, Quaternion.identity);
+        // Префаб стрелы с твёрдым коллайдером: без этого стрела физически
+        // толкает игрока (отдача) и застревает в нём (как у гоблинов в SimpleEnemyAI)
+        foreach (var c in arrowObj.GetComponentsInChildren<Collider2D>())
+            c.isTrigger = true;
         Arrow arrow = arrowObj.GetComponent<Arrow>();
         if (arrow != null)
         {
@@ -126,6 +146,12 @@ public class BowController : MonoBehaviour
             float pen = PlayerStats.Instance != null ? PlayerStats.Instance.TotalPenetration : 0f;
             arrow.Init(direction, bowData.damage,
                 bowData.arrowSpeed, bowData.arrowRange, acc, pen);
+            // Посох: был враг в радиусе выстрела — болт сам доворачивает к ближайшему
+            if (bowData.isStaff)
+            {
+                Transform prey = FindHomingTarget(spawnPos, bowData.arrowRange);
+                if (prey != null) arrow.SetHoming(prey, staffHomingTurn);
+            }
         }
 
         if (spriteRenderer != null)

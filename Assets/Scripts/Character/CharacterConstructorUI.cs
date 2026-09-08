@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering.Universal;
 using TMPro;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,7 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     {
         public RowRefs cfg;
         public List<string> options = new List<string>();
+        public List<string> display = new List<string>();
         public int index;
     }
 
@@ -76,10 +78,13 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     readonly List<RowUI> rows = new List<RowUI>();
     readonly Dictionary<string, string> savedSelection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
-    GameObject rigRoot, botObj;
-    CharacterVisual botVisual;
-    Camera previewCam;
-    RenderTexture rt;
+    static GameObject botObj;
+    static CharacterVisual botVisual;
+    // Риг общий (static): переживает сцены и защищает от дублей,
+    // если скриптов конструктора вдруг окажется два
+    static GameObject rigRoot;
+    static Camera previewCam;
+    static RenderTexture rt;
     PlayerMovement lockedMovement;
 
     public string CaptureState()
@@ -161,6 +166,7 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         botVisual.Play("1. Idle");
         ApplySavedToBot();
         RebuildRows();
+        Debug.Log("[ConstructorPreview] " + botVisual.GetDebugInfo());
         if (previewImage != null) previewImage.texture = rt;
 
         var player = GameObject.FindWithTag("Player");
@@ -225,6 +231,16 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
             }
             string cur = botVisual != null ? botVisual.GetVariant(r.cfg.category) : "";
             r.index = Math.Max(0, r.options.FindIndex(o => string.Equals(o, cur, StringComparison.OrdinalIgnoreCase)));
+            // Короткие имена collisions (Male/Brown vs Female/Brown) — таким показываем полные
+            r.display.Clear();
+            var prettyCount = new Dictionary<string, int>(StringComparer.Ordinal);
+            foreach (var o in r.options)
+            {
+                string p = Pretty(o);
+                prettyCount[p] = prettyCount.ContainsKey(p) ? prettyCount[p] + 1 : 1;
+            }
+            foreach (var o in r.options)
+                r.display.Add(prettyCount[Pretty(o)] > 1 ? o : Pretty(o));
             RefreshRow(r);
         }
     }
@@ -247,7 +263,8 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
 
     void RefreshRow(RowUI r)
     {
-        if (r.cfg.value != null) r.cfg.value.text = Pretty(CurrentValue(r));
+        if (r.cfg.value != null)
+            r.cfg.value.text = (r.display.Count > r.index) ? r.display[r.index] : Pretty(CurrentValue(r));
     }
 
     static string Pretty(string variant)
@@ -280,10 +297,22 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     // ── Превью-риг ────────────────────────────────────────────────
     void EnsureRig()
     {
-        if (rigRoot != null) return;
+        if (rigRoot != null) { FixPreviewRig(); return; }
         rigRoot = new GameObject("ConstructorPreviewRig");
         rigRoot.transform.position = RIG_POS;
         DontDestroyOnLoad(rigRoot);
+
+        // Свой свет: сценовый Global Light умирает при смене сцены,
+        // без него превью — чёрный силуэт. Point (не Global!): URP 2D
+        // разрешает только один Global Light на слой и роняет ошибку
+        var lightGo = new GameObject("PreviewLight");
+        lightGo.transform.SetParent(rigRoot.transform, false);
+        lightGo.transform.localPosition = new Vector3(0f, 1f, 0f);
+        var pl = lightGo.AddComponent<Light2D>();
+        pl.lightType = Light2D.LightType.Point;
+        pl.pointLightOuterRadius = 10f;
+        pl.pointLightInnerRadius = 10f;
+        pl.intensity = 1f;
 
         var camGo = new GameObject("PreviewCamera");
         camGo.transform.SetParent(rigRoot.transform, false);
@@ -297,6 +326,50 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         previewCam.cullingMask = 1 << PREVIEW_LAYER;
         rt = new RenderTexture(RT_SIZE, RT_SIZE, 24);
         previewCam.targetTexture = rt;
+        FixPreviewRig();
+    }
+
+    /// <summary>
+    /// Чинит уже созданный риг (в т.ч. старый, из прошлой версии кода):
+    /// свет обязан быть на слое превью и Additive, иначе камера его не видит и бот чёрный.
+    /// </summary>
+    void FixPreviewRig()
+    {
+        if (rigRoot == null) return;
+        var lightTr = rigRoot.transform.Find("PreviewLight");
+        if (lightTr != null)
+        {
+            // Камера превью видит ТОЛЬКО слой 9 — свет на Default она игнорирует,
+            // спрайты Lit остаются без света = чёрный силуэт
+            lightTr.gameObject.layer = PREVIEW_LAYER;
+            var pl = lightTr.GetComponent<Light2D>();
+            if (pl != null)
+            {
+                pl.enabled = true;
+                pl.lightType = Light2D.LightType.Point;
+                pl.pointLightInnerRadius = 10f;
+                pl.pointLightOuterRadius = 10f;
+                pl.intensity = 1f;
+                pl.color = Color.white;
+                pl.blendStyleIndex = 1; // 0=Multiply, 1=Additive (Renderer2D.asset)
+            }
+        }
+        var camTr = rigRoot.transform.Find("PreviewCamera");
+        if (camTr != null)
+        {
+            var cam = camTr.GetComponent<Camera>();
+            if (cam != null)
+            {
+                cam.enabled = true;
+                cam.cullingMask = 1 << PREVIEW_LAYER;
+                if (previewCam == null) previewCam = cam;
+            }
+            if (rt == null)
+            {
+                rt = new RenderTexture(RT_SIZE, RT_SIZE, 24);
+                if (previewCam != null) previewCam.targetTexture = rt;
+            }
+        }
     }
 
     void SpawnBot()
@@ -305,11 +378,33 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         if (botPrefab == null || rigRoot == null) return;
         botObj = Instantiate(botPrefab, RIG_POS, Quaternion.identity, rigRoot.transform);
         SetLayerRecursive(botObj, PREVIEW_LAYER);
+        ApplyPreviewUnlit(botObj);
         var driver = botObj.GetComponent<ConstructorBotDriver>();
         if (driver != null) Destroy(driver);
         botVisual = botObj.GetComponent<CharacterVisual>();
         if (botVisual == null)
             Debug.LogError("[ConstructorUI] В префабе нет CharacterVisual");
+    }
+
+    // Превью не зависит от света: unlit-материал показывает истинные цвета спрайтов.
+    // С Lit-материалом было то чёрное (свет не доставал), то белое (Additive-пересвет).
+    static Material previewUnlitMat;
+
+    static void ApplyPreviewUnlit(GameObject root)
+    {
+        if (previewUnlitMat == null)
+        {
+            var sh = Shader.Find("Universal Render Pipeline/2D/Sprite-Unlit-Default");
+            if (sh == null) sh = Shader.Find("Sprites/Default");
+            if (sh == null)
+            {
+                Debug.LogWarning("[ConstructorUI] Нет unlit-шейдера для превью");
+                return;
+            }
+            previewUnlitMat = new Material(sh);
+        }
+        foreach (var sr in root.GetComponentsInChildren<SpriteRenderer>(true))
+            sr.sharedMaterial = previewUnlitMat;
     }
 
     void ClearBot()

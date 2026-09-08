@@ -158,7 +158,7 @@ public static class EquipmentBuilder
 
     static readonly RangedDef[] RANGED = {
         new RangedDef { id = "Bow", noun = "лук", isStaff = false, dmgFactor = 0.7f, cooldown = 1f, projSpeed = 12f, projRange = 9f, priceAdd = 50 },
-        new RangedDef { id = "Staff", noun = "посох", isStaff = true, dmgFactor = 0.9f, cooldown = 1.3f, projSpeed = 9f, projRange = 7f, priceAdd = 100 },
+        new RangedDef { id = "Staff", noun = "посох", isStaff = true, dmgFactor = 0.6f, cooldown = 1.3f, projSpeed = 9f, projRange = 7f, priceAdd = 100 },
     };
 
     // Доп. статы лука [C,U,R,E,L]: точность плоская, остальное × statMult

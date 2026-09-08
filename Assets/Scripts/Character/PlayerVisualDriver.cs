@@ -18,6 +18,7 @@ public class PlayerVisualDriver : MonoBehaviour
     const string A_RUN = "3. Run";
     const string A_SWORD = "8. SwordAttack";
     const string A_ARCHER = "9. Archer";
+    const string A_MAGE = "23. Mage";
     const string A_PICKAXE = "4. Pickaxe, Hoe and Catching insects";
     const string A_AXE = "5. Axe and Sickle";
     const string A_SHOVEL = "6. Shovel";
@@ -136,7 +137,13 @@ public class PlayerVisualDriver : MonoBehaviour
     void LateUpdate()
     {
         if (ysortDynamic && visual != null)
-            visual.SetDynamicOrder(YSort.GetOrder(transform.position));
+        {
+            // Сортируем по НОГАМ (трансформ выше ступней на visualOffset.y):
+            // иначе игрок прячется за объект раньше, чем ноги реально зашли за него
+            Vector3 p = transform.position;
+            p.y += visualOffset.y;
+            visual.SetDynamicOrder(YSort.GetOrder(p));
+        }
     }
 
     void PlayLocomotion(string action)
@@ -181,13 +188,21 @@ public class PlayerVisualDriver : MonoBehaviour
         PlayOnceBusy(A_SWORD, null, duration);
     }
 
-    public void PlayBow(float duration)
+    public void PlayBow(ItemData bow, float duration)
     {
         if (dead) return;
-        ItemData active = HotbarManager.Instance != null ? HotbarManager.Instance.GetActiveItem() : null;
-        // Посоху отдельного арта нет — показывает лук того же тира
-        visual.SetVariant("Weapons", "Bow and Arrow/" + TierFromName(active));
+        // Посоху отдельного арта нет — показывает лук того же тира.
+        // Тир берём из выстрелившего предмета, а не из активного слота (слот мог смениться)
+        visual.SetVariant("Weapons", "Bow and Arrow/" + TierFromName(bow));
         PlayOnceBusy(A_ARCHER, null, duration);
+    }
+
+    public void PlayStaff(float duration)
+    {
+        if (dead) return;
+        // Посох и магия — свой слой действия 23. Mage (Healer Staff + FX рисуются сами,
+        // тиров у посоха в арте нет). Слой Weapons в Mage отсутствует — лук не вылезет
+        PlayOnceBusy(A_MAGE, null, duration);
     }
 
     public void PlayTool(ItemType type, int tier, float duration)

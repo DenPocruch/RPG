@@ -11,6 +11,8 @@ public class Arrow : MonoBehaviour
     private bool fromEnemy = false;
     private float attackerAccuracy = 0f;
     private float attackerPenetration = 0f;
+    private Transform homingTarget;
+    private float homingTurnDeg;
 
     public void Init(Vector2 dir, float dmg, float spd, float rng, float accuracy = 0f, float penetration = 0f)
     {
@@ -33,9 +35,29 @@ public class Arrow : MonoBehaviour
         Init(dir, dmg, spd, rng, accuracy, penetration);
     }
 
+    // Самонаведение посоха: в момент выстрела рядом был враг — доворачиваем к нему
+    public void SetHoming(Transform target, float turnDegPerSec)
+    {
+        homingTarget = target;
+        homingTurnDeg = turnDegPerSec;
+    }
+
     void Update()
     {
         if (hasHit) return;
+
+        if (homingTarget != null && homingTarget.gameObject.activeInHierarchy)
+        {
+            Vector2 want = (Vector2)homingTarget.position - (Vector2)transform.position;
+            if (want.sqrMagnitude > 0.0001f)
+            {
+                float cur = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                float tgt = Mathf.Atan2(want.y, want.x) * Mathf.Rad2Deg;
+                float next = Mathf.MoveTowardsAngle(cur, tgt, homingTurnDeg * Time.deltaTime);
+                direction = new Vector2(Mathf.Cos(next * Mathf.Deg2Rad), Mathf.Sin(next * Mathf.Deg2Rad));
+                transform.rotation = Quaternion.AngleAxis(next, Vector3.forward);
+            }
+        }
 
         transform.position += (Vector3)direction * speed * Time.deltaTime;
 

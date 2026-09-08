@@ -219,7 +219,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        float cooldown = activeItem != null ? activeItem.attackSpeed : 0.6f;
+        float speedMult = PlayerStats.Instance != null
+            ? Mathf.Max(0.05f, PlayerStats.Instance.TotalAttackSpeed)
+            : 1f;
+        float cooldown = (activeItem != null ? activeItem.attackSpeed : 0.6f) / speedMult;
 
         if (Time.time - lastAttackTime < cooldown) return;
         lastAttackTime = Time.time;
@@ -233,14 +236,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (activeItem == null)
         {
-            StartMeleeAttack(0.6f);
+            StartMeleeAttack(cooldown);
             return;
         }
 
         switch (activeItem.itemType)
         {
             case ItemType.Weapon:
-                StartMeleeAttack(activeItem.attackSpeed);
+                StartMeleeAttack(cooldown);
                 break;
             case ItemType.RangedWeapon:
                 StartBowAttack(activeItem);
@@ -340,16 +343,29 @@ public class PlayerMovement : MonoBehaviour
         StartCoroutine(WaitAndReset(duration > 0 ? duration : meleeAttackDuration));
     }
 
+    /// <summary>Множитель скорости атаки (экипировка + еда + перки): укорачивает кд и длительности.</summary>
+    public float ApplyAttackSpeed(float duration)
+    {
+        float mult = PlayerStats.Instance != null
+            ? Mathf.Max(0.05f, PlayerStats.Instance.TotalAttackSpeed)
+            : 1f;
+        return duration / mult;
+    }
+
     void StartBowAttack(ItemData bowData)
     {
         if (bowController == null || !bowController.bowEquipped) return;
 
         isAttacking = true;
         animator.SetTrigger("BowShoot");
-        if (visualDriver != null) visualDriver.PlayBow(bowData.attackSpeed > 0 ? bowData.attackSpeed : bowAttackDuration);
+        float duration = ApplyAttackSpeed(bowData.attackSpeed > 0 ? bowData.attackSpeed : bowAttackDuration);
+        if (visualDriver != null)
+        {
+            if (bowData.isStaff) visualDriver.PlayStaff(duration);
+            else visualDriver.PlayBow(bowData, duration);
+        }
         bowController.Shoot(lastMoveX, lastMoveY, bowData);
 
-        float duration = bowData.attackSpeed > 0 ? bowData.attackSpeed : bowAttackDuration;
         StartCoroutine(WaitAndReset(duration));
     }
 
@@ -361,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
         if (visualDriver != null) visualDriver.PlayTool(toolData.itemType, toolData.toolTier,
-            toolData.attackSpeed > 0 ? toolData.attackSpeed : toolUseDuration);
+            ApplyAttackSpeed(toolData.attackSpeed > 0 ? toolData.attackSpeed : toolUseDuration));
 
         if (toolController != null)
             toolController.UseTool(toolData.itemType, lastMoveX, lastMoveY,
@@ -370,8 +386,8 @@ public class PlayerMovement : MonoBehaviour
         if (farmInteraction != null)
             farmInteraction.UseFarmTool(toolData.itemType, lastMoveX, lastMoveY);
 
-        StartCoroutine(WaitAndReset(
-            toolData.attackSpeed > 0 ? toolData.attackSpeed : toolUseDuration));
+        StartCoroutine(WaitAndReset(ApplyAttackSpeed(
+            toolData.attackSpeed > 0 ? toolData.attackSpeed : toolUseDuration)));
     }
 
     void StartAxeUse(ItemData axeData)
@@ -382,7 +398,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
         if (visualDriver != null) visualDriver.PlayTool(axeData.itemType, axeData.toolTier,
-            axeData.attackSpeed > 0 ? axeData.attackSpeed : toolUseDuration);
+            ApplyAttackSpeed(axeData.attackSpeed > 0 ? axeData.attackSpeed : toolUseDuration));
 
         if (toolController != null)
             toolController.UseTool(axeData.itemType, lastMoveX, lastMoveY,
@@ -390,8 +406,8 @@ public class PlayerMovement : MonoBehaviour
 
         ChopTree();
 
-        StartCoroutine(WaitAndReset(
-            axeData.attackSpeed > 0 ? axeData.attackSpeed : toolUseDuration));
+        StartCoroutine(WaitAndReset(ApplyAttackSpeed(
+            axeData.attackSpeed > 0 ? axeData.attackSpeed : toolUseDuration)));
     }
 
     void StartPickaxeUse(ItemData pickaxeData)
@@ -402,7 +418,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
         if (visualDriver != null) visualDriver.PlayTool(pickaxeData.itemType, pickaxeData.toolTier,
-            pickaxeData.attackSpeed > 0 ? pickaxeData.attackSpeed : toolUseDuration);
+            ApplyAttackSpeed(pickaxeData.attackSpeed > 0 ? pickaxeData.attackSpeed : toolUseDuration));
 
         if (toolController != null)
             toolController.UseTool(pickaxeData.itemType, lastMoveX, lastMoveY,
@@ -410,8 +426,8 @@ public class PlayerMovement : MonoBehaviour
 
         MineOre();
 
-        StartCoroutine(WaitAndReset(
-            pickaxeData.attackSpeed > 0 ? pickaxeData.attackSpeed : toolUseDuration));
+        StartCoroutine(WaitAndReset(ApplyAttackSpeed(
+            pickaxeData.attackSpeed > 0 ? pickaxeData.attackSpeed : toolUseDuration)));
     }
 
     void StartSickleUse(ItemData sickleData)
@@ -422,7 +438,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("LastMoveX", lastMoveX);
         animator.SetFloat("LastMoveY", lastMoveY);
         if (visualDriver != null) visualDriver.PlayTool(sickleData.itemType, sickleData.toolTier,
-            sickleData.attackSpeed > 0 ? sickleData.attackSpeed : toolUseDuration);
+            ApplyAttackSpeed(sickleData.attackSpeed > 0 ? sickleData.attackSpeed : toolUseDuration));
 
         if (toolController != null)
             toolController.UseTool(sickleData.itemType, lastMoveX, lastMoveY,
@@ -433,8 +449,8 @@ public class PlayerMovement : MonoBehaviour
         if (!harvestedTree && farmInteraction != null)
             farmInteraction.TryPlantOrHarvest();
 
-        StartCoroutine(WaitAndReset(
-            sickleData.attackSpeed > 0 ? sickleData.attackSpeed : toolUseDuration));
+        StartCoroutine(WaitAndReset(ApplyAttackSpeed(
+            sickleData.attackSpeed > 0 ? sickleData.attackSpeed : toolUseDuration)));
     }
 
     bool TryHarvestFruitTree()
@@ -640,7 +656,7 @@ public class PlayerMovement : MonoBehaviour
     // ═══════════════════════════════════════════════════════════
     void StartHammerUse(ItemData hammer)
     {
-        float cooldown = hammer.attackSpeed > 0 ? hammer.attackSpeed : toolUseDuration;
+        float cooldown = ApplyAttackSpeed(hammer.attackSpeed > 0 ? hammer.attackSpeed : toolUseDuration);
         if (Time.time - lastAttackTime < cooldown) return;
         lastAttackTime = Time.time;
 
