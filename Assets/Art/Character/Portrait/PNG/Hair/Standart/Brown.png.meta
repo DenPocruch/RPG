@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Brown_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 146
-        width: 36
-        height: 33
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 779ae00078aa81fa0800000000000000
+      spriteID: 3bfec8a2edea6824eb8274e2dfcd1d93
       internalID: -5829722220832839305
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Brown_1
       rect:
         serializedVersion: 2
-        x: 76
-        y: 146
-        width: 36
-        height: 33
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 026310a55f5a23e20800000000000000
+      spriteID: 449bcda690c1131459cdd275e1396ff8
       internalID: 3328905547775817248
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Brown_2
       rect:
         serializedVersion: 2
-        x: 140
-        y: 146
-        width: 36
-        height: 33
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9e843c680eaa55ce0800000000000000
+      spriteID: c413cb4cbe51691409b233911e14c433
       internalID: -1417038626427811607
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Brown_3
       rect:
         serializedVersion: 2
-        x: 204
-        y: 146
-        width: 36
-        height: 33
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 74c240d058a8446c0800000000000000
+      spriteID: e35ae271266570143ba64b7b7e4a6e42
       internalID: -4160047851729834937
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Brown_4
       rect:
         serializedVersion: 2
-        x: 268
-        y: 146
-        width: 36
-        height: 33
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bce11a26bf4744ad0800000000000000
+      spriteID: 2b3d8c53ba8559749930c0034cf1c6b0
       internalID: -2718919651984597301
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Brown_5
       rect:
         serializedVersion: 2
-        x: 12
-        y: 82
-        width: 36
-        height: 33
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a2fb09e6776574d40800000000000000
+      spriteID: f33800d8aaba52e42a0252a83bb842dd
       internalID: 5568514535222984490
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Brown_6
       rect:
         serializedVersion: 2
-        x: 76
-        y: 82
-        width: 36
-        height: 33
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 34d911bfbab019bd0800000000000000
+      spriteID: 905168e4a9a35744d9271da4b080f739
       internalID: -2625304274500739773
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Brown_7
       rect:
         serializedVersion: 2
-        x: 140
-        y: 82
-        width: 36
-        height: 33
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: aac73dbe53a4fdb20800000000000000
+      spriteID: b95b309783003a44eb34532046afdd54
       internalID: 3161327058887605418
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Brown_8
       rect:
         serializedVersion: 2
-        x: 204
-        y: 82
-        width: 36
-        height: 33
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9c27eca31d6afbfb0800000000000000
+      spriteID: eb255716607a91b418b7df504c968a50
       internalID: -4629798474348596535
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Brown_9
       rect:
         serializedVersion: 2
-        x: 268
-        y: 82
-        width: 36
-        height: 33
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2ace61ba52d6ac060800000000000000
+      spriteID: 7425f9c180645a2489bba3e067caa6c2
       internalID: 6974506981488258210
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Brown_10
       rect:
         serializedVersion: 2
-        x: 12
-        y: 18
-        width: 36
-        height: 33
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 44971fd3d67439810800000000000000
+      spriteID: 544d6e01d8a65fe4bbe798873b514920
       internalID: 1770837613002979652
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Brown_11
       rect:
         serializedVersion: 2
-        x: 76
-        y: 18
-        width: 36
-        height: 33
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 44f3e806ee836a840800000000000000
+      spriteID: 98eaf5c3f23f3cd47a1d2074bff59b1d
       internalID: 5234934213338087236
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Brown_12
       rect:
         serializedVersion: 2
-        x: 140
-        y: 18
-        width: 36
-        height: 33
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 035ec00b37cf12020800000000000000
+      spriteID: efd1b26c0e4d6ee4488070819b8bd1b4
       internalID: 2315409257250219312
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Brown_13
       rect:
         serializedVersion: 2
-        x: 204
-        y: 18
-        width: 36
-        height: 33
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: df36d716d1c3d93e0800000000000000
+      spriteID: 3af088eeb466f3c4682d8bf190b80558
       internalID: -2045412558869011459
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Brown_14
       rect:
         serializedVersion: 2
-        x: 268
-        y: 18
-        width: 36
-        height: 33
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5be9e6bda1b9434a0800000000000000
+      spriteID: 42bdb75a07bdf9e4d9e5893654865b2e
       internalID: -6614491413047501131
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 98a036138dbbfe048a813389cd67bc4c
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Brown_12: 2315409257250219312
       Brown_13: -2045412558869011459
       Brown_14: -6614491413047501131
+      Brown_15: -126947804
+      Brown_16: 1378776889
+      Brown_17: 1590768457
+      Brown_18: -1094832839
+      Brown_19: 1795070897
       Brown_2: -1417038626427811607
+      Brown_20: 336054825
+      Brown_21: 887068052
+      Brown_22: 1823366979
+      Brown_23: -1846260264
+      Brown_24: -1797314336
+      Brown_25: -1789694537
+      Brown_26: -731918080
+      Brown_27: -1878660096
+      Brown_28: 37348688
+      Brown_29: -589549925
       Brown_3: -4160047851729834937
+      Brown_30: -351300598
+      Brown_31: -882552624
+      Brown_32: 1311660956
+      Brown_33: 673030844
+      Brown_34: 1270868556
+      Brown_35: 1035210671
+      Brown_36: -410972205
+      Brown_37: -2036781411
+      Brown_38: -594234792
+      Brown_39: 1543480874
       Brown_4: -2718919651984597301
+      Brown_40: 1824699290
+      Brown_41: 962035105
+      Brown_42: 1992065428
+      Brown_43: -2129607611
+      Brown_44: 1258643005
+      Brown_45: 23005860
+      Brown_46: -1770281921
+      Brown_47: -1322447634
+      Brown_48: -1534690866
+      Brown_49: 1089838376
       Brown_5: 5568514535222984490
+      Brown_50: 1545534234
+      Brown_51: -1243737477
+      Brown_52: -2058985694
+      Brown_53: 1958088154
+      Brown_54: 1628509770
+      Brown_55: 1748725112
+      Brown_56: -578212904
+      Brown_57: -364392054
+      Brown_58: -314734023
+      Brown_59: 1723843843
       Brown_6: -2625304274500739773
       Brown_7: 3161327058887605418
       Brown_8: -4629798474348596535

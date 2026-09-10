@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Blonde_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 127
-        width: 45
-        height: 56
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c33ee9b9f46896020800000000000000
+      spriteID: abf75abf5e024a44c9467043b7a24de8
       internalID: 2335545558239732540
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Blonde_1
       rect:
         serializedVersion: 2
-        x: 76
-        y: 127
-        width: 45
-        height: 56
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: eba431a821622fb00800000000000000
+      spriteID: 4ae77bdb51fc1b444944533c518558dc
       internalID: 860792339848972990
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Blonde_2
       rect:
         serializedVersion: 2
-        x: 140
-        y: 127
-        width: 45
-        height: 56
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3fd831e0cd0511c70800000000000000
+      spriteID: f3478aee2ae2d0440b433868f4f66cd7
       internalID: 8940015641366334963
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Blonde_3
       rect:
         serializedVersion: 2
-        x: 204
-        y: 127
-        width: 45
-        height: 56
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 90274c259566371a0800000000000000
+      spriteID: a118c55b4359c884e848277e3e9db527
       internalID: -6812989277454700023
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Blonde_4
       rect:
         serializedVersion: 2
-        x: 268
-        y: 127
-        width: 45
-        height: 56
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 925d75bd040707b20800000000000000
+      spriteID: 335dba8894fd6a5438dce02fa8601100
       internalID: 3130125164882679081
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Blonde_5
       rect:
         serializedVersion: 2
-        x: 12
-        y: 63
-        width: 45
-        height: 56
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b894e9b6415150e60800000000000000
+      spriteID: 5f4caf9a3c8443144abc2152279f30fc
       internalID: 7927765896504691083
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Blonde_6
       rect:
         serializedVersion: 2
-        x: 76
-        y: 63
-        width: 45
-        height: 56
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 68b8d9251cbd333c0800000000000000
+      spriteID: 00f660d5836dcaa4080da0329826510d
       internalID: -4380916389140132986
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Blonde_7
       rect:
         serializedVersion: 2
-        x: 140
-        y: 63
-        width: 45
-        height: 56
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c552a2859a75b68f0800000000000000
+      spriteID: 785094f70ab3cd0488ff4a2792d8f10b
       internalID: -546246544955136676
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Blonde_8
       rect:
         serializedVersion: 2
-        x: 204
-        y: 63
-        width: 45
-        height: 56
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 90461164689bf57f0800000000000000
+      spriteID: a5d021bcf1748244eb2fd71bcacdc16d
       internalID: -621574237201538039
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Blonde_9
       rect:
         serializedVersion: 2
-        x: 268
-        y: 63
-        width: 45
-        height: 56
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 684335069726c78f0800000000000000
+      spriteID: 02ff39aea023b654587ba1b1dad6274b
       internalID: -541449581744671610
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Blonde_10
       rect:
         serializedVersion: 2
-        x: 12
+        x: 0
         y: 0
-        width: 45
-        height: 55
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b2b2f6b7cbd500080800000000000000
+      spriteID: 740fc06d0f243334f9d6dfcb15fabf4c
       internalID: -9223268972748657877
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Blonde_11
       rect:
         serializedVersion: 2
-        x: 76
+        x: 64
         y: 0
-        width: 45
-        height: 55
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2638f37beeddfa070800000000000000
+      spriteID: 2a4f7cbfc454cfe49beac83cbd7b914c
       internalID: 8119952670518641506
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Blonde_12
       rect:
         serializedVersion: 2
-        x: 140
+        x: 128
         y: 0
-        width: 45
-        height: 55
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0b57d1da50ace9720800000000000000
+      spriteID: 00b3a24c2ae02d845bb57e17b5de4ace
       internalID: 2854941339527509424
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Blonde_13
       rect:
         serializedVersion: 2
-        x: 204
+        x: 192
         y: 0
-        width: 45
-        height: 55
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f7da27d5f97349890800000000000000
+      spriteID: c93540199e5dcd74cb280d062a22f404
       internalID: -7452270325784203905
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Blonde_14
       rect:
         serializedVersion: 2
-        x: 268
+        x: 256
         y: 0
-        width: 45
-        height: 55
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bc1f9e43ef5ae5a90800000000000000
+      spriteID: 94229042982212f45bbb2c3b5a04e5a0
       internalID: -7323233432829824565
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 061b8c70cf381e44fa23ba02f692627f
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Blonde_12: 2854941339527509424
       Blonde_13: -7452270325784203905
       Blonde_14: -7323233432829824565
+      Blonde_15: 919095507
+      Blonde_16: -1725235401
+      Blonde_17: -1742986159
+      Blonde_18: 1773264258
+      Blonde_19: -527880487
       Blonde_2: 8940015641366334963
+      Blonde_20: 1569629136
+      Blonde_21: -1459609454
+      Blonde_22: 721404044
+      Blonde_23: 1461564521
+      Blonde_24: 2045426377
+      Blonde_25: 41753221
+      Blonde_26: 121132010
+      Blonde_27: 1417870295
+      Blonde_28: -1764337213
+      Blonde_29: 548894141
       Blonde_3: -6812989277454700023
+      Blonde_30: -660697798
+      Blonde_31: 40686073
+      Blonde_32: 1667197454
+      Blonde_33: -142914388
+      Blonde_34: 1514030862
+      Blonde_35: -577589367
+      Blonde_36: -802976337
+      Blonde_37: -1053134845
+      Blonde_38: -399861667
+      Blonde_39: 1615968973
       Blonde_4: 3130125164882679081
+      Blonde_40: 435451423
+      Blonde_41: 577168740
+      Blonde_42: -694930722
+      Blonde_43: 523323882
+      Blonde_44: 601977191
+      Blonde_45: -855747508
+      Blonde_46: 1657427054
+      Blonde_47: -1739716947
+      Blonde_48: 1424437874
+      Blonde_49: -1169803060
       Blonde_5: 7927765896504691083
+      Blonde_50: -507064213
+      Blonde_51: -1312407276
+      Blonde_52: 323105339
+      Blonde_53: 2003201062
+      Blonde_54: -1443496424
+      Blonde_55: -1254534800
+      Blonde_56: 2130151139
+      Blonde_57: -359017526
+      Blonde_58: 2006655882
+      Blonde_59: 1944304323
       Blonde_6: -4380916389140132986
       Blonde_7: -546246544955136676
       Blonde_8: -621574237201538039

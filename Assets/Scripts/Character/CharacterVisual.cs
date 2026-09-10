@@ -214,6 +214,32 @@ public class CharacterVisual : MonoBehaviour
         }
     }
 
+    /// <summary>Текущий спрайт слоя (для иконки ряда в конструкторе). null = слой скрыт.</summary>
+    public Sprite GetLayerSprite(string category)
+    {
+        if (string.IsNullOrEmpty(category)) return null;
+        SpriteRenderer sr;
+        if (layers.TryGetValue(category, out sr) && sr != null && sr.enabled)
+            return sr.sprite;
+        return null;
+    }
+
+    /// <summary>Первый кадр текущего варианта+направления (стабильная иконка ряда).</summary>
+    public Sprite GetVariantFirstSprite(string category)
+    {
+        if (currentAction == null || string.IsNullOrEmpty(category)) return null;
+        var cat = currentAction.FindCategory(category);
+        if (cat == null) return null;
+        if (!selection.TryGetValue(category, out string sel)) return null;
+        var v = cat.FindVariant(sel);
+        if (v == null && IsFallback(category) && cat.variants.Count > 0)
+            v = cat.variants[0];
+        if (v == null || v.frames == null || v.frames.Length == 0) return null;
+        int idx = currentAction.DirOffset((int)dir);
+        if (v.doubleFrames) idx *= 2;
+        return idx < v.frames.Length ? v.frames[idx] : null;
+    }
+
     /// <summary>Текущий вариант категории ("" = скрыт/нет).</summary>
     public string GetVariant(string category)
     {

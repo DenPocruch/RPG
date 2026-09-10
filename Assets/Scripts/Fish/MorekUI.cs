@@ -91,6 +91,7 @@ public class MorekUI : MonoBehaviour
         }
         if (InventoryUI.Instance != null) InventoryUI.Instance.AddItem(rod, 1);
         FishingController.Instance?.MarkRodGifted();
+        TutorialManager.Notify("rod"); // ч.2 лора: обучение
         ActionLogUI.Show("[Морек] Держи удочку, рыбак! Встань у воды и бей.");
         RefreshRodButton();
     }

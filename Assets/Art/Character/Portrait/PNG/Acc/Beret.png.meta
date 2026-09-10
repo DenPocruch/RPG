@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Beret_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 158
-        width: 42
-        height: 24
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b2565fa6a69fbed40800000000000000
+      spriteID: 7a8d8171dec41ac49910ebfd000f2731
       internalID: 5614855595903771947
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Beret_1
       rect:
         serializedVersion: 2
-        x: 73
-        y: 158
-        width: 42
-        height: 24
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5721a76a8e4d725a0800000000000000
+      spriteID: 810fa3d4898d862479632f6afaf87fd4
       internalID: -6546029437669207435
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Beret_2
       rect:
         serializedVersion: 2
-        x: 137
-        y: 158
-        width: 42
-        height: 24
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4ea8310373831eb20800000000000000
+      spriteID: befa791110ea32d47bf3442df1e4e87c
       internalID: 3161870223071742692
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Beret_3
       rect:
         serializedVersion: 2
-        x: 201
-        y: 158
-        width: 42
-        height: 24
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8df89ada3bb750380800000000000000
+      spriteID: 16e810a02f75ba74ba3405027fe481ab
       internalID: -9005655868214505512
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Beret_4
       rect:
         serializedVersion: 2
-        x: 265
-        y: 158
-        width: 42
-        height: 24
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8b4302cafdbc457e0800000000000000
+      spriteID: 3ed9d05720045ea4c89a0a63e87deaa3
       internalID: -1777571791378565960
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Beret_5
       rect:
         serializedVersion: 2
-        x: 9
-        y: 94
-        width: 42
-        height: 24
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a650f4462cd87ddd0800000000000000
+      spriteID: 85b71a46f4028b8498d998b1aae155be
       internalID: -2461342805288614550
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Beret_6
       rect:
         serializedVersion: 2
-        x: 73
-        y: 94
-        width: 42
-        height: 24
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cc59c70ac0708e8a0800000000000000
+      spriteID: 99bf6b8c325342346b2c348cffe9699d
       internalID: -6275758329927264820
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Beret_7
       rect:
         serializedVersion: 2
-        x: 137
-        y: 94
-        width: 42
-        height: 24
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8a782d6dc6191d2d0800000000000000
+      spriteID: 2b33b1662235e454493c646d1323c609
       internalID: -3255661158965540952
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Beret_8
       rect:
         serializedVersion: 2
-        x: 201
-        y: 94
-        width: 42
-        height: 24
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cc6cb426629cf51b0800000000000000
+      spriteID: a6ac4000e378e1744b2e4230185e4e6c
       internalID: -5665588639513721140
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Beret_9
       rect:
         serializedVersion: 2
-        x: 265
-        y: 94
-        width: 42
-        height: 24
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bba62528dbeddb080800000000000000
+      spriteID: 671521760b0c71c45a2f156017178501
       internalID: -9169928360739837253
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Beret_10
       rect:
         serializedVersion: 2
-        x: 9
-        y: 30
-        width: 42
-        height: 24
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ef8f94ae22f191a80800000000000000
+      spriteID: 87b74cb94afeb024b96c3dd3d3f918e8
       internalID: -8495724987237664514
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Beret_11
       rect:
         serializedVersion: 2
-        x: 73
-        y: 30
-        width: 42
-        height: 24
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bf3595287191fe090800000000000000
+      spriteID: d7c9f9b4924ae0d4f864deb209d29e9f
       internalID: -8003150424052247557
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Beret_12
       rect:
         serializedVersion: 2
-        x: 137
-        y: 30
-        width: 42
-        height: 24
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 62b135fe415625260800000000000000
+      spriteID: 063b155e4cef1794084aa4c0bcf23501
       internalID: 7084836304396163878
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Beret_13
       rect:
         serializedVersion: 2
-        x: 201
-        y: 30
-        width: 42
-        height: 24
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0d7be69a6799e7b50800000000000000
+      spriteID: 60ebc0b5367cab4498109f5327f4321e
       internalID: 6592875639444781008
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Beret_14
       rect:
         serializedVersion: 2
-        x: 265
-        y: 30
-        width: 42
-        height: 24
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 39fa1bc7a0bfb7e10800000000000000
+      spriteID: 61460ab270f03a441882959e800b429a
       internalID: 2196625265733513107
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 822f0df3e4200204aa40553e4c8a4a89
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Beret_12: 7084836304396163878
       Beret_13: 6592875639444781008
       Beret_14: 2196625265733513107
+      Beret_15: 356659886
+      Beret_16: 1899661630
+      Beret_17: 1246664003
+      Beret_18: 322785812
+      Beret_19: -1359783741
       Beret_2: 3161870223071742692
+      Beret_20: 1898261776
+      Beret_21: -387295591
+      Beret_22: -1323495495
+      Beret_23: 2145867033
+      Beret_24: 311430919
+      Beret_25: -1425693259
+      Beret_26: -2130178352
+      Beret_27: -433041707
+      Beret_28: 696940492
+      Beret_29: 746790899
       Beret_3: -9005655868214505512
+      Beret_30: 664348514
+      Beret_31: 2053236871
+      Beret_32: -1402163792
+      Beret_33: -1593707179
+      Beret_34: -1498916852
+      Beret_35: -268608904
+      Beret_36: 1960741598
+      Beret_37: 226596133
+      Beret_38: -1266273684
+      Beret_39: 1389610224
       Beret_4: -1777571791378565960
+      Beret_40: 584474110
+      Beret_41: 590605072
+      Beret_42: -2013006361
+      Beret_43: -1974297658
+      Beret_44: 279597490
+      Beret_45: 982848690
+      Beret_46: 511600472
+      Beret_47: -1602179169
+      Beret_48: 247032090
+      Beret_49: 1121613118
       Beret_5: -2461342805288614550
+      Beret_50: -253515576
+      Beret_51: 706871115
+      Beret_52: 1035246518
+      Beret_53: 1482557126
+      Beret_54: -460551650
+      Beret_55: 1558852892
+      Beret_56: 191651003
+      Beret_57: 2102428000
+      Beret_58: 252791310
+      Beret_59: 311152268
       Beret_6: -6275758329927264820
       Beret_7: -3255661158965540952
       Beret_8: -5665588639513721140

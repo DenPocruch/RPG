@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Wizard_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 160
-        width: 49
-        height: 32
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2d79d04078c0a3410800000000000000
+      spriteID: 3fe4a396223f60a499dd441015a572cc
       internalID: 1457491203435894738
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Wizard_1
       rect:
         serializedVersion: 2
-        x: 71
-        y: 160
-        width: 49
-        height: 32
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f3eee63cd5f8004c0800000000000000
+      spriteID: 812dd07ab009d9b4abbfe77982858e6a
       internalID: -4323298009402118593
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Wizard_2
       rect:
         serializedVersion: 2
-        x: 135
-        y: 160
-        width: 49
-        height: 32
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 406c14742af2b4da0800000000000000
+      spriteID: 33d18c94aed4e9b4eb7cff23399e0b63
       internalID: -5959617307868019196
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Wizard_3
       rect:
         serializedVersion: 2
-        x: 199
-        y: 160
-        width: 49
-        height: 32
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ae42cb9a6ff5e4350800000000000000
+      spriteID: f42b23b2fb30cb2418cb1d23b077e9ea
       internalID: 6002840866345723114
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Wizard_4
       rect:
         serializedVersion: 2
-        x: 263
-        y: 160
-        width: 49
-        height: 32
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e9f040ba8fd4cd8f0800000000000000
+      spriteID: 015a7567499c11445b26fe1a8539ff1b
       internalID: -514450527010680930
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Wizard_5
       rect:
         serializedVersion: 2
-        x: 7
-        y: 96
-        width: 49
-        height: 32
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d489b6f249fba6170800000000000000
+      spriteID: 875d72dbcc97b2c4ba1caedb7225a631
       internalID: 8172555116988831821
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Wizard_6
       rect:
         serializedVersion: 2
-        x: 71
-        y: 96
-        width: 49
-        height: 32
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4aee2dc883a987b10800000000000000
+      spriteID: 4bcb5e501ed91124fb5c671ce36a913d
       internalID: 1979501603900812964
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Wizard_7
       rect:
         serializedVersion: 2
-        x: 135
-        y: 96
-        width: 49
-        height: 32
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b4ccc5691da7c32c0800000000000000
+      spriteID: 51ae9e66c9b682a4994dd92252e8bce6
       internalID: -4450547291159475125
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Wizard_8
       rect:
         serializedVersion: 2
-        x: 199
-        y: 96
-        width: 49
-        height: 32
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b15edc2187188b6d0800000000000000
+      spriteID: 707dd3834345a7141972fa5773b276c6
       internalID: -2974485201166670565
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Wizard_9
       rect:
         serializedVersion: 2
-        x: 263
-        y: 96
-        width: 49
-        height: 32
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f2449fa8fe285ec50800000000000000
+      spriteID: 34759909fcd906a4b888f758fbf32297
       internalID: 6693900386496496687
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Wizard_10
       rect:
         serializedVersion: 2
-        x: 7
-        y: 32
-        width: 49
-        height: 32
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9ce9d222e5d54ddb0800000000000000
+      spriteID: 210e35956ac34ab46ad9c90b46521aa2
       internalID: -4768083446596788535
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Wizard_11
       rect:
         serializedVersion: 2
-        x: 71
-        y: 32
-        width: 49
-        height: 32
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5c20a6451975c7500800000000000000
+      spriteID: f369bd7775f016e4389bf778ea724eb3
       internalID: 395287148999869125
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Wizard_12
       rect:
         serializedVersion: 2
-        x: 135
-        y: 32
-        width: 49
-        height: 32
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 73a2611751a470a40800000000000000
+      spriteID: a9f9e71f0541302448d67892880c1f5b
       internalID: 5334313739595688503
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Wizard_13
       rect:
         serializedVersion: 2
-        x: 199
-        y: 32
-        width: 49
-        height: 32
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c35ce5216fe8b89f0800000000000000
+      spriteID: 4ff7d3bfe733f4044ac64ece74829b34
       internalID: -465120948981414596
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Wizard_14
       rect:
         serializedVersion: 2
-        x: 263
-        y: 32
-        width: 49
-        height: 32
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 49b1629c0109d4540800000000000000
+      spriteID: 6031e15bbe924f749a6dd6ae78b61b32
       internalID: 4993805963592342420
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 5ebe0b52ded271f40a194371f03832ff
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Wizard_12: 5334313739595688503
       Wizard_13: -465120948981414596
       Wizard_14: 4993805963592342420
+      Wizard_15: -1039672283
+      Wizard_16: 1390920410
+      Wizard_17: -149678187
+      Wizard_18: -359908318
+      Wizard_19: 236270007
       Wizard_2: -5959617307868019196
+      Wizard_20: 361583803
+      Wizard_21: -1291780846
+      Wizard_22: -545509736
+      Wizard_23: 1008945086
+      Wizard_24: -1296077202
+      Wizard_25: -2038834459
+      Wizard_26: 405130348
+      Wizard_27: -472325393
+      Wizard_28: 630901419
+      Wizard_29: 1540188338
       Wizard_3: 6002840866345723114
+      Wizard_30: -2073732065
+      Wizard_31: -1120316614
+      Wizard_32: 1258045928
+      Wizard_33: 220790465
+      Wizard_34: -1900507705
+      Wizard_35: -1800179467
+      Wizard_36: -1048101960
+      Wizard_37: -1726115805
+      Wizard_38: 768342409
+      Wizard_39: -1665539987
       Wizard_4: -514450527010680930
+      Wizard_40: 316493186
+      Wizard_41: 1166501452
+      Wizard_42: 1246745796
+      Wizard_43: -1422366530
+      Wizard_44: -377567341
+      Wizard_45: 1255475010
+      Wizard_46: 280738686
+      Wizard_47: -700587090
+      Wizard_48: -351519215
+      Wizard_49: -1177774600
       Wizard_5: 8172555116988831821
+      Wizard_50: 1345205312
+      Wizard_51: -2103206757
+      Wizard_52: 785298984
+      Wizard_53: 1984924301
+      Wizard_54: -96586484
+      Wizard_55: 1343977486
+      Wizard_56: -427038618
+      Wizard_57: 325420489
+      Wizard_58: -1300034361
+      Wizard_59: 114208965
       Wizard_6: 1979501603900812964
       Wizard_7: -4450547291159475125
       Wizard_8: -2974485201166670565

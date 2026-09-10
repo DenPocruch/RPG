@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Farm_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 156
-        width: 48
-        height: 29
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bd1b29aa94b2fa7c0800000000000000
+      spriteID: 02d89710e2cfe494991ddf8456bdb053
       internalID: -4057977143843180069
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Farm_1
       rect:
         serializedVersion: 2
-        x: 72
-        y: 156
-        width: 48
-        height: 29
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 60c818f9901b058f0800000000000000
+      spriteID: 06a1515be5c8d5a44bb7100b78f57c36
       internalID: -553748099277681658
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Farm_2
       rect:
         serializedVersion: 2
-        x: 136
-        y: 156
-        width: 48
-        height: 29
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 764b8adc0278a33e0800000000000000
+      spriteID: 23b595be30ca60a4f9c438bf4f018e70
       internalID: -2073196103491603353
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Farm_3
       rect:
         serializedVersion: 2
-        x: 200
-        y: 156
-        width: 48
-        height: 29
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f185c03f652f43210800000000000000
+      spriteID: 7afd1752c84a30845bd22d04c56827eb
       internalID: 1311939846730438687
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Farm_4
       rect:
         serializedVersion: 2
-        x: 264
-        y: 156
-        width: 48
-        height: 29
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4004bd5e9a3a592d0800000000000000
+      spriteID: c84ae5c256a1f524bb81687504494951
       internalID: -3272529604113645564
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Farm_5
       rect:
         serializedVersion: 2
-        x: 8
-        y: 92
-        width: 48
-        height: 29
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8175fa7796d159ec0800000000000000
+      spriteID: aa27d3fd52bb60149879e83062bbf94c
       internalID: -3560907591549757672
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Farm_6
       rect:
         serializedVersion: 2
-        x: 72
-        y: 92
-        width: 48
-        height: 29
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a14813cec8ecea0c0800000000000000
+      spriteID: f41f8182a4fd6ca41946fa3c2ea60468
       internalID: -4562482267826322406
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Farm_7
       rect:
         serializedVersion: 2
-        x: 136
-        y: 92
-        width: 48
-        height: 29
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 31ad9b5f2afa980e0800000000000000
+      spriteID: 33ef71e8b0e543243a4eddeed2cc95b2
       internalID: -2267087822962173421
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Farm_8
       rect:
         serializedVersion: 2
-        x: 200
-        y: 92
-        width: 48
-        height: 29
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2d607ea22449d2940800000000000000
+      spriteID: 24bb35dbf59429843a7247fc308aa816
       internalID: 5273033750629254866
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Farm_9
       rect:
         serializedVersion: 2
-        x: 264
-        y: 92
-        width: 48
-        height: 29
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0cd879d276cb6cd40800000000000000
+      spriteID: eca49fc21f6c1a1419e62a0efc561aab
       internalID: 5604373937641721280
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Farm_10
       rect:
         serializedVersion: 2
-        x: 8
-        y: 28
-        width: 48
-        height: 29
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5119acb0ac3932c90800000000000000
+      spriteID: a6ad164fd1f73a0439f553b9816deb9b
       internalID: -7195745283617418987
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Farm_11
       rect:
         serializedVersion: 2
-        x: 72
-        y: 28
-        width: 48
-        height: 29
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6f582492c12763670800000000000000
+      spriteID: e43b1f94537785b4790a58ab71064ef9
       internalID: 8518121210494748150
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Farm_12
       rect:
         serializedVersion: 2
-        x: 136
-        y: 28
-        width: 48
-        height: 29
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f213f822bebe941c0800000000000000
+      spriteID: 226453f48d67f9049b4ddb9df60dc38c
       internalID: -4518821355959930577
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Farm_13
       rect:
         serializedVersion: 2
-        x: 200
-        y: 28
-        width: 48
-        height: 29
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3986374c82c2ac560800000000000000
+      spriteID: 66679778f58a2f7479aec02b09c51d0b
       internalID: 7334723496732485779
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Farm_14
       rect:
         serializedVersion: 2
-        x: 264
-        y: 28
-        width: 48
-        height: 29
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 294e840ae772b0ca0800000000000000
+      spriteID: 66d82375192432a4c81a55485860569c
       internalID: -6049698249633635182
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 59212faf5979f814cb8113e3a1d32c77
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Farm_12: -4518821355959930577
       Farm_13: 7334723496732485779
       Farm_14: -6049698249633635182
+      Farm_15: 1604007809
+      Farm_16: 2016054429
+      Farm_17: 1938521216
+      Farm_18: -106356827
+      Farm_19: 1885365348
       Farm_2: -2073196103491603353
+      Farm_20: 279388714
+      Farm_21: 333616576
+      Farm_22: -1890064045
+      Farm_23: -454373557
+      Farm_24: 1331681378
+      Farm_25: -1620665694
+      Farm_26: 1433115912
+      Farm_27: 911191376
+      Farm_28: -980895627
+      Farm_29: -113173694
       Farm_3: 1311939846730438687
+      Farm_30: 1479477949
+      Farm_31: 1871391776
+      Farm_32: 1104716232
+      Farm_33: 1201219159
+      Farm_34: 39574186
+      Farm_35: -1033408757
+      Farm_36: -191568516
+      Farm_37: 1549630935
+      Farm_38: 951440119
+      Farm_39: -1208988948
       Farm_4: -3272529604113645564
+      Farm_40: 1852430457
+      Farm_41: 1888874197
+      Farm_42: 1304053526
+      Farm_43: 1764081374
+      Farm_44: -658221771
+      Farm_45: 641461077
+      Farm_46: -392285030
+      Farm_47: 443806078
+      Farm_48: -889382327
+      Farm_49: -1072536342
       Farm_5: -3560907591549757672
+      Farm_50: 314608211
+      Farm_51: -2115932720
+      Farm_52: 2061395847
+      Farm_53: -2067309876
+      Farm_54: 36434227
+      Farm_55: -1609063617
+      Farm_56: -1217077323
+      Farm_57: 778538945
+      Farm_58: 1510765597
+      Farm_59: 216099060
       Farm_6: -4562482267826322406
       Farm_7: -2267087822962173421
       Farm_8: 5273033750629254866

@@ -17,7 +17,7 @@ using System.Collections.Generic;
 public class CharacterConstructorUI : MonoBehaviour, ISaveable
 {
     const int PREVIEW_LAYER = 9;
-    const int RT_SIZE = 256;
+    const int RT_SIZE = 512; // 256 мылило при растяжке на 400px панель
     static readonly Vector3 RIG_POS = new Vector3(1000f, 1000f, 0f);
 
     [Header("Корень панели (перетащить ConstructorPanel)")]
@@ -29,6 +29,9 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     public Button btnRandom;
     public Button btnDone;
     public Button btnClose;
+    [Header("Кнопки пола (пусто = создаются кодом сами)")]
+    public Button btnMale;
+    public Button btnFemale;
     [Header("Префаб бота для превью (Assets/Prefab/ConstructorBot)")]
     public GameObject botPrefab;
 
@@ -41,6 +44,8 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         public Button btnLeft;
         public Button btnRight;
         public TMP_Text value;
+        [Header("Иконка варианта (перетащить Image в ряду; пусто = только текст)")]
+        public Image preview;
     }
 
     [Header("Ряды (категории уже вписаны — перетащить ссылки)")]
@@ -74,6 +79,39 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         return new Dictionary<string, string>(savedSelection, StringComparer.OrdinalIgnoreCase);
     }
     public static event Action OnAppearanceSaved;
+
+    /// <summary>Пол героя (сейвится вместе с внешностью под ключом "Gender").</summary>
+    string currentGender = "Male";
+    public string GetGender() => string.IsNullOrEmpty(currentGender) ? "Male" : currentGender;
+
+    /// <summary>Кнопки пола (OnClick со строкой "Male"/"Female").</summary>
+    public void SetGender(string g)
+    {
+        if (g != "Male" && g != "Female") return;
+        if (currentGender == g) return;
+        currentGender = g;
+        if (botVisual != null)
+        {
+            ConvertEyesToGender();
+            RebuildRows();
+        }
+        // Сохранить + разослать, но панель НЕ трогаем (кнопки пола живут рядом с ней)
+        SaveBotSelection();
+        if (SaveManager.Instance != null) SaveManager.Instance.Save();
+        if (OnAppearanceSaved != null) OnAppearanceSaved.Invoke();
+    }
+
+    // Глаза держим в семье текущего пола (цвет сохраняем): Male/Brown <-> Female/Brown
+    void ConvertEyesToGender()
+    {
+        string cur = botVisual.GetVariant("Eyes");
+        if (string.IsNullOrEmpty(cur)) return;
+        int p = cur.LastIndexOf('/');
+        string color = p >= 0 ? cur.Substring(p + 1) : cur;
+        string want = currentGender + "/" + color;
+        if (!string.Equals(cur, want, StringComparison.OrdinalIgnoreCase))
+            botVisual.SetVariant("Eyes", want);
+    }
 
     readonly List<RowUI> rows = new List<RowUI>();
     readonly Dictionary<string, string> savedSelection = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -119,6 +157,9 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
 
         if (openButton != null) openButton.onClick.AddListener(Open);
         else Debug.LogWarning("[ConstructorUI] Не назначена кнопка открытия (openButton)");
+        if (btnMale != null) btnMale.onClick.AddListener(() => SetGender("Male"));
+        if (btnFemale != null) btnFemale.onClick.AddListener(() => SetGender("Female"));
+        if (btnMale == null || btnFemale == null) BuildGenderButtons();
         if (btnRandom != null) btnRandom.onClick.AddListener(RandomizeAll);
         if (btnDone != null) btnDone.onClick.AddListener(() => Close(true));
         if (btnClose != null) btnClose.onClick.AddListener(() => Close(false));
@@ -150,6 +191,10 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     {
         if (SaveManager.Instance != null)
             SaveManager.Instance.LoadInto(this);
+        // Сейв загружен — раскидать внешность подписчикам (аватар, игрок):
+        // их Start мог отработать раньше нашего и увидеть пустой выбор
+        if (savedSelection.Count > 0 && OnAppearanceSaved != null)
+            OnAppearanceSaved.Invoke();
     }
 
     // ── Открытие/закрытие ─────────────────────────────────────────
@@ -194,6 +239,7 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     void SaveBotSelection()
     {
         savedSelection.Clear();
+        savedSelection["Gender"] = GetGender();
         if (botVisual == null) return;
         foreach (var r in rows)
             if (!string.IsNullOrEmpty(r.cfg.category))
@@ -220,7 +266,9 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
                     var cat = a.FindCategory(r.cfg.category);
                     if (cat == null) continue;
                     foreach (var v in cat.variants)
-                        if (names.Add(v.variantName)) r.options.Add(v.variantName);
+                        // Глаза листаем только своего пола (второй пол — кнопками пола)
+                        if (r.cfg.category != "Eyes" || v.variantName.StartsWith(GetGender() + "/", StringComparison.OrdinalIgnoreCase))
+                            if (names.Add(v.variantName)) r.options.Add(v.variantName);
                 }
                 r.options.Sort(StringComparer.Ordinal);
                 if (r.cfg.allowNone)
@@ -263,8 +311,19 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
 
     void RefreshRow(RowUI r)
     {
-        if (r.cfg.value != null)
-            r.cfg.value.text = (r.display.Count > r.index) ? r.display[r.index] : Pretty(CurrentValue(r));
+        string disp = (r.display.Count > r.index) ? r.display[r.index] : Pretty(CurrentValue(r));
+        if (r.cfg.value != null) r.cfg.value.text = disp;
+        // Иконка варианта вместо текста: есть спрайт — показываем картинку, текст гасим.
+        // Клики иконка не перехватывает (иначе растянутая картинка глушит соседние кнопки)
+        if (r.cfg.preview != null)
+        {
+            r.cfg.preview.raycastTarget = false;
+            // Первый кадр, а не текущий: иначе иконка прыгает вместе с анимацией бота
+            Sprite s = botVisual != null ? botVisual.GetVariantFirstSprite(r.cfg.category) : null;
+            r.cfg.preview.sprite = s;
+            r.cfg.preview.enabled = s != null;
+            if (r.cfg.value != null) r.cfg.value.gameObject.SetActive(s == null);
+        }
     }
 
     static string Pretty(string variant)
@@ -290,8 +349,11 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
     void ApplySavedToBot()
     {
         if (botVisual == null) return;
+        if (savedSelection.TryGetValue("Gender", out string g) && (g == "Male" || g == "Female"))
+            currentGender = g;
         foreach (var kv in savedSelection)
             botVisual.SetVariant(kv.Key, kv.Value);
+        ConvertEyesToGender();
     }
 
     // ── Превью-риг ────────────────────────────────────────────────
@@ -325,6 +387,7 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
         previewCam.backgroundColor = new Color(0f, 0f, 0f, 0f);
         previewCam.cullingMask = 1 << PREVIEW_LAYER;
         rt = new RenderTexture(RT_SIZE, RT_SIZE, 24);
+        rt.filterMode = FilterMode.Point; // чёткие пиксели вместо мыла
         previewCam.targetTexture = rt;
         FixPreviewRig();
     }
@@ -367,14 +430,63 @@ public class CharacterConstructorUI : MonoBehaviour, ISaveable
             if (rt == null)
             {
                 rt = new RenderTexture(RT_SIZE, RT_SIZE, 24);
+                rt.filterMode = FilterMode.Point;
                 if (previewCam != null) previewCam.targetTexture = rt;
             }
         }
     }
 
-    void SpawnBot()
+    // Кнопки пола строим сами (как остальные самострои UI): привязки в сцене не нужны.
+    // Место: верхний левый угол панели. Не подошло — скажи куда, подвину оффсеты.
+    void BuildGenderButtons()
     {
-        ClearBot();
+        GameObject root = panel != null ? panel : gameObject;
+        if (btnMale == null)
+        {
+            btnMale = MakeGenderButton(root, "BtnMale", "М", new Vector2(65, -40));
+            btnMale.onClick.AddListener(() => SetGender("Male"));
+        }
+        if (btnFemale == null)
+        {
+            btnFemale = MakeGenderButton(root, "BtnFemale", "Ж", new Vector2(170, -40));
+            btnFemale.onClick.AddListener(() => SetGender("Female"));
+        }
+    }
+
+    static Button MakeGenderButton(GameObject root, string name, string label, Vector2 anchoredPos)
+    {
+        Transform old = root.transform.Find(name);
+        if (old != null && old.GetComponent<Button>() != null)
+            return old.GetComponent<Button>();
+        var go = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer),
+            typeof(Image), typeof(Button));
+        go.transform.SetParent(root.transform, false);
+        var rt = go.GetComponent<RectTransform>();
+        rt.anchorMin = new Vector2(0f, 1f);
+        rt.anchorMax = new Vector2(0f, 1f);
+        rt.pivot = new Vector2(0.5f, 0.5f);
+        rt.sizeDelta = new Vector2(90f, 55f);
+        rt.anchoredPosition = anchoredPos;
+        go.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.9f);
+        var txt = new GameObject("Label", typeof(RectTransform), typeof(CanvasRenderer),
+            typeof(TextMeshProUGUI));
+        txt.transform.SetParent(go.transform, false);
+        var trt = txt.GetComponent<RectTransform>();
+        trt.anchorMin = Vector2.zero;
+        trt.anchorMax = Vector2.one;
+        trt.offsetMin = Vector2.zero;
+        trt.offsetMax = Vector2.zero;
+        var tmp = txt.GetComponent<TextMeshProUGUI>();
+        tmp.text = label;
+        tmp.fontSize = 34;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = Color.black;
+        tmp.raycastTarget = false;
+        return go.GetComponent<Button>();
+    }
+
+    void SpawnBot()
+    {        ClearBot();
         if (botPrefab == null || rigRoot == null) return;
         botObj = Instantiate(botPrefab, RIG_POS, Quaternion.identity, rigRoot.transform);
         SetLayerRecursive(botObj, PREVIEW_LAYER);

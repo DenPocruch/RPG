@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Cook_0
       rect:
         serializedVersion: 2
-        x: 13
-        y: 163
-        width: 40
-        height: 26
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 24d0d3f19da6ebc20800000000000000
+      spriteID: 6af064c69cf68b74da269220a7ab338f
       internalID: 3224131864008396098
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Cook_1
       rect:
         serializedVersion: 2
-        x: 77
-        y: 163
-        width: 40
-        height: 26
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 566d07cf7dd896130800000000000000
+      spriteID: 774caf18f6229f44c943a79888ed964a
       internalID: 3560532939205826149
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Cook_2
       rect:
         serializedVersion: 2
-        x: 141
-        y: 163
-        width: 40
-        height: 26
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6e47788b1703c64e0800000000000000
+      spriteID: e35af279c99ad67408804ad74f85e49b
       internalID: -1987160070591908634
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Cook_3
       rect:
         serializedVersion: 2
-        x: 205
-        y: 163
-        width: 40
-        height: 26
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: df3f963d253e161f0800000000000000
+      spriteID: aca239e188a0d6f4b833ae57fc31a7bc
       internalID: -1053310892954225667
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Cook_4
       rect:
         serializedVersion: 2
-        x: 269
-        y: 163
-        width: 40
-        height: 26
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 115a4488ac83c2b70800000000000000
+      spriteID: f317098bca3fe5b4f8942ebcd14180a7
       internalID: 8875531408161154321
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Cook_5
       rect:
         serializedVersion: 2
-        x: 13
-        y: 99
-        width: 40
-        height: 26
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 21bb610c946713b40800000000000000
+      spriteID: 7b117ade35045cc4c9724301447ed226
       internalID: 5418241885830822674
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Cook_6
       rect:
         serializedVersion: 2
-        x: 77
-        y: 99
-        width: 40
-        height: 26
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 22c84fbe589b756c0800000000000000
+      spriteID: b4b8f4104014ee0409ecd44620a5b745
       internalID: -4154648146385531870
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Cook_7
       rect:
         serializedVersion: 2
-        x: 141
-        y: 99
-        width: 40
-        height: 26
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d34f6f497c0706c70800000000000000
+      spriteID: 01e7715c47ef52f4e99d4fdb5d3d66b0
       internalID: 8962287260967302205
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Cook_8
       rect:
         serializedVersion: 2
-        x: 205
-        y: 99
-        width: 40
-        height: 26
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 48a36ff0c7f548db0800000000000000
+      spriteID: 4c5feee02aa512f4ba90748a7b69bcff
       internalID: -4790599117166986620
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Cook_9
       rect:
         serializedVersion: 2
-        x: 269
-        y: 99
-        width: 40
-        height: 26
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fc7c95745e8f60710800000000000000
+      spriteID: 3dad66c75d0ae3b44bd9b16f2f9620fc
       internalID: 1659287176360871887
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Cook_10
       rect:
         serializedVersion: 2
-        x: 13
-        y: 35
-        width: 40
-        height: 26
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7a3bafc29498bd830800000000000000
+      spriteID: 57499b48d095567468b94ffb2a2462bf
       internalID: 4097019233403843495
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Cook_11
       rect:
         serializedVersion: 2
-        x: 77
-        y: 35
-        width: 40
-        height: 26
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cb6014afa9aba24e0800000000000000
+      spriteID: 78afe47481732c24cbfe2e28a5c59e9b
       internalID: -2005585509253839172
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Cook_12
       rect:
         serializedVersion: 2
-        x: 141
-        y: 35
-        width: 40
-        height: 26
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: da5eed4c461bab520800000000000000
+      spriteID: 147cfe74cc0c5374186fbec82a67d0c2
       internalID: 2718680371429303725
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Cook_13
       rect:
         serializedVersion: 2
-        x: 205
-        y: 35
-        width: 40
-        height: 26
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b7246884828f6b3e0800000000000000
+      spriteID: fa3928106d12f574a8acbc94180bc1ef
       internalID: -2038168929439432069
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Cook_14
       rect:
         serializedVersion: 2
-        x: 269
-        y: 35
-        width: 40
-        height: 26
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bc05a96584b03d000800000000000000
+      spriteID: 98aef6fb2cd417e49a11f7143823066f
       internalID: 59403625404453067
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f6e58b8bcfb22f84fa1930fd1e436041
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Cook_12: 2718680371429303725
       Cook_13: -2038168929439432069
       Cook_14: 59403625404453067
+      Cook_15: 2074206489
+      Cook_16: -334630762
+      Cook_17: -899313595
+      Cook_18: -571400923
+      Cook_19: -667799807
       Cook_2: -1987160070591908634
+      Cook_20: 557276354
+      Cook_21: -1450528282
+      Cook_22: 1753930055
+      Cook_23: -144338127
+      Cook_24: -663859499
+      Cook_25: 1149018604
+      Cook_26: 959057791
+      Cook_27: -698129532
+      Cook_28: 772615977
+      Cook_29: -1097588125
       Cook_3: -1053310892954225667
+      Cook_30: -862948761
+      Cook_31: 836932322
+      Cook_32: -1382254202
+      Cook_33: 1896224473
+      Cook_34: -943617534
+      Cook_35: -683872657
+      Cook_36: -2001933400
+      Cook_37: 1667555027
+      Cook_38: 1102408383
+      Cook_39: 428983657
       Cook_4: 8875531408161154321
+      Cook_40: -1212670994
+      Cook_41: -1944980130
+      Cook_42: -129083514
+      Cook_43: 524159366
+      Cook_44: 1257341446
+      Cook_45: 624984920
+      Cook_46: 1712718114
+      Cook_47: -1734226109
+      Cook_48: 549325627
+      Cook_49: -998779137
       Cook_5: 5418241885830822674
+      Cook_50: -2118547017
+      Cook_51: 1764202620
+      Cook_52: -303827721
+      Cook_53: -1929376985
+      Cook_54: 1758701417
+      Cook_55: -102218465
+      Cook_56: -896748499
+      Cook_57: 1360766006
+      Cook_58: 1303503077
+      Cook_59: 1161127147
       Cook_6: -4154648146385531870
       Cook_7: 8962287260967302205
       Cook_8: -4790599117166986620

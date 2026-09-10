@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Leprechaun_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 163
-        width: 45
-        height: 28
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 56f42fafa183ae3f0800000000000000
+      spriteID: 229bd86d17489ca488169ddc863dffdb
       internalID: -870821889412280475
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Leprechaun_1
       rect:
         serializedVersion: 2
-        x: 72
-        y: 163
-        width: 45
-        height: 28
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: bb5590c68a57da170800000000000000
+      spriteID: a0875d610ee89fb4d9ff034f92afabb5
       internalID: 8191332663484306875
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Leprechaun_2
       rect:
         serializedVersion: 2
-        x: 136
-        y: 163
-        width: 45
-        height: 28
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6bcfdab83c4f8b1a0800000000000000
+      spriteID: 34e5804257ef6624191ac7be367d330c
       internalID: -6793410917189157706
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Leprechaun_3
       rect:
         serializedVersion: 2
-        x: 200
-        y: 163
-        width: 45
-        height: 28
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 652b94ebe793ad640800000000000000
+      spriteID: 6374cbdd16e0c3b4faa90f21a76ce383
       internalID: 5105456344099041878
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Leprechaun_4
       rect:
         serializedVersion: 2
-        x: 264
-        y: 163
-        width: 45
-        height: 28
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 95a482abb84d63430800000000000000
+      spriteID: 940ecf62463f237418abf89e6da6412b
       internalID: 3762428235303373401
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Leprechaun_5
       rect:
         serializedVersion: 2
-        x: 8
-        y: 99
-        width: 45
-        height: 28
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f1670789652e3af70800000000000000
+      spriteID: 0eba817f90b04d848b25cc7f41144e97
       internalID: 9197443725573256735
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Leprechaun_6
       rect:
         serializedVersion: 2
-        x: 72
-        y: 99
-        width: 45
-        height: 28
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 00cc01441e2e1de70800000000000000
+      spriteID: 9eec9fb391388a74f823b6b2a586b1a4
       internalID: 9138334576048917504
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Leprechaun_7
       rect:
         serializedVersion: 2
-        x: 136
-        y: 99
-        width: 45
-        height: 28
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2cfbe3fd14ee67fa0800000000000000
+      spriteID: a302b2584dc592a42b14d205411720b5
       internalID: -5803189103134588990
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Leprechaun_8
       rect:
         serializedVersion: 2
-        x: 200
-        y: 99
-        width: 45
-        height: 28
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c18abca9181da0130800000000000000
+      spriteID: b4ef334c6af85d7418c398ea78db5d3c
       internalID: 3533867212203599900
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Leprechaun_9
       rect:
         serializedVersion: 2
-        x: 264
-        y: 99
-        width: 45
-        height: 28
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1dc96133b3666c520800000000000000
+      spriteID: 8323d9438ec10a640a45aa2fc895153f
       internalID: 2721975429238267089
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Leprechaun_10
       rect:
         serializedVersion: 2
-        x: 8
-        y: 35
-        width: 45
-        height: 28
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 437d6bd7178bd72b0800000000000000
+      spriteID: 8327cb7e99300954cabb8f72ba91cd43
       internalID: -5585105165289597132
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Leprechaun_11
       rect:
         serializedVersion: 2
-        x: 72
-        y: 35
-        width: 45
-        height: 28
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d9f7f62a7f8a009f0800000000000000
+      spriteID: c1d58cf8cf1133c4298203c7aafcffaa
       internalID: -504217376729890915
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Leprechaun_12
       rect:
         serializedVersion: 2
-        x: 136
-        y: 35
-        width: 45
-        height: 28
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 617840d9a4565f510800000000000000
+      spriteID: d3b3b43991872434fb5e8e39e1233fa3
       internalID: 1582282215226902294
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Leprechaun_13
       rect:
         serializedVersion: 2
-        x: 200
-        y: 35
-        width: 45
-        height: 28
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d7fd79211c5e51e40800000000000000
+      spriteID: 7ea19e97a5837f744942b53023c82a81
       internalID: 5626655926872694653
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Leprechaun_14
       rect:
         serializedVersion: 2
-        x: 264
-        y: 35
-        width: 45
-        height: 28
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b8eb49212a89c6360800000000000000
+      spriteID: a7f8549c1010ad14aac24393dcc262a0
       internalID: 7164268929103478411
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: c383e9044620ac949be7000675db197b
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Leprechaun_12: 1582282215226902294
       Leprechaun_13: 5626655926872694653
       Leprechaun_14: 7164268929103478411
+      Leprechaun_15: -292854262
+      Leprechaun_16: 1096078631
+      Leprechaun_17: 683553832
+      Leprechaun_18: 1117996062
+      Leprechaun_19: 208873886
       Leprechaun_2: -6793410917189157706
+      Leprechaun_20: 367538305
+      Leprechaun_21: 1510025292
+      Leprechaun_22: 1768212584
+      Leprechaun_23: -1164239402
+      Leprechaun_24: 716599214
+      Leprechaun_25: -258293810
+      Leprechaun_26: -1890835612
+      Leprechaun_27: -711672014
+      Leprechaun_28: -1446587795
+      Leprechaun_29: -131282856
       Leprechaun_3: 5105456344099041878
+      Leprechaun_30: 888373123
+      Leprechaun_31: 1188189200
+      Leprechaun_32: 491333586
+      Leprechaun_33: -1958802739
+      Leprechaun_34: 1906848261
+      Leprechaun_35: 766188627
+      Leprechaun_36: 1407614404
+      Leprechaun_37: 508219312
+      Leprechaun_38: -841620774
+      Leprechaun_39: 216930097
       Leprechaun_4: 3762428235303373401
+      Leprechaun_40: 302573524
+      Leprechaun_41: 1283177033
+      Leprechaun_42: 1873936625
+      Leprechaun_43: -1368315826
+      Leprechaun_44: -993395691
+      Leprechaun_45: 1950037941
+      Leprechaun_46: -275603511
+      Leprechaun_47: -2145491426
+      Leprechaun_48: 520682091
+      Leprechaun_49: 944316373
       Leprechaun_5: 9197443725573256735
+      Leprechaun_50: -358092595
+      Leprechaun_51: -1546823947
+      Leprechaun_52: -656616683
+      Leprechaun_53: -1746379115
+      Leprechaun_54: 264934621
+      Leprechaun_55: 1615395244
+      Leprechaun_56: 1376215881
+      Leprechaun_57: 2005041118
+      Leprechaun_58: -954834449
+      Leprechaun_59: -397074037
       Leprechaun_6: 9138334576048917504
       Leprechaun_7: -5803189103134588990
       Leprechaun_8: 3533867212203599900

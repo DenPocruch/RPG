@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Pirate_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 163
-        width: 46
-        height: 22
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3f167744cca5b45b0800000000000000
+      spriteID: d45a024146b8ae34f89dcaa23d6ff191
       internalID: -5383109096222793229
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Pirate_1
       rect:
         serializedVersion: 2
-        x: 73
-        y: 163
-        width: 46
-        height: 22
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 96bc7064a9e69f060800000000000000
+      spriteID: efdb03c2eabd31547a0162486e15541e
       internalID: 6987737905720970089
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Pirate_2
       rect:
         serializedVersion: 2
-        x: 137
-        y: 163
-        width: 46
-        height: 22
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: dc191aa02fa39baa0800000000000000
+      spriteID: 033754e495fe0174d8f6b9029a809c39
       internalID: -6144815405335473715
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Pirate_3
       rect:
         serializedVersion: 2
-        x: 201
-        y: 163
-        width: 46
-        height: 22
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3b57ef7bb1828a320800000000000000
+      spriteID: 3363d8ee473f1254ab41d8b2da2f8e2f
       internalID: 2569347686931002803
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Pirate_4
       rect:
         serializedVersion: 2
-        x: 265
-        y: 163
-        width: 46
-        height: 22
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 188dba2c93df4ce00800000000000000
+      spriteID: 508fdd1c47be59044aebaf189d8e71c3
       internalID: 1064253836487284865
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Pirate_5
       rect:
         serializedVersion: 2
-        x: 9
-        y: 99
-        width: 46
-        height: 22
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 228b3f446091a94d0800000000000000
+      spriteID: 8e8946aeebf1bb448b4db2e5a931f731
       internalID: -3127159476538066910
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Pirate_6
       rect:
         serializedVersion: 2
-        x: 73
-        y: 99
-        width: 46
-        height: 22
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8f530200530fa6190800000000000000
+      spriteID: bd4b5f5ab74a35c40918d44aa0b7faac
       internalID: -7968292480252627464
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Pirate_7
       rect:
         serializedVersion: 2
-        x: 137
-        y: 99
-        width: 46
-        height: 22
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f8d5fde326473d7c0800000000000000
+      spriteID: 020b7e4b381722a48bab7d67cf1cc76a
       internalID: -4047763674765501041
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Pirate_8
       rect:
         serializedVersion: 2
-        x: 201
-        y: 99
-        width: 46
-        height: 22
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: ac9e553d65cf1f770800000000000000
+      spriteID: 2b4d7f50b9c93e042b037526b3647b4f
       internalID: 8642966609743702474
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Pirate_9
       rect:
         serializedVersion: 2
-        x: 265
-        y: 99
-        width: 46
-        height: 22
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 02d0f9f425fd67840800000000000000
+      spriteID: 26e9eb0a36640044887a358defd43fd7
       internalID: 5221606362598804768
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Pirate_10
       rect:
         serializedVersion: 2
-        x: 9
-        y: 35
-        width: 46
-        height: 22
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 62abdd63304a4c1a0800000000000000
+      spriteID: be841ae55ea9ba547a96eb268c377002
       internalID: -6790122004455507418
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Pirate_11
       rect:
         serializedVersion: 2
-        x: 73
-        y: 35
-        width: 46
-        height: 22
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0d8cf6b53303f4fa0800000000000000
+      spriteID: 63c602b59acef9f4d8c4c9dc223e6f22
       internalID: -5814375596776503088
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Pirate_12
       rect:
         serializedVersion: 2
-        x: 137
-        y: 35
-        width: 46
-        height: 22
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8c980d6f9f8072c80800000000000000
+      spriteID: 0b1bdc8a24ae2c24e97a5432af0d0358
       internalID: -8347693514627184184
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Pirate_13
       rect:
         serializedVersion: 2
-        x: 201
-        y: 35
-        width: 46
-        height: 22
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 468b5586dd6537a30800000000000000
+      spriteID: 256ec5b3231394f4a83f540e77dcf818
       internalID: 4211805585459755108
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Pirate_14
       rect:
         serializedVersion: 2
-        x: 265
-        y: 35
-        width: 46
-        height: 22
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 797ec711c54c283b0800000000000000
+      spriteID: f53ea35f76af56047935a2e54e971c6e
       internalID: -5511627094238632041
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9151d2db83f083b43b26993ca05c6bd9
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Pirate_12: -8347693514627184184
       Pirate_13: 4211805585459755108
       Pirate_14: -5511627094238632041
+      Pirate_15: 932141559
+      Pirate_16: 1665383716
+      Pirate_17: 1689679585
+      Pirate_18: -2111497068
+      Pirate_19: 630236283
       Pirate_2: -6144815405335473715
+      Pirate_20: 1016450515
+      Pirate_21: -2116201368
+      Pirate_22: 333999438
+      Pirate_23: 1404273476
+      Pirate_24: -1335515276
+      Pirate_25: -428775911
+      Pirate_26: 1457926564
+      Pirate_27: 1695105198
+      Pirate_28: -1567426574
+      Pirate_29: -361603783
       Pirate_3: 2569347686931002803
+      Pirate_30: 229913381
+      Pirate_31: 580955265
+      Pirate_32: 922589783
+      Pirate_33: 928962254
+      Pirate_34: -628190214
+      Pirate_35: -1866816375
+      Pirate_36: -31191800
+      Pirate_37: -1683670881
+      Pirate_38: -633931864
+      Pirate_39: -894376418
       Pirate_4: 1064253836487284865
+      Pirate_40: 1149194352
+      Pirate_41: 855158393
+      Pirate_42: 2013521977
+      Pirate_43: 14243606
+      Pirate_44: -262805994
+      Pirate_45: 1022055804
+      Pirate_46: -645705838
+      Pirate_47: 780380348
+      Pirate_48: -1663978890
+      Pirate_49: 1997366215
       Pirate_5: -3127159476538066910
+      Pirate_50: -369949063
+      Pirate_51: 1281574338
+      Pirate_52: 1495580378
+      Pirate_53: 873887920
+      Pirate_54: -2050020375
+      Pirate_55: -525893481
+      Pirate_56: -303098581
+      Pirate_57: -614234120
+      Pirate_58: -1609762202
+      Pirate_59: 1894106803
       Pirate_6: -7968292480252627464
       Pirate_7: -4047763674765501041
       Pirate_8: 8642966609743702474

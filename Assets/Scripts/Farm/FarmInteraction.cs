@@ -71,6 +71,7 @@ public class FarmInteraction : MonoBehaviour
         // ���� �� �������
         if (success && PlayerLevel.Instance != null)
             PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpTill);
+        if (success) TutorialManager.Notify("hoe"); // ч.2 лора: обучение
     }
 
     void WaterGround()
@@ -93,6 +94,7 @@ public class FarmInteraction : MonoBehaviour
         bool watered = FarmManager.Instance.WaterSoil(pos);
         if (watered)
         {
+            TutorialManager.Notify("water"); // ч.2 лора: обучение
             activeSlot.UseWater();
 
             // ���� �� �����
@@ -109,6 +111,7 @@ public class FarmInteraction : MonoBehaviour
         bool success = FarmManager.Instance.PlantSeed(pos, seedData);
         if (success)
         {
+            TutorialManager.Notify("plant"); // ч.2 лора: обучение
             // ���� �� �������
             if (PlayerLevel.Instance != null)
                 PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpPlant);
@@ -139,6 +142,7 @@ public class FarmInteraction : MonoBehaviour
     {
         ItemData harvest = FarmManager.Instance.HarvestCrop(pos, out int quality);
         if (harvest == null) return;
+        TutorialManager.Notify("harvest"); // ч.2 лора: обучение
 
         // Качество урожая: подменяем на звёздный вариант (Carrot → Carrot Silver и т.д.)
         if (quality > 0)

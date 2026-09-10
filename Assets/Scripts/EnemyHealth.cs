@@ -88,6 +88,7 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         currentHealth = 0;
+        TutorialManager.Notify("kill"); // ч.2 лора: обучение
 
         // ���� �� ��������
         if (PlayerLevel.Instance != null && xpReward > 0)

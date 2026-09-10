@@ -79,7 +79,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -89,11 +89,11 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
-  spriteMeshType: 1
+  spriteExtrude: 0
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -117,7 +117,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -158,19 +158,19 @@ TextureImporter:
       name: Ginger_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 142
-        width: 25
-        height: 13
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5953b8bc82a4dc700800000000000000
+      spriteID: 41a82d88e7670364c8af4aab0847f2d7
       internalID: 562187067565225365
       vertices: []
       indices: 
@@ -180,19 +180,19 @@ TextureImporter:
       name: Ginger_1
       rect:
         serializedVersion: 2
-        x: 82
-        y: 142
-        width: 25
-        height: 13
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 91c0f8516dda6c980800000000000000
+      spriteID: 508d40d77d9c9214491f44283dca9f9c
       internalID: -8518930510128411623
       vertices: []
       indices: 
@@ -202,19 +202,19 @@ TextureImporter:
       name: Ginger_2
       rect:
         serializedVersion: 2
-        x: 146
-        y: 142
-        width: 25
-        height: 13
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0b6a08a8b90306090800000000000000
+      spriteID: 8ac7d6802c5b66349aa0674d45bbaae0
       internalID: -8043375489881954640
       vertices: []
       indices: 
@@ -224,19 +224,19 @@ TextureImporter:
       name: Ginger_3
       rect:
         serializedVersion: 2
-        x: 210
-        y: 142
-        width: 25
-        height: 13
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d1f08e420c55f5220800000000000000
+      spriteID: 6dca64b279b251c4fb3a3c9ece78045c
       internalID: 2476792603818331933
       vertices: []
       indices: 
@@ -246,19 +246,19 @@ TextureImporter:
       name: Ginger_4
       rect:
         serializedVersion: 2
-        x: 274
-        y: 142
-        width: 25
-        height: 13
+        x: 256
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 5599dba3a5fadc8a0800000000000000
+      spriteID: 1883d6dcf8c1ca04f92feecb65d3ba81
       internalID: -6283173103044552363
       vertices: []
       indices: 
@@ -268,19 +268,19 @@ TextureImporter:
       name: Ginger_5
       rect:
         serializedVersion: 2
-        x: 18
-        y: 78
-        width: 25
-        height: 13
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8ce799c960a7a6820800000000000000
+      spriteID: b428b11821ff3344f87e13291ac56a39
       internalID: 2912274277864144584
       vertices: []
       indices: 
@@ -290,19 +290,19 @@ TextureImporter:
       name: Ginger_6
       rect:
         serializedVersion: 2
-        x: 82
-        y: 78
-        width: 25
-        height: 13
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9d0e88db0452d97b0800000000000000
+      spriteID: 4904710e431f2f14fb2ae3c6800c2576
       internalID: -5215971833437167399
       vertices: []
       indices: 
@@ -312,19 +312,19 @@ TextureImporter:
       name: Ginger_7
       rect:
         serializedVersion: 2
-        x: 146
-        y: 78
-        width: 25
-        height: 13
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 605b730f71b0e0c90800000000000000
+      spriteID: d5438f2c6230fe6419cd4a249b563ad4
       internalID: -7201806556676508410
       vertices: []
       indices: 
@@ -334,19 +334,19 @@ TextureImporter:
       name: Ginger_8
       rect:
         serializedVersion: 2
-        x: 210
-        y: 78
-        width: 25
-        height: 13
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f14d8bf71c70c2340800000000000000
+      spriteID: 907c9f11cdcc2854aa5b723ba2326c2f
       internalID: 4840252227169342495
       vertices: []
       indices: 
@@ -356,19 +356,19 @@ TextureImporter:
       name: Ginger_9
       rect:
         serializedVersion: 2
-        x: 274
-        y: 78
-        width: 25
-        height: 13
+        x: 256
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c5149dfa8ee8bcf50800000000000000
+      spriteID: da4417e7f23fc0f40ba1ee2aeb57d4ca
       internalID: 6902767983909224796
       vertices: []
       indices: 
@@ -378,19 +378,19 @@ TextureImporter:
       name: Ginger_10
       rect:
         serializedVersion: 2
-        x: 18
-        y: 14
-        width: 25
-        height: 13
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d162253e064c64750800000000000000
+      spriteID: cd9f2dd0b397b1b4eb8823b0d6eceecb
       internalID: 6288929850079192605
       vertices: []
       indices: 
@@ -400,19 +400,19 @@ TextureImporter:
       name: Ginger_11
       rect:
         serializedVersion: 2
-        x: 82
-        y: 14
-        width: 25
-        height: 13
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6a2e700dfabe13a00800000000000000
+      spriteID: 15b96c18f74b0624e9525f7259398e36
       internalID: 734627354580083366
       vertices: []
       indices: 
@@ -422,19 +422,19 @@ TextureImporter:
       name: Ginger_12
       rect:
         serializedVersion: 2
-        x: 146
-        y: 14
-        width: 25
-        height: 13
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: adbeb4000a16d3e00800000000000000
+      spriteID: a08909d49aa72a24c9b074d1391e9758
       internalID: 1026083629937978330
       vertices: []
       indices: 
@@ -444,19 +444,19 @@ TextureImporter:
       name: Ginger_13
       rect:
         serializedVersion: 2
-        x: 210
-        y: 14
-        width: 25
-        height: 13
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 440b7b86c84fe48d0800000000000000
+      spriteID: fc385514f3d4eca4da217fedc9ea5fd8
       internalID: -2860079829444218812
       vertices: []
       indices: 
@@ -466,19 +466,19 @@ TextureImporter:
       name: Ginger_14
       rect:
         serializedVersion: 2
-        x: 274
-        y: 14
-        width: 25
-        height: 13
+        x: 256
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: da978b722b0b1e920800000000000000
+      spriteID: 4480836a7f59aab41ba20083267f2f36
       internalID: 3017887504532011437
       vertices: []
       indices: 
@@ -488,7 +488,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 9113204ac98b353469e402fad21e48c9
     internalID: 0
     vertices: []
     indices: 
@@ -505,10 +505,55 @@ TextureImporter:
       Ginger_12: 1026083629937978330
       Ginger_13: -2860079829444218812
       Ginger_14: 3017887504532011437
+      Ginger_15: 1377904397
+      Ginger_16: 1136035437
+      Ginger_17: 487497376
+      Ginger_18: -1199508423
+      Ginger_19: -739070775
       Ginger_2: -8043375489881954640
+      Ginger_20: -46324826
+      Ginger_21: -126212198
+      Ginger_22: 1830672479
+      Ginger_23: 430961789
+      Ginger_24: -653951615
+      Ginger_25: 423008465
+      Ginger_26: -1563344495
+      Ginger_27: 675048142
+      Ginger_28: 1434340267
+      Ginger_29: 1191588908
       Ginger_3: 2476792603818331933
+      Ginger_30: -1272305614
+      Ginger_31: -989091068
+      Ginger_32: 587166170
+      Ginger_33: 1076250696
+      Ginger_34: 1466139416
+      Ginger_35: 1767015819
+      Ginger_36: -1061727710
+      Ginger_37: -1516382317
+      Ginger_38: 1405426994
+      Ginger_39: 765018033
       Ginger_4: -6283173103044552363
+      Ginger_40: -1953881161
+      Ginger_41: -1686066334
+      Ginger_42: 80841713
+      Ginger_43: -1606257498
+      Ginger_44: 1073337905
+      Ginger_45: 1031230908
+      Ginger_46: -1568417662
+      Ginger_47: 225597785
+      Ginger_48: -1064831065
+      Ginger_49: -1782313626
       Ginger_5: 2912274277864144584
+      Ginger_50: 2124854831
+      Ginger_51: -922926812
+      Ginger_52: 61090881
+      Ginger_53: 933134062
+      Ginger_54: 1986799174
+      Ginger_55: -1839486020
+      Ginger_56: 752312338
+      Ginger_57: -2103560577
+      Ginger_58: -1561703396
+      Ginger_59: 223128605
       Ginger_6: -5215971833437167399
       Ginger_7: -7201806556676508410
       Ginger_8: 4840252227169342495

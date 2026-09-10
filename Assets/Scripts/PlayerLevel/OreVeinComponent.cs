@@ -147,6 +147,7 @@ public class OreVeinComponent : MonoBehaviour
     IEnumerator DepleteVein()
     {
         isDepleted = true;
+        TutorialManager.Notify("mine"); // ч.2 лора: обучение
         // Момент возрождения в реальном времени — оффлайн-прогресс сам собой
         respawnAtTicks = respawns
             ? System.DateTime.UtcNow.Ticks + (long)(respawnTime * System.TimeSpan.TicksPerSecond)

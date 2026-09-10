@@ -320,6 +320,7 @@ public class FishingController : MonoBehaviour, ISaveable
             {
                 ActionLogUI.Show("[Рыбалка] Поймано: " + hooked.fishName);
             }
+            TutorialManager.Notify("fish"); // ч.2 лора: обучение
             if (SaveManager.Instance != null) SaveManager.Instance.Save();
         }
         else if (!win)
