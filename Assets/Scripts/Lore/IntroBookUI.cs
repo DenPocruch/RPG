@@ -87,14 +87,27 @@ public static class IntroBookUI
         backBtn = back;
         nextBtn = next;
         skipBtn = skip;
+        // Первый бинд побеждает: поздний дубль (вторая панель/биндер в сцене)
+        // не должен уводить статику на скрытый объект
+        if (usingBoundUI && root != null)
+        {
+            Debug.LogWarning("[IntroBook] Bind: дубль! Уже привязано к '" + root.name
+                + "', повтор от '" + (boundRoot != null ? boundRoot.name : "null")
+                + "' проигнорирован. Поищи второй IntroBookBinder через t:IntroBookBinder и удали.");
+            return;
+        }
         usingBoundUI = true;
         boundWired = false;
         if (root != null) root.SetActive(false);
+        Debug.Log("[IntroBook] Bind: панель привязана (" + (root != null ? root.name : "null") + ")");
     }
 
     public static void Show()
     {
+        // Активно ищем биндер в сцене (включая скрытые) — порядок Awake больше не важен
+        DiscoverBinder();
         // Сценовая панель привязана — показываем её
+        Debug.Log("[IntroBook] Show: usingBoundUI=" + usingBoundUI + " root=" + (root != null ? root.name : "null"));
         if (usingBoundUI && root != null)
         {
             page = 0;
@@ -111,6 +124,15 @@ public static class IntroBookUI
         BuildUI(canvas);
         ShowPage(0);
         FreezePlayer(true);
+    }
+
+    static void DiscoverBinder()
+    {
+        if (usingBoundUI && root != null) return; // уже привязано и живо
+        var found = Object.FindObjectsByType<IntroBookBinder>(
+            FindObjectsInactive.Include, FindObjectsSortMode.None);
+        if (found != null && found.Length > 0 && found[0] != null)
+            found[0].ApplyBind();
     }
 
     static void FreezePlayer(bool frozen)
@@ -222,8 +244,41 @@ public static class IntroBookUI
         return btn;
     }
 
+    // ── Письмо (один экран поверх книги): тот же красивый бинд ──
+    private static bool customMode;
+    private static string customTitle = "";
+    private static string customPage = "";
+
+    public static void ShowCustom(string title, string body)
+    {
+        DiscoverBinder();
+        customMode = true;
+        customTitle = title;
+        customPage = body;
+        if (usingBoundUI && root != null)
+        {
+            page = 0;
+            WireBoundOnce();
+            root.SetActive(true);
+            ShowPage(0);
+            FreezePlayer(true);
+            return;
+        }
+        // Кодового фолбэка для писем нет — без сценовой панели показываем в лог
+        customMode = false;
+        ActionLogUI.Show("[" + title + "] " + body);
+    }
+
     static void ShowPage(int i)
     {
+        if (customMode)
+        {
+            if (titleText != null) titleText.text = customTitle;
+            if (bodyText != null) bodyText.text = customPage;
+            if (backBtn != null) backBtn.gameObject.SetActive(false);
+            if (nextLabel != null) nextLabel.text = "Понятно";
+            return;
+        }
         page = Mathf.Clamp(i, 0, Pages.Length - 1);
         if (titleText != null) titleText.text = Titles[page];
         if (bodyText != null) bodyText.text = Pages[page];
@@ -233,12 +288,14 @@ public static class IntroBookUI
 
     static void OnNext()
     {
+        if (customMode) { Close(); return; }
         if (page < Pages.Length - 1) ShowPage(page + 1);
         else Close();
     }
 
     static void Close()
     {
+        customMode = false;
         if (usingBoundUI)
         {
             if (root != null) root.SetActive(false); // сценовая панель живёт дальше

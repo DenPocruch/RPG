@@ -177,6 +177,7 @@ public class InventoryUI : MonoBehaviour, ISaveable
     {
         isOpen = true;
         inventoryPanel.SetActive(true);
+        TutorialManager.Notify("ui_inv"); // путеводитель: открыл инвентарь
     }
 
     public void CloseInventory()

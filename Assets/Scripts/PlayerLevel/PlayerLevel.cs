@@ -166,6 +166,7 @@ public class PlayerLevel : MonoBehaviour, ISaveable
         }
         availableSkillPoints -= amount;
         onSkillPointsChanged?.Invoke(availableSkillPoints);
+        TutorialManager.Notify("skills_spent"); // путеводитель: взял перк
         return true;
     }
 
@@ -173,6 +174,15 @@ public class PlayerLevel : MonoBehaviour, ISaveable
     {
         availableSkillPoints += amount;
         onSkillPointsChanged?.Invoke(availableSkillPoints);
+    }
+
+    // Выдача очков (путеводитель: стартовые 3 перед шагом навыков)
+    public void GrantSkillPoints(int amount)
+    {
+        if (amount <= 0) return;
+        availableSkillPoints += amount;
+        onSkillPointsChanged?.Invoke(availableSkillPoints);
+        SaveManager.Instance?.Save();
     }
 
     // ═══════════════════════════════════════════════════════════

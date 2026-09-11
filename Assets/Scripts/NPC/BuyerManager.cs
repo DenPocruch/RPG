@@ -258,7 +258,7 @@ public class BuyerManager : MonoBehaviour, ISaveable
 
         // Репутация растёт с заработанного золота
         reputation += gold;
-        TutorialManager.Notify("sell"); // ч.2 лора: обучение
+        TutorialManager.Notify("sell", gold); // путеводитель: продажа + строка про долг
 
         // Сейв по событию: продажа
         SaveManager.Instance?.Save();

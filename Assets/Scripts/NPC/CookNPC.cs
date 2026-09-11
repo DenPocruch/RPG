@@ -79,6 +79,10 @@ public class CookNPC : MonoBehaviour
 
         if (DialogueManager.Instance != null)
             DialogueManager.Instance.SetCondition(foodReadyCondition, ready);
+
+        // Путеводитель: на шаге хлеба — сразу к делу (узел 12), иначе хаб
+        if (interactable != null)
+            interactable.forceStartNode = TutorialManager.CurrentStep() == "bread" ? 12 : -1;
     }
 
     // Действие приходит УЖЕ после закрытия диалога (см. DialogueManager) —
@@ -89,6 +93,34 @@ public class CookNPC : MonoBehaviour
         {
             if (CookUI.Instance != null) CookUI.Instance.Open();
         }
+        // Путеводитель: "Испеки хлеб" (Custom BakeBread) — только свой диалог
+        if (action == DialogueActionType.Custom && param == "BakeBread")
+        {
+            if (DialogueManager.Instance == null || DialogueManager.Instance.currentNPC == null) return;
+            if (DialogueManager.Instance.currentNPC.gameObject != gameObject) return;
+            BakeBread();
+        }
+    }
+
+    // Хлеб новичка: 2 пшеницы → 1 хлеб (без станка, руками Густава)
+    void BakeBread()
+    {
+        ItemData wheat = ItemDatabase.Find("Wheat");
+        ItemData bread = ItemDatabase.Find("Bread");
+        if (wheat == null || bread == null)
+        {
+            ActionLogUI.Show("[Густав] Что-то не сходится... (хлеб: Tools → Lore → 2)");
+            return;
+        }
+        if (InventoryUI.Instance == null) return;
+        if (!InventoryUI.Instance.RemoveItem(wheat, 2))
+        {
+            ActionLogUI.Show("[Густав] Неси 2 пшеницы, мон ами! Без муки хлеба нет.");
+            return;
+        }
+        QuestGive.Give(bread, 1, true);
+        ActionLogUI.Show("[Густав] Во-о-от! Тёплый! Он уже у тебя в руках — нажми атаку, съешь, и царапины как не бывало.");
+        TutorialManager.Notify("bread");
     }
 
     // ═══════════════════════════════════════════════════════════

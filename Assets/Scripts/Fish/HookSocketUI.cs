@@ -363,6 +363,60 @@ public class HookSocketUI : MonoBehaviour, ISaveable
         return true;
     }
 
+    /// <summary>Надевание крючка атакой: крючок в хотбаре выбран + кнопка атаки
+    /// (альтернатива перетаскиванию из рюкзака; инвентарь открывать не надо).
+    /// Удочка должна быть ХОТЯ БЫ в наличии (в руках её нет — там крючок).</summary>
+    public bool TrySocketFromHands(InventorySlot src)
+    {
+        if (src == null || src.IsEmpty()) return false;
+        ItemData item = src.currentItem;
+        if (item == null || item.itemType != ItemType.FishingHook) return false;
+        if (IsBusy())
+        {
+            ActionLogUI.Show("[Крючок] Во время вываживания крючок не сменить!");
+            return false;
+        }
+        if (!HasAnyRod())
+        {
+            ActionLogUI.Show("[Крючок] Сначала возьми удочку у Морека!");
+            return false;
+        }
+        if (hookItem != null)
+        {
+            ActionLogUI.Show("[Крючок] Слот занят — сначала перетащи крючок в инвентарь!");
+            return false;
+        }
+        int casts = src.hookCastsLeft;
+        if (casts < 0) casts = item.hookMaxCasts; // свежий крючок — полная прочность
+        if (item.hookMaxCasts <= 0) casts = int.MaxValue; // вечный
+        src.ClearSlot();
+        // Хотбар перерисовывает активный слот сам через ClearSlot→UpdateUI;
+        // о смене активного предмета сообщаем, чтобы иконки не зависли
+        if (src.isHotbarSlot) HotbarManager.Instance?.NotifyActiveItemChanged();
+        hookItem = item;
+        castsLeft = casts;
+        Refresh();
+        SaveManager.Instance?.Save();
+        ActionLogUI.Show("[Крючок] Нацеплен: " + item.itemName + ". Бери удочку — и рыбачь!");
+        return true;
+    }
+
+    // Удочка хоть где-то: хотбар или рюкзак
+    static bool HasAnyRod()
+    {
+        var hotbar = HotbarManager.Instance;
+        if (hotbar != null && hotbar.slots != null)
+            foreach (var s in hotbar.slots)
+                if (s != null && !s.IsEmpty() && s.currentItem != null
+                    && s.currentItem.itemType == ItemType.FishingRod) return true;
+        var inv = InventoryUI.Instance;
+        if (inv != null && inv.slots != null)
+            foreach (var s in inv.slots)
+                if (s != null && !s.IsEmpty() && s.currentItem != null
+                    && s.currentItem.itemType == ItemType.FishingRod) return true;
+        return false;
+    }
+
     /// <summary>Проверка дропа: точка над слотом? (один объект).</summary>
     public bool IsSocketHit(GameObject go)
     {

@@ -20,6 +20,8 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 
     [Header("Диалог")]
     public DialogueData dialogue; // ассет диалога этого NPC
+    [Tooltip("Принудительный стартовый узел (-1 = из ассета). Ставит код NPC под стадию квеста.")]
+    public int forceStartNode = -1;
     [Tooltip("Если false — вместо диалога срабатывает onDirectInteract (напр. кузнец у станка открывает ковку сразу)")]
     public bool dialogueEnabled = true;
 
@@ -117,6 +119,10 @@ public class NPCInteractable : MonoBehaviour, IInteractable
         if (npc != null) npc.aiPaused = true;
         FacePlayer();
 
+        // Путеводитель: кто это (для шага знакомств): cook/smith/marta/buyer/morek/mayor/""
+        string role = GetRoleKey();
+        if (!string.IsNullOrEmpty(role)) TutorialManager.Notify("talk_" + role);
+
         onTalk?.Invoke(); // NPC-специфичная логика (повар выставит условия диалога)
 
         // Открываем диалог
@@ -128,7 +134,10 @@ public class NPCInteractable : MonoBehaviour, IInteractable
 
             // По окончании диалога — вернуть NPC к патрулю
             DialogueManager.Instance.onDialogueEnd = EndTalk;
-            DialogueManager.Instance.StartDialogue(dialogue);
+            if (forceStartNode >= 0)
+                DialogueManager.Instance.StartDialogueAt(dialogue, forceStartNode, this);
+            else
+                DialogueManager.Instance.StartDialogue(dialogue);
         }
         else
         {
@@ -157,6 +166,18 @@ public class NPCInteractable : MonoBehaviour, IInteractable
     public void EndTalk()
     {
         if (npc != null) npc.aiPaused = false;
+    }
+
+    // Роль для путеводителя (по скрипту-логике на объекте)
+    string GetRoleKey()
+    {
+        if (GetComponent<CookNPC>() != null) return "cook";
+        if (GetComponent<BlacksmithNPC>() != null) return "smith";
+        if (GetComponent<BuyerNPC>() != null) return "buyer";
+        if (GetComponent<MartaNPC>() != null) return "marta";
+        if (GetComponent<MorekNPC>() != null) return "morek";
+        if (GetComponent<MayorNPC>() != null) return "mayor";
+        return "";
     }
 
     void OnDrawGizmosSelected()

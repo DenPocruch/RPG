@@ -22,7 +22,12 @@ public class IntroBookBinder : MonoBehaviour
 
     void Awake()
     {
-        if (root == null) root = gameObject;
-        IntroBookUI.Bind(root, title, body, backButton, nextButton, skipButton);
+        ApplyBind();
+    }
+
+    public void ApplyBind()
+    {
+        GameObject r = root != null ? root : gameObject;
+        IntroBookUI.Bind(r, title, body, backButton, nextButton, skipButton);
     }
 }

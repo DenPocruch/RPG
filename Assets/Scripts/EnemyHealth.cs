@@ -89,6 +89,8 @@ public class EnemyHealth : MonoBehaviour
     {
         currentHealth = 0;
         TutorialManager.Notify("kill"); // ч.2 лора: обучение
+        if (GetComponent<TutorialSlime>() != null)
+            TutorialManager.Notify("farmkill"); // путеводитель: зачистка участка №9
 
         // ���� �� ��������
         if (PlayerLevel.Instance != null && xpReward > 0)

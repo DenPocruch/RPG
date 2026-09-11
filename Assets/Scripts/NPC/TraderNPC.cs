@@ -14,9 +14,28 @@ public class TraderNPC : MonoBehaviour
 {
     [Header("Товары этого торговца")]
     public ShopManager.ShopItem[] stock;
+    [Header("Вторая вкладка (опц.)")]
+    public ShopManager.ShopItem[] stock2;
 
     [Header("Заголовок окна магазина (опц.)")]
     public string shopTitle = "";
+
+    void Awake()
+    {
+        // Переезд с прилавка ShopInteraction (Марта): товар забираем с собой,
+        // сам прилавок удаляем — два IInteractable на объекте конфликтуют.
+        // Руками перетаскивать ничего не надо.
+        // NPC часто сидит ребёнком домика/прилавка — ищем и у родителя.
+        var shop = GetComponentInParent<ShopInteraction>();
+        if (shop != null)
+        {
+            if ((stock == null || stock.Length == 0) && shop.itemsForSale != null)
+                stock = shop.itemsForSale;
+            if ((stock2 == null || stock2.Length == 0) && shop.itemsForSaleAnimals != null)
+                stock2 = shop.itemsForSaleAnimals;
+            Destroy(shop);
+        }
+    }
 
     void Start()
     {
@@ -43,7 +62,10 @@ public class TraderNPC : MonoBehaviour
         {
             // Заголовок: из параметра диалога, иначе из поля компонента
             string title = !string.IsNullOrEmpty(param) ? param : shopTitle;
-            ShopUI.Instance.Open(stock, title);
+            if (stock2 != null && stock2.Length > 0)
+                ShopUI.Instance.Open(stock, stock2, title);
+            else
+                ShopUI.Instance.Open(stock, title);
         }
     }
 }

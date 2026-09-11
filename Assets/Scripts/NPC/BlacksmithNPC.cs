@@ -88,6 +88,14 @@ public class BlacksmithNPC : MonoBehaviour
     // Из диалога (кузнец гуляет) выбрали "Выкуй мне вещь"
     void OnDialogueAction(DialogueActionType action, string param)
     {
+        // Путеводитель: кирка T1 (Custom GivePick) — только свой диалог
+        if (action == DialogueActionType.Custom && param == "GivePick")
+        {
+            if (DialogueManager.Instance == null || DialogueManager.Instance.currentNPC == null) return;
+            if (DialogueManager.Instance.currentNPC.gameObject != gameObject) return;
+            GivePick();
+            return;
+        }
         if (action != DialogueActionType.LeadToCraft) return;
         if (stationWaypoint == null) return;
 
@@ -97,6 +105,25 @@ public class BlacksmithNPC : MonoBehaviour
         npc.aiPaused = false;
         npc.GoTo(stationWaypoint);
         Debug.Log("[Кузнец] Ведёт игрока к станку");
+    }
+
+    // Кирка новичка (T1): в хотбар и в руки
+    void GivePick()
+    {
+        if (!TutorialManager.TakePickOnce())
+        {
+            ActionLogUI.Show("[Степан] Кирка у тебя уже есть. Бей жилу — не меня.");
+            return;
+        }
+        ItemData pick = ItemDatabase.Find("Pickaxe");
+        if (pick == null)
+        {
+            ActionLogUI.Show("[Степан] Кирок на складе нет...");
+            return;
+        }
+        QuestGive.Give(pick, 1, true);
+        ActionLogUI.Show("[Степан] Держи кирку. Шахта — через портал. 5 жил — и назад.");
+        TutorialManager.Notify("pickaxe");
     }
 
     // ═══════════════════════════════════════════════════════════

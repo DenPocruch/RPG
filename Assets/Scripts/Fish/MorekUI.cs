@@ -90,9 +90,13 @@ public class MorekUI : MonoBehaviour
             return;
         }
         if (InventoryUI.Instance != null) InventoryUI.Instance.AddItem(rod, 1);
+        // Крючок в придачу — тоже в хотбар (схема выдачи новичку: QuestGive)
+        ItemData hook = ItemDatabase.Find("Hook_Copper_I");
+        if (hook != null) QuestGive.Give(hook, 1);
+        else ActionLogUI.Show("[Морек] Крючков на складе нет... (Tools → Fish → 8)");
         FishingController.Instance?.MarkRodGifted();
         TutorialManager.Notify("rod"); // ч.2 лора: обучение
-        ActionLogUI.Show("[Морек] Держи удочку, рыбак! Встань у воды и бей.");
+        ActionLogUI.Show("[Морек] Держи удочку и крючок, рыбак! Крючок нацепи в слот (выбери и нажми атаку) или перетащи. Встань у воды и бей.");
         RefreshRodButton();
     }
 

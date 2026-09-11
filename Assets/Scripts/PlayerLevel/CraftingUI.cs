@@ -404,6 +404,8 @@ public class CraftingUI : MonoBehaviour
             if (InventoryUI.Instance != null)
                 InventoryUI.Instance.AddItem(result.outputItem, 1);
 
+            TutorialManager.Notify("forge"); // путеводитель: улучшил предмет
+
             // Попап успеха над игроком
             if (DamagePopupManager.Instance != null)
             {

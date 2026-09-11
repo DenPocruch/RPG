@@ -80,7 +80,16 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(DialogueData data)
     {
         if (data == null) return;
+        StartDialogueAt(data, data.startNodeId, null);
+    }
+
+    /// <summary>Запуск диалога с конкретного узла (путеводитель: автодиалог мэра).
+    /// talker — с кем говорят (для проверки Custom-действий), null = без привязки.</summary>
+    public void StartDialogueAt(DialogueData data, int nodeId, NPCInteractable talker)
+    {
+        if (data == null) return;
         current = data;
+        if (talker != null) currentNPC = talker;
 
         // Блокируем движение игрока пока говорим
         PlayerMovement pm = FindFirstObjectByType<PlayerMovement>();
@@ -92,7 +101,7 @@ public class DialogueManager : MonoBehaviour
         if (portraitImage != null && data.portrait != null)
             portraitImage.sprite = data.portrait;
 
-        ShowNode(data.GetStartNode());
+        ShowNode(data.GetNode(nodeId) ?? data.GetStartNode());
     }
 
     void ShowNode(DialogueNode node)

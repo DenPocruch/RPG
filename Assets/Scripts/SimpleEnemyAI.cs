@@ -388,6 +388,9 @@ public class SimpleEnemyAI : MonoBehaviour
         Collider2D[] cols = GetComponents<Collider2D>();
         foreach (var c in cols) c.enabled = false;
 
+        // Учебные слаймы (TutorialSlime) не возрождаются — участок зачищается навсегда
+        if (GetComponent<TutorialSlime>() != null) { Destroy(gameObject); yield break; }
+
         yield return new WaitForSeconds(respawnTime);
 
         transform.position = spawnPosition;

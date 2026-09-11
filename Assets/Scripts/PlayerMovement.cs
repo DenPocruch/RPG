@@ -268,6 +268,14 @@ public class PlayerMovement : MonoBehaviour
                 if (FishingController.Instance != null)
                     FishingController.Instance.OnAttackPress();
                 break;
+            case ItemType.FishingHook:
+                // Крючок в руках + атака = нацепить в слот (без открытия инвентаря)
+                if (HookSocketUI.HasInstance && HookSocketUI.Instance != null)
+                {
+                    InventorySlot hookSlot = HotbarManager.Instance?.GetActiveSlot();
+                    HookSocketUI.Instance.TrySocketFromHands(hookSlot);
+                }
+                break;
             case ItemType.Seed:
                 if (farmInteraction != null)
                     farmInteraction.TryPlantOrHarvest();
@@ -867,6 +875,8 @@ void EatFood(ItemData food)
             else slot.ClearSlot();
             HotbarManager.Instance.NotifyActiveItemChanged();
         }
+        if (food != null && food.name == "Bread")
+            TutorialManager.Notify("eat"); // путеводитель: съел хлеб от Густава
     }
 
     void ChopTree()

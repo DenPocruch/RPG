@@ -52,6 +52,12 @@ public class SaveManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        // Глушим рантайм-UI URP Rendering Debugger (панель Display Stats):
+        // открывается жестами Ctrl+Backspace / L3+R3 / дабл-тап 3 пальцами,
+        // в бою по слаймам тестеры/игроки вызывают его случайно молотьбой
+        // по кнопке атаки. Окно редактора Window > Rendering >
+        // Rendering Debugger продолжает работать — глушится только жест.
+        UnityEngine.Rendering.DebugManager.instance.enableRuntimeUI = false;
         ReadFile();
     }
 

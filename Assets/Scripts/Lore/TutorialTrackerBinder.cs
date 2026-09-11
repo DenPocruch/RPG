@@ -18,7 +18,12 @@ public class TutorialTrackerBinder : MonoBehaviour
 
     void Awake()
     {
-        if (root == null) root = gameObject;
-        TutorialManager.Instance.BindTracker(root, label, skipButton);
+        ApplyBind();
+    }
+
+    public void ApplyBind()
+    {
+        GameObject r = root != null ? root : gameObject;
+        TutorialManager.Instance.BindTracker(r, label, skipButton);
     }
 }

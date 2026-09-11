@@ -301,6 +301,11 @@ public class ShopUI : MonoBehaviour
 
             // Сейв по событию: покупка (золото и инвентарь изменились)
             SaveManager.Instance?.Save();
+
+            // Путеводитель: купил пшеницу у Марты (строго конкретный тип)
+            if (selectedItem != null && selectedItem.item != null
+                && selectedItem.item.name == "Wheat Seeds")
+                TutorialManager.Notify("seeds");
         }
         RefreshDetail();
     }

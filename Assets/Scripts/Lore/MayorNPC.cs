@@ -14,14 +14,108 @@ public class MayorNPC : MonoBehaviour
 
     void Awake()
     {
+        // Диалог мэра ставим ВСЕГДА (дубликат тащит чужой диалог повара/Дрона).
+        // Мэр патрулирует вместе со всеми — так город живее.
         var inter = GetComponent<NPCInteractable>();
-        if (inter != null && inter.dialogue == null)
+        if (inter != null)
         {
             var d = Resources.Load<DialogueData>(DIALOGUE_PATH);
             if (d != null) inter.dialogue = d;
             else Debug.LogWarning("[Мэр] Нет ассета " + DIALOGUE_PATH + " — прогони Tools → Lore → 1. Build Dialogues.");
         }
-        // Мэр патрулирует вместе со всеми (EndTalk в NPCInteractable всё равно
-        // снял бы паузу после первого разговора) — так город живее.
+    }
+
+    void Start()
+    {
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.onDialogueAction += OnDialogueAction;
+        var inter = GetComponent<NPCInteractable>();
+        if (inter != null) inter.onTalk += OnTalkStart;
+    }
+
+    void OnDestroy()
+    {
+        if (DialogueManager.Instance != null)
+            DialogueManager.Instance.onDialogueAction -= OnDialogueAction;
+        var inter = GetComponent<NPCInteractable>();
+        if (inter != null) inter.onTalk -= OnTalkStart;
+    }
+
+    // Умный диалог: кнопки по стадиям (старое пропадает, новое открывается)
+    // + входной узел по стадии: мэр встречает текущим делом, а не хабом
+    void OnTalkStart()
+    {
+        var inter = GetComponent<NPCInteractable>();
+        if (inter != null)
+        {
+            string cur = TutorialManager.CurrentStep();
+            if (cur == "sword") inter.forceStartNode = 9;       // сразу про меч
+            else if (cur == "home" || cur == "clear") inter.forceStartNode = 8; // напоминание
+            else if (cur == "tools") inter.forceStartNode = 6;  // хвала + набор
+            else inter.forceStartNode = -1;                     // дальше — свободный хаб
+        }
+        if (DialogueManager.Instance == null) return;
+        DialogueManager.Instance.SetCondition("mayor_sword", TutorialManager.IsSwordNeeded() && !TutorialManager.SwordGiven());
+        DialogueManager.Instance.SetCondition("mayor_clear", TutorialManager.IsClearPending());
+        DialogueManager.Instance.SetCondition("mayor_tools", TutorialManager.IsToolsStepOrLater());
+    }
+
+    // Кнопки Custom — только свой диалог
+    void OnDialogueAction(DialogueActionType action, string param)
+    {
+        if (action != DialogueActionType.Custom) return;
+        if (DialogueManager.Instance == null || DialogueManager.Instance.currentNPC == null) return;
+        if (DialogueManager.Instance.currentNPC.gameObject != gameObject) return;
+
+        if (param == "GiveSword")
+        {
+            GiveSword();
+            return;
+        }
+        if (param != "GiveTools") return;
+        if (!TutorialManager.TakeToolsOnce())
+        {
+            ActionLogUI.Show("[Мэр] Набор я тебе уже выдал, пациент! Глянь хотбар.");
+            return;
+        }
+
+        if (!QuestGive.HasItem("Hoe")) Give("Hoe", 1, true); // мотыгу мог потерять — вернём
+        Give("Sickle", 1);
+        Give("WateringCan", 1);
+        Give("Wheat Seeds", 6);
+        if (CurrencyManager.Instance != null) CurrencyManager.Instance.AddGold(100);
+        ActionLogUI.Show("[Мэр] Серп, лейка и 6 пшениц — в хотбаре! Плюс 100g на семена у Марты. Вскопай 6 грядок, посади, полей.");
+        TutorialManager.Notify("tools");
+    }
+
+    // Выдача меча: зовётся и кнопкой, и при ВХОДЕ в автодиалог (игрок,
+    // ушедший в вопросы, всё равно получает меч — затыков нет)
+    public void GiveSword()
+    {
+        ItemData sword = ItemDatabase.Find("WoodSword_Common");
+        if (sword == null)
+        {
+            ActionLogUI.Show("[Мэр] Мечей на складе нет... (Tools → Equipment → 1)");
+            return;
+        }
+        if (!TutorialManager.TakeSwordOnce())
+        {
+            ActionLogUI.Show("[Мэр] Меч у тебя уже есть, пациент! Гони слизней.");
+            return;
+        }
+        QuestGive.Give(sword, 1, true);
+        ActionLogUI.Show("[Мэр] Держи деревянный меч! Он уже в хотбаре, в руках. Гони слизней с участка, потом приходи — поговорим.");
+        TutorialManager.Notify("sword");
+    }
+
+    void Give(string assetName, int count, bool select = false)
+    {
+        ItemData item = ItemDatabase.Find(assetName);
+        if (item == null)
+        {
+            ActionLogUI.Show("[Мэр] На складе нет: " + assetName);
+            return;
+        }
+        QuestGive.Give(item, count, select);
     }
 }

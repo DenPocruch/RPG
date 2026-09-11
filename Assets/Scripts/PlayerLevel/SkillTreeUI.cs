@@ -286,6 +286,7 @@ public class SkillTreeUI : MonoBehaviour
         skillTreePanel.SetActive(true);
         isOpen = true;
         justShown = true;
+        TutorialManager.Notify("skills"); // путеводитель: открыл книгу прокачки
 
         PlayerMovement pm = FindFirstObjectByType<PlayerMovement>();
         if (pm != null) pm.enabled = false;
