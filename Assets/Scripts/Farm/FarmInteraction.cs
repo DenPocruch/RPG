@@ -211,6 +211,7 @@ public class FarmInteraction : MonoBehaviour
 
         // Фолбэк: прямое добавление в инвентарь
         bool added = InventoryUI.Instance.AddItem(harvest, amount);
+        if (added) TutorialManager.Notify("pickup_harvest"); // префаба нет — подбора с земли не будет
         if (added && PlayerLevel.Instance != null)
             PlayerLevel.Instance.AddXp(PlayerLevel.SkillBranch.Farming, xpHarvest);
         return added;

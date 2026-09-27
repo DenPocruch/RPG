@@ -59,6 +59,8 @@ public class BuyerManager : MonoBehaviour, ISaveable
         { "Egg", 30 }, { "Milk", 90 }, { "Goat Milk", 80 },
         { "Truffle", 85 }, { "Wool", 70 }, { "Ostrich Egg", 100 },
         { "Honeycomb", 50 },
+        // Добыча со слаймов — первые деньги новичка (шаг sell; пшеницу бережём для хлеба)
+        { "Bones", 6 },
         // Продукция станков-переработчиков (CraftMachine)
         { "Wine", 250 }, { "Cheese", 150 }, { "Butter", 120 }, { "Jam", 130 },
         // Руда и самоцветы из шахты

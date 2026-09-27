@@ -2,20 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System.Collections.Generic;
 
-/// <summary>
-/// Ветка «Путеводитель»: стрелка к цели задания.
-/// Ленивый DontDestroyOnLoad, UI строится кодом (как трекер).
-/// Цель задаётся динамическим геттером (мир меняется: NPC ходят, порталы ведут
-/// в другие сцены). Межсценовые цели ведёт через порталы (SceneTransition).
-///
-/// API:
-///   QuestArrow.SetTarget(() => позиция, "Подпись") — точка в текущей сцене
-///   QuestArrow.SetRoute("City", () => позицияВГороде, "Мэр") — цель в другой сцене:
-///     сначала ведёт к порталу, после перехода — к точке
-///   QuestArrow.Clear() — спрятать
-/// </summary>
 public class QuestArrow : MonoBehaviour
 {
     public static QuestArrow Instance
@@ -61,8 +48,12 @@ public class QuestArrow : MonoBehaviour
         Debug.Log("[Arrow] Bind: стрелка привязана (" + (rootObj != null ? rootObj.name : "null") + ")");
     }
 
-    private const float HIDE_DIST = 2.5f;
+    private const float DEFAULT_HIDE_DIST = 2.5f;
     private const float EDGE_MARGIN = 90f;
+    private const float UI_GAP = 30f;
+    private readonly Vector3[] uiCorners = new Vector3[4];
+
+    private float worldHideDistance = DEFAULT_HIDE_DIST;
 
     void Awake()
     {
@@ -71,47 +62,98 @@ public class QuestArrow : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public static void SetTarget(System.Func<Vector3?> worldGetter, string caption)
+    public static void SetTarget(System.Func<Vector3?> worldGetter, string caption, float hideDistance = DEFAULT_HIDE_DIST)
     {
         var q = Instance;
+        RestoreUITargetColor();
+        uiTarget = null;
         q.getter = worldGetter;
         q.destScene = null;
         q.destGetter = null;
         q.label = caption ?? "";
+        q.worldHideDistance = Mathf.Max(0f, hideDistance);
     }
 
     public static void SetRoute(string scene, System.Func<Vector3?> getterInScene, string caption)
     {
         var q = Instance;
+        RestoreUITargetColor();
+        uiTarget = null;
         q.destScene = scene;
         q.destGetter = getterInScene;
         q.label = caption ?? "";
-        q.getter = null; // пересчитается в Update
+        q.getter = null;
+        q.worldHideDistance = DEFAULT_HIDE_DIST;
     }
 
-    // Цель — элемент Canvas (кнопка книги прокачки и т.п.). Да, стрелка умеет в UI:
-    // экранные координаты берутся прямо из RectTransform, дальше обычная логика.
-    // Метров нет — только подпись.
     private static RectTransform uiTarget;
+    private static Image uiTargetImage;
+    private static Color uiTargetOriginalColor;
+    private static bool uiTargetColorSaved;
 
     public static void SetUITarget(RectTransform t, string caption)
     {
         var q = Instance;
-        uiTarget = t;
+        if (uiTarget != t)
+        {
+            RestoreUITargetColor();
+            uiTarget = t;
+        }
         q.getter = null;
         q.destScene = null;
         q.destGetter = null;
         q.label = caption ?? "";
+        q.worldHideDistance = DEFAULT_HIDE_DIST;
+        if (t == null)
+        {
+            Clear();
+            return;
+        }
+        CaptureUITargetColor();
+    }
+
+    static void RestoreUITargetColor()
+    {
+        if (uiTargetImage != null && uiTargetColorSaved)
+            uiTargetImage.color = uiTargetOriginalColor;
+        uiTargetImage = null;
+        uiTargetColorSaved = false;
+    }
+
+    static void CaptureUITargetColor()
+    {
+        if (uiTargetImage != null && uiTargetColorSaved) return;
+        uiTargetImage = uiTarget != null ? uiTarget.GetComponent<Image>() : null;
+        uiTargetColorSaved = uiTargetImage != null;
+        if (uiTargetColorSaved) uiTargetOriginalColor = uiTargetImage.color;
+    }
+
+    void OnDisable()
+    {
+        if (_instance != this) return;
+        RestoreUITargetColor();
+        if (root != null) root.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        if (_instance != this) return;
+        RestoreUITargetColor();
+        uiTarget = null;
+        if (root != null) root.SetActive(false);
+        _instance = null;
     }
 
     public static void Clear()
     {
-        if (_instance == null) return;
+        RestoreUITargetColor();
         uiTarget = null;
+        if (_instance == null) return;
         _instance.getter = null;
         _instance.destScene = null;
         _instance.destGetter = null;
         _instance.label = "";
+        _instance.worldHideDistance = DEFAULT_HIDE_DIST;
         if (_instance.root != null) _instance.root.SetActive(false);
     }
 
@@ -125,20 +167,30 @@ public class QuestArrow : MonoBehaviour
 
     void Update()
     {
-        // UI-цель: без камер и метров — прямо из RectTransform
         if (uiTarget != null)
         {
-            if (uiTarget.gameObject == null) { uiTarget = null; }
-            else
+            if (!uiTarget.gameObject.activeInHierarchy)
             {
-                EnsureUI();
-                if (!uiBuilt) return;
-                Vector2 upos = uiTarget.position;
-                if (!root.activeSelf) root.SetActive(true);
-                PlaceArrow(upos, false, -1f); // метры не считаем — только подпись
+                RestoreUITargetColor();
+                if (root != null) root.SetActive(false);
                 return;
             }
+            CaptureUITargetColor();
+            if (uiTargetColorSaved)
+            {
+                float pulse = 0.125f * (1f + Mathf.Sin(Time.unscaledTime * 4f));
+                Color tint = new Color(1f, 0.9f, 0.5f, uiTargetOriginalColor.a);
+                uiTargetImage.color = Color.Lerp(uiTargetOriginalColor, tint, pulse);
+            }
+            EnsureUI(false);
+            if (!uiBuilt || !PlaceUIArrow())
+            {
+                if (root != null) root.SetActive(false);
+            }
+            return;
         }
+        RestoreUITargetColor();
+        uiTarget = null;
         ResolveRoute();
         if (getter == null)
         {
@@ -161,7 +213,7 @@ public class QuestArrow : MonoBehaviour
 
         Vector3 target = tw.Value;
         float dist = Vector2.Distance(player.transform.position, target);
-        if (dist < HIDE_DIST)
+        if (dist < worldHideDistance)
         {
             Dbg("спрятана: близко " + dist.ToString("F1") + "м (" + label + ")");
             root.SetActive(false);
@@ -177,7 +229,56 @@ public class QuestArrow : MonoBehaviour
         return;
     }
 
-    // Общая раскладка: точка экрана → позиция+поворот стрелки у края
+    static bool TryGetCanvasCamera(RectTransform rect, out Camera camera)
+    {
+        camera = null;
+        Canvas canvas = rect.GetComponentInParent<Canvas>();
+        if (canvas == null) return false;
+        canvas = canvas.rootCanvas;
+        if (canvas.renderMode == RenderMode.ScreenSpaceOverlay) return true;
+        camera = canvas.worldCamera;
+        return camera != null;
+    }
+
+    bool PlaceUIArrow()
+    {
+        if (root == null || arrowRect == null || uiTarget == null) return false;
+        RectTransform parent = arrowRect.parent as RectTransform;
+        if (parent == null || !TryGetCanvasCamera(uiTarget, out Camera targetCamera)
+            || !TryGetCanvasCamera(arrowRect, out Camera arrowCamera)) return false;
+
+        if (!root.activeSelf) root.SetActive(true);
+        uiTarget.GetWorldCorners(uiCorners);
+        Vector2 min = new Vector2(float.PositiveInfinity, float.PositiveInfinity);
+        Vector2 max = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
+        for (int i = 0; i < uiCorners.Length; i++)
+        {
+            Vector2 screen = RectTransformUtility.WorldToScreenPoint(targetCamera, uiCorners[i]);
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                parent, screen, arrowCamera, out Vector2 point)) return false;
+            min = Vector2.Min(min, point);
+            max = Vector2.Max(max, point);
+        }
+
+        Vector2 targetCenter = (min + max) * 0.5f;
+        Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            parent, screenCenter, arrowCamera, out Vector2 viewCenter)) return false;
+        bool above = targetCenter.y <= viewCenter.y;
+        float halfHeight = arrowRect.rect.height * 0.5f; // без учёта пульсации масштаба (иначе позиция дрожит)
+        Vector2 position = new Vector2(targetCenter.x,
+            above ? max.y + UI_GAP + halfHeight : min.y - UI_GAP - halfHeight);
+        arrowRect.localRotation = Quaternion.Euler(0f, 0f, above ? 180f : 0f);
+        Vector3 pivotOffset = arrowRect.localRotation * Vector3.Scale(
+            (Vector3)arrowRect.rect.center, arrowRect.localScale);
+        arrowRect.localPosition = (Vector3)position - pivotOffset;
+        // Пульсация как у мировой стрелки — UI-цель должно быть видно
+        float pulse = 1f + 0.12f * Mathf.Sin(Time.unscaledTime * 5f);
+        arrowRect.localScale = Vector3.one * pulse;
+        if (distLabel != null) distLabel.text = label;
+        return true;
+    }
+
     void PlaceArrow(Vector2 scr, bool behind, float dist)
     {
         Vector2 center = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
@@ -185,7 +286,6 @@ public class QuestArrow : MonoBehaviour
         if (dir.sqrMagnitude < 1f) dir = Vector2.up;
         dir.Normalize();
 
-        // Кладём стрелку по направлению, не даём уйти за края
         float maxX = Screen.width * 0.5f - EDGE_MARGIN;
         float maxY = Screen.height * 0.5f - EDGE_MARGIN;
         float k = Mathf.Min(maxX / Mathf.Max(1f, Mathf.Abs(dir.x)),
@@ -193,8 +293,6 @@ public class QuestArrow : MonoBehaviour
         Vector2 pos = center + dir * k * 0.85f;
 
         if (!root.activeSelf) root.SetActive(true);
-        // UI в Screen Space Overlay: экранные пиксели = координаты Canvas
-        // (учитываем scaleFactor через CanvasScaler)
         Canvas canvas = root.GetComponentInParent<Canvas>();
         float scale = 1f;
         var scaler = canvas != null ? canvas.GetComponent<CanvasScaler>() : null;
@@ -211,14 +309,12 @@ public class QuestArrow : MonoBehaviour
         arrowRect.localRotation = Quaternion.Euler(0f, 0f, ang);
 
         Dbg("показ: " + label + (dist >= 0f ? " dist=" + dist.ToString("F1") : " (UI)") + " scr=" + pos + " behind=" + behind);
-        // Подпись едет за стрелкой (только кодовая; сценовую двигаешь сам)
         if (moveLabel && labelRect != null) labelRect.anchoredPosition = anchored + new Vector2(0f, -56f);
-        // Пульсация + подпись с метрами
         float pulse = 1f + 0.12f * Mathf.Sin(Time.time * 5f);
         arrowRect.localScale = Vector3.one * pulse;
         if (distLabel != null)
         {
-            if (dist < 0f) distLabel.text = label; // UI-цель: без метров
+            if (dist < 0f) distLabel.text = label;
             else distLabel.text = string.IsNullOrEmpty(label) ? ((int)dist + "м")
                 : (label + " · " + (int)dist + "м");
         }
@@ -289,8 +385,9 @@ public class QuestArrow : MonoBehaviour
         return null;
     }
 
-    void EnsureUI()
+    void EnsureUI(bool allowFallback = true)
     {
+        if (root == null || arrowRect == null) uiBuilt = false;
         // Сценовая стрелка привязана — используем её
         if (boundRoot == null)
         {
@@ -309,6 +406,11 @@ public class QuestArrow : MonoBehaviour
             moveLabel = false;
             uiBuilt = arrowRect != null;
             if (uiBuilt) return;
+        }
+        if (!allowFallback)
+        {
+            uiBuilt = root != null && arrowRect != null;
+            return;
         }
         if (uiBuilt) return;
         Canvas canvas = FindFirstObjectByType<Canvas>();

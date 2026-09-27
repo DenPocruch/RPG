@@ -64,6 +64,15 @@ public class SceneTransition : MonoBehaviour, IInteractable
         SceneManager.LoadScene(targetScene);
     }
 
+    public static void LoadAtSpawn(string sceneName, string spawnId)
+    {
+        if (PortalTransitionActive) return;
+        pendingSpawnId = spawnId;
+        PortalTransitionActive = true;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.LoadScene(sceneName);
+    }
+
     static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;

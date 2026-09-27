@@ -308,7 +308,6 @@ public static class IntroBookUI
 
         FreezePlayer(false);
 
-        ActionLogUI.Show("[Мэр] Участок №9 твой. Мотыга у Бориса, семена у Марты. Жду вечером!");
         TutorialManager.Notify("intro_done");
     }
 }

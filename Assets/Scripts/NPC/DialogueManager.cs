@@ -97,6 +97,8 @@ public class DialogueManager : MonoBehaviour
 
         if (dialoguePanel != null) dialoguePanel.SetActive(true);
 
+        TutorialManager.HideHintStatic(); // хинт обучения не должен мигать поверх разговора
+
         if (nameText != null) nameText.text = data.npcName;
         if (portraitImage != null && data.portrait != null)
             portraitImage.sprite = data.portrait;

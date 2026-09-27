@@ -32,7 +32,7 @@ public class InteractionDetector : MonoBehaviour
     /// ���������� �� PlayerMovement ����� ����� �������� �����.
     /// ���������� true ���� ����� � ������������ ������������� ������.
     /// </summary>
-    public bool TryInteract()
+    public IInteractable FindClosestInteractable()
     {
         Vector2 boxCenter = (Vector2)transform.position + boxOffset;
         Collider2D[] hits = Physics2D.OverlapBoxAll(
@@ -42,7 +42,7 @@ public class InteractionDetector : MonoBehaviour
             interactableLayer
         );
 
-        if (hits.Length == 0) return false;
+        if (hits.Length == 0) return null;
 
         // ���� ��������� ������������� ������
         IInteractable closest = null;
@@ -65,6 +65,12 @@ public class InteractionDetector : MonoBehaviour
             }
         }
 
+        return closest;
+    }
+
+    public bool TryInteract()
+    {
+        IInteractable closest = FindClosestInteractable();
         if (closest != null)
         {
             // Отладка телепортов: показываем, кого именно поймал удар

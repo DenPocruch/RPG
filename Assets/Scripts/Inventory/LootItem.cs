@@ -22,10 +22,18 @@ public class LootItem : MonoBehaviour
     public float fishWeightKg = 0f; // ���� � Crafting �� ������ ����������
     public int farmingXpReward = 0;  // XP в Farming при подборе (урожай с грядки)
 
+    [Header("Магнит (пылесос)")]
+    [Tooltip("Через столько секунд после выпадения лут начинает тянуться к игроку")]
+    public float magnetDelay = 1f;
+    [Tooltip("Радиус притяжения (подбор вплотную — pickupRadius)")]
+    public float magnetRadius = 2.5f;
+    public float magnetSpeed = 6f;
+
     private SpriteRenderer spriteRenderer;
     private Vector3 startPos;
     private Transform player;
     private bool isPickedUp = false;
+    private float spawnTime;
 
     void Start()
     {
@@ -43,6 +51,7 @@ public class LootItem : MonoBehaviour
 
         GameObject p = GameObject.FindWithTag("Player");
         if (p != null) player = p.transform;
+        spawnTime = Time.time;
 
         if (despawnOverTime)
         {
@@ -55,15 +64,25 @@ public class LootItem : MonoBehaviour
     {
         if (isPickedUp) return;
 
-        float newY = startPos.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-
         if (player != null)
         {
             float dist = Vector2.Distance(transform.position, player.position);
             if (dist <= pickupRadius)
+            {
                 Pickup();
+                return;
+            }
+            // Магнит: полежал секунду — тянемся к игроку, подбирать всё равно учим подходом
+            if (Time.time - spawnTime >= magnetDelay && dist <= magnetRadius)
+            {
+                transform.position = Vector2.MoveTowards(
+                    transform.position, player.position, magnetSpeed * Time.deltaTime);
+                startPos = transform.position; // боб продолжаем с новой точки
+            }
         }
+
+        float newY = startPos.y + Mathf.Sin(Time.time * bobSpeed) * bobHeight;
+        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
     }
 
     void Pickup()
@@ -89,6 +108,10 @@ public class LootItem : MonoBehaviour
             }
 
             Debug.Log("���������: " + itemData.itemName + " x" + amount);
+
+            // Путеводитель Акт 1: loot — любой подбор; pickup_harvest — только урожай с грядки
+            TutorialManager.Notify("loot");
+            if (farmingXpReward > 0) TutorialManager.Notify("pickup_harvest");
         }
         else
         {

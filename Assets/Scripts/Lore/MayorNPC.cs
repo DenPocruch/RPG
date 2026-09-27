@@ -49,7 +49,11 @@ public class MayorNPC : MonoBehaviour
         if (inter != null)
         {
             string cur = TutorialManager.CurrentStep();
-            if (cur == "sword") inter.forceStartNode = 9;       // сразу про меч
+            if (cur == "sword")
+            {
+                bool granted = GiveSword();
+                inter.forceStartNode = granted ? 7 : 9; // 9 — запасной узел повтора (практически недостижим: выдача в рюкзак)
+            }
             else if (cur == "home" || cur == "clear") inter.forceStartNode = 8; // напоминание
             else if (cur == "tools") inter.forceStartNode = 6;  // хвала + набор
             else inter.forceStartNode = -1;                     // дальше — свободный хаб
@@ -88,24 +92,30 @@ public class MayorNPC : MonoBehaviour
         TutorialManager.Notify("tools");
     }
 
-    // Выдача меча: зовётся и кнопкой, и при ВХОДЕ в автодиалог (игрок,
-    // ушедший в вопросы, всё равно получает меч — затыков нет)
-    public void GiveSword()
+    // Выдача меча: меч падает В РЮКЗАК (а не в руки) — уроки ui_inv/ui_hotbar
+    // учат найти его и перетащить в хотбар (стандарт жанра: награда → учим пользоваться).
+    // Зовётся при ВХОДЕ в разговор (ушёл в вопросы — всё равно вооружён... то есть «орюкзачен»).
+    bool GiveSword()
     {
         ItemData sword = ItemDatabase.Find("WoodSword_Common");
         if (sword == null)
         {
             ActionLogUI.Show("[Мэр] Мечей на складе нет... (Tools → Equipment → 1)");
-            return;
+            return false;
         }
-        if (!TutorialManager.TakeSwordOnce())
+        if (TutorialManager.SwordGiven())
         {
-            ActionLogUI.Show("[Мэр] Меч у тебя уже есть, пациент! Гони слизней.");
-            return;
+            TutorialManager.SwordReady(); // шаг закроется по закрытию диалога
+            return true;
         }
-        QuestGive.Give(sword, 1, true);
-        ActionLogUI.Show("[Мэр] Держи деревянный меч! Он уже в хотбаре, в руках. Гони слизней с участка, потом приходи — поговорим.");
-        TutorialManager.Notify("sword");
+        // В рюкзаке лежит ТОЛЬКО меч: урок ui_inv — найти один предмет.
+        // Мотыга выдаётся позже, с набором (шаг tools).
+        if (!TutorialManager.TakeSwordOnce()) return true;
+        QuestGive.GiveToPack(sword, 1);
+        SaveManager.Instance?.Save();
+        ActionLogUI.Show("[Мэр] Меч уже в твоём рюкзаке! Открой его, перетащи меч в нижний ряд и нажми на него. Потом — на участок.");
+        TutorialManager.SwordReady(); // шаг закроется по закрытию диалога
+        return true;
     }
 
     void Give(string assetName, int count, bool select = false)

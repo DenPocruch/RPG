@@ -6,11 +6,15 @@
       "enabled": true,
       "command": [
         "node",
-        "Library/PackageCache/com.gamelovers.mcp-unity@0e9fdb65b3cc/Server~/build/index.js"
+        "Library/PackageCache/com.gamelovers.mcp-unity@382a43a30f4d/Server~/build/index.js"
       ],
       "environment": {
-        "MCP_UNITY_SETTINGS_PATH": "D:/Doog Defit/RPG/ProjectSettings/McpUnitySettings.json"
+        "MCP_UNITY_SETTINGS_PATH": "D:/Doog Defit/RPG/ProjectSettings/McpUnitySettings.json",
+        "MCP_UNITY_AUTH_TOKEN_PATH": "D:/Doog Defit/RPG/Library/McpUnity/bridge-token"
       }
     }
+  },
+  "experimental": {
+    "mcp_timeout": 60000
   }
 }

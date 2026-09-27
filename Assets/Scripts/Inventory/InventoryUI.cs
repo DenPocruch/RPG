@@ -164,6 +164,7 @@ public class InventoryUI : MonoBehaviour, ISaveable
     {
         isOpen = !isOpen;
         inventoryPanel.SetActive(isOpen);
+        if (isOpen) TutorialManager.Notify("ui_inv"); // путеводитель: открыл инвентарь (кнопка/I)
         // �� ������� PlayerMovement ���� ������ ������
         if (ChestUI.Instance == null || !ChestUI.Instance.IsOpen())
         {

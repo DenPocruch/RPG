@@ -526,4 +526,12 @@ public class FarmManager : MonoBehaviour, ISaveable
         Vector3Int cellPos = farmTilemap.WorldToCell(worldPos);
         return crops.ContainsKey(cellPos) && crops[cellPos].isReady;
     }
+
+    // Есть ли хоть одна созревшая грядка (хинт harvest: ждать или срезать)
+    public bool HasRipeCrop()
+    {
+        foreach (var kvp in crops)
+            if (kvp.Value != null && kvp.Value.isReady) return true;
+        return false;
+    }
 }

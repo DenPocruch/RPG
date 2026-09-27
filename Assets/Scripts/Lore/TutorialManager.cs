@@ -55,45 +55,59 @@ public class TutorialManager : MonoBehaviour, ISaveable
         public bool toolsGiven;
         public bool pickGiven;
         public bool skillsGrant;
+        public bool movementLearned;
     }
 
-    // Путеводитель: цепочка Акт 1 (id → текст). clear/hoe/plant/water/harvest/kill/mine/city — счётчики.
-    // ver=5: полный первый день — мэр → интерфейс → ферма → бой → лут → инструменты →
-    // мотыга(1+5) → посадка → полив → город(знакомства+магазин) → урожай → продажа(−долг) →
-    // готовка → еда → навыки → рыбалка → лес → шахта(кирка) → кузница → экипировка → свобода.
-    private const int SAVE_VER = 5;
+    // Путеводитель: цепочка Акт 1 (id → текст). town/forest/mine — автовход по сцене;
+    // loot/pickup_harvest — подбор LootItem (урожай = farmingXpReward>0);
+    // ore — счётчик жил через существующий хук Notify("mine").
+    // Внутренние id ui_inv/seeds/pickaxe/mine оставлены как были (меньше churn),
+    // маппинг на дизайн-документ: town=прийти в City,
+    // mine=войти в шахту, ore=5 жил, act1_finish=доклад мэру.
+    // ver=7: убран ранний interface (панель характеристик учили раньше, чем она
+    // понадобилась). Полный Акт 1 (28 позиций дизайна: hoe1+hoe5 = один пункт) —
+    // меч → рюкзак → хотбар → ферма → лут → инструменты → грядки → город →
+    // урожай (+подбор) → продажа → готовка → еда → навыки → рыбалка → лес →
+    // шахта → руда → кузница → экипировка → возврат к мэру.
+    private const int SAVE_VER = 7;
     private readonly string[] stepIds =
-        { "intro", "sword", "ui_inv", "ui_hotbar", "home", "clear", "tools",
-          "hoe1", "hoe5", "plant", "water", "city", "seeds",
-          "harvest", "sell", "bread", "eat", "skills",
-          "rod", "fish", "kill", "pickaxe", "mine", "forge", "equip" };
+        { "intro", "sword", "ui_inv", "ui_hotbar", "home", "clear", "loot", "tools",
+          "hoe1", "hoe5", "plant", "water", "town", "city", "seeds",
+          "harvest", "pickup_harvest", "sell", "bread", "eat", "skills",
+          "rod", "fish", "forest", "kill", "pickaxe", "mine", "ore", "forge", "equip", "act1_finish" };
     private readonly string[] stepTexts =
     {
         "Приди в себя (закрой книгу)",
         "Поговори с мэром, забери меч",
-        "Открой инвентарь — найди мотыгу",
-        "Перетащи мотыгу в хотбар",
+        "Открой инвентарь — найди меч",
+        "Перетащи меч в хотбар",
         "Вернись на участок №9",
         "Зачисти участок от слаймов",
-        "Вернись к мэру, забери набор",
+        "Подбери добычу со слаймов (подойди ближе)",
+        "Вернись к мэру за инструментами для посадки",
         "Вскопай 1 грядку мотыгой",
         "Вскопай ещё 5 грядок",
         "Посади 6 пшениц",
         "Набери воды из колодца и полей 6 грядок",
+        "Отправляйся в город Заря",
         "Познакомься в городе: Мира, Степан, Густав, Дрон",
         "Купи пшеницу у Марты",
         "Собери 6 пшениц серпом",
-        "Продай пшеницу Дрону",
+        "Подбери урожай с земли",
+        "Продай кости Дрону",
         "Отнеси пшеницу Густаву",
         "Съешь хлеб",
         "Открой книгу и возьми перк",
         "Возьми удочку у Морека на пляже",
         "Поймай 1 рыбу",
+        "Иди в Лес Новичков",
         "Убей 3 слаймов в лесу",
         "Поговори со Степаном, забери кирку",
+        "Войди в шахту",
         "Добудь 5 жил в шахте",
         "Улучши предмет у Степана",
         "Надень улучшенное",
+        "Вернись к мэру с докладом",
     };
     private const int HOES_NEED = 6; // итого: hoe1(1) + hoe5(ещё 5)
     private const int PLANTS_NEED = 6;
@@ -126,8 +140,16 @@ public class TutorialManager : MonoBehaviour, ISaveable
     private bool pickGiven;
     private bool skillsGrant;
     private bool equipSub;
-    private bool pendingMayorTalk;
-    private float letterTimer = -1f;
+    private bool movementLearned;
+    private bool movementSampleReady;
+    private Vector2 movementSample;
+    private float movementDistance;
+    private PlayerMovement tutorialPlayer;
+    private RectTransform attackButton;
+    private string controlHint = "";
+    // Кэш UI-цели стрелки: переискать только при смене шага или потере объекта
+    private string uiArrowStep = "";
+    private RectTransform uiArrowTarget;    private float letterTimer = -1f;
     private const float LETTER_DELAY = 2.5f;
 
     public bool IntroSeen => introSeen;
@@ -161,8 +183,16 @@ public class TutorialManager : MonoBehaviour, ISaveable
         if (_instance == null) return true;
         if (_instance.swordGiven) return false;
         _instance.swordGiven = true;
-        SaveManager.Instance?.Save();
         return true;
+    }
+
+    // Меч засчитывается по ЗАКРЫТИЮ диалога, а не по входу: иначе трекер, стрелка
+    // и хинт убегают вперёд, пока игрок ещё читает страницы. Выдача предмета —
+    // по-прежнему при входе (GiveSword), тут только флаг готовности шага.
+    private bool swordPending;
+    public static void SwordReady()
+    {
+        if (_instance != null) _instance.swordPending = true;
     }
 
     public static bool SwordGiven() => _instance != null && _instance.swordGiven;
@@ -222,69 +252,128 @@ public class TutorialManager : MonoBehaviour, ISaveable
     void OnSceneLoaded(Scene s, LoadSceneMode m)
     {
         if (m != LoadSceneMode.Single) return;
-        // Отложенный автодиалог мэра после телепортации с фермы
-        if (pendingMayorTalk && s.name == "City")
+        movementSampleReady = false;
+        movementDistance = 0f;
+        // Автовходы: дом, город, лес, шахта засчитываются сами по прибытию
+        if (!done)
         {
-            pendingMayorTalk = false;
-            StartCoroutine(IntroTalkRoutine());
+            string cur = CurrentId();
+            if (cur == "home" && s.name == "SampleScene") Advance();
+            else if (cur == "town" && s.name == "City") Advance();
+            else if (cur == "forest" && s.name == "Beginner Forest") Advance();
+            else if (cur == "mine" && s.name == "Mine") Advance();
         }
-        // Возврат домой засчитывается сам — по входу на ферму
-        if (!done && CurrentId() == "home" && s.name == "SampleScene") Advance();
         RefreshTracker(); // внутри — UpdateArrow под новую сцену
     }
 
-    // Пробуждение на площади: в город к мэру, диалог сам
     void DoIntroTeleport()
     {
+        if (SceneTransition.PortalTransitionActive) return;
         mayorMet = true;
-        pendingMayorTalk = true;
         SaveManager.Instance?.Save();
         if (ScreenFader.Instance != null) ScreenFader.Instance.SetBlackInstant();
-        SceneManager.LoadScene("City");
+        SceneTransition.LoadAtSpawn("City", "FromFarm");
     }
 
-    System.Collections.IEnumerator IntroTalkRoutine()
+    void UpdateControlLesson()
     {
-        yield return null; // кадр на спавн сцены и NPC
-        if (ScreenFader.Instance != null) ScreenFader.Instance.StartFadeIn();
-
-        MayorNPC mayor = FindFirstObjectByType<MayorNPC>();
-        GameObject player = GameObject.FindWithTag("Player");
-        if (mayor == null || player == null)
+        if (done || CurrentId() != "sword" || SceneManager.GetActiveScene().name != "City")
         {
-            pendingMayorTalk = false;
-            ActionLogUI.Show("[Мэр] Эй, пациент! Я тут, в городе!");
-            yield break;
+            movementSampleReady = false;
+            return;
         }
-        // Меч выдаём СРАЗУ при входе в автодиалог: ушёл в вопросы —
-        // всё равно вооружён. Дубли режет TakeSwordOnce внутри.
-        mayor.GiveSword();
-        // Мотыга — В РЮКЗАК (урок хотбара: найти и перетащить самому)
-        if (!QuestGive.HasItem("Hoe"))
+        // Разговор открыт — стрелку не ставим (см. UpdateArrow): игрок читает
+        if (DialogueManager.Instance != null && DialogueManager.Instance.IsOpen)
         {
-            ItemData hoe = ItemDatabase.Find("Hoe");
-            if (hoe != null) QuestGive.GiveToPack(hoe, 1);
+            movementSampleReady = false;
+            return;
         }
-        // Ставим рядом (проверка дистанции в Interact не нужна — открываем напрямую)
-        Vector3 p = mayor.transform.position + new Vector3(1f, 0f, 0f);
-        p.z = player.transform.position.z;
-        player.transform.position = p;
+        if (tutorialPlayer == null) tutorialPlayer = FindFirstObjectByType<PlayerMovement>();
+        if (tutorialPlayer == null) return;
+        Vector2 position = tutorialPlayer.transform.position;
+        if (!tutorialPlayer.isActiveAndEnabled || tutorialPlayer.isAttacking || tutorialPlayer.isFishing
+            || SceneTransition.PortalTransitionActive)
+        {
+            movementSampleReady = false;
+            return;
+        }
+        if (movementSampleReady && !movementLearned)
+        {
+            bool hasInput = (tutorialPlayer.joystick != null && tutorialPlayer.joystick.Direction.sqrMagnitude > 0.01f)
+                || Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.1f
+                || Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.1f;
+            float distance = Vector2.Distance(position, movementSample);
+            if (hasInput && distance < 1f) movementDistance += distance;
+            if (movementDistance >= 0.6f)
+            {
+                movementLearned = true;
+                SaveManager.Instance?.Save();
+            }
+        }
+        movementSample = position;
+        movementSampleReady = true;
+        PointAtMayorLesson();
+    }
 
+    void SetControlHint(string hint)
+    {
+        if (controlHint == hint) return;
+        controlHint = hint;
+        if (trackerLabel != null && CurrentId() == "sword")
+            trackerLabel.text = "Дело: " + hint + "\n<size=70%>Долг: 500 000 кредитов</size>";
+    }
+
+    void PointAtMayorLesson()
+    {
+        if (SceneManager.GetActiveScene().name != "City")
+        {
+            SetControlHint("Отправляйся в город к мэру");
+            QuestArrow.SetRoute("City", null, "Мэр");
+            return;
+        }
+        if (tutorialPlayer == null) tutorialPlayer = FindFirstObjectByType<PlayerMovement>();
+        if (tutorialPlayer == null || !tutorialPlayer.isActiveAndEnabled)
+        {
+            QuestArrow.Clear();
+            return;
+        }
+        if (!movementLearned)
+        {
+            SetControlHint("Потяни джойстик, чтобы идти. На ПК — WASD или стрелки");
+            if (tutorialPlayer.joystick != null)
+                QuestArrow.SetUITarget(tutorialPlayer.joystick.transform as RectTransform, "Движение");
+            else QuestArrow.Clear();
+            return;
+        }
+        var mayor = FindFirstObjectByType<MayorNPC>();
+        if (mayor == null)
+        {
+            SetControlHint("Найди мэра в городе");
+            QuestArrow.Clear();
+            return;
+        }
         var inter = mayor.GetComponent<NPCInteractable>();
-        var data = Resources.Load<DialogueData>("Dialogue/Mayor_Dialogue");
-        if (inter != null) inter.onTalk?.Invoke();
-        if (DialogueManager.Instance != null && data != null)
+        var detector = tutorialPlayer.ActiveDetector;
+        bool near = inter != null && Vector2.Distance(tutorialPlayer.transform.position, mayor.transform.position) <= inter.talkRadius;
+        bool canTalk = near && detector != null && ReferenceEquals(detector.FindClosestInteractable(), inter);
+        if (canTalk)
         {
-            // NPC замирает и смотрит на игрока, как в обычном разговоре
-            var npc = mayor.GetComponent<NPCController>();
-            if (npc != null) npc.aiPaused = true;
-            var anim = mayor.GetComponent<NPCAnimator>();
-            if (anim != null && inter != null) inter.FacePlayer();
-            DialogueManager.Instance.onDialogueEnd = inter != null
-                ? (System.Action)inter.EndTalk : null;
-            DialogueManager.Instance.StartDialogueAt(data, 7, inter);
+            SetControlHint("Нажми кнопку атаки рядом с мэром — это разговор. На ПК — пробел");
+            if (attackButton == null)
+            {
+                Canvas canvas = trackerRoot != null ? trackerRoot.GetComponentInParent<Canvas>() : null;
+                if (canvas != null)
+                    foreach (var button in canvas.GetComponentsInChildren<Button>(true))
+                        if (button.name == "AttackButton") { attackButton = button.transform as RectTransform; break; }
+            }
+            if (attackButton != null) QuestArrow.SetUITarget(attackButton, "Поговорить");
+            else QuestArrow.SetTarget(() => mayor != null ? (Vector3?)mayor.transform.position : null, "Поговорить", 0f);
         }
-        else pendingMayorTalk = false;
+        else
+        {
+            SetControlHint(near ? "Повернись лицом к мэру" : "Подойди к мэру по стрелке");
+            QuestArrow.SetTarget(() => mayor != null ? (Vector3?)mayor.transform.position : null, "Мэр", 0f);
+        }
     }
 
     void Start()
@@ -299,21 +388,30 @@ public class TutorialManager : MonoBehaviour, ISaveable
 
     void Update()
     {
+        UpdateControlLesson();
+        // Шаг меча закрывается по факту закрытия диалога (см. SwordReady)
+        if (!done && swordPending
+            && (DialogueManager.Instance == null || !DialogueManager.Instance.IsOpen))
+        {
+            swordPending = false;
+            OnEvent("sword");
+        }
         // Стрелка протухает (набрал воду, убил слайма, подошёл) — обновляем по таймеру
         arrowRefreshT -= Time.deltaTime;
         if (arrowRefreshT <= 0f)
         {
             arrowRefreshT = 1.5f;
             if (!done) UpdateArrow();
+            RefreshHint(); // дотянуть хинт после закрытия диалога и т.п.
         }
-        // Урок хотбара: мотыга переехала — шаг закрыт (проверка полисекундная, дёшево)
+        // Урок хотбара: меч (или мотыга) переехал вниз — шаг закрыт (опрос полисекундный, дёшево)
         if (!done && CurrentId() == "ui_hotbar")
         {
             uiPollT -= Time.deltaTime;
             if (uiPollT <= 0f)
             {
                 uiPollT = 0.5f;
-                if (QuestGive.HasHotbarItem("Hoe")) Advance();
+                if (QuestGive.HasHotbarItem("WoodSword_Common") || QuestGive.HasHotbarItem("Hoe")) Advance();
             }
         }
         if (letterTimer < 0f || letterSeen || done) return;
@@ -348,8 +446,7 @@ public class TutorialManager : MonoBehaviour, ISaveable
             introSeen = true;
             if (CurrentId() == "intro") Advance();
             else SaveManager.Instance?.Save();
-            // Пробуждение на площади: телепорт в город к мэру + автодиалог (один раз)
-            if (!mayorMet && !pendingMayorTalk) DoIntroTeleport();
+            if (!mayorMet) DoIntroTeleport();
             RefreshTracker();
             return;
         }
@@ -411,7 +508,7 @@ public class TutorialManager : MonoBehaviour, ISaveable
             RefreshTracker();
             return;
         }
-        if (evt == "mine" && cur == "mine")
+        if (evt == "mine" && cur == "ore")
         {
             mines++;
             ActionLogUI.Show("[Обучение] Жилы: " + Mathf.Min(mines, MINES_NEED) + "/" + MINES_NEED);
@@ -454,6 +551,9 @@ public class TutorialManager : MonoBehaviour, ISaveable
             Advance();
             return;
         }
+        // Открытие книги без покупки перка шаг не закрывает — только skills_spent.
+        // (Раньше общий evt==cur внизу закрывал этап сразу при открытии.)
+        if (evt == "skills" && cur == "skills") { RefreshTracker(); return; }
         if (evt.StartsWith("talk_") && cur == "city")
         {
             int bit = TalkBit(evt.Substring(5));
@@ -468,6 +568,8 @@ public class TutorialManager : MonoBehaviour, ISaveable
             }
             if (bit > 0) { RefreshTracker(); return; }
         }
+        // Финал Акта 1: доклад мэру (роль mayor шлёт talk_mayor из NPCInteractable)
+        if (evt == "talk_mayor" && cur == "act1_finish") { Advance(); return; }
         if (evt == cur) Advance();
     }
 
@@ -564,6 +666,13 @@ public class TutorialManager : MonoBehaviour, ISaveable
     private GameObject boundRoot;
     private TMP_Text boundLabel;
 
+    // ── Контекстные подсказки (панель TutorialHint) ──
+    private GameObject boundHintRoot;
+    private TMP_Text boundHintText;
+    private string hintStep = "";
+    private bool hintBuilt;
+    private bool hintDlgWasOpen;
+
     public void BindTracker(GameObject root, TMP_Text label, Button skip)
     {
         boundRoot = root;
@@ -571,6 +680,211 @@ public class TutorialManager : MonoBehaviour, ISaveable
         if (skip != null) skip.onClick.AddListener(SkipTutorial);
         uiBuilt = false; // заставить EnsureTrackerUI подхватить бинд
         RefreshTracker();
+    }
+
+    // Панель-подсказка: короткий текст что делать + закрытие по клику.
+    // Показывается один раз на шаг (закрыл — молчит до следующего шага).
+    public void BindHint(GameObject root, TMP_Text text, Button close)
+    {
+        boundHintRoot = root;
+        boundHintText = text;
+        if (close != null) close.onClick.AddListener(HideHintByUser);
+        hintStep = ""; // заставить показать заново
+        hintBuilt = true;
+        RefreshHint();
+    }
+
+    public void HideHint()
+    {
+        if (boundHintRoot != null) boundHintRoot.SetActive(false);
+    }
+
+    // Закрытие игроком (кнопка): помечаем шаг показанным — после диалогов не воскресать.
+    public void HideHintByUser()
+    {
+        hintStep = CurrentId();
+        HideHint();
+    }
+
+    // Синхронно из DialogueManager при открытии разговора — иначе хинт, показанный
+    // в onTalk (до StartDialogue), мигает ~1.5с поверх диалога до таймера RefreshHint.
+    // Заодно гасим стрелку сразу (иначе до 1.5с висит старая цель, напр. рюкзак,
+    // пока игрок ещё читает диалог).
+    public static void HideHintStatic()
+    {
+        if (_instance != null) _instance.HideHint();
+        QuestArrow.Clear();
+    }
+
+    void RefreshHint()
+    {
+        if (boundHintRoot == null)
+        {
+            EnsureHintUI();
+            if (boundHintRoot == null) return;
+        }
+        if (done)
+        {
+            if (boundHintRoot.activeSelf) boundHintRoot.SetActive(false);
+            return;
+        }
+        string cur = CurrentId();
+        // Диалог открыт — хинт прячем и «показанным» НЕ считаем. Флаг былОткрыт нужен:
+        // onTalk срабатывает ДО StartDialogue, и пометка, поставленная в тот же кадр,
+        // иначе убила бы показ после закрытия разговора.
+        bool dlg = DialogueManager.Instance != null && DialogueManager.Instance.IsOpen;
+        if (dlg)
+        {
+            if (boundHintRoot.activeSelf) boundHintRoot.SetActive(false);
+            hintDlgWasOpen = true;
+            return;
+        }
+        if (hintDlgWasOpen) { hintDlgWasOpen = false; hintStep = ""; } // разговор закрылся — показать шаг
+        if (hintStep == cur)
+        {
+            // Тот же шаг, но текст мог измениться (хинт clear после первой добычи) —
+            // обновляем живьём, закрытый вручную не трогаем.
+            if (boundHintRoot.activeSelf && boundHintText != null)
+                boundHintText.text = HintFor(cur);
+            return;
+        }
+        hintStep = cur;
+        string h = HintFor(cur);
+        if (string.IsNullOrEmpty(h))
+        {
+            if (boundHintRoot.activeSelf) boundHintRoot.SetActive(false);
+            return;
+        }
+        if (boundHintText != null) boundHintText.text = h;
+        if (!boundHintRoot.activeSelf) boundHintRoot.SetActive(true);
+    }
+
+    // Короткие подсказки по шагам: хинт говорит КАК делать, трекер — ЧТО.
+    // Не static: текст clear зависит от счётчика (с первой добычи — про подбор).
+    string HintFor(string step)
+    {
+        switch (step)
+        {
+            case "intro": return ""; // книга открыта — хинт не нужен
+            case "sword": return "Подойди к мэру вплотную и жми кнопку атаки — это разговор.";
+            case "ui_inv": return "Нажми на подсвеченный рюкзак и найди там меч.";
+            case "ui_hotbar": return "Зажми меч в рюкзаке и тащи его в нижний ряд. Потом нажми на меч там.";
+            case "home": return "Иди на юг города — там портал на ферму.";
+            case "clear": return farmkills > 0
+                ? "Выпала добыча! Подойди к ней вплотную, потом добей остальных."
+                : "Выбери меч в нижнем ряду и бей слаймов кнопкой атаки.";
+            case "loot": return "Подойди к добыче вплотную — она подберётся сама.";
+            case "tools": return "Вернись к мэру за инструментами для посадки.";
+            case "hoe1":
+            case "hoe5": return "Мотыга уже в руках. Бей ею по земле кнопкой атаки (на ПК — пробел).";
+            case "plant": return "Выбери семена в хотбаре и посади их во вскопанные грядки кнопкой атаки.";
+            case "water": return WaterHint();
+            case "town": return "Иди в город Заря через портал.";
+            case "city": return "Поговори со всеми: Мира, Степан, Густав, Дрон.";
+            case "seeds": return "Поговори с Мартой и купи пшеницу.";
+            case "harvest": return HarvestHint();
+            case "pickup_harvest": return "Подойди к срезанной пшенице — она подберётся сама.";
+            case "sell": return "Поговори с Дроном — продай кости кнопками ×1 / Всё. Пшеницу береги для хлеба.";
+            case "bread": return "Отдай Густаву 2 пшеницы — он испечёт хлеб.";
+            case "eat": return "Открой рюкзак и нажми на хлеб, чтобы съесть.";
+            case "skills": return "Открой книгу навыков и возьми любой перк.";
+            case "rod": return "Найди Морека на пляже и забери удочку.";
+            case "fish": return "Встань лицом к воде, ударь с удочкой и жди «КЛЮЁТ!».";
+            case "forest": return "Иди в Лес Новичков через портал.";
+            case "kill": return "Убей 3 слаймов в лесу. Не давай себя окружить.";
+            case "pickaxe": return "Поговори со Степаном и забери кирку.";
+            case "mine": return "Войди в шахту.";
+            case "ore": return "Бей жилы киркой. Нужно 5 штук.";
+            case "forge": return "Открой кузницу у Степана и улучши предмет.";
+            case "equip": return "Открой экипировку и надень улучшенное.";
+            case "act1_finish": return "Вернись к мэру с докладом.";
+            default: return "";
+        }
+    }
+
+    // Хинт полива по факту: лейка полна — поливай; лейка в руках пустая — к колодцу
+    // (там два нажатия: поднять ведро, потом забрать воду — второе подсказывает
+    // сам колодец: "[Колодец] Ведро поднято! Нажми ещё раз..."); лейки в руках нет — выбери.
+    string WaterHint()
+    {
+        var hb = HotbarManager.Instance;
+        var slot = hb != null ? hb.GetActiveSlot() : null;
+        if (slot != null && slot.IsWateringCan() && slot.HasWater())
+            return "Лейка полна. Полей посаженные грядки.";
+        if (slot != null && slot.IsWateringCan())
+            return "Возьми лейку, подойди к колодцу и нажми атаку. Как ведро поднимется — нажми ещё раз, чтобы набрать воду.";
+        return "Выбери лейку в хотбаре в руки.";
+    }
+
+    // Хинт сбора по факту: не созрело — сказать ждать, а не гнать с серпом
+    string HarvestHint()
+    {
+        if (FarmManager.Instance != null && !FarmManager.Instance.HasRipeCrop())
+            return "Пшеница ещё растёт. Подожди — она доспеет сама.";
+        return "Возьми серп в руки и срежь спелую пшеницу кнопкой атаки.";
+    }
+
+    void EnsureHintUI()
+    {
+        if (hintBuilt && boundHintRoot != null) return;
+        // 1) Сценовой биндер
+        var found = FindObjectsByType<TutorialHintBinder>(
+            FindObjectsInactive.Include, FindObjectsSortMode.None);
+        if (found != null && found.Length > 0 && found[0] != null)
+        {
+            found[0].ApplyBind();
+            if (boundHintRoot != null) return;
+        }
+        // 2) Объекты по именам (владелец собрал руками без биндера)
+        GameObject byName = FindUIByName("TutorialHint");
+        if (byName != null)
+        {
+            TMP_Text t = null;
+            Button c = null;
+            foreach (var tmp in byName.GetComponentsInChildren<TMP_Text>(true))
+                if (tmp.name.Trim() == "TutorialHintText") { t = tmp; break; }
+            if (t == null) t = byName.GetComponentInChildren<TMP_Text>(true);
+            foreach (var b in byName.GetComponentsInChildren<Button>(true))
+                if (b.name.Trim() == "TutorialHintClose") { c = b; break; }
+            BindHint(byName, t, c);
+            if (boundHintRoot != null) return;
+        }
+        // 3) Кодовый фолбэк: панель справа
+        Canvas canvas = FindFirstObjectByType<Canvas>();
+        if (canvas == null) return;
+        GameObject root = new GameObject("TutorialHint (auto)");
+        root.transform.SetParent(canvas.transform, false);
+        RectTransform rt = root.AddComponent<RectTransform>();
+        rt.anchorMin = new Vector2(1f, 0.5f);
+        rt.anchorMax = new Vector2(1f, 0.5f);
+        rt.pivot = new Vector2(1f, 0.5f);
+        rt.anchoredPosition = new Vector2(-12f, 40f);
+        rt.sizeDelta = new Vector2(440f, 150f);
+        Image bg = root.AddComponent<Image>();
+        bg.color = new Color(0f, 0f, 0f, 0.6f);
+        Button btn = root.AddComponent<Button>(); // клик куда-нибудь по панели = закрыть
+        btn.onClick.AddListener(HideHintByUser);
+        GameObject tGo = new GameObject("TutorialHintText");
+        tGo.transform.SetParent(root.transform, false);
+        RectTransform trt = tGo.AddComponent<RectTransform>();
+        trt.anchorMin = Vector2.zero;
+        trt.anchorMax = Vector2.one;
+        trt.offsetMin = new Vector2(14f, 10f);
+        trt.offsetMax = new Vector2(-14f, -10f);
+        TMP_Text label = tGo.AddComponent<TextMeshProUGUI>();
+        label.fontSize = 20f;
+        label.color = new Color(1f, 0.97f, 0.85f);
+        label.textWrappingMode = TextWrappingModes.Normal;
+        label.raycastTarget = false; // клики уходят в кнопку панели
+        BindHint(root, label, btn);
+    }
+
+    static GameObject FindUIByName(string name)
+    {
+        var all = FindObjectsByType<RectTransform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var r in all)
+            if (r != null && r.name.Trim() == name) return r.gameObject;
+        return null;
     }
 
     // ── Трекер UI кодом ──
@@ -670,7 +984,7 @@ public class TutorialManager : MonoBehaviour, ISaveable
         string text = "";
         if (progress >= 0 && progress < stepTexts.Length)
         {
-            text = "Дело: " + stepTexts[progress];
+            text = "Дело: " + (CurrentId() == "sword" && !string.IsNullOrEmpty(controlHint) ? controlHint : stepTexts[progress]);
             if (CurrentId() == "hoe1") text += " (" + Mathf.Min(hoes, 1) + "/1)";
             if (CurrentId() == "hoe5") text += " (" + Mathf.Min(hoes, HOES_NEED) + "/" + HOES_NEED + ")";
             if (CurrentId() == "city") text += " (" + CountBits(metMask) + "/4)";
@@ -683,11 +997,12 @@ public class TutorialManager : MonoBehaviour, ISaveable
                 text += " (" + Mathf.Min(farmkills, total) + "/" + total + ")";
             }
             if (CurrentId() == "kill") text += " (" + Mathf.Min(kills, KILLS_NEED) + "/" + KILLS_NEED + ")";
-            if (CurrentId() == "mine") text += " (" + Mathf.Min(mines, MINES_NEED) + "/" + MINES_NEED + ")";
+            if (CurrentId() == "ore") text += " (" + Mathf.Min(mines, MINES_NEED) + "/" + MINES_NEED + ")";
             text += "\n<size=70%>Долг: 500 000 кредитов</size>";
         }
         trackerLabel.text = text;
         UpdateArrow();
+        RefreshHint();
     }
 
     // Перепривязка после смены сцены: Canvas пересоздался — трекер убит вместе с ним.
@@ -697,6 +1012,12 @@ public class TutorialManager : MonoBehaviour, ISaveable
     void UpdateArrow()
     {
         if (done) { QuestArrow.Clear(); return; }
+        // Разговор открыт — стрелка молчит (иначе убегает вперёд по шагу, пока читают)
+        if (DialogueManager.Instance != null && DialogueManager.Instance.IsOpen)
+        {
+            QuestArrow.Clear();
+            return;
+        }
         string cur = CurrentId();
         string here = SceneManager.GetActiveScene().name;
 
@@ -706,7 +1027,7 @@ public class TutorialManager : MonoBehaviour, ISaveable
                 QuestArrow.Clear(); // книга открыта — стрелка не нужна
                 break;
             case "sword":
-                PointAtNPC<MayorNPC>("City", "Мэр · меч");
+                PointAtMayorLesson();
                 break;
             case "home":
                 if (here == "SampleScene") QuestArrow.Clear();
@@ -721,8 +1042,18 @@ public class TutorialManager : MonoBehaviour, ISaveable
                 PointAtNPC<MayorNPC>("City", "Мэр · набор");
                 break;
             case "ui_inv":
+                // Одна кнопка на рюкзак+экипировку (дубликат-рюкзак скрыт в сцене):
+                // EquipmentUI.Open тянет за собой и инвентарь.
+                PointAtUIOpener("ui_inv", "Рюкзак",
+                    () => FindOpenerByClick<EquipmentUI>("Toggle"), "EquipmentButton", "InventoryButton");
+                break;
             case "ui_hotbar":
-                QuestArrow.Clear(); // дело в меню
+                PointAtUIOpener("ui_hotbar", "Хотбар", null, "Hotbar");
+                break;
+            case "loot":
+                if (here == "SampleScene")
+                    QuestArrow.SetTarget(() => NearestLoot(), "Добыча");
+                else QuestArrow.SetRoute("SampleScene", null, "Ферма №9");
                 break;
             case "hoe1":
             case "hoe5":
@@ -737,24 +1068,32 @@ public class TutorialManager : MonoBehaviour, ISaveable
             case "city":
                 PointAtUnmetCityNPC();
                 break;
+            case "town":
+                if (here == "City") QuestArrow.Clear();
+                else QuestArrow.SetRoute("City", null, "Город Заря");
+                break;
             case "pickaxe":
             case "forge":
                 PointAtNPC<BlacksmithNPC>("City", "Степан");
                 break;
             case "equip":
-                QuestArrow.Clear(); // дело в меню
+                PointAtUIOpener("equip", "Экипировка",
+                    () => FindOpenerByClick<EquipmentUI>("Toggle"), "EquipmentButton");
                 break;
             case "bread":
                 PointAtNPC<CookNPC>("City", "Густав · хлеб");
                 break;
             case "eat":
-                QuestArrow.Clear(); // дело в рюкзаке
+                PointAtUIOpener("eat", "Рюкзак · хлеб",
+                    () => FindOpenerByClick<EquipmentUI>("Toggle"), "EquipmentButton", "InventoryButton");
                 break;
             case "seeds":
                 PointAtSeedSeller();
                 break;
             case "skills":
-                QuestArrow.Clear(); // книга прокачки — дело в меню
+                // Кнопка книги — SkillNodeButton (в имени хвостовой пробел, ищем по Trim)
+                PointAtUIOpener("skills", "Книга навыков",
+                    () => FindOpenerByClick<SkillTreeUI>("Toggle"), "SkillNodeButton");
                 break;
             case "sell":
                 PointAtNPC<BuyerNPC>("City", "Дрон · скупка");
@@ -768,10 +1107,24 @@ public class TutorialManager : MonoBehaviour, ISaveable
                     QuestArrow.SetTarget(() => NearestEnemy(), "Слайм");
                 else QuestArrow.SetRoute("Beginner Forest", null, "Лес");
                 break;
+            case "forest":
+                if (here == "Beginner Forest") QuestArrow.Clear();
+                else QuestArrow.SetRoute("Beginner Forest", null, "Лес Новичков");
+                break;
             case "mine":
+                if (here == "Mine") QuestArrow.Clear();
+                else QuestArrow.SetRoute("Mine", null, "Шахта");
+                break;
+            case "ore":
                 if (here == "Mine")
                     QuestArrow.SetTarget(() => NearestVein(), "Жила");
                 else QuestArrow.SetRoute("Mine", null, "Шахта");
+                break;
+            case "pickup_harvest":
+                QuestArrow.SetTarget(() => NearestHarvestLoot(), "Урожай");
+                break;
+            case "act1_finish":
+                PointAtNPC<MayorNPC>("City", "Мэр · доклад");
                 break;
             default:
                 QuestArrow.Clear();
@@ -789,6 +1142,74 @@ public class TutorialManager : MonoBehaviour, ISaveable
             QuestArrow.SetRoute(scene, () => t != null ? (Vector3?)t.position : null, caption);
         }
         else QuestArrow.SetRoute(homeScene, null, caption); // NPC не в этой сцене — к порталу
+    }
+
+    // Стрелка на кнопку HUD (панель/рюкзак/хотбар/книга/экипировка).
+    // Сначала ищем по обработчику клика (переименования не страшны):
+    // StatsUI.Open, InventoryUI.ToggleInventory, SkillTreeUI.Toggle, EquipmentUI.Toggle.
+    // Запасной путь — по имени (StatsPanel-виджет, InventoryButton, Hotbar,
+    // SkillNodeButton с хвостовым пробелом, EquipmentButton).
+    // Окно-однофамилец (StatsPanel-окно) скрыто — берём только видимый объект,
+    // при нескольких совпадениях предпочитаем тот, у кого Button на себе.
+    void PointAtUIOpener(string step, string caption, System.Func<RectTransform> primary, params string[] names)
+    {
+        if (uiArrowStep != step || uiArrowTarget == null || !uiArrowTarget.gameObject.activeInHierarchy)
+        {
+            uiArrowStep = step;
+            uiArrowTarget = null;
+            try { uiArrowTarget = primary != null ? primary() : null; } catch { uiArrowTarget = null; }
+            if (uiArrowTarget == null) uiArrowTarget = FindActiveUI(names);
+        }
+        if (uiArrowTarget != null) QuestArrow.SetUITarget(uiArrowTarget, caption);
+        else QuestArrow.Clear();
+    }
+
+    static RectTransform FindOpenerByClick<T>(string method) where T : MonoBehaviour
+    {
+        var btns = FindObjectsByType<Button>(FindObjectsSortMode.None); // только активные
+        foreach (var b in btns)
+        {
+            if (b == null) continue;
+            var clicks = b.onClick;
+            int n = clicks.GetPersistentEventCount();
+            for (int i = 0; i < n; i++)
+            {
+                if (clicks.GetPersistentMethodName(i) != method) continue;
+                if (clicks.GetPersistentTarget(i) is T)
+                    return b.transform as RectTransform;
+            }
+        }
+        return null;
+    }
+
+    static RectTransform FindActiveUI(string[] names)
+    {
+        var all = FindObjectsByType<RectTransform>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+        foreach (var n in names)
+        {
+            string tn = n.Trim();
+            RectTransform fallback = null;
+            int total = 0, inactive = 0;
+            foreach (var r in all)
+            {
+                if (r == null || r.name.Trim() != tn) continue;
+                total++;
+                if (!r.gameObject.activeInHierarchy) { inactive++; continue; }
+                if (r.GetComponent<Button>() != null) return r; // кнопка-открывашка, не окно
+                if (fallback == null) fallback = r;
+            }
+            if (fallback != null) return fallback;
+            // Второй шанс: частичное совпадение (переименовали с опечаткой) + диагностика
+            foreach (var r in all)
+            {
+                if (r == null || !r.gameObject.activeInHierarchy) continue;
+                if (r.name.IndexOf(tn, System.StringComparison.OrdinalIgnoreCase) < 0) continue;
+                Debug.LogWarning("[Обучение] Кнопка '" + tn + "' точно не найдена — беру похожую '" + r.name + "'.");
+                return r;
+            }
+            Debug.LogWarning("[Обучение] Кнопка '" + tn + "' не найдена (совпадений: " + total + ", скрытых: " + inactive + ").");
+        }
+        return null;
     }
 
     // Тур по городу: ведём к ближайшему непознанному (кухарь/кузнец/Марта/скупщик)
@@ -945,6 +1366,29 @@ public class TutorialManager : MonoBehaviour, ISaveable
         return res;
     }
 
+    // Ближайший лежащий лут (шаг loot); урожайный — с farmingXpReward>0 (шаг pickup_harvest).
+    // Пусто (всё подобрано) → null → стрелка прячется, текст трекера ведёт сам.
+    Vector3? NearestLoot() => NearestLootInternal(false);
+    Vector3? NearestHarvestLoot() => NearestLootInternal(true);
+
+    Vector3? NearestLootInternal(bool harvestOnly)
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        if (player == null) return null;
+        Vector3 pp = player.transform.position;
+        float best = float.MaxValue;
+        Vector3? res = null;
+        var all = FindObjectsByType<LootItem>(FindObjectsSortMode.None);
+        foreach (var l in all)
+        {
+            if (l == null || l.itemData == null) continue;
+            if (harvestOnly && l.farmingXpReward <= 0) continue;
+            float d = Vector2.Distance(pp, l.transform.position);
+            if (d < best) { best = d; res = l.transform.position; }
+        }
+        return res;
+    }
+
     float scanT;
     Vector3 scanPos;
     bool scanHas;
@@ -1005,7 +1449,8 @@ public class TutorialManager : MonoBehaviour, ISaveable
             metMask = metMask, debtPaid = debtPaid,
             done = done, rewardGiven = rewardGiven,
             letterSeen = letterSeen, mayorMet = mayorMet, swordGiven = swordGiven,
-            toolsGiven = toolsGiven, pickGiven = pickGiven, skillsGrant = skillsGrant
+            toolsGiven = toolsGiven, pickGiven = pickGiven, skillsGrant = skillsGrant,
+            movementLearned = movementLearned
         });
     }
 
@@ -1037,6 +1482,10 @@ public class TutorialManager : MonoBehaviour, ISaveable
             done = s.done; rewardGiven = s.rewardGiven;
             letterSeen = s.letterSeen; mayorMet = s.mayorMet; swordGiven = s.swordGiven;
             toolsGiven = s.toolsGiven; pickGiven = s.pickGiven; skillsGrant = s.skillsGrant;
+            movementLearned = s.movementLearned;
+            movementSampleReady = false;
+            movementDistance = 0f;
+            controlHint = "";
         }
         catch (System.Exception e) { Debug.LogWarning("[Обучение] Битый сейв, начинаем заново: " + e.Message); }
         RefreshTracker();

@@ -127,6 +127,7 @@ public class StatsUI : MonoBehaviour
         statsPanel.SetActive(true);
         isOpen = true;
         justShown = true;
+        TutorialManager.Notify("interface"); // путеводитель Акт 1: открыл панель персонажа
         Refresh();
     }
 

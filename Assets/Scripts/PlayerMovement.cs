@@ -130,6 +130,9 @@ public class PlayerMovement : MonoBehaviour
 
     void OnDisable()
     {
+        movement = Vector2.zero;
+        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (rb != null) rb.linearVelocity = Vector2.zero;
         onSlotRetapped -= RotatePlacementGhost;
         RestoreHammerHighlight();
         DestroyGhost();
@@ -180,7 +183,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Attack()
     {
-        if (isAttacking) return;
+        if (!isActiveAndEnabled || isAttacking) return;
 
         ItemData activeItem = HotbarManager.Instance?.GetActiveItem();
 
