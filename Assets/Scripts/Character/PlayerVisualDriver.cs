@@ -30,6 +30,7 @@ public class PlayerVisualDriver : MonoBehaviour
     const string A_BITE = "12.2. Fishing - Bite";
     const string A_REEL = "12.3. Fishing - Reel";
     const string A_CATCH = "12.4. Fishing - Catch";
+    const string A_SLEEP = "19. Sleep";
 
     CharacterVisual visual;
     PlayerMovement movement;
@@ -40,6 +41,8 @@ public class PlayerVisualDriver : MonoBehaviour
     public bool useRunAnim = false;
     bool busy;      // идёт one-shot (кроме смерти)
     bool dead;
+    bool sleeping;  // сон на кровати-возрождении: локомоуш и порядок ведёт кровать
+    int sleepOrder;
     bool ysortDynamic;
     string locoAction = "";
 
@@ -118,7 +121,7 @@ public class PlayerVisualDriver : MonoBehaviour
     void Update()
     {
         if (visual == null || movement == null) return;
-        if (!movement.enabled || dead) return;           // смерть/лок UI/мини-игра: поза замирает
+        if (!movement.enabled || dead || sleeping) return;           // смерть/лок UI/мини-игра/сон: поза замирает
         if (busy) return;                               // one-shot доигрывает
         if (movement.isAttacking || movement.isFishing) return;
 
@@ -136,6 +139,13 @@ public class PlayerVisualDriver : MonoBehaviour
 
     void LateUpdate()
     {
+        if (visual == null) return;
+        if (sleeping)
+        {
+            // Спящий лежит ПОВЕРХ кровати (ноги на подушке дали бы порядок за кроватью)
+            visual.SetDynamicOrder(sleepOrder);
+            return;
+        }
         if (ysortDynamic && visual != null)
         {
             // Сортируем по НОГАМ (трансформ выше ступней на visualOffset.y):
@@ -278,6 +288,27 @@ public class PlayerVisualDriver : MonoBehaviour
     public void Revive()
     {
         dead = false;
+        sleeping = false;
+        busy = false;
+        visual.Play(A_IDLE);
+    }
+
+    /// <summary>Сон на кровати: зацикленный 19. Sleep поверх кровати. Разбудить — WakeUp().</summary>
+    public void PlaySleep(int orderAboveBed, float speedMult = 1f)
+    {
+        dead = false;
+        busy = false;
+        locoAction = "";
+        sleeping = true;
+        sleepOrder = orderAboveBed;
+        visual.SetDirection(CharDir.Down); // у Sleep нет Up-направления
+        visual.Play(A_SLEEP, true, speedMult);
+        visual.SetDynamicOrder(sleepOrder);
+    }
+
+    public void WakeUp()
+    {
+        sleeping = false;
         busy = false;
         visual.Play(A_IDLE);
     }

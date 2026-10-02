@@ -232,6 +232,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -239,19 +252,19 @@ TextureImporter:
       name: Fireplace_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 207
-        width: 30
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 34
+        y: 208
+        width: 28
+        height: 42
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d302586c5de68f6c0800000000000000
+      spriteID: 5193921d058632144b9ab7dbaac4c1d3
       internalID: -4109412795537874883
       vertices: []
       indices: 
@@ -261,19 +274,19 @@ TextureImporter:
       name: Fireplace_1
       rect:
         serializedVersion: 2
-        x: 33
-        y: 207
-        width: 30
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 98
+        y: 208
+        width: 28
+        height: 42
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 24bf96c1c7fb44de0800000000000000
+      spriteID: 2575d47e98155c24a8a5fbde80bf4ff7
       internalID: -1349743448530748606
       vertices: []
       indices: 
@@ -283,19 +296,19 @@ TextureImporter:
       name: Fireplace_2
       rect:
         serializedVersion: 2
-        x: 66
-        y: 207
+        x: 130
+        y: 208
         width: 28
         height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: edf970455488a5980800000000000000
+      spriteID: 7d17f1c28beb65c45ac162c046992ee2
       internalID: -8549371111265558562
       vertices: []
       indices: 
@@ -305,19 +318,19 @@ TextureImporter:
       name: Fireplace_3
       rect:
         serializedVersion: 2
-        x: 97
-        y: 207
-        width: 30
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 67
+        y: 208
+        width: 26
+        height: 40
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c1dcadd87937a3fa0800000000000000
+      spriteID: 9f36104f729f3f44b8f84cf0c10a4852
       internalID: -5820212473665762020
       vertices: []
       indices: 
@@ -327,19 +340,19 @@ TextureImporter:
       name: Fireplace_4
       rect:
         serializedVersion: 2
-        x: 129
-        y: 207
-        width: 30
-        height: 44
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 162
+        y: 208
+        width: 28
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 923272cd0c16f4510800000000000000
+      spriteID: 5cee6ced8b8d8644c8f40e6280a5a416
       internalID: 1535553478911796009
       vertices: []
       indices: 
@@ -349,19 +362,19 @@ TextureImporter:
       name: Fireplace_5
       rect:
         serializedVersion: 2
-        x: 161
-        y: 207
-        width: 30
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 194
+        y: 208
+        width: 28
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 3f6f5b79d5e6eabb0800000000000000
+      spriteID: ee56e6c8017cc3441907d74cd808880f
       internalID: -4922875994413074701
       vertices: []
       indices: 
@@ -371,19 +384,19 @@ TextureImporter:
       name: Fireplace_6
       rect:
         serializedVersion: 2
-        x: 193
-        y: 207
-        width: 30
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 226
+        y: 208
+        width: 28
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4544f29fbc6aab210800000000000000
+      spriteID: 484a1a11257c0a148938638b43f8d6fa
       internalID: 1349574433340081236
       vertices: []
       indices: 
@@ -393,19 +406,19 @@ TextureImporter:
       name: Fireplace_7
       rect:
         serializedVersion: 2
-        x: 225
-        y: 207
-        width: 30
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 2
+        y: 208
+        width: 28
+        height: 28
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c0e70082e3a069c70800000000000000
+      spriteID: 44ae06239519b51438bb74a8622248b8
       internalID: 8977374169285033484
       vertices: []
       indices: 
@@ -416,41 +429,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
-        width: 65
-        height: 96
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 144
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 398b794060d47fbd0800000000000000
+      spriteID: 4f2bdd3255669084a8d7598bb08f93a4
       internalID: -2596521971913607021
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_9
-      rect:
-        serializedVersion: 2
-        x: 67
-        y: 143
-        width: 26
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 48bb4f969290876b0800000000000000
-      internalID: -5298474888125432956
       vertices: []
       indices: 
       edges: []
@@ -459,19 +450,19 @@ TextureImporter:
       name: Fireplace_10
       rect:
         serializedVersion: 2
-        x: 99
-        y: 143
-        width: 26
-        height: 31
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 68
+        y: 144
+        width: 24
+        height: 28
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 11ee2c013bc46cca0800000000000000
+      spriteID: d2215a4cc18226e4cafa8dd6cc560e91
       internalID: -5997021521833169391
       vertices: []
       indices: 
@@ -481,19 +472,19 @@ TextureImporter:
       name: Fireplace_11
       rect:
         serializedVersion: 2
-        x: 130
-        y: 143
-        width: 28
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 100
+        y: 144
+        width: 24
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 90a0aca4dfc1e5980800000000000000
+      spriteID: 18abf9bc5b7e9f546b614419e030f26e
       internalID: -8548363168495564279
       vertices: []
       indices: 
@@ -503,19 +494,19 @@ TextureImporter:
       name: Fireplace_12
       rect:
         serializedVersion: 2
-        x: 162
-        y: 143
-        width: 28
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 131
+        y: 144
+        width: 26
+        height: 29
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: f499a0296f1ace1f0800000000000000
+      spriteID: 618451d5f535eff43b2baea883aeaeed
       internalID: -1014257735681009329
       vertices: []
       indices: 
@@ -525,19 +516,19 @@ TextureImporter:
       name: Fireplace_13
       rect:
         serializedVersion: 2
-        x: 194
-        y: 143
-        width: 28
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 163
+        y: 144
+        width: 26
+        height: 28
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 531fe77be3f37d9e0800000000000000
+      spriteID: d1296c5aab12e6b4593751765e28473f
       internalID: -1596738004280479435
       vertices: []
       indices: 
@@ -547,19 +538,19 @@ TextureImporter:
       name: Fireplace_14
       rect:
         serializedVersion: 2
-        x: 226
-        y: 143
-        width: 28
-        height: 30
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 195
+        y: 144
+        width: 26
+        height: 28
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: b9136950795f51540800000000000000
+      spriteID: 25c4326dfa81b014d934908f3b9d1cf6
       internalID: 4978154992110547355
       vertices: []
       indices: 
@@ -569,42 +560,20 @@ TextureImporter:
       name: Fireplace_15
       rect:
         serializedVersion: 2
-        x: 58
-        y: 105
-        width: 13
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 227
+        y: 144
+        width: 26
+        height: 28
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e2408095dd6b01ab0800000000000000
+      spriteID: 793b1e50f841d4e45957d936239baf0b
       internalID: -5039326921229859794
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_16
-      rect:
-        serializedVersion: 2
-        x: 90
-        y: 105
-        width: 6
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 5d752ddd55d3285b0800000000000000
-      internalID: -5367660366869145643
       vertices: []
       indices: 
       edges: []
@@ -613,19 +582,19 @@ TextureImporter:
       name: Fireplace_17
       rect:
         serializedVersion: 2
-        x: 95
-        y: 105
-        width: 7
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 58
+        y: 106
+        width: 13
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6f21f8dc8b30f9f30800000000000000
+      spriteID: aab3838d90b77c649805b4d5b3bed95a
       internalID: 4584387037944025846
       vertices: []
       indices: 
@@ -635,19 +604,19 @@ TextureImporter:
       name: Fireplace_18
       rect:
         serializedVersion: 2
-        x: 122
-        y: 105
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 48
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 84741d447675ed350800000000000000
+      spriteID: 69f590c9379c56449b984ea0aa97ce40
       internalID: 6043363851025598280
       vertices: []
       indices: 
@@ -657,19 +626,19 @@ TextureImporter:
       name: Fireplace_19
       rect:
         serializedVersion: 2
-        x: 153
-        y: 105
-        width: 12
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 33
+        y: 67
+        width: 31
+        height: 27
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9c9d049a5cd38ebc0800000000000000
+      spriteID: fef3f52ce87c7904b884171278b0becd
       internalID: -3753682370255857207
       vertices: []
       indices: 
@@ -679,19 +648,19 @@ TextureImporter:
       name: Fireplace_20
       rect:
         serializedVersion: 2
-        x: 0
-        y: 47
-        width: 33
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 64
+        y: 48
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 7f040eb3002858280800000000000000
+      spriteID: e82e5fdc712100d4ca2937ed00c1be19
       internalID: -9041677739360239369
       vertices: []
       indices: 
@@ -701,19 +670,19 @@ TextureImporter:
       name: Fireplace_21
       rect:
         serializedVersion: 2
-        x: 32
-        y: 66
-        width: 33
-        height: 18
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 96
+        y: 65
+        width: 31
+        height: 30
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 361543a10037e4040800000000000000
+      spriteID: 7355f1e0740c0d14dbf3d67703f01cb1
       internalID: 4633767510887649635
       vertices: []
       indices: 
@@ -723,19 +692,19 @@ TextureImporter:
       name: Fireplace_22
       rect:
         serializedVersion: 2
-        x: 41
-        y: 81
-        width: 14
-        height: 14
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 128
+        y: 48
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9dcc870c9a2b79070800000000000000
+      spriteID: e2edaf90d4697064585dae82bef1dc8d
       internalID: 8113149695879597273
       vertices: []
       indices: 
@@ -745,19 +714,19 @@ TextureImporter:
       name: Fireplace_23
       rect:
         serializedVersion: 2
-        x: 63
-        y: 47
-        width: 34
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 161
+        y: 67
+        width: 29
+        height: 27
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4aed4185b6bbcc6e0800000000000000
+      spriteID: 3fbe4e4461673b94da008b1412674f95
       internalID: -1815870480023495004
       vertices: []
       indices: 
@@ -767,19 +736,19 @@ TextureImporter:
       name: Fireplace_24
       rect:
         serializedVersion: 2
-        x: 102
-        y: 78
-        width: 10
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 192
+        y: 48
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2a6c2c9fb1fdd74c0800000000000000
+      spriteID: 4088629b5f8498648aa427b3612b20eb
       internalID: -4288025958939441502
       vertices: []
       indices: 
@@ -789,42 +758,20 @@ TextureImporter:
       name: Fireplace_25
       rect:
         serializedVersion: 2
-        x: 112
-        y: 80
-        width: 8
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6c93ff22310984d40800000000000000
-      internalID: 5568859351109548486
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_26
-      rect:
-        serializedVersion: 2
-        x: 115
+        x: 226
         y: 67
-        width: 14
-        height: 21
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        width: 29
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2bcabfebc3a2c19b0800000000000000
-      internalID: -5108161436954415950
+      spriteID: 7530ab3835ada2146a65d97cb8df3411
+      internalID: 5568859351109548486
       vertices: []
       indices: 
       edges: []
@@ -833,19 +780,19 @@ TextureImporter:
       name: Fireplace_27
       rect:
         serializedVersion: 2
-        x: 127
-        y: 47
-        width: 34
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 161
+        y: 50
+        width: 11
+        height: 13
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: a175bd8b17e6b8b00800000000000000
+      spriteID: 6d9662d58d1be1f4ca386d9ef034a0c9
       internalID: 831879990891730714
       vertices: []
       indices: 
@@ -855,19 +802,19 @@ TextureImporter:
       name: Fireplace_28
       rect:
         serializedVersion: 2
-        x: 159
-        y: 68
-        width: 25
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 106
+        y: 30
+        width: 11
+        height: 15
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c3661a8d06f4e4760800000000000000
+      spriteID: 8d61dc669a29a0d4aba07cc24ce2c23c
       internalID: 7443974511459919420
       vertices: []
       indices: 
@@ -877,19 +824,19 @@ TextureImporter:
       name: Fireplace_29
       rect:
         serializedVersion: 2
-        x: 191
-        y: 47
-        width: 34
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 0
+        y: 0
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 11946ee8f851e3270800000000000000
+      spriteID: abbb4cf740b02774582ab514f9fd9500
       internalID: 8232040875201808657
       vertices: []
       indices: 
@@ -899,42 +846,20 @@ TextureImporter:
       name: Fireplace_30
       rect:
         serializedVersion: 2
-        x: 225
-        y: 66
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 64
+        y: 0
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 426158c6eb0853f50800000000000000
+      spriteID: a8718b4d897b8484b8e9a31c13ea09e5
       internalID: 6860531162721621540
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_31
-      rect:
-        serializedVersion: 2
-        x: 233
-        y: 66
-        width: 23
-        height: 27
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 73c1fa5b5e19c31e0800000000000000
-      internalID: -2216736500791436233
       vertices: []
       indices: 
       edges: []
@@ -943,42 +868,20 @@ TextureImporter:
       name: Fireplace_32
       rect:
         serializedVersion: 2
-        x: 95
-        y: 64
-        width: 10
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 33
+        y: 10
+        width: 31
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 0c79294edcaf84780800000000000000
+      spriteID: 14916747b50c99f42a7b4b31e6c41b09
       internalID: -8698426918056060992
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_33
-      rect:
-        serializedVersion: 2
-        x: 177
-        y: 66
-        width: 14
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d24c9d53836378d70800000000000000
-      internalID: 9045257991646463021
       vertices: []
       indices: 
       edges: []
@@ -987,64 +890,20 @@ TextureImporter:
       name: Fireplace_34
       rect:
         serializedVersion: 2
-        x: 160
-        y: 49
-        width: 13
-        height: 15
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 97
+        y: 3
+        width: 9
+        height: 12
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1fb9ab3a7e582a0f0800000000000000
+      spriteID: ea4aa71f701c3f04abf8ff899c534dfb
       internalID: -1107175328448865295
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_35
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 33
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 0dc7a64ff3be824e0800000000000000
-      internalID: -2006094974077469488
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_36
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 19
-        width: 21
-        height: 25
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 22b87d901bfd2e6e0800000000000000
-      internalID: -1809638148782191838
       vertices: []
       indices: 
       edges: []
@@ -1053,19 +912,19 @@ TextureImporter:
       name: Fireplace_37
       rect:
         serializedVersion: 2
-        x: 52
-        y: 19
-        width: 13
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 32
+        y: 144
+        width: 32
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 01086fee53c78a600800000000000000
+      spriteID: f458be999e924494185c21d08994c226
       internalID: 479769931399200784
       vertices: []
       indices: 
@@ -1075,86 +934,108 @@ TextureImporter:
       name: Fireplace_38
       rect:
         serializedVersion: 2
-        x: 63
-        y: 0
-        width: 43
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 8
+        y: 97
+        width: 33
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 93f3aab151a42d3f0800000000000000
+      spriteID: 8ab4751b7d0239540b58df5bef9d8b44
       internalID: -877557522864914631
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Fireplace_39
+      name: Fireplace_9
       rect:
         serializedVersion: 2
-        x: 98
-        y: 20
-        width: 28
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a4c90815a6387b9f0800000000000000
-      internalID: -452748744870290358
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Fireplace_40
-      rect:
-        serializedVersion: 2
-        x: 105
-        y: 29
+        x: 90
+        y: 106
         width: 13
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 8dadac2fbc5237fe0800000000000000
-      internalID: -1192567918441080104
+      spriteID: 07b18a0eb7ad00f46899a987154db243
+      internalID: -5298474888125432956
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Fireplace_41
+      name: Fireplace_16
       rect:
         serializedVersion: 2
-        x: 35
-        y: 10
-        width: 26
-        height: 11
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 121
+        y: 106
+        width: 13
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e891d3f654ba3c940800000000000000
-      internalID: 5315280299934685582
+      spriteID: 8358a52ba0594ad4cabb192b8daec583
+      internalID: -5367660366869145643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireplace_26
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 106
+        width: 13
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e36ebadeb6209e4c8e2748f2b37a9ad
+      internalID: -5108161436954415950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Fireplace_31
+      rect:
+        serializedVersion: 2
+        x: 99
+        y: 21
+        width: 26
+        height: 7
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9c8ca92cf91fa3642a31bde32af796d3
+      internalID: -2216736500791436233
       vertices: []
       indices: 
       edges: []
@@ -1163,7 +1044,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a91c2bb5cf255c944a360c7a1e01d08d
     internalID: 0
     vertices: []
     indices: 

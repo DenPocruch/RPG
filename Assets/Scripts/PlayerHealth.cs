@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -123,6 +124,13 @@ public class PlayerHealth : MonoBehaviour
         if (spriteRenderer != null)
             spriteRenderer.enabled = false;
 
+        // Кровать-возрождение: сон 5 сек на подушке, подъём рядом, 10% HP
+        if (RespawnBed.HasHome)
+        {
+            yield return StartCoroutine(RespawnOnBed());
+            yield break;
+        }
+
         yield return new WaitForSeconds(respawnDelay);
         transform.position = spawnPosition;
         currentHealth = maxHealth;
@@ -151,5 +159,84 @@ public class PlayerHealth : MonoBehaviour
     public void SetHealth(float hp)
     {
         currentHealth = Mathf.Clamp(hp, 0, maxHealth);
+    }
+
+    /// <summary>
+    /// Возрождение на кровати: грузим сцену дома при нужде, телепорт на подушку,
+    /// снэп камеры, скин «занято», 19. Sleep N сек, подъём в свободную точку, 10% HP.
+    /// movement остаётся выключенным, isDead=true — урон во сне игнорируется.
+    /// </summary>
+    IEnumerator RespawnOnBed()
+    {
+        // 1) Сцена дома
+        if (SceneManager.GetActiveScene().name != RespawnBed.HomeSceneName)
+        {
+            SceneManager.LoadScene(RespawnBed.HomeSceneName);
+            float timeout = 6f;
+            while (RespawnBed.Active == null && timeout > 0f)
+            {
+                timeout -= Time.deltaTime;
+                yield return null;
+            }
+            yield return null; // кадр на Awake/Start сцены
+        }
+
+        RespawnBed bed = RespawnBed.Active;
+        if (bed == null) // дом не нашёлся — старый фолбэк
+        {
+            yield return new WaitForSeconds(respawnDelay);
+            transform.position = spawnPosition;
+            currentHealth = maxHealth;
+            isDead = false;
+            if (movement != null) movement.enabled = true;
+            yield break;
+        }
+
+        // 2) Лечь на подушку (коллайдеры кровати — выкл ДО телепорта,
+        // иначе физика за один шаг выдавит игрока с подушки)
+        bed.SetSolid(false);
+        if (rb != null) rb.linearVelocity = Vector2.zero;
+        transform.position = bed.SleepPos;
+        if (rb != null) rb.linearVelocity = Vector2.zero;
+        RespawnBed.SnapCamera(bed.SleepPos);
+        bed.SetOccupied(true);
+        currentHealth = 1f; // во сне едва жив — подъём долечит до 10% с попапом
+
+        PlayerVisualDriver driver = GetComponent<PlayerVisualDriver>();
+        if (driver != null) driver.PlaySleep(bed.SleepOrder(), bed.sleepAnimSpeed);
+
+        yield return new WaitForSeconds(bed.sleepDuration);
+
+        // 3) Подъём рядом (точка валидируется от стен)
+        Vector3 wake = bed.ResolveWakePosition(gameObject);
+        transform.position = wake;
+        if (rb != null) rb.linearVelocity = Vector2.zero;
+        bed.SetSolid(true);
+        RespawnBed.SnapCamera(wake);
+        bed.SetOccupied(false);
+
+        currentHealth = Mathf.Max(1f, maxHealth * 0.1f);
+        isDead = false;
+
+        // Попап исцеления «+N» как от еды
+        if (DamagePopupManager.Instance != null)
+            DamagePopupManager.Instance.Spawn(
+                wake + (Vector3)popupOffset, currentHealth - 1f, DamagePopup.PopupType.Heal);
+
+        if (animator != null)
+        {
+            animator.ResetTrigger("Death");
+            animator.SetFloat("Speed", 0);
+            animator.SetFloat("LastMoveX", 0f);
+            animator.SetFloat("LastMoveY", -1f);
+            animator.Play("Idle", 0, 0f);
+        }
+        if (driver != null) driver.WakeUp();
+
+        if (spriteRenderer != null && GetComponent<PlayerVisualDriver>() == null)
+            spriteRenderer.enabled = true;
+
+        if (movement != null)
+            movement.enabled = true;
     }
 }
