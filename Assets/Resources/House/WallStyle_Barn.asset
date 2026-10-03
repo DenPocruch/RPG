@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0eac37d47d7380459b1bd9bdbcb1cd2, type: 3}
+  m_Name: WallStyle_Barn
+  m_EditorClassIdentifier: 
+  bgFill: {fileID: 11400000, guid: b1d9780d321012147949b4548d23bdb7, type: 2}
+  floorTile: {fileID: 11400000, guid: c3115ed6bd671ec4f919d1e7091f8af4, type: 2}
+  cornerTL: {fileID: 11400000, guid: 377fa58c613409b46b68687ffae8ab62, type: 2}
+  cornerTR: {fileID: 11400000, guid: 78e3a60fef7fc85479b1c604e170ea4e, type: 2}
+  cornerBL: {fileID: 11400000, guid: 4eaaebd629b3aaa4aa8f2243ec7352b4, type: 2}
+  cornerBR: {fileID: 11400000, guid: aafa2e6cb694b6a4e8a529faef779a50, type: 2}
+  straightH: {fileID: 11400000, guid: 2fa3eda8b85a6cd45884d32a33186564, type: 2}
+  straightV: {fileID: 11400000, guid: 3a82e06a56d1c974aa9d8cb31e301a4a, type: 2}
+  bandTopL: {fileID: 11400000, guid: 9cc8e486a6ece23439517ee23a430f95, type: 2}
+  bandTopM: {fileID: 11400000, guid: 9bb5ae63b4f567843a8e1dfbe63b5bb2, type: 2}
+  bandTopR: {fileID: 11400000, guid: ea44e9a00a2acd941b57b73acc2a1b70, type: 2}
+  bandBotL: {fileID: 11400000, guid: c2c4cf4cd077fa34299bdeb3278e3315, type: 2}
+  bandBotM: {fileID: 11400000, guid: 68d9d423eaf7c454daef7f519054f89d, type: 2}
+  bandBotR: {fileID: 11400000, guid: fac8fd4627863b14d9bb343baf09fa22, type: 2}
+  concaveNW: {fileID: 11400000, guid: 377fa58c613409b46b68687ffae8ab62, type: 2}
+  concaveNE: {fileID: 11400000, guid: 78e3a60fef7fc85479b1c604e170ea4e, type: 2}
+  concaveSW: {fileID: 11400000, guid: 4eaaebd629b3aaa4aa8f2243ec7352b4, type: 2}
+  concaveSE: {fileID: 11400000, guid: aafa2e6cb694b6a4e8a529faef779a50, type: 2}
+  concaveAltNW: {fileID: 11400000, guid: 130c7938fa781fe4fa093f3e977b7e12, type: 2}
+  concaveAltNE: {fileID: 11400000, guid: de1fa7bbdd5ab8e48b09faae7a0a68ad, type: 2}
+  concaveAltSW: {fileID: 11400000, guid: 67169d7c496eaa749a65b70d6bbe4fa9, type: 2}
+  concaveAltSE: {fileID: 11400000, guid: b4683b5c5f4572143aebe0e2449660dd, type: 2}
+  useConcaveAlts: 0
+  doorJambL: {fileID: 11400000, guid: 4d53b2022ecab254ebfb2714a9d19d5e, type: 2}
+  doorJambR: {fileID: 11400000, guid: 191502ac9c6d8ce4ab306796205ff711, type: 2}
+  doorThreshold: {fileID: 11400000, guid: c3115ed6bd671ec4f919d1e7091f8af4, type: 2}
+  lockTileNames:
+  - Tileset House_118
+  - Tileset House_116
+  - Tileset House_12
+  - Tileset House_65

@@ -1,0 +1,2497 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aeabf5cd4fac534582d654fa8ac56a0, type: 3}
+  m_Name: FurnitureMountTable
+  m_EditorClassIdentifier: 
+  entries:
+  - prefabName: basketball_0
+    mount: 0
+  - prefabName: basketball_1
+    mount: 0
+  - prefabName: basketball_2
+    mount: 0
+  - prefabName: Beds_0
+    mount: 0
+  - prefabName: Beds_1
+    mount: 0
+  - prefabName: Beds_2
+    mount: 0
+  - prefabName: Beds_3
+    mount: 0
+  - prefabName: Beds_4
+    mount: 0
+  - prefabName: Beds_5
+    mount: 0
+  - prefabName: Beds_6
+    mount: 0
+  - prefabName: Beds_7
+    mount: 0
+  - prefabName: Beds_8
+    mount: 0
+  - prefabName: Beds_9
+    mount: 0
+  - prefabName: Beds_10
+    mount: 0
+  - prefabName: Beds_11
+    mount: 0
+  - prefabName: Beds_12
+    mount: 0
+  - prefabName: Beds_13
+    mount: 0
+  - prefabName: Beds_14
+    mount: 0
+  - prefabName: Beds_15
+    mount: 0
+  - prefabName: Beds_16
+    mount: 0
+  - prefabName: Beds_17
+    mount: 0
+  - prefabName: Beds_18
+    mount: 0
+  - prefabName: Beds_19
+    mount: 0
+  - prefabName: Beds_20
+    mount: 0
+  - prefabName: Beds_21
+    mount: 0
+  - prefabName: Beds_22
+    mount: 0
+  - prefabName: Beds_23
+    mount: 0
+  - prefabName: Beds_24
+    mount: 0
+  - prefabName: Beds_25
+    mount: 0
+  - prefabName: Beds_26
+    mount: 0
+  - prefabName: Beds_27
+    mount: 0
+  - prefabName: Beds_28
+    mount: 0
+  - prefabName: Beds_29
+    mount: 0
+  - prefabName: Beds_30
+    mount: 0
+  - prefabName: Beds_31
+    mount: 0
+  - prefabName: Beds_32
+    mount: 0
+  - prefabName: Beds_33
+    mount: 0
+  - prefabName: Beds_34
+    mount: 0
+  - prefabName: Beds_35
+    mount: 0
+  - prefabName: Beds_36
+    mount: 0
+  - prefabName: Beds_37
+    mount: 0
+  - prefabName: Beds_38
+    mount: 0
+  - prefabName: Beds_39
+    mount: 0
+  - prefabName: Beds_40
+    mount: 0
+  - prefabName: Beds_41
+    mount: 0
+  - prefabName: Beds_42
+    mount: 0
+  - prefabName: Beds_43
+    mount: 0
+  - prefabName: Beds_44
+    mount: 0
+  - prefabName: Beds_45
+    mount: 0
+  - prefabName: Beds_46
+    mount: 0
+  - prefabName: Beds_47
+    mount: 0
+  - prefabName: Beds_48
+    mount: 0
+  - prefabName: Beds_49
+    mount: 0
+  - prefabName: Beds_50
+    mount: 0
+  - prefabName: Beds_51
+    mount: 0
+  - prefabName: Beds_52
+    mount: 0
+  - prefabName: Beds_53
+    mount: 0
+  - prefabName: Beds_54
+    mount: 0
+  - prefabName: Beds_55
+    mount: 0
+  - prefabName: Beds_56
+    mount: 0
+  - prefabName: Beds_57
+    mount: 0
+  - prefabName: Beds_58
+    mount: 0
+  - prefabName: Beds_59
+    mount: 0
+  - prefabName: Beds_60
+    mount: 0
+  - prefabName: Beds_61
+    mount: 0
+  - prefabName: Beds_62
+    mount: 0
+  - prefabName: Beds_63
+    mount: 0
+  - prefabName: Beds_64
+    mount: 0
+  - prefabName: Beds_65
+    mount: 0
+  - prefabName: Beds_66
+    mount: 0
+  - prefabName: Beds_67
+    mount: 0
+  - prefabName: Beds_68
+    mount: 0
+  - prefabName: Beds_69
+    mount: 0
+  - prefabName: Beds_70
+    mount: 0
+  - prefabName: Beds_71
+    mount: 0
+  - prefabName: Beds_72
+    mount: 0
+  - prefabName: Beds_73
+    mount: 0
+  - prefabName: Beds_74
+    mount: 0
+  - prefabName: Beds_75
+    mount: 0
+  - prefabName: Beds_76
+    mount: 0
+  - prefabName: Beds_77
+    mount: 0
+  - prefabName: Beds_78
+    mount: 0
+  - prefabName: Beds_79
+    mount: 0
+  - prefabName: Beds_80
+    mount: 0
+  - prefabName: Beds_81
+    mount: 0
+  - prefabName: Beds_82
+    mount: 0
+  - prefabName: Beds_83
+    mount: 0
+  - prefabName: Beds_84
+    mount: 0
+  - prefabName: Beds_85
+    mount: 0
+  - prefabName: Beds_86
+    mount: 0
+  - prefabName: Beds_87
+    mount: 0
+  - prefabName: Beds_88
+    mount: 0
+  - prefabName: Beds_89
+    mount: 0
+  - prefabName: Blacksmith_1
+    mount: 0
+  - prefabName: Blacksmith_2
+    mount: 0
+  - prefabName: Blacksmith_3
+    mount: 0
+  - prefabName: Blacksmith_4
+    mount: 0
+  - prefabName: Blacksmith_6
+    mount: 0
+  - prefabName: Blacksmith_9
+    mount: 0
+  - prefabName: Blacksmith_10
+    mount: 0
+  - prefabName: Blacksmith_11
+    mount: 0
+  - prefabName: Blacksmith_12
+    mount: 0
+  - prefabName: Blacksmith_16
+    mount: 0
+  - prefabName: Blacksmith_17
+    mount: 0
+  - prefabName: Blacksmith_18
+    mount: 0
+  - prefabName: Blacksmith_19
+    mount: 0
+  - prefabName: Blacksmith_20
+    mount: 0
+  - prefabName: Blacksmith_21
+    mount: 0
+  - prefabName: Blacksmith_23
+    mount: 0
+  - prefabName: Blacksmith_24
+    mount: 0
+  - prefabName: Blacksmith_26
+    mount: 0
+  - prefabName: Blacksmith_27
+    mount: 0
+  - prefabName: Blacksmith_28
+    mount: 0
+  - prefabName: Blacksmith_29
+    mount: 0
+  - prefabName: Blacksmith_30
+    mount: 0
+  - prefabName: Blacksmith_31
+    mount: 0
+  - prefabName: Blacksmith_32
+    mount: 0
+  - prefabName: Blacksmith_33
+    mount: 0
+  - prefabName: Candle 1_0
+    mount: 0
+  - prefabName: Candle 1_1
+    mount: 0
+  - prefabName: Candle 1_2
+    mount: 0
+  - prefabName: Candle 1_3
+    mount: 0
+  - prefabName: Candle 2_0
+    mount: 0
+  - prefabName: Candle 2_1
+    mount: 0
+  - prefabName: Candle 2_2
+    mount: 0
+  - prefabName: Candle 2_3
+    mount: 0
+  - prefabName: Candle 3_0
+    mount: 0
+  - prefabName: Candle 3_1
+    mount: 0
+  - prefabName: Candle 3_2
+    mount: 0
+  - prefabName: Candle 3_3
+    mount: 0
+  - prefabName: candle 4_0
+    mount: 0
+  - prefabName: candle 4_1
+    mount: 0
+  - prefabName: candle 4_2
+    mount: 0
+  - prefabName: candle 4_3
+    mount: 0
+  - prefabName: Candle 5_0
+    mount: 0
+  - prefabName: Candle 5_1
+    mount: 0
+  - prefabName: Candle 5_2
+    mount: 0
+  - prefabName: Candle 5_3
+    mount: 0
+  - prefabName: Candle 6_0
+    mount: 0
+  - prefabName: Candle 6_1
+    mount: 0
+  - prefabName: Candle 6_2
+    mount: 0
+  - prefabName: Candle 6_3
+    mount: 0
+  - prefabName: candle_0
+    mount: 0
+  - prefabName: candle_1
+    mount: 0
+  - prefabName: candle_2
+    mount: 0
+  - prefabName: candle_3
+    mount: 0
+  - prefabName: cats furniture_0
+    mount: 0
+  - prefabName: cats furniture_1
+    mount: 0
+  - prefabName: cats furniture_2
+    mount: 0
+  - prefabName: cats furniture_3
+    mount: 0
+  - prefabName: cats furniture_4
+    mount: 0
+  - prefabName: cats furniture_5
+    mount: 0
+  - prefabName: cats furniture_6
+    mount: 0
+  - prefabName: cats furniture_7
+    mount: 0
+  - prefabName: cats furniture_8
+    mount: 0
+  - prefabName: cats furniture_9
+    mount: 0
+  - prefabName: cats furniture_11
+    mount: 0
+  - prefabName: cats furniture_12
+    mount: 0
+  - prefabName: cats furniture_13
+    mount: 0
+  - prefabName: cats furniture_15
+    mount: 0
+  - prefabName: cats furniture_16
+    mount: 0
+  - prefabName: cats furniture_17
+    mount: 0
+  - prefabName: cats furniture_19
+    mount: 0
+  - prefabName: cats furniture_20
+    mount: 0
+  - prefabName: cats furniture_21
+    mount: 0
+  - prefabName: cats furniture_22
+    mount: 0
+  - prefabName: cats furniture_23
+    mount: 0
+  - prefabName: cats furniture_24
+    mount: 0
+  - prefabName: cats furniture_25
+    mount: 0
+  - prefabName: cats furniture_26
+    mount: 0
+  - prefabName: cats furniture_28
+    mount: 0
+  - prefabName: cats furniture_29
+    mount: 0
+  - prefabName: cats furniture_30
+    mount: 0
+  - prefabName: cats furniture_32
+    mount: 0
+  - prefabName: cats furniture_33
+    mount: 0
+  - prefabName: cats furniture_34
+    mount: 0
+  - prefabName: cats furniture_36
+    mount: 0
+  - prefabName: cats furniture_37
+    mount: 0
+  - prefabName: cats furniture_38
+    mount: 0
+  - prefabName: cats furniture_39
+    mount: 0
+  - prefabName: cats furniture_40
+    mount: 0
+  - prefabName: cats furniture_41
+    mount: 0
+  - prefabName: cats furniture_42
+    mount: 0
+  - prefabName: cats furniture_43
+    mount: 0
+  - prefabName: cats furniture_45
+    mount: 0
+  - prefabName: cats furniture_46
+    mount: 0
+  - prefabName: cats furniture_47
+    mount: 0
+  - prefabName: cats furniture_48
+    mount: 0
+  - prefabName: cats furniture_49
+    mount: 0
+  - prefabName: cats furniture_50
+    mount: 0
+  - prefabName: cats furniture_51
+    mount: 0
+  - prefabName: cats furniture_52
+    mount: 0
+  - prefabName: cats furniture_53
+    mount: 0
+  - prefabName: cats furniture_54
+    mount: 0
+  - prefabName: cats furniture_55
+    mount: 0
+  - prefabName: cats furniture_56
+    mount: 0
+  - prefabName: cats furniture_57
+    mount: 0
+  - prefabName: cats furniture_58
+    mount: 0
+  - prefabName: cats furniture_60
+    mount: 0
+  - prefabName: cats furniture_61
+    mount: 0
+  - prefabName: cats furniture_62
+    mount: 0
+  - prefabName: cats furniture_63
+    mount: 0
+  - prefabName: cats furniture_64
+    mount: 0
+  - prefabName: cats furniture_65
+    mount: 0
+  - prefabName: cats furniture_66
+    mount: 0
+  - prefabName: cats furniture_67
+    mount: 0
+  - prefabName: cats furniture_68
+    mount: 0
+  - prefabName: cats furniture_69
+    mount: 0
+  - prefabName: cats furniture_70
+    mount: 0
+  - prefabName: cats furniture_71
+    mount: 0
+  - prefabName: Chairs_0
+    mount: 0
+  - prefabName: Chairs_1
+    mount: 0
+  - prefabName: Chairs_2
+    mount: 0
+  - prefabName: Chairs_3
+    mount: 0
+  - prefabName: Chairs_4
+    mount: 0
+  - prefabName: Chairs_5
+    mount: 0
+  - prefabName: Chairs_6
+    mount: 0
+  - prefabName: Chairs_7
+    mount: 0
+  - prefabName: Chairs_8
+    mount: 0
+  - prefabName: Chairs_9
+    mount: 0
+  - prefabName: Chairs_10
+    mount: 0
+  - prefabName: Chairs_11
+    mount: 0
+  - prefabName: Chairs_12
+    mount: 0
+  - prefabName: Chairs_13
+    mount: 0
+  - prefabName: Chairs_14
+    mount: 0
+  - prefabName: Chairs_15
+    mount: 0
+  - prefabName: Chairs_16
+    mount: 0
+  - prefabName: Chairs_17
+    mount: 0
+  - prefabName: Chairs_18
+    mount: 0
+  - prefabName: Chairs_19
+    mount: 0
+  - prefabName: Chairs_20
+    mount: 0
+  - prefabName: Chairs_21
+    mount: 0
+  - prefabName: Chairs_22
+    mount: 0
+  - prefabName: Chairs_23
+    mount: 0
+  - prefabName: Chairs_24
+    mount: 0
+  - prefabName: Chairs_25
+    mount: 0
+  - prefabName: Chairs_26
+    mount: 0
+  - prefabName: Chairs_27
+    mount: 0
+  - prefabName: Chairs_28
+    mount: 0
+  - prefabName: Chairs_29
+    mount: 0
+  - prefabName: Chairs_30
+    mount: 0
+  - prefabName: Chairs_31
+    mount: 0
+  - prefabName: Chairs_32
+    mount: 0
+  - prefabName: Chairs_33
+    mount: 0
+  - prefabName: Chairs_34
+    mount: 0
+  - prefabName: Chairs_35
+    mount: 0
+  - prefabName: Chairs_36
+    mount: 0
+  - prefabName: Chairs_37
+    mount: 0
+  - prefabName: Chairs_38
+    mount: 0
+  - prefabName: Chairs_39
+    mount: 0
+  - prefabName: Chairs_40
+    mount: 0
+  - prefabName: Chairs_41
+    mount: 0
+  - prefabName: Chairs_42
+    mount: 0
+  - prefabName: Chairs_43
+    mount: 0
+  - prefabName: Chairs_44
+    mount: 0
+  - prefabName: Chairs_45
+    mount: 0
+  - prefabName: Chairs_46
+    mount: 0
+  - prefabName: Chairs_47
+    mount: 0
+  - prefabName: Chairs_48
+    mount: 0
+  - prefabName: Chairs_49
+    mount: 0
+  - prefabName: Chairs_50
+    mount: 0
+  - prefabName: Chairs_51
+    mount: 0
+  - prefabName: Chairs_52
+    mount: 0
+  - prefabName: Chairs_53
+    mount: 0
+  - prefabName: Chairs_54
+    mount: 0
+  - prefabName: Chairs_55
+    mount: 0
+  - prefabName: Chairs_56
+    mount: 0
+  - prefabName: Chairs_57
+    mount: 0
+  - prefabName: Chairs_58
+    mount: 0
+  - prefabName: Chairs_59
+    mount: 0
+  - prefabName: Chairs_60
+    mount: 0
+  - prefabName: Chairs_61
+    mount: 0
+  - prefabName: Chairs_62
+    mount: 0
+  - prefabName: Chairs_63
+    mount: 0
+  - prefabName: Chairs_64
+    mount: 0
+  - prefabName: Chairs_65
+    mount: 0
+  - prefabName: Chairs_66
+    mount: 0
+  - prefabName: Chairs_67
+    mount: 0
+  - prefabName: Chairs_68
+    mount: 0
+  - prefabName: Chairs_69
+    mount: 0
+  - prefabName: Chairs_70
+    mount: 0
+  - prefabName: Chairs_71
+    mount: 0
+  - prefabName: Chairs_72
+    mount: 0
+  - prefabName: Chairs_73
+    mount: 0
+  - prefabName: Chairs_74
+    mount: 0
+  - prefabName: Chairs_75
+    mount: 0
+  - prefabName: Chairs_76
+    mount: 0
+  - prefabName: Chairs_77
+    mount: 0
+  - prefabName: Chairs_78
+    mount: 0
+  - prefabName: Chairs_79
+    mount: 0
+  - prefabName: Chairs_80
+    mount: 0
+  - prefabName: Chairs_81
+    mount: 0
+  - prefabName: Chairs_82
+    mount: 0
+  - prefabName: Chairs_83
+    mount: 0
+  - prefabName: Chairs_84
+    mount: 0
+  - prefabName: Chairs_85
+    mount: 0
+  - prefabName: Chairs_86
+    mount: 0
+  - prefabName: Chairs_87
+    mount: 0
+  - prefabName: Chairs_88
+    mount: 0
+  - prefabName: Chairs_89
+    mount: 0
+  - prefabName: Chairs_90
+    mount: 0
+  - prefabName: Chairs_91
+    mount: 0
+  - prefabName: Chairs_92
+    mount: 0
+  - prefabName: Chairs_93
+    mount: 0
+  - prefabName: Chairs_94
+    mount: 0
+  - prefabName: Chairs_95
+    mount: 0
+  - prefabName: Chairs_96
+    mount: 0
+  - prefabName: Chairs_97
+    mount: 0
+  - prefabName: Chairs_98
+    mount: 0
+  - prefabName: Chairs_99
+    mount: 0
+  - prefabName: Chairs_100
+    mount: 0
+  - prefabName: Chairs_101
+    mount: 0
+  - prefabName: Chairs_102
+    mount: 0
+  - prefabName: Chairs_103
+    mount: 0
+  - prefabName: Chairs_104
+    mount: 0
+  - prefabName: Chairs_105
+    mount: 0
+  - prefabName: Chairs_106
+    mount: 0
+  - prefabName: Chairs_107
+    mount: 0
+  - prefabName: Chairs_108
+    mount: 0
+  - prefabName: Chairs_109
+    mount: 0
+  - prefabName: Chairs_110
+    mount: 0
+  - prefabName: Chairs_111
+    mount: 0
+  - prefabName: Chairs_112
+    mount: 0
+  - prefabName: Chairs_113
+    mount: 0
+  - prefabName: Chairs_114
+    mount: 0
+  - prefabName: Chairs_115
+    mount: 0
+  - prefabName: Chairs_116
+    mount: 0
+  - prefabName: Closet_0
+    mount: 0
+  - prefabName: Closet_1
+    mount: 0
+  - prefabName: Closet_2
+    mount: 0
+  - prefabName: Closet_3
+    mount: 0
+  - prefabName: Closet_4
+    mount: 0
+  - prefabName: Closet_5
+    mount: 0
+  - prefabName: Closet_6
+    mount: 0
+  - prefabName: Closet_7
+    mount: 0
+  - prefabName: Closet_8
+    mount: 0
+  - prefabName: Closet_9
+    mount: 0
+  - prefabName: Closet_10
+    mount: 0
+  - prefabName: Closet_11
+    mount: 0
+  - prefabName: Closet_12
+    mount: 0
+  - prefabName: Closet_13
+    mount: 0
+  - prefabName: Closet_14
+    mount: 0
+  - prefabName: Closet_15
+    mount: 0
+  - prefabName: Closet_16
+    mount: 0
+  - prefabName: Closet_17
+    mount: 0
+  - prefabName: Closet_18
+    mount: 0
+  - prefabName: Closet_19
+    mount: 0
+  - prefabName: Closet_20
+    mount: 0
+  - prefabName: Closet_21
+    mount: 0
+  - prefabName: Closet_22
+    mount: 0
+  - prefabName: Closet_23
+    mount: 0
+  - prefabName: Closet_24
+    mount: 0
+  - prefabName: Closet_25
+    mount: 0
+  - prefabName: Closet_26
+    mount: 0
+  - prefabName: Closet_27
+    mount: 0
+  - prefabName: Closet_28
+    mount: 0
+  - prefabName: Closet_29
+    mount: 0
+  - prefabName: Closet_30
+    mount: 0
+  - prefabName: Closet_31
+    mount: 0
+  - prefabName: Closet_32
+    mount: 0
+  - prefabName: Closet_33
+    mount: 0
+  - prefabName: Closet_34
+    mount: 0
+  - prefabName: Closet_35
+    mount: 0
+  - prefabName: Closet_36
+    mount: 0
+  - prefabName: Closet_37
+    mount: 0
+  - prefabName: Closet_38
+    mount: 0
+  - prefabName: Closet_39
+    mount: 0
+  - prefabName: Closet_40
+    mount: 0
+  - prefabName: Closet_41
+    mount: 0
+  - prefabName: Closet_42
+    mount: 0
+  - prefabName: Closet_43
+    mount: 0
+  - prefabName: Closet_44
+    mount: 0
+  - prefabName: Closet_45
+    mount: 0
+  - prefabName: Closet_46
+    mount: 0
+  - prefabName: Closet_47
+    mount: 0
+  - prefabName: Closet_48
+    mount: 0
+  - prefabName: Closet_49
+    mount: 0
+  - prefabName: Closet_50
+    mount: 0
+  - prefabName: Closet_51
+    mount: 0
+  - prefabName: Closet_52
+    mount: 0
+  - prefabName: Closet_53
+    mount: 0
+  - prefabName: Closet_54
+    mount: 0
+  - prefabName: Closet_55
+    mount: 0
+  - prefabName: Closet_56
+    mount: 0
+  - prefabName: Closet_57
+    mount: 0
+  - prefabName: Closet_58
+    mount: 0
+  - prefabName: Closet_59
+    mount: 0
+  - prefabName: Closet_60
+    mount: 0
+  - prefabName: Closet_61
+    mount: 0
+  - prefabName: Closet_62
+    mount: 0
+  - prefabName: Closet_63
+    mount: 0
+  - prefabName: Closet_64
+    mount: 0
+  - prefabName: Closet_65
+    mount: 0
+  - prefabName: Closet_66
+    mount: 0
+  - prefabName: Closet_67
+    mount: 0
+  - prefabName: Closet_68
+    mount: 0
+  - prefabName: Closet_69
+    mount: 0
+  - prefabName: Closet_70
+    mount: 0
+  - prefabName: Closet_71
+    mount: 0
+  - prefabName: Closet_72
+    mount: 0
+  - prefabName: Closet_73
+    mount: 0
+  - prefabName: Closet_74
+    mount: 0
+  - prefabName: Closet_75
+    mount: 0
+  - prefabName: Closet_76
+    mount: 0
+  - prefabName: Closet_77
+    mount: 0
+  - prefabName: Closet_78
+    mount: 0
+  - prefabName: Closet_79
+    mount: 0
+  - prefabName: Closet_80
+    mount: 0
+  - prefabName: Closet_81
+    mount: 0
+  - prefabName: Closet_82
+    mount: 0
+  - prefabName: Closet_83
+    mount: 0
+  - prefabName: Closet_84
+    mount: 0
+  - prefabName: Closet_85
+    mount: 0
+  - prefabName: Closet_86
+    mount: 0
+  - prefabName: Closet_87
+    mount: 0
+  - prefabName: Closet_88
+    mount: 0
+  - prefabName: Closet_89
+    mount: 0
+  - prefabName: Closet_90
+    mount: 0
+  - prefabName: Closet_91
+    mount: 0
+  - prefabName: Closet_92
+    mount: 0
+  - prefabName: Closet_93
+    mount: 0
+  - prefabName: Closet_94
+    mount: 0
+  - prefabName: Closet_95
+    mount: 0
+  - prefabName: Closet_96
+    mount: 0
+  - prefabName: Closet_97
+    mount: 0
+  - prefabName: Closet_98
+    mount: 0
+  - prefabName: Closet_99
+    mount: 0
+  - prefabName: Closet_100
+    mount: 0
+  - prefabName: Closet_101
+    mount: 0
+  - prefabName: Closet_102
+    mount: 0
+  - prefabName: Closet_103
+    mount: 0
+  - prefabName: Closet_104
+    mount: 0
+  - prefabName: Closet_105
+    mount: 0
+  - prefabName: Closet_106
+    mount: 0
+  - prefabName: Closet_107
+    mount: 0
+  - prefabName: Closet_108
+    mount: 0
+  - prefabName: Closet_109
+    mount: 0
+  - prefabName: Closet_110
+    mount: 0
+  - prefabName: Closet_111
+    mount: 0
+  - prefabName: Closet_112
+    mount: 0
+  - prefabName: Closet_113
+    mount: 0
+  - prefabName: Closet_114
+    mount: 0
+  - prefabName: Closet_115
+    mount: 0
+  - prefabName: Closet_116
+    mount: 0
+  - prefabName: Closet_117
+    mount: 0
+  - prefabName: Closet_118
+    mount: 0
+  - prefabName: Closet_119
+    mount: 0
+  - prefabName: Closet_120
+    mount: 0
+  - prefabName: Closet_121
+    mount: 0
+  - prefabName: Closet_122
+    mount: 0
+  - prefabName: Closet_123
+    mount: 0
+  - prefabName: Closet_124
+    mount: 0
+  - prefabName: Closet_125
+    mount: 0
+  - prefabName: Closet_126
+    mount: 0
+  - prefabName: Closet_127
+    mount: 0
+  - prefabName: Closet_128
+    mount: 0
+  - prefabName: Closet_129
+    mount: 0
+  - prefabName: Closet_130
+    mount: 0
+  - prefabName: Closet_131
+    mount: 0
+  - prefabName: Closet_132
+    mount: 0
+  - prefabName: Closet_133
+    mount: 0
+  - prefabName: Closet_134
+    mount: 0
+  - prefabName: Closet_135
+    mount: 0
+  - prefabName: Closet_136
+    mount: 0
+  - prefabName: Closet_137
+    mount: 0
+  - prefabName: Closet_138
+    mount: 0
+  - prefabName: Closet_139
+    mount: 0
+  - prefabName: Closet_140
+    mount: 0
+  - prefabName: Closet_141
+    mount: 0
+  - prefabName: Closet_142
+    mount: 0
+  - prefabName: Closet_143
+    mount: 0
+  - prefabName: Closet_144
+    mount: 0
+  - prefabName: Closet_145
+    mount: 0
+  - prefabName: Closet_146
+    mount: 0
+  - prefabName: Closet_147
+    mount: 0
+  - prefabName: Closet_148
+    mount: 0
+  - prefabName: Closet_149
+    mount: 0
+  - prefabName: Closet_150
+    mount: 0
+  - prefabName: Closet_151
+    mount: 0
+  - prefabName: Closet_152
+    mount: 0
+  - prefabName: Closet_153
+    mount: 0
+  - prefabName: Closet_154
+    mount: 0
+  - prefabName: Closet_155
+    mount: 0
+  - prefabName: Closet_156
+    mount: 0
+  - prefabName: Closet_157
+    mount: 0
+  - prefabName: Closet_158
+    mount: 0
+  - prefabName: Closet_159
+    mount: 0
+  - prefabName: Closet_160
+    mount: 0
+  - prefabName: Closet_161
+    mount: 0
+  - prefabName: Closet_162
+    mount: 0
+  - prefabName: Closet_163
+    mount: 0
+  - prefabName: Closet_164
+    mount: 0
+  - prefabName: Closet_165
+    mount: 0
+  - prefabName: Closet_166
+    mount: 0
+  - prefabName: Closet_167
+    mount: 0
+  - prefabName: Closet_168
+    mount: 0
+  - prefabName: Closet_169
+    mount: 0
+  - prefabName: Closet_170
+    mount: 0
+  - prefabName: Closet_171
+    mount: 0
+  - prefabName: Closet_172
+    mount: 0
+  - prefabName: Closet_173
+    mount: 0
+  - prefabName: Closet_174
+    mount: 0
+  - prefabName: Closet_175
+    mount: 0
+  - prefabName: Closet_176
+    mount: 0
+  - prefabName: Closet_177
+    mount: 0
+  - prefabName: Closet_178
+    mount: 0
+  - prefabName: Closet_179
+    mount: 0
+  - prefabName: Closet_180
+    mount: 0
+  - prefabName: Closet_181
+    mount: 0
+  - prefabName: Closet_182
+    mount: 0
+  - prefabName: Closet_183
+    mount: 0
+  - prefabName: Closet_184
+    mount: 0
+  - prefabName: Closet_185
+    mount: 0
+  - prefabName: Closet_186
+    mount: 0
+  - prefabName: Closet_187
+    mount: 0
+  - prefabName: Closet_188
+    mount: 0
+  - prefabName: Closet_189
+    mount: 0
+  - prefabName: Closet_190
+    mount: 0
+  - prefabName: Closet_191
+    mount: 0
+  - prefabName: Closet_192
+    mount: 0
+  - prefabName: Closet_193
+    mount: 0
+  - prefabName: Closet_194
+    mount: 0
+  - prefabName: Closet_195
+    mount: 0
+  - prefabName: Closet_196
+    mount: 0
+  - prefabName: Closet_197
+    mount: 0
+  - prefabName: Closet_198
+    mount: 0
+  - prefabName: Closet_199
+    mount: 0
+  - prefabName: Closet_200
+    mount: 0
+  - prefabName: Closet_201
+    mount: 0
+  - prefabName: Closet_202
+    mount: 0
+  - prefabName: Closet_203
+    mount: 0
+  - prefabName: Dressers_0
+    mount: 0
+  - prefabName: Dressers_1
+    mount: 0
+  - prefabName: Dressers_2
+    mount: 0
+  - prefabName: Dressers_3
+    mount: 0
+  - prefabName: Dressers_4
+    mount: 0
+  - prefabName: Dressers_5
+    mount: 0
+  - prefabName: Dressers_6
+    mount: 0
+  - prefabName: Dressers_7
+    mount: 0
+  - prefabName: Dressers_8
+    mount: 0
+  - prefabName: Dressers_9
+    mount: 0
+  - prefabName: Dressers_10
+    mount: 0
+  - prefabName: Dressers_11
+    mount: 0
+  - prefabName: Dressers_12
+    mount: 0
+  - prefabName: Dressers_13
+    mount: 0
+  - prefabName: Dressers_14
+    mount: 0
+  - prefabName: Dressers_15
+    mount: 0
+  - prefabName: Dressers_16
+    mount: 0
+  - prefabName: Dressers_17
+    mount: 0
+  - prefabName: Dressers_18
+    mount: 0
+  - prefabName: Dressers_19
+    mount: 0
+  - prefabName: Dressers_20
+    mount: 0
+  - prefabName: Dressers_21
+    mount: 0
+  - prefabName: Dressers_23
+    mount: 0
+  - prefabName: Dressers_24
+    mount: 0
+  - prefabName: Dressers_25
+    mount: 0
+  - prefabName: Dressers_26
+    mount: 0
+  - prefabName: Dressers_27
+    mount: 0
+  - prefabName: Dressers_28
+    mount: 0
+  - prefabName: Dressers_29
+    mount: 0
+  - prefabName: Dressers_30
+    mount: 0
+  - prefabName: Dressers_31
+    mount: 0
+  - prefabName: Dressers_32
+    mount: 0
+  - prefabName: Dressers_33
+    mount: 0
+  - prefabName: Dressers_34
+    mount: 0
+  - prefabName: Dressers_35
+    mount: 0
+  - prefabName: Dressers_36
+    mount: 0
+  - prefabName: Dressers_37
+    mount: 0
+  - prefabName: Dressers_38
+    mount: 0
+  - prefabName: Dressers_39
+    mount: 0
+  - prefabName: Dressers_40
+    mount: 0
+  - prefabName: Dressers_41
+    mount: 0
+  - prefabName: Dressers_42
+    mount: 0
+  - prefabName: Dressers_43
+    mount: 0
+  - prefabName: Dressers_44
+    mount: 0
+  - prefabName: Dressers_45
+    mount: 0
+  - prefabName: Dressers_46
+    mount: 0
+  - prefabName: Dressers_47
+    mount: 0
+  - prefabName: Dressers_48
+    mount: 0
+  - prefabName: Dressers_49
+    mount: 0
+  - prefabName: Dressers_50
+    mount: 0
+  - prefabName: Dressers_51
+    mount: 0
+  - prefabName: Dressers_52
+    mount: 0
+  - prefabName: Dressers_53
+    mount: 0
+  - prefabName: Dressers_54
+    mount: 0
+  - prefabName: Dressers_55
+    mount: 0
+  - prefabName: Dressers_56
+    mount: 0
+  - prefabName: Dressers_57
+    mount: 0
+  - prefabName: Dressers_58
+    mount: 0
+  - prefabName: Dressers_59
+    mount: 0
+  - prefabName: Dressers_60
+    mount: 0
+  - prefabName: Fireplace_0
+    mount: 0
+  - prefabName: Fireplace_1
+    mount: 0
+  - prefabName: Fireplace_2
+    mount: 0
+  - prefabName: Fireplace_3
+    mount: 0
+  - prefabName: Fireplace_4
+    mount: 0
+  - prefabName: Fireplace_5
+    mount: 0
+  - prefabName: Fireplace_6
+    mount: 0
+  - prefabName: Fireplace_7
+    mount: 0
+  - prefabName: Fireplace_8
+    mount: 0
+  - prefabName: Fireplace_10
+    mount: 0
+  - prefabName: Fireplace_11
+    mount: 0
+  - prefabName: Fireplace_12
+    mount: 0
+  - prefabName: Fireplace_13
+    mount: 0
+  - prefabName: Fireplace_14
+    mount: 0
+  - prefabName: Fireplace_15
+    mount: 0
+  - prefabName: Fireplace_18
+    mount: 0
+  - prefabName: Fireplace_19
+    mount: 0
+  - prefabName: Fireplace_20
+    mount: 0
+  - prefabName: Fireplace_21
+    mount: 0
+  - prefabName: Fireplace_22
+    mount: 0
+  - prefabName: Fireplace_23
+    mount: 0
+  - prefabName: Fireplace_24
+    mount: 0
+  - prefabName: Fireplace_25
+    mount: 0
+  - prefabName: Fireplace_27
+    mount: 0
+  - prefabName: Fireplace_28
+    mount: 0
+  - prefabName: Fireplace_29
+    mount: 0
+  - prefabName: Fireplace_30
+    mount: 0
+  - prefabName: Fireplace_32
+    mount: 0
+  - prefabName: Fireplace_37
+    mount: 0
+  - prefabName: Fireplace_38
+    mount: 0
+  - prefabName: hospital wing_0
+    mount: 0
+  - prefabName: hospital wing_1
+    mount: 0
+  - prefabName: hospital wing_2
+    mount: 0
+  - prefabName: hospital wing_3
+    mount: 0
+  - prefabName: hospital wing_4
+    mount: 0
+  - prefabName: hospital wing_5
+    mount: 0
+  - prefabName: hospital wing_6
+    mount: 0
+  - prefabName: hospital wing_7
+    mount: 0
+  - prefabName: hospital wing_8
+    mount: 0
+  - prefabName: hospital wing_9
+    mount: 0
+  - prefabName: hospital wing_10
+    mount: 0
+  - prefabName: hospital wing_11
+    mount: 0
+  - prefabName: hospital wing_12
+    mount: 0
+  - prefabName: hospital wing_13
+    mount: 0
+  - prefabName: hospital wing_14
+    mount: 0
+  - prefabName: hospital wing_15
+    mount: 0
+  - prefabName: hospital wing_16
+    mount: 0
+  - prefabName: Others_0
+    mount: 0
+  - prefabName: Others_1
+    mount: 0
+  - prefabName: Others_2
+    mount: 0
+  - prefabName: Others_3
+    mount: 0
+  - prefabName: Others_4
+    mount: 0
+  - prefabName: Others_5
+    mount: 0
+  - prefabName: Others_6
+    mount: 0
+  - prefabName: Others_7
+    mount: 0
+  - prefabName: Others_8
+    mount: 0
+  - prefabName: Part 1 copiar_0
+    mount: 1
+  - prefabName: Part 1 copiar_1
+    mount: 1
+  - prefabName: Part 1 copiar_2
+    mount: 1
+  - prefabName: Part 1 copiar_3
+    mount: 1
+  - prefabName: Part 1 copiar_4
+    mount: 1
+  - prefabName: Part 1 copiar_5
+    mount: 1
+  - prefabName: Part 1 copiar_6
+    mount: 1
+  - prefabName: Part 1 copiar_7
+    mount: 1
+  - prefabName: Part 1 copiar_8
+    mount: 1
+  - prefabName: Part 1 copiar_15
+    mount: 1
+  - prefabName: Part 1 copiar_16
+    mount: 1
+  - prefabName: Part 1 copiar_17
+    mount: 1
+  - prefabName: Part 1 copiar_18
+    mount: 1
+  - prefabName: Part 1 copiar_19
+    mount: 1
+  - prefabName: Part 1 copiar_23
+    mount: 1
+  - prefabName: Part 1 copiar_24
+    mount: 1
+  - prefabName: Part 1 copiar_25
+    mount: 1
+  - prefabName: Part 1 copiar_26
+    mount: 1
+  - prefabName: Part 1 copiar_27
+    mount: 1
+  - prefabName: Part 1 copiar_29
+    mount: 1
+  - prefabName: Part 1 copiar_30
+    mount: 1
+  - prefabName: Part 1 copiar_31
+    mount: 1
+  - prefabName: Part 1 copiar_32
+    mount: 1
+  - prefabName: Part 1 copiar_33
+    mount: 1
+  - prefabName: Part 1 copiar_36
+    mount: 1
+  - prefabName: Part 1 copiar_41
+    mount: 1
+  - prefabName: Part 1 copiar_43
+    mount: 1
+  - prefabName: Part 1 copiar_46
+    mount: 1
+  - prefabName: Part 1 copiar_47
+    mount: 1
+  - prefabName: Part 1 copiar_48
+    mount: 1
+  - prefabName: Part 1 copiar_49
+    mount: 1
+  - prefabName: Part 1 copiar_50
+    mount: 1
+  - prefabName: Part 1 copiar_52
+    mount: 1
+  - prefabName: Part 1 copiar_53
+    mount: 1
+  - prefabName: Part 1 copiar_54
+    mount: 1
+  - prefabName: Part 1 copiar_56
+    mount: 1
+  - prefabName: Part 1 copiar_57
+    mount: 1
+  - prefabName: Part 1 copiar_58
+    mount: 1
+  - prefabName: Part 1 copiar_59
+    mount: 1
+  - prefabName: Part 1 copiar_61
+    mount: 1
+  - prefabName: Part 1 copiar_62
+    mount: 1
+  - prefabName: Part 1 copiar_66
+    mount: 1
+  - prefabName: Part 1 copiar_67
+    mount: 1
+  - prefabName: Part 1 copiar_70
+    mount: 1
+  - prefabName: Part 1 copiar_76
+    mount: 1
+  - prefabName: Part 1 copiar_78
+    mount: 1
+  - prefabName: Part 1 copiar_79
+    mount: 1
+  - prefabName: Part 1 copiar_81
+    mount: 1
+  - prefabName: Part 1 copiar_88
+    mount: 1
+  - prefabName: Part 1 copiar_89
+    mount: 1
+  - prefabName: Part 1 copiar_90
+    mount: 1
+  - prefabName: Part 1 copiar_91
+    mount: 1
+  - prefabName: Part 1 copiar_94
+    mount: 1
+  - prefabName: Part 1 copiar_95
+    mount: 1
+  - prefabName: Part 1 copiar_96
+    mount: 1
+  - prefabName: Part 1 copiar_97
+    mount: 1
+  - prefabName: Part 1 copiar_98
+    mount: 1
+  - prefabName: Part 1 copiar_100
+    mount: 1
+  - prefabName: Part 1 copiar_105
+    mount: 1
+  - prefabName: Part 1 copiar_106
+    mount: 1
+  - prefabName: Part 1 copiar_107
+    mount: 1
+  - prefabName: Part 1 copiar_108
+    mount: 1
+  - prefabName: Part 1 copiar_109
+    mount: 1
+  - prefabName: Part 1 copiar_113
+    mount: 1
+  - prefabName: Part 1 copiar_114
+    mount: 1
+  - prefabName: Part 1 copiar_115
+    mount: 1
+  - prefabName: Part 1 copiar_116
+    mount: 1
+  - prefabName: Part 1 copiar_118
+    mount: 1
+  - prefabName: Part 1 copiar_119
+    mount: 1
+  - prefabName: Part 1 copiar_121
+    mount: 1
+  - prefabName: Part 1 copiar_122
+    mount: 1
+  - prefabName: Part 1 copiar_123
+    mount: 1
+  - prefabName: Part 1 copiar_124
+    mount: 1
+  - prefabName: Part 1 copiar_127
+    mount: 1
+  - prefabName: Part 1 copiar_128
+    mount: 1
+  - prefabName: Part 1 copiar_129
+    mount: 1
+  - prefabName: Part 1 copiar_131
+    mount: 1
+  - prefabName: Part 1 copiar_132
+    mount: 1
+  - prefabName: Part 1 copiar_133
+    mount: 1
+  - prefabName: Part 1 copiar_138
+    mount: 1
+  - prefabName: Part 1 copiar_139
+    mount: 1
+  - prefabName: Part 1 copiar_140
+    mount: 1
+  - prefabName: Part 1 copiar_141
+    mount: 1
+  - prefabName: Part 1 copiar_142
+    mount: 1
+  - prefabName: Part 1 copiar_143
+    mount: 1
+  - prefabName: Part 1 copiar_144
+    mount: 1
+  - prefabName: Part 1 copiar_145
+    mount: 1
+  - prefabName: Part 1 copiar_146
+    mount: 1
+  - prefabName: Part 1 copiar_147
+    mount: 1
+  - prefabName: Part 1 copiar_148
+    mount: 1
+  - prefabName: Part 1 copiar_149
+    mount: 1
+  - prefabName: Part 2 copiar_0
+    mount: 1
+  - prefabName: Part 2 copiar_1
+    mount: 1
+  - prefabName: Part 2 copiar_2
+    mount: 1
+  - prefabName: Part 2 copiar_3
+    mount: 1
+  - prefabName: Part 2 copiar_4
+    mount: 1
+  - prefabName: Part 2 copiar_5
+    mount: 1
+  - prefabName: Part 2 copiar_6
+    mount: 1
+  - prefabName: Part 2 copiar_7
+    mount: 1
+  - prefabName: Part 2 copiar_12
+    mount: 1
+  - prefabName: Part 2 copiar_13
+    mount: 1
+  - prefabName: Part 2 copiar_14
+    mount: 1
+  - prefabName: Part 2 copiar_17
+    mount: 1
+  - prefabName: Part 2 copiar_18
+    mount: 1
+  - prefabName: Part 2 copiar_19
+    mount: 1
+  - prefabName: Part 2 copiar_22
+    mount: 1
+  - prefabName: Part 2 copiar_23
+    mount: 1
+  - prefabName: Part 2 copiar_24
+    mount: 1
+  - prefabName: Part 2 copiar_25
+    mount: 1
+  - prefabName: Part 2 copiar_26
+    mount: 1
+  - prefabName: Part 2 copiar_27
+    mount: 1
+  - prefabName: Part 2 copiar_28
+    mount: 1
+  - prefabName: Part 2 copiar_29
+    mount: 1
+  - prefabName: Part 2 copiar_30
+    mount: 1
+  - prefabName: Part 2 copiar_31
+    mount: 1
+  - prefabName: Part 2 copiar_32
+    mount: 1
+  - prefabName: Part 2 copiar_33
+    mount: 1
+  - prefabName: Part 2 copiar_41
+    mount: 1
+  - prefabName: Part 2 copiar_44
+    mount: 1
+  - prefabName: Part 2 copiar_45
+    mount: 1
+  - prefabName: Part 2 copiar_46
+    mount: 1
+  - prefabName: Part 2 copiar_48
+    mount: 1
+  - prefabName: Part 2 copiar_49
+    mount: 1
+  - prefabName: Part 2 copiar_50
+    mount: 1
+  - prefabName: Part 9 copiar_0
+    mount: 1
+  - prefabName: Part 9 copiar_1
+    mount: 1
+  - prefabName: Part 9 copiar_2
+    mount: 1
+  - prefabName: Part 9 copiar_3
+    mount: 1
+  - prefabName: Part 9 copiar_4
+    mount: 1
+  - prefabName: Part 9 copiar_5
+    mount: 1
+  - prefabName: Part 9 copiar_6
+    mount: 1
+  - prefabName: Part 9 copiar_7
+    mount: 1
+  - prefabName: Part 9 copiar_8
+    mount: 1
+  - prefabName: Part 9 copiar_9
+    mount: 1
+  - prefabName: Part 9 copiar_10
+    mount: 1
+  - prefabName: Part 9 copiar_11
+    mount: 1
+  - prefabName: Part 9 copiar_12
+    mount: 1
+  - prefabName: Part 9 copiar_13
+    mount: 1
+  - prefabName: Part 9 copiar_14
+    mount: 1
+  - prefabName: Part 9 copiar_15
+    mount: 1
+  - prefabName: Part 9 copiar_16
+    mount: 1
+  - prefabName: Part 9 copiar_17
+    mount: 1
+  - prefabName: Part 9 copiar_18
+    mount: 1
+  - prefabName: Part 9 copiar_19
+    mount: 1
+  - prefabName: Part 9 copiar_20
+    mount: 1
+  - prefabName: Part 9 copiar_21
+    mount: 1
+  - prefabName: Part 9 copiar_22
+    mount: 1
+  - prefabName: Part 9 copiar_23
+    mount: 1
+  - prefabName: Part 9 copiar_24
+    mount: 1
+  - prefabName: Part 9 copiar_25
+    mount: 1
+  - prefabName: Part 9 copiar_26
+    mount: 1
+  - prefabName: Part 9 copiar_27
+    mount: 1
+  - prefabName: Part 10 copiar_0
+    mount: 1
+  - prefabName: Part 10 copiar_1
+    mount: 1
+  - prefabName: Part 10 copiar_2
+    mount: 1
+  - prefabName: Part 10 copiar_3
+    mount: 1
+  - prefabName: Part 10 copiar_4
+    mount: 1
+  - prefabName: Part 10 copiar_5
+    mount: 1
+  - prefabName: Part 10 copiar_6
+    mount: 1
+  - prefabName: Part 10 copiar_7
+    mount: 1
+  - prefabName: Part 10 copiar_8
+    mount: 1
+  - prefabName: Part 10 copiar_9
+    mount: 1
+  - prefabName: Part 10 copiar_10
+    mount: 1
+  - prefabName: Part 10 copiar_11
+    mount: 1
+  - prefabName: Part 10 copiar_12
+    mount: 1
+  - prefabName: Part 10 copiar_13
+    mount: 1
+  - prefabName: Part 10 copiar_14
+    mount: 1
+  - prefabName: Part 10 copiar_15
+    mount: 1
+  - prefabName: Part 10 copiar_16
+    mount: 1
+  - prefabName: Part 10 copiar_17
+    mount: 1
+  - prefabName: Part 10 copiar_18
+    mount: 1
+  - prefabName: Part 10 copiar_19
+    mount: 1
+  - prefabName: Part 10 copiar_20
+    mount: 1
+  - prefabName: Part 10 copiar_21
+    mount: 1
+  - prefabName: Part 10 copiar_22
+    mount: 1
+  - prefabName: Part 10 copiar_23
+    mount: 1
+  - prefabName: Part 10 copiar_24
+    mount: 1
+  - prefabName: Part 10 copiar_25
+    mount: 1
+  - prefabName: Part 10 copiar_26
+    mount: 1
+  - prefabName: Part 10 copiar_27
+    mount: 1
+  - prefabName: Part 10 copiar_28
+    mount: 1
+  - prefabName: Part 10 copiar_29
+    mount: 1
+  - prefabName: Part 10 copiar_30
+    mount: 1
+  - prefabName: Part 10 copiar_31
+    mount: 1
+  - prefabName: Part 10 copiar_35
+    mount: 1
+  - prefabName: Part 10 copiar_38
+    mount: 1
+  - prefabName: Part 10 copiar_41
+    mount: 1
+  - prefabName: Part 10 copiar_42
+    mount: 1
+  - prefabName: Part 10 copiar_43
+    mount: 1
+  - prefabName: Part 10 copiar_44
+    mount: 1
+  - prefabName: Part 10 copiar_45
+    mount: 1
+  - prefabName: Part 10 copiar_46
+    mount: 1
+  - prefabName: Part 10 copiar_47
+    mount: 1
+  - prefabName: Part 10 copiar_48
+    mount: 1
+  - prefabName: Part 10 copiar_49
+    mount: 1
+  - prefabName: Part 10 copiar_50
+    mount: 1
+  - prefabName: Part 10 copiar_51
+    mount: 1
+  - prefabName: Part 10 copiar_52
+    mount: 1
+  - prefabName: Part 10 copiar_53
+    mount: 1
+  - prefabName: Part 10 copiar_54
+    mount: 1
+  - prefabName: Part 10 copiar_55
+    mount: 1
+  - prefabName: Part 10 copiar_56
+    mount: 1
+  - prefabName: Part 10 copiar_57
+    mount: 1
+  - prefabName: Part 10 copiar_58
+    mount: 1
+  - prefabName: Part 10 copiar_59
+    mount: 1
+  - prefabName: Part 10 copiar_60
+    mount: 1
+  - prefabName: Part 10 copiar_61
+    mount: 1
+  - prefabName: Part 10 copiar_62
+    mount: 1
+  - prefabName: Part 10 copiar_63
+    mount: 1
+  - prefabName: Part 10 copiar_64
+    mount: 1
+  - prefabName: Part 10 copiar_65
+    mount: 1
+  - prefabName: Part 10 copiar_66
+    mount: 1
+  - prefabName: Part 10 copiar_67
+    mount: 1
+  - prefabName: Part 10 copiar_68
+    mount: 1
+  - prefabName: Part 11 copiar_0
+    mount: 1
+  - prefabName: Part 11 copiar_1
+    mount: 1
+  - prefabName: Part 11 copiar_2
+    mount: 1
+  - prefabName: Part 11 copiar_3
+    mount: 1
+  - prefabName: Part 11 copiar_4
+    mount: 1
+  - prefabName: Part 11 copiar_5
+    mount: 1
+  - prefabName: Part 11 copiar_6
+    mount: 1
+  - prefabName: Part 11 copiar_7
+    mount: 1
+  - prefabName: Part 11 copiar_8
+    mount: 1
+  - prefabName: Part 11 copiar_9
+    mount: 1
+  - prefabName: Part 11 copiar_10
+    mount: 1
+  - prefabName: Part 11 copiar_11
+    mount: 1
+  - prefabName: Part 11 copiar_12
+    mount: 1
+  - prefabName: Part 11 copiar_13
+    mount: 1
+  - prefabName: Part 11 copiar_14
+    mount: 1
+  - prefabName: Part 11 copiar_15
+    mount: 1
+  - prefabName: Part 11 copiar_16
+    mount: 1
+  - prefabName: Part 11 copiar_17
+    mount: 1
+  - prefabName: Part 11 copiar_18
+    mount: 1
+  - prefabName: Part 11 copiar_19
+    mount: 1
+  - prefabName: Part 11 copiar_20
+    mount: 1
+  - prefabName: Part 11 copiar_21
+    mount: 1
+  - prefabName: Part 11 copiar_22
+    mount: 1
+  - prefabName: Part 11 copiar_23
+    mount: 1
+  - prefabName: Part 11 copiar_24
+    mount: 1
+  - prefabName: Part 11 copiar_25
+    mount: 1
+  - prefabName: Part 11 copiar_26
+    mount: 1
+  - prefabName: Part 11 copiar_27
+    mount: 1
+  - prefabName: Part 11 copiar_28
+    mount: 1
+  - prefabName: Part 11 copiar_29
+    mount: 1
+  - prefabName: Part 11 copiar_30
+    mount: 1
+  - prefabName: Part 11 copiar_31
+    mount: 1
+  - prefabName: Part 11 copiar_32
+    mount: 1
+  - prefabName: Part 11 copiar_33
+    mount: 1
+  - prefabName: Part 11 copiar_34
+    mount: 1
+  - prefabName: Part 11 copiar_35
+    mount: 1
+  - prefabName: Part 11 copiar_36
+    mount: 1
+  - prefabName: Part 11 copiar_37
+    mount: 1
+  - prefabName: Part 11 copiar_38
+    mount: 1
+  - prefabName: Part 11 copiar_39
+    mount: 1
+  - prefabName: Part 11 copiar_40
+    mount: 1
+  - prefabName: Part 11 copiar_41
+    mount: 1
+  - prefabName: Part 11 copiar_42
+    mount: 1
+  - prefabName: Part 11 copiar_43
+    mount: 1
+  - prefabName: Part 11 copiar_44
+    mount: 1
+  - prefabName: Part 11 copiar_45
+    mount: 1
+  - prefabName: Part 11 copiar_46
+    mount: 1
+  - prefabName: Part 11 copiar_47
+    mount: 1
+  - prefabName: School_0
+    mount: 0
+  - prefabName: School_1
+    mount: 0
+  - prefabName: School_2
+    mount: 0
+  - prefabName: School_3
+    mount: 0
+  - prefabName: School_4
+    mount: 0
+  - prefabName: School_5
+    mount: 0
+  - prefabName: School_6
+    mount: 0
+  - prefabName: School_7
+    mount: 0
+  - prefabName: School_8
+    mount: 0
+  - prefabName: School_9
+    mount: 0
+  - prefabName: School_10
+    mount: 0
+  - prefabName: School_11
+    mount: 0
+  - prefabName: School_12
+    mount: 0
+  - prefabName: School_13
+    mount: 0
+  - prefabName: School_14
+    mount: 0
+  - prefabName: School_15
+    mount: 0
+  - prefabName: School_16
+    mount: 0
+  - prefabName: School_17
+    mount: 0
+  - prefabName: School_18
+    mount: 0
+  - prefabName: School_19
+    mount: 0
+  - prefabName: School_20
+    mount: 0
+  - prefabName: School_21
+    mount: 0
+  - prefabName: School_22
+    mount: 0
+  - prefabName: School_23
+    mount: 0
+  - prefabName: School_24
+    mount: 0
+  - prefabName: School_25
+    mount: 0
+  - prefabName: School_26
+    mount: 0
+  - prefabName: School_27
+    mount: 0
+  - prefabName: School_28
+    mount: 0
+  - prefabName: School_29
+    mount: 0
+  - prefabName: School_30
+    mount: 0
+  - prefabName: School_31
+    mount: 0
+  - prefabName: School_32
+    mount: 0
+  - prefabName: School_33
+    mount: 0
+  - prefabName: School_34
+    mount: 0
+  - prefabName: School_35
+    mount: 0
+  - prefabName: School_36
+    mount: 0
+  - prefabName: School_37
+    mount: 0
+  - prefabName: School_38
+    mount: 0
+  - prefabName: School_39
+    mount: 0
+  - prefabName: School_40
+    mount: 0
+  - prefabName: School_41
+    mount: 0
+  - prefabName: School_42
+    mount: 0
+  - prefabName: School_43
+    mount: 0
+  - prefabName: School_44
+    mount: 0
+  - prefabName: School_45
+    mount: 0
+  - prefabName: School_46
+    mount: 0
+  - prefabName: School_47
+    mount: 0
+  - prefabName: School_48
+    mount: 0
+  - prefabName: School_49
+    mount: 0
+  - prefabName: School_50
+    mount: 0
+  - prefabName: School_51
+    mount: 0
+  - prefabName: School_52
+    mount: 0
+  - prefabName: School_53
+    mount: 0
+  - prefabName: School_54
+    mount: 0
+  - prefabName: School_55
+    mount: 0
+  - prefabName: School_56
+    mount: 0
+  - prefabName: School_57
+    mount: 0
+  - prefabName: School_58
+    mount: 0
+  - prefabName: School_59
+    mount: 0
+  - prefabName: School_60
+    mount: 0
+  - prefabName: School_61
+    mount: 0
+  - prefabName: School_62
+    mount: 0
+  - prefabName: School_63
+    mount: 0
+  - prefabName: School_64
+    mount: 0
+  - prefabName: School_65
+    mount: 0
+  - prefabName: Sofa_0
+    mount: 0
+  - prefabName: Sofa_1
+    mount: 0
+  - prefabName: Sofa_2
+    mount: 0
+  - prefabName: Sofa_3
+    mount: 0
+  - prefabName: Sofa_4
+    mount: 0
+  - prefabName: Sofa_5
+    mount: 0
+  - prefabName: Sofa_6
+    mount: 0
+  - prefabName: Sofa_7
+    mount: 0
+  - prefabName: Sofa_8
+    mount: 0
+  - prefabName: Sofa_9
+    mount: 0
+  - prefabName: Sofa_10
+    mount: 0
+  - prefabName: Sofa_11
+    mount: 0
+  - prefabName: Sofa_12
+    mount: 0
+  - prefabName: Sofa_13
+    mount: 0
+  - prefabName: Sofa_14
+    mount: 0
+  - prefabName: Sofa_15
+    mount: 0
+  - prefabName: Sofa_16
+    mount: 0
+  - prefabName: Sofa_17
+    mount: 0
+  - prefabName: Sofa_18
+    mount: 0
+  - prefabName: Sofa_19
+    mount: 0
+  - prefabName: Sofa_20
+    mount: 0
+  - prefabName: Sofa_21
+    mount: 0
+  - prefabName: Sofa_22
+    mount: 0
+  - prefabName: Sofa_23
+    mount: 0
+  - prefabName: Sofa_24
+    mount: 0
+  - prefabName: Sofa_25
+    mount: 0
+  - prefabName: Sofa_26
+    mount: 0
+  - prefabName: Sofa_27
+    mount: 0
+  - prefabName: Sofa_28
+    mount: 0
+  - prefabName: Sofa_29
+    mount: 0
+  - prefabName: Sofa_30
+    mount: 0
+  - prefabName: Sofa_31
+    mount: 0
+  - prefabName: Sofa_32
+    mount: 0
+  - prefabName: Sofa_33
+    mount: 0
+  - prefabName: Sofa_34
+    mount: 0
+  - prefabName: Sofa_35
+    mount: 0
+  - prefabName: Sofa_36
+    mount: 0
+  - prefabName: Sofa_37
+    mount: 0
+  - prefabName: Sofa_38
+    mount: 0
+  - prefabName: Sofa_39
+    mount: 0
+  - prefabName: Sofa_40
+    mount: 0
+  - prefabName: Sofa_41
+    mount: 0
+  - prefabName: Sofa_42
+    mount: 0
+  - prefabName: Sofa_43
+    mount: 0
+  - prefabName: Sofa_44
+    mount: 0
+  - prefabName: Sofa_45
+    mount: 0
+  - prefabName: Sofa_46
+    mount: 0
+  - prefabName: Sofa_47
+    mount: 0
+  - prefabName: Sofa_48
+    mount: 0
+  - prefabName: Sofa_49
+    mount: 0
+  - prefabName: Sofa_50
+    mount: 0
+  - prefabName: Sofa_51
+    mount: 0
+  - prefabName: Sofa_52
+    mount: 0
+  - prefabName: Sofa_53
+    mount: 0
+  - prefabName: Sofa_54
+    mount: 0
+  - prefabName: Sofa_55
+    mount: 0
+  - prefabName: Sofa_56
+    mount: 0
+  - prefabName: Sofa_57
+    mount: 0
+  - prefabName: Sofa_58
+    mount: 0
+  - prefabName: Sofa_59
+    mount: 0
+  - prefabName: Sofa_60
+    mount: 0
+  - prefabName: Sofa_61
+    mount: 0
+  - prefabName: Sofa_62
+    mount: 0
+  - prefabName: Sofa_63
+    mount: 0
+  - prefabName: Sofa_64
+    mount: 0
+  - prefabName: Sofa_65
+    mount: 0
+  - prefabName: Sofa_66
+    mount: 0
+  - prefabName: Sofa_67
+    mount: 0
+  - prefabName: Sofa_68
+    mount: 0
+  - prefabName: Sofa_69
+    mount: 0
+  - prefabName: Sofa_70
+    mount: 0
+  - prefabName: Sofa_71
+    mount: 0
+  - prefabName: Sofa_72
+    mount: 0
+  - prefabName: Sofa_73
+    mount: 0
+  - prefabName: Sofa_74
+    mount: 0
+  - prefabName: Sofa_75
+    mount: 0
+  - prefabName: Tables and desks_0
+    mount: 0
+  - prefabName: Tables and desks_1
+    mount: 0
+  - prefabName: Tables and desks_2
+    mount: 0
+  - prefabName: Tables and desks_3
+    mount: 0
+  - prefabName: Tables and desks_4
+    mount: 0
+  - prefabName: Tables and desks_5
+    mount: 0
+  - prefabName: Tables and desks_6
+    mount: 0
+  - prefabName: Tables and desks_7
+    mount: 0
+  - prefabName: Tables and desks_8
+    mount: 0
+  - prefabName: Tables and desks_9
+    mount: 0
+  - prefabName: Tables and desks_10
+    mount: 0
+  - prefabName: Tables and desks_11
+    mount: 0
+  - prefabName: Tables and desks_12
+    mount: 0
+  - prefabName: Tables and desks_13
+    mount: 0
+  - prefabName: Tables_0
+    mount: 0
+  - prefabName: Tables_1
+    mount: 0
+  - prefabName: Tables_2
+    mount: 0
+  - prefabName: Tables_3
+    mount: 0
+  - prefabName: Tables_4
+    mount: 0
+  - prefabName: Tables_5
+    mount: 0
+  - prefabName: Tables_6
+    mount: 0
+  - prefabName: Tables_7
+    mount: 0
+  - prefabName: Tables_8
+    mount: 0
+  - prefabName: Tables_9
+    mount: 0
+  - prefabName: Tables_10
+    mount: 0
+  - prefabName: Tables_11
+    mount: 0
+  - prefabName: Tables_12
+    mount: 0
+  - prefabName: Tables_13
+    mount: 0
+  - prefabName: Tables_14
+    mount: 0
+  - prefabName: Tables_15
+    mount: 0
+  - prefabName: Tables_16
+    mount: 0
+  - prefabName: Tables_17
+    mount: 0
+  - prefabName: Tables_18
+    mount: 0
+  - prefabName: Tables_19
+    mount: 0
+  - prefabName: Tables_20
+    mount: 0
+  - prefabName: Tables_21
+    mount: 0
+  - prefabName: Tables_22
+    mount: 0
+  - prefabName: Tables_23
+    mount: 0
+  - prefabName: Tables_24
+    mount: 0
+  - prefabName: Tables_25
+    mount: 0
+  - prefabName: Tables_26
+    mount: 0
+  - prefabName: Tables_27
+    mount: 0
+  - prefabName: Tables_28
+    mount: 0
+  - prefabName: Tables_29
+    mount: 0
+  - prefabName: Tables_30
+    mount: 0
+  - prefabName: Tables_31
+    mount: 0
+  - prefabName: Tables_32
+    mount: 0
+  - prefabName: Tables_33
+    mount: 0
+  - prefabName: Tables_34
+    mount: 0
+  - prefabName: Tables_35
+    mount: 0
+  - prefabName: Tables_36
+    mount: 0
+  - prefabName: Tables_37
+    mount: 0
+  - prefabName: Tables_38
+    mount: 0
+  - prefabName: Tables_39
+    mount: 0
+  - prefabName: Tables_40
+    mount: 0
+  - prefabName: Tables_41
+    mount: 0
+  - prefabName: Tables_42
+    mount: 0
+  - prefabName: Tables_43
+    mount: 0
+  - prefabName: Tables_44
+    mount: 0
+  - prefabName: Tables_45
+    mount: 0
+  - prefabName: Tables_46
+    mount: 0
+  - prefabName: Tables_47
+    mount: 0
+  - prefabName: Tables_48
+    mount: 0
+  - prefabName: Tables_49
+    mount: 0
+  - prefabName: Tables_50
+    mount: 0
+  - prefabName: Tables_51
+    mount: 0
+  - prefabName: Tables_52
+    mount: 0
+  - prefabName: Tables_53
+    mount: 0
+  - prefabName: Tables_54
+    mount: 0
+  - prefabName: Tables_55
+    mount: 0
+  - prefabName: Tables_56
+    mount: 0
+  - prefabName: Tables_57
+    mount: 0
+  - prefabName: Tables_58
+    mount: 0
+  - prefabName: Tables_59
+    mount: 0
+  - prefabName: Tables_60
+    mount: 0
+  - prefabName: Tables_61
+    mount: 0
+  - prefabName: Tables_62
+    mount: 0
+  - prefabName: Tables_63
+    mount: 0
+  - prefabName: Tables_64
+    mount: 0
+  - prefabName: Tables_65
+    mount: 0
+  - prefabName: Tables_66
+    mount: 0
+  - prefabName: Tables_67
+    mount: 0
+  - prefabName: Tables_68
+    mount: 0
+  - prefabName: Tables_69
+    mount: 0
+  - prefabName: Tables_70
+    mount: 0
+  - prefabName: Tables_71
+    mount: 0
+  - prefabName: Tables_72
+    mount: 0
+  - prefabName: Tables_73
+    mount: 0
+  - prefabName: Tables_74
+    mount: 0
+  - prefabName: Tables_75
+    mount: 0
+  - prefabName: Tables_76
+    mount: 0
+  - prefabName: Tables_77
+    mount: 0
+  - prefabName: Tables_78
+    mount: 0
+  - prefabName: Tables_79
+    mount: 0
+  - prefabName: Tables_80
+    mount: 0
+  - prefabName: Tables_81
+    mount: 0
+  - prefabName: Tables_82
+    mount: 0
+  - prefabName: Tables_83
+    mount: 0
+  - prefabName: Tables_84
+    mount: 0
+  - prefabName: Tables_85
+    mount: 0
+  - prefabName: Tables_86
+    mount: 0
+  - prefabName: Tables_87
+    mount: 0
+  - prefabName: Tables_88
+    mount: 0
+  - prefabName: Tables_89
+    mount: 0
+  - prefabName: Tables_90
+    mount: 0
+  - prefabName: Tables_91
+    mount: 0
+  - prefabName: Tables_92
+    mount: 0
+  - prefabName: Tables_93
+    mount: 0
+  - prefabName: Tables_94
+    mount: 0
+  - prefabName: Tables_95
+    mount: 0
+  - prefabName: Tables_96
+    mount: 0
+  - prefabName: Tables_97
+    mount: 0
+  - prefabName: Tables_98
+    mount: 0
+  - prefabName: Tables_99
+    mount: 0
+  - prefabName: Tables_100
+    mount: 0
+  - prefabName: Tables_101
+    mount: 0
+  - prefabName: Temple_0
+    mount: 0
+  - prefabName: Temple_1
+    mount: 0
+  - prefabName: Temple_2
+    mount: 0
+  - prefabName: Temple_3
+    mount: 0
+  - prefabName: Temple_4
+    mount: 0
+  - prefabName: Temple_5
+    mount: 0
+  - prefabName: Temple_6
+    mount: 0
+  - prefabName: Temple_7
+    mount: 0
+  - prefabName: Temple_8
+    mount: 0
+  - prefabName: Temple_9
+    mount: 0
+  - prefabName: Xmas_0
+    mount: 0
+  - prefabName: Xmas_1
+    mount: 0
+  - prefabName: Xmas_2
+    mount: 0
+  - prefabName: Xmas_3
+    mount: 0
+  - prefabName: Xmas_4
+    mount: 0
+  - prefabName: Xmas_5
+    mount: 0
+  - prefabName: Xmas_6
+    mount: 0
+  - prefabName: Xmas_7
+    mount: 0
+  - prefabName: Xmas_8
+    mount: 0
+  - prefabName: Xmas_9
+    mount: 0
+  - prefabName: Xmas_10
+    mount: 0
+  - prefabName: Xmas_11
+    mount: 0
+  - prefabName: Xmas_12
+    mount: 0
+  - prefabName: Xmas_13
+    mount: 0
+  - prefabName: Xmas_14
+    mount: 0
+  - prefabName: Xmas_15
+    mount: 0
+  - prefabName: Xmas_16
+    mount: 0
+  - prefabName: Xmas_17
+    mount: 0
+  - prefabName: Xmas_18
+    mount: 0
+  - prefabName: Xmas_19
+    mount: 0
+  - prefabName: Xmas_20
+    mount: 0
+  - prefabName: Xmas_21
+    mount: 0
+  - prefabName: Xmas_22
+    mount: 0
+  - prefabName: Xmas_23
+    mount: 0
+  - prefabName: Xmas_24
+    mount: 0
+  - prefabName: Xmas_25
+    mount: 0
+  - prefabName: Xmas_26
+    mount: 0
+  - prefabName: Xmas_27
+    mount: 0
+  - prefabName: Xmas_28
+    mount: 0
+  - prefabName: Xmas_29
+    mount: 0
+  - prefabName: Xmas_30
+    mount: 0
+  - prefabName: Xmas_31
+    mount: 0
+  - prefabName: Xmas_32
+    mount: 0
+  - prefabName: Xmas_34
+    mount: 0
+  - prefabName: Xmas_35
+    mount: 0
+  - prefabName: Xmas_36
+    mount: 0
+  - prefabName: Xmas_37
+    mount: 0
+  - prefabName: Xmas_38
+    mount: 0
+  - prefabName: Xmas_39
+    mount: 0
+  - prefabName: Xmas_40
+    mount: 0
+  - prefabName: Xmas_41
+    mount: 0
+  - prefabName: Xmas_42
+    mount: 0
+  - prefabName: Xmas_43
+    mount: 0
+  - prefabName: Xmas_44
+    mount: 0
+  - prefabName: Xmas_45
+    mount: 0
+  - prefabName: Xmas_46
+    mount: 0
+  - prefabName: Xmas_48
+    mount: 0
+  - prefabName: Xmas_49
+    mount: 0
+  - prefabName: Xmas_50
+    mount: 0
+  - prefabName: Xmas_51
+    mount: 0
+  - prefabName: Xmas_52
+    mount: 0
+  - prefabName: Xmas_53
+    mount: 0
+  - prefabName: Xmas_54
+    mount: 0
+  - prefabName: Xmas_55
+    mount: 0
+  - prefabName: Xmas_56
+    mount: 0
+  - prefabName: Xmas_59
+    mount: 0
+  - prefabName: Xmas_60
+    mount: 0
+  - prefabName: Xmas_67
+    mount: 0
+  - prefabName: Xmas_68
+    mount: 0
+  - prefabName: Xmas_69
+    mount: 0
+  - prefabName: Xmas_70
+    mount: 0
+  - prefabName: Xmas_71
+    mount: 0
+  - prefabName: Xmas_72
+    mount: 0
+  - prefabName: Xmas_73
+    mount: 0

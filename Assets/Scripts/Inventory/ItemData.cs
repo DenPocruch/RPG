@@ -37,6 +37,9 @@ public enum ItemType
     Processor,
     FishingRod,
     FishingHook,
+    Blueprint,
+    Wallpaper,
+    FloorTile,
 }
 
 public enum ItemRarity
@@ -144,6 +147,10 @@ public class ItemData : ScriptableObject
     public GameObject placeablePrefab;
     [Tooltip("Цена в магазине (0 = цена задаётся в ShopInteraction)")]
     public int shopPrice = 0;
+
+    [Header("Стиль дома (Wallpaper / FloorTile)")]
+    [Tooltip("Id стиля: Brick, Barn... — ключ склада 'wall_<id>'/'floor_<id>', ассет WallStyle_<id>")]
+    public string houseStyleId = "";
 
     [Header("Удобрение")]
     [Tooltip("Если true — использование на грядку с растением ускоряет его рост ×2")]

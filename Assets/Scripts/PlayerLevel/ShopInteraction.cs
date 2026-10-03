@@ -123,6 +123,10 @@ public class ShopInteraction : MonoBehaviour, IInteractable
         added |= TryAddFarmStock(list, "CheesePress", "");    // сырный пресс (молоко → сыр)
         added |= TryAddFarmStock(list, "ButterChurn", "");    // маслобойка (молоко → масло)
         added |= TryAddFarmStock(list, "JamMaker", "");       // джем-мейкер (ягоды → джем)
+        added |= TryAddFarmStock(list, "Wallpaper_Brick", "");  // обои кирпич (конструктор дома)
+        added |= TryAddFarmStock(list, "Wallpaper_Barn", "");   // обои сарай
+        added |= TryAddFarmStock(list, "FloorTile_Brick", "");  // плитка кирпич
+        added |= TryAddFarmStock(list, "FloorTile_Barn", "");   // плитка сарай
         if (added) itemsForSaleAnimals = list.ToArray();
     }
 
