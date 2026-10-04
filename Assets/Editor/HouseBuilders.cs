@@ -298,9 +298,10 @@ public static class HouseBuilders
         foreach (var c in region) if (c.y < minY) minY = c.y;
 
         var unmapped = new List<string>();
-        var wanted = HouseAutotiler.ComputeWanted(walls, region, st, minY, null, unmapped);
-        int painted = HouseAutotiler.Paint(walls, wanted);
-        var after = HouseAutotiler.Audit(walls, wanted);
+        int painted = HouseAutotiler.Stabilize(walls, floors, region, st, minY, null,
+            st.floorTile, unmapped);
+        var after = HouseAutotiler.Audit(walls,
+            HouseAutotiler.ComputeWanted(walls, region, st, minY, null, new List<string>()));
         Debug.Log("[House] Перестройка: записано клеток " + painted + ", остаточных расхождений " + after.Count +
                   ", unmapped " + unmapped.Count + ". Нажми Ctrl+S (сохранить сцену), затем проверь комнату глазами в Play.");
         foreach (string d in after)
@@ -522,5 +523,173 @@ public static class HouseBuilders
         int w = HouseReskin.PaintRoomWalls("Brick", false);
         int f = HouseReskin.PaintRoomFloor("Brick", false);
         Debug.Log("[House] Возврат: стены " + w + ", пол " + f + ". Нажми Ctrl+S.");
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ФАЗА 4: тесты расширения (14–16 в редакторе бесплатно, 17 в Play по-честному)
+    // ═══════════════════════════════════════════════════════════
+    static bool FindRoomForExpand(out UnityEngine.Tilemaps.Tilemap walls,
+        out UnityEngine.Tilemaps.Tilemap floors, out HashSet<Vector3Int> region, out int lockY)
+    {
+        walls = null;
+        floors = null;
+        region = new HashSet<Vector3Int>();
+        lockY = 0;
+        GameObject wgo = GameObject.Find("InteriorWalls");
+        GameObject fgo = GameObject.Find("InteriorFloor");
+        if (wgo == null || fgo == null)
+        {
+            Debug.LogError("[House] Не нашёл InteriorWalls/InteriorFloor. Открой SampleScene (single).");
+            return false;
+        }
+        walls = wgo.GetComponent<UnityEngine.Tilemaps.Tilemap>();
+        floors = fgo.GetComponent<UnityEngine.Tilemaps.Tilemap>();
+        if (walls == null || floors == null) return false;
+        region = HouseAutotiler.LargestFloorRegion(floors);
+        if (region.Count == 0)
+        {
+            Debug.LogError("[House] Пустая область пола.");
+            return false;
+        }
+        lockY = int.MaxValue;
+        foreach (Vector3Int c in region)
+            if (c.y < lockY) lockY = c.y;
+        return true;
+    }
+
+    /// <summary>Первый валидный ghost в сторону: 0=север, 1=запад, 2=восток.</summary>
+    static bool PickTarget(int dir, out Vector3Int picked)
+    {
+        picked = default;
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return false;
+        WallStyle brick = AssetDatabase.LoadAssetAtPath<WallStyle>(WallStylePath);
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick (пункт 5).");
+            return false;
+        }
+        List<Vector3Int> cands = HouseExpansion.ValidTargets(walls, floors, region, brick, lockY);
+        if (cands.Count == 0)
+        {
+            Debug.LogWarning("[House] Валидных клеток для пристройки нет (кап? всё застроено?).");
+            Debug.LogWarning("[House] Разбор: " + HouseExpansion.TargetsDebug(walls, floors, region, brick, lockY));
+            return false;
+        }
+        float cx = 0;
+        foreach (Vector3Int c in region) cx += c.x;
+        cx /= region.Count;
+        Vector3Int best = cands[0];
+        foreach (Vector3Int c in cands)
+        {
+            if (dir == 0 && (c.y > best.y || (c.y == best.y && Mathf.Abs(c.x - cx) < Mathf.Abs(best.x - cx)))) best = c;
+            if (dir == 1 && (c.x < best.x || (c.x == best.x && c.y > best.y))) best = c;
+            if (dir == 2 && (c.x > best.x || (c.x == best.x && c.y > best.y))) best = c;
+        }
+        picked = best;
+        Debug.Log("[House] Ghost-кандидатов: " + cands.Count + ", строим " + picked + ".");
+        return true;
+    }
+
+    [MenuItem("Tools/House/00. Ping (проверка кликов)")]
+    public static void Ping()
+    {
+        Debug.Log("[House] PING: клики доходят, код выполняется.");
+    }
+
+    [MenuItem("Tools/House/14. Test Expand (Edit): +1 на СЕВЕР (бесплатно)")]
+    public static void TestExpandNorth()
+    {
+        Debug.Log("[House] Клик 14 (север).");
+        try
+        {
+            Debug.Log("[House] 14: проверяю Play...");
+            if (EditorApplication.isPlaying)
+            {
+                Debug.LogError("[House] Тест пристройки — только НЕ в Play. Потом Ctrl+S.");
+                return;
+            }
+            Debug.Log("[House] 14: ищу комнату...");
+            if (PickTargetTraced(0, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+                Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
+            Debug.Log("[House] 14: конец.");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError("[House] 14 EXCEPTION: " + e);
+        }
+    }
+
+    static bool PickTargetTraced(int dir, out Vector3Int picked)
+    {
+        picked = default;
+        Debug.Log("[House] PickTarget: ищу объекты сцены...");
+        GameObject wgo = GameObject.Find("InteriorWalls");
+        GameObject fgo = GameObject.Find("InteriorFloor");
+        Debug.Log("[House] PickTarget: walls=" + (wgo != null) + " floors=" + (fgo != null));
+        if (wgo == null || fgo == null)
+        {
+            Debug.LogError("[House] Не нашёл InteriorWalls/InteriorFloor. Открой SampleScene (single).");
+            return false;
+        }
+        var walls = wgo.GetComponent<UnityEngine.Tilemaps.Tilemap>();
+        var floors = fgo.GetComponent<UnityEngine.Tilemaps.Tilemap>();
+        Debug.Log("[House] PickTarget: tilemaps walls=" + (walls != null) + " floors=" + (floors != null));
+        if (walls == null || floors == null) return false;
+        var region = HouseAutotiler.LargestFloorRegion(floors);
+        Debug.Log("[House] PickTarget: клеток пола в регионе=" + region.Count);
+        if (region.Count == 0) return false;
+        return PickTarget(dir, out picked);
+    }
+
+    [MenuItem("Tools/House/15. Test Expand (Edit): +1 на ЗАПАД (бесплатно)")]
+    public static void TestExpandWest()
+    {
+        Debug.Log("[House] Клик 15 (запад).");
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Тест пристройки — только НЕ в Play. Потом Ctrl+S.");
+            return;
+        }
+        if (PickTarget(1, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+            Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
+    }
+
+    [MenuItem("Tools/House/16. Test Expand (Edit): +1 на ВОСТОК (бесплатно)")]
+    public static void TestExpandEast()
+    {
+        Debug.Log("[House] Клик 16 (восток).");
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Тест пристройки — только НЕ в Play. Потом Ctrl+S.");
+            return;
+        }
+        if (PickTarget(2, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+            Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
+    }
+
+    [MenuItem("Tools/House/17. Test Expand (Play): +1 по-честному (дерево+голда)")]
+    public static void TestExpandReal()
+    {
+        Debug.Log("[House] Клик 17 (честно).");
+        if (!EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Честная пристройка — только в Play: положи 50+ дерева в рюкзак, запусти из SampleScene.");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+        WallStyle brick = WallStyle.Load("Brick");
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick в Resources.");
+            return;
+        }
+        List<Vector3Int> cands = HouseExpansion.ValidTargets(walls, floors, region, brick, lockY);
+        if (cands.Count == 0)
+        {
+            Debug.LogWarning("[House] Валидных клеток нет.");
+            return;
+        }
+        Debug.Log("[House] Покупаю " + cands[0] + " (дерево в рюкзаке: " + HouseExpansion.CountWood() + ").");
+        HouseExpansion.TryExpand(cands[0], false);
     }
 }

@@ -131,6 +131,33 @@ public static class HouseAutotiler
             }
         }
 
+        // Проход 1б: лента для СВЕЖИХ клеток (фаза 4): верх — свежая клетка
+        // с комнатой южнее и без пола севернее; низ — ряд под свежим верхом
+        // (включая поглощённое кольцо: стена поверх затирается лентой).
+        // Только если лента вообще есть в комнате (иначе свежий тайл —
+        // обычный пол, как сейчас: владелец ленту убрал).
+        if (freshFloor != null && RoomHasBand(wallMap, st, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY))
+        {
+            var freshTops = new HashSet<Vector3Int>();
+            foreach (Vector3Int c in freshFloor)
+            {
+                if (!floor.Contains(c)) continue;
+                TileBase w = wallMap.GetTile(c);
+                if (w != null && w != st.bgFill && !IsBandTile(w, st)) continue; // занято кольцом — не лента
+                if (floor.Contains(c + Vector3Int.up)) continue;
+                if (!Member(floor, wallMap, st, c + Vector3Int.down)) continue; // только над комнатой
+                freshTops.Add(c);
+                wanted[c] = BandEnd(st, floor, wallMap, c, true);
+            }
+            foreach (Vector3Int c in wallMap.cellBounds.allPositionsWithin)
+            {
+                if (wanted.ContainsKey(c)) continue;
+                if (!floor.Contains(c)) continue;
+                if (freshTops.Contains(c + Vector3Int.up))
+                    wanted[c] = BandEnd(st, floor, wallMap, c, false);
+            }
+        }
+
         // Проход 2: кольцо + фон + расчистка поглощённого.
         for (int x = scopeMinX; x <= scopeMaxX; x++)
         {
@@ -149,6 +176,12 @@ public static class HouseAutotiler
                 }
                 if (ownFloor && cur == null)
                     continue; // чистый interior без ленты — слой стен пуст
+                // Свежая клетка с фоном (не забранная лентой 1б): снести фон.
+                if (freshFloor != null && freshFloor.Contains(c) && cur == st.bgFill && !wanted.ContainsKey(c))
+                {
+                    wanted[c] = null;
+                    continue;
+                }
                 bool n = Member(floor, wallMap, st, c + Vector3Int.up);
                 bool s = Member(floor, wallMap, st, c + Vector3Int.down);
                 bool e = Member(floor, wallMap, st, c + Vector3Int.right);
@@ -172,6 +205,16 @@ public static class HouseAutotiler
             }
         }
         return wanted;
+    }
+
+    /// <summary>Есть ли лента в скопе (для гейта прохода 1б).</summary>
+    static bool RoomHasBand(Tilemap wallMap, WallStyle st, int x0, int x1, int y0, int y1)
+    {
+        for (int x = x0; x <= x1; x++)
+            for (int y = y0; y <= y1; y++)
+                if (IsBandTile(wallMap.GetTile(new Vector3Int(x, y, 0)), st))
+                    return true;
+        return false;
     }
 
     static bool Absorbed(bool n, bool s, bool e, bool w, Vector3Int c, HashSet<Vector3Int> fresh)
@@ -257,11 +300,27 @@ public static class HouseAutotiler
             if (eRing) return st.cornerBL;
             return st.straightH;
         }
-        // Боковые кромки.
+        // Боковые кромки: продолжение стены определяет ориентацию.
+        // {E} с кольцом сверху+снизу = колонна (V); с кольцом только с одной
+        // стороны = кромка уходит горизонтально (H); иначе колонна.
         if (e && !w && !n && !s)
-            return OpenForEdge(wallMap, st, c + Vector3Int.right) ? st.straightV : st.bgFill;
+        {
+            if (!OpenForEdge(wallMap, st, c + Vector3Int.right)) return st.bgFill;
+            bool nR = IsRing(wallMap, c + Vector3Int.up, st);
+            bool sR = IsRing(wallMap, c + Vector3Int.down, st);
+            if (nR && sR) return st.straightV;
+            if (nR || sR) return st.straightH;
+            return st.straightV;
+        }
         if (w && !e && !n && !s)
-            return OpenForEdge(wallMap, st, c + Vector3Int.left) ? st.straightV : st.bgFill;
+        {
+            if (!OpenForEdge(wallMap, st, c + Vector3Int.left)) return st.bgFill;
+            bool nR = IsRing(wallMap, c + Vector3Int.up, st);
+            bool sR = IsRing(wallMap, c + Vector3Int.down, st);
+            if (nR && sR) return st.straightV;
+            if (nR || sR) return st.straightH;
+            return st.straightV;
+        }
         // Тройные маски — стена продолжается насквозь.
         if (e && w && !n && !s) return st.straightH;
         if (n && s && !e && !w) return st.straightV;
@@ -350,5 +409,36 @@ public static class HouseAutotiler
             }
         }
         return n;
+    }
+
+    /// <summary>
+    /// Гнать compute+paint+долив пола до стабильности (макс 4 прохода).
+    /// Свежие углы видят соседей только после покраски — за 1 проход не сходится.
+    /// floor пополняется (долив под расчищенным), fresh растёт вместе с ним.
+    /// Возвращает суммарно записанных клеток стен.
+    /// </summary>
+    public static int Stabilize(Tilemap wallMap, Tilemap floorMap, HashSet<Vector3Int> floor,
+        WallStyle st, int lockRowY, HashSet<Vector3Int> fresh, TileBase floorTile, List<string> unmappedAll)
+    {
+        int total = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            var wanted = ComputeWanted(wallMap, floor, st, lockRowY, fresh, unmappedAll);
+            int painted = Paint(wallMap, wanted);
+            total += painted;
+            int floored = 0;
+            foreach (var kvp in wanted)
+            {
+                if (kvp.Value == null && !floorMap.HasTile(kvp.Key))
+                {
+                    floorMap.SetTile(kvp.Key, floorTile);
+                    floor.Add(kvp.Key);
+                    fresh?.Add(kvp.Key);
+                    floored++;
+                }
+            }
+            if (painted == 0 && floored == 0) break;
+        }
+        return total;
     }
 }
