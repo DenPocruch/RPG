@@ -596,6 +596,15 @@ public static class HouseBuilders
             if (dir == 0 && (c.y > best.y || (c.y == best.y && Mathf.Abs(c.x - cx) < Mathf.Abs(best.x - cx)))) best = c;
             if (dir == 1 && (c.x < best.x || (c.x == best.x && c.y > best.y))) best = c;
             if (dir == 2 && (c.x > best.x || (c.x == best.x && c.y > best.y))) best = c;
+            // Края верха: сначала самый верхний ряд, в нём крайний запад/восток.
+            if (dir == 3)
+            {
+                if (c.y > best.y || (c.y == best.y && c.x < best.x)) best = c;
+            }
+            if (dir == 4)
+            {
+                if (c.y > best.y || (c.y == best.y && c.x > best.x)) best = c;
+            }
         }
         picked = best;
         Debug.Log("[House] Ghost-кандидатов: " + cands.Count + ", строим " + picked + ".");
@@ -621,7 +630,19 @@ public static class HouseBuilders
                 return;
             }
             Debug.Log("[House] 14: ищу комнату...");
-            if (PickTargetTraced(0, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+            Vector3Int t;
+            bool picked = PickTargetTraced(0, out t);
+            bool built = false;
+            if (picked)
+            {
+                if (FindRoomForExpand(out var jw, out var jf, out var jregion, out int jlock))
+                {
+                    JournalScope(jregion, jlock, out int x0, out int x1, out int y0, out int y1);
+                    HouseJournal.Record(jw, t, x0, x1, y0, y1);
+                }
+                built = HouseExpansion.TryExpand(t, true);
+            }
+            if (built)
             {
                 UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
                     UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -633,6 +654,90 @@ public static class HouseBuilders
         {
             Debug.LogError("[House] 14 EXCEPTION: " + e);
         }
+    }
+
+    /// <summary>Общая стройка по направлению: выбор → журнал → стройка.</summary>
+    static void BuildPicked(int dir, string label)
+    {
+        Debug.Log("[House] Клик " + label + ".");
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play. Потом Ctrl+S.");
+            return;
+        }
+        if (!PickTargetTraced(dir, out Vector3Int t)) return;
+        if (FindRoomForExpand(out var jw, out var jf, out var jregion, out int jlock))
+        {
+            JournalScope(jregion, jlock, out int x0, out int x1, out int y0, out int y1);
+            HouseJournal.Record(jw, t, x0, x1, y0, y1);
+        }
+        if (HouseExpansion.TryExpand(t, true))
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+            Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play.");
+        }
+    }
+
+    [MenuItem("Tools/House/14b. Test Expand (Edit): СЕВЕРО-ЗАПАДНЫЙ край")]
+    public static void TestExpandNorthWest()
+    {
+        BuildPicked(3, "14b (северо-запад)");
+    }
+
+    [MenuItem("Tools/House/14c. Test Expand (Edit): СЕВЕРО-ВОСТОЧНЫЙ край")]
+    public static void TestExpandNorthEast()
+    {
+        BuildPicked(4, "14c (северо-восток)");
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Ручные тесты (в т.ч. параллельно и в 2–3 ряда): пол кладёшь САМ
+    // кистью (встык, поверх стены — верхний тайл снимется), код достраивает
+    // кольцо/ленту. Свежими считаются клетки пола с покрывающей стеной.
+    // ═══════════════════════════════════════════════════════════
+    [MenuItem("Tools/House/20. Build Ring For Hand Floors (кольцо вокруг ручного пола)")]
+    public static void BuildRingForHandFloors()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play. Потом Ctrl+S.");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+        WallStyle brick = AssetDatabase.LoadAssetAtPath<WallStyle>(WallStylePath);
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick (пункт 5).");
+            return;
+        }
+        var fresh = new HashSet<Vector3Int>();
+        foreach (Vector3Int c in region)
+        {
+            if (walls.GetTile(c) != null) fresh.Add(c);
+        }
+        if (fresh.Count == 0)
+        {
+            Debug.LogWarning("[House] Ручного пола нет (нужен пол с покрывающей стеной поверх). Положи пол кистью встык и жми снова.");
+            return;
+        }
+        JournalScope(region, lockY, out int jx0, out int jx1, out int jy0, out int jy1);
+        foreach (Vector3Int fc in fresh)
+            HouseJournal.Record(walls, fc, jx0, jx1, jy0, jy1);
+        var unmapped = new List<string>();
+        int painted = HouseAutotiler.Stabilize(walls, floors, region, brick, lockY,
+            fresh, brick.floorTile, unmapped);
+        if (painted > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        var after = HouseAutotiler.Audit(walls,
+            HouseAutotiler.ComputeWanted(walls, region, brick, lockY, null, new List<string>()));
+        Debug.Log("[House] Кольцо: свежих " + fresh.Count + ", записано стен " + painted +
+                  ", расхождений " + after.Count + ", unmapped " + unmapped.Count + ". Потом Ctrl+S.");
+        foreach (string d in after)
+            Debug.LogWarning("[House] Остаток: " + d);
+        foreach (string u in unmapped)
+            Debug.LogWarning("[House] UNMAPPED: " + u);
     }
 
     static bool PickTargetTraced(int dir, out Vector3Int picked)
@@ -660,35 +765,13 @@ public static class HouseBuilders
     [MenuItem("Tools/House/15. Test Expand (Edit): +1 на ЗАПАД (бесплатно)")]
     public static void TestExpandWest()
     {
-        Debug.Log("[House] Клик 15 (запад).");
-        if (EditorApplication.isPlaying)
-        {
-            Debug.LogError("[House] Тест пристройки — только НЕ в Play. Потом Ctrl+S.");
-            return;
-        }
-        if (PickTarget(1, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
-        {
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-            Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
-        }
+        BuildPicked(1, "15 (запад)");
     }
 
     [MenuItem("Tools/House/16. Test Expand (Edit): +1 на ВОСТОК (бесплатно)")]
     public static void TestExpandEast()
     {
-        Debug.Log("[House] Клик 16 (восток).");
-        if (EditorApplication.isPlaying)
-        {
-            Debug.LogError("[House] Тест пристройки — только НЕ в Play. Потом Ctrl+S.");
-            return;
-        }
-        if (PickTarget(2, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
-        {
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
-            Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
-        }
+        BuildPicked(2, "16 (восток)");
     }
 
     [MenuItem("Tools/House/17. Test Expand (Play): +1 по-честному (дерево+голда)")]
@@ -800,6 +883,8 @@ public static class HouseBuilders
             Debug.LogError("[House] Штамп не лёг: нижний ряд эталона требует пол, нет: " + s + "(таргет " + T + ").");
             return;
         }
+        JournalScope(region, lockY, out int jx0, out int jx1, out int jy0, out int jy1);
+        HouseJournal.Record(walls, T, jx0, jx1, jy0, jy1);
         int putFloor = 0, putWall = 0, skipLock = 0, cleared = 0;
         for (int x = sx0 - 4; x <= sx1 + 4; x++)
         {
@@ -841,6 +926,70 @@ public static class HouseBuilders
                   "), пола +" + putFloor + ", стен +" + putWall + ", снесено стен под полом " + cleared +
                   ", замков пропущено " + skipLock +
                   ". Смотри глазами в Play. Учти: п.6 будет ругаться (код считал бы иначе) — это ожидаемо.");
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Журнал построек: снапшот стен до стройки (для сноса 21).
+    // ═══════════════════════════════════════════════════════════
+    static void JournalScope(HashSet<Vector3Int> region, int lockY,
+        out int x0, out int x1, out int y0, out int y1)
+    {
+        int minX = int.MaxValue, maxX = int.MinValue, maxY = int.MinValue;
+        foreach (Vector3Int c in region)
+        {
+            if (c.x < minX) minX = c.x;
+            if (c.x > maxX) maxX = c.x;
+            if (c.y > maxY) maxY = c.y;
+        }
+        x0 = minX - 4; x1 = maxX + 4; y0 = lockY + 1; y1 = maxY + 4;
+    }
+
+    [MenuItem("Tools/House/21. Shrink (снести снесённое обратно)")]
+    public static void ShrinkRemoved()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play.");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+        int n = HouseJournal.UndoRemoved(walls, floors);
+        if (n == 0)
+        {
+            Debug.Log("[House] Сносить нечего (все journal-таргеты с полом).");
+            return;
+        }
+        // Оставшиеся стройки пересобираем как свежие: выйдет фигура
+        // ровно под оставшиеся полы (как будто столько и ставили).
+        WallStyle st = AssetDatabase.LoadAssetAtPath<WallStyle>(WallStylePath);
+        if (st == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick (пункт 5).");
+            return;
+        }
+        var fresh = HouseJournal.RemainingTargets(floors);
+        var unmapped = new List<string>();
+        int painted = HouseAutotiler.Stabilize(walls, floors, region, st, lockY,
+            fresh, st.floorTile, unmapped);
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        var after = HouseAutotiler.Audit(walls,
+            HouseAutotiler.ComputeWanted(walls, region, st, lockY, null, new List<string>()));
+        Debug.Log("[House] Снос: построек снято " + n + ", осталось свежих " + fresh.Count +
+                  ", записано стен " + painted + ", расхождений " + after.Count + ". Смотри глазами.");
+        foreach (string d in after)
+            Debug.LogWarning("[House] Остаток: " + d);
+    }
+
+    [MenuItem("Tools/House/22. Clear Journal (забыть стройки)")]
+    public static void ClearJournal()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play.");
+            return;
+        }
+        HouseJournal.Clear();
     }
 
     // ═══════════════════════════════════════════════════════════

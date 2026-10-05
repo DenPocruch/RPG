@@ -209,6 +209,22 @@ public static class HouseAutotiler
                             else
                                 wanted[c] = BandEnd(st, floor, wallMap, c, false);
                         }
+                        else
+                        {
+                            // Флип-бэк: низ над низом без пола (остаток сноса) —
+                            // обратно верх. Свежие низы и ступени (юг — голый
+                            // пол) сюда не попадают.
+                            TileBase ts1 = wallMap.GetTile(s1);
+                            if (IsBotBand(cur, st) && IsBotBand(ts1, st) && !floor.Contains(s1))
+                            {
+                                bool fw2 = BandContSame(floor, wallMap, st, c + Vector3Int.left, true);
+                                bool fe2 = BandContSame(floor, wallMap, st, c + Vector3Int.right, true);
+                                if (!fw2 && !fe2)
+                                    wanted[c] = st.bandTopM;
+                                else
+                                    wanted[c] = BandEnd(st, floor, wallMap, c, true);
+                            }
+                        }
                         continue; // остальную ленту ведёт проход 1
                     }
                     Vector3Int s2 = c + Vector3Int.down * 2;
@@ -266,6 +282,41 @@ public static class HouseAutotiler
                 {
                     wanted[c] = null; // расчистить (фаза 4 дольёт туда пол)
                     continue;
+                }
+                // Выбоина в ряду ленты (стёртый пол): с одной стороны голый
+                // пол-устье, с другой — лента того же ряда → закрыть концом
+                // (иначе 7 её не видит: со всех сторон члены = unmapped).
+                if (!ownFloor && (cur == null || cur == st.bgFill))
+                {
+                    TileBase eb = wallMap.GetTile(c + Vector3Int.right);
+                    TileBase wb = wallMap.GetTile(c + Vector3Int.left);
+                    bool mouthW = floor.Contains(c + Vector3Int.left) && wallMap.GetTile(c + Vector3Int.left) == null;
+                    bool mouthE = floor.Contains(c + Vector3Int.right) && wallMap.GetTile(c + Vector3Int.right) == null;
+                    if (mouthW && !mouthE)
+                    {
+                        if (IsBotBand(eb, st)) { wanted[c] = st.bandBotL; continue; }
+                        if (IsTopBand(eb, st)) { wanted[c] = st.bandTopL; continue; }
+                    }
+                    if (mouthE && !mouthW)
+                    {
+                        if (IsBotBand(wb, st)) { wanted[c] = st.bandBotR; continue; }
+                        if (IsTopBand(wb, st)) { wanted[c] = st.bandTopR; continue; }
+                    }
+                }
+                // Снос зуба: крышка/край ленты без опоры — остаток снесённого
+                // выступа (дом уменьшается как при расширении, только наоборот).
+                // Цепочка строго вниз по ленте без пола: голый пол/замок/край
+                // скопа — живёт, пустота/фон/кольцо — сносить в обычное кольцо.
+                // Свежие зубья (над свежим полом) и ступени (внизу голый
+                // пол) не трогаем: их цепочки доходят до пола.
+                if (!ownFloor && (cur == st.bandTopEdge || cur == st.bandBotEdge))
+                {
+                    if (IsDoomedTooth(wallMap, floor, st, c, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY))
+                    {
+                        TileBase back = Classify(n, s, e, w, false, c, wallMap, st, unmapped);
+                        if (back != null) { wanted[c] = back; continue; }
+                        // null — падаем ниже на общий путь (unmapped запишется раз)
+                    }
                 }
                 TileBase tile = Classify(n, s, e, w, ownFloor, c, wallMap, st, unmapped);
                 if (tile != null)
@@ -452,6 +503,29 @@ public static class HouseAutotiler
     }
 
     static string B(bool v) => v ? "1" : "0";
+
+    /// <summary>
+    /// Зуб без опоры: крышка/край ленты, под которой строго вниз по ленте
+    /// без пола нет голого пола (остаток снесённого выступа). Цепочка:
+    /// лента без пола — дальше вниз; голый пол, замок или край скопа —
+    /// живёт; пустота/фон/кольцо — сносить.
+    /// </summary>
+    static bool IsDoomedTooth(Tilemap wallMap, HashSet<Vector3Int> floor, WallStyle st,
+        Vector3Int c, int x0, int x1, int y0, int y1)
+    {
+        Vector3Int p = c + Vector3Int.down;
+        while (true)
+        {
+            if (p.x < x0 || p.x > x1 || p.y < y0 || p.y > y1) return false;
+            TileBase t = wallMap.GetTile(p);
+            bool fl = floor.Contains(p);
+            if (fl && !IsBandTile(t, st)) return false; // голый пол — живёт
+            if (fl && IsBandTile(t, st)) return false; // устье/ступень с полом — живёт
+            if (!fl && IsBandTile(t, st)) { p += Vector3Int.down; continue; }
+            if (t != null && st.lockTileNames != null && st.lockTileNames.Contains(t.name)) return false;
+            return true; // пустота/фон/кольцо — опоры нет
+        }
+    }
 
     /// <summary>На клетке сейчас кольцевой (не фон, не пусто) тайл? Контекст — текущая карта.</summary>
     static bool IsRing(Tilemap wallMap, Vector3Int c, WallStyle st)
