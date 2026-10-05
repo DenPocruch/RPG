@@ -716,4 +716,104 @@ public static class HouseBuilders
         Debug.Log("[House] Покупаю " + cands[0] + " (дерево в рюкзаке: " + HouseExpansion.CountWood() + ").");
         HouseExpansion.TryExpand(cands[0], false);
     }
+
+    // ═══════════════════════════════════════════════════════════
+    // Эталоны сбоку (паттерны +1 вверх/влево/вправо): сверка каждого
+    // маленького региона пола (не главной комнаты) с автотайлером.
+    // Дверного ряда у паттернов нет — lock = minY-2 (кольцо снизу видно).
+    // ═══════════════════════════════════════════════════════════
+    static List<HashSet<Vector3Int>> AllFloorRegions(UnityEngine.Tilemaps.Tilemap floors)
+    {
+        var all = new List<HashSet<Vector3Int>>();
+        if (floors == null) return all;
+        var seen = new HashSet<Vector3Int>();
+        Vector3Int[] dirs = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
+        foreach (Vector3Int start in floors.cellBounds.allPositionsWithin)
+        {
+            if (!floors.HasTile(start) || seen.Contains(start)) continue;
+            var region = new HashSet<Vector3Int>();
+            var queue = new Queue<Vector3Int>();
+            queue.Enqueue(start);
+            seen.Add(start);
+            while (queue.Count > 0)
+            {
+                Vector3Int c = queue.Dequeue();
+                region.Add(c);
+                foreach (Vector3Int d in dirs)
+                {
+                    Vector3Int n = c + d;
+                    if (seen.Contains(n) || !floors.HasTile(n)) continue;
+                    seen.Add(n);
+                    queue.Enqueue(n);
+                }
+            }
+            all.Add(region);
+        }
+        all.Sort((a, b) => b.Count.CompareTo(a.Count));
+        return all;
+    }
+
+    [MenuItem("Tools/House/18. Audit Side Patterns (эталоны сбоку)")]
+    public static void AuditSidePatterns()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play.");
+            return;
+        }
+        if (!FindRoomMaps(out var walls, out var floors)) return;
+        WallStyle st = LoadBrick();
+        if (st == null) return;
+
+        var all = AllFloorRegions(floors);
+        if (all.Count == 0)
+        {
+            Debug.LogError("[House] Пола нет вообще.");
+            return;
+        }
+        Debug.Log("[House] Регионов пола: " + all.Count + ", главный " + all[0].Count + " клеток (его смотрят п.6/7).");
+        for (int i = 1; i < all.Count; i++)
+        {
+            var region = all[i];
+            if (region.Count > 12) continue; // только маленькие эталоны
+            int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
+            foreach (Vector3Int c in region)
+            {
+                if (c.x < minX) minX = c.x;
+                if (c.x > maxX) maxX = c.x;
+                if (c.y < minY) minY = c.y;
+                if (c.y > maxY) maxY = c.y;
+            }
+            // Текущее кольцо вокруг эталона (имена тайлов).
+            string ring = "";
+            for (int y = maxY + 2; y >= minY - 2; y--)
+            {
+                for (int x = minX - 2; x <= maxX + 2; x++)
+                {
+                    var c = new Vector3Int(x, y, 0);
+                    if (region.Contains(c)) { ring += "[ПОЛ] "; continue; }
+                    var t = walls.GetTile(c);
+                    ring += (t != null ? t.name.Replace("Tileset House_", "") : ".") + " ";
+                }
+                ring += "| y=" + y + "\n";
+            }
+            Debug.Log("[House] Эталон №" + i + ": пол " + region.Count + ", bbox x[" + minX + "," + maxX +
+                      "] y[" + minY + "," + maxY + "]. Кольцо (сейчас):\n" + ring);
+
+            var unmapped = new List<string>();
+            var wanted = HouseAutotiler.ComputeWanted(walls, region, st, minY - 2, null, unmapped);
+            var diffs = HouseAutotiler.Audit(walls, wanted);
+            foreach (string u in unmapped)
+                Debug.LogWarning("[House] Эталон №" + i + " UNMAPPED: " + u);
+            if (diffs.Count == 0)
+                Debug.Log("[House] Эталон №" + i + ": ЧИСТО (код рисует так же).");
+            else
+            {
+                Debug.LogError("[House] Эталон №" + i + ": расхождений " + diffs.Count + ":");
+                foreach (string d in diffs)
+                    Debug.LogError("[House] Эталон №" + i + " diff: " + d);
+            }
+        }
+        Debug.Log("[House] Готово: скопируй diff эталонов сюда текстом.");
+    }
 }
