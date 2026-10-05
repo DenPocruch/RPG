@@ -38,6 +38,9 @@ public class WallStyle : ScriptableObject
     public TileBase bandBotL; // 217
     public TileBase bandBotM; // 218
     public TileBase bandBotR; // 219
+    [Tooltip("Боковые крышки ленты слева (кирпич: 196 / 216)")]
+    public TileBase bandTopEdge; // 196
+    public TileBase bandBotEdge; // 216
 
     [Header("Вогнутые углы (основной набор = как собрано сейчас)")]
     public TileBase concaveNW; // 1
@@ -89,8 +92,8 @@ public class WallStyle : ScriptableObject
         if (tile == null) return false;
         return tile == cornerTL || tile == cornerTR || tile == cornerBL || tile == cornerBR
             || tile == straightH || tile == straightV
-            || tile == bandTopL || tile == bandTopM || tile == bandTopR
-            || tile == bandBotL || tile == bandBotM || tile == bandBotR
+            || tile == bandTopL || tile == bandTopM || tile == bandTopR || tile == bandTopEdge
+            || tile == bandBotL || tile == bandBotM || tile == bandBotR || tile == bandBotEdge
             || tile == ConcaveNW || tile == ConcaveNE || tile == ConcaveSW || tile == ConcaveSE
             || tile == doorJambL || tile == doorJambR || tile == doorThreshold;
     }

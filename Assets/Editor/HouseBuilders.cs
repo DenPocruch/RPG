@@ -172,9 +172,11 @@ public static class HouseBuilders
         st.bandTopL = Tile("Tileset House_197");
         st.bandTopM = Tile("Tileset House_198");
         st.bandTopR = Tile("Tileset House_199");
+        st.bandTopEdge = Tile("Tileset House_196");
         st.bandBotL = Tile("Tileset House_217 1");
         st.bandBotM = Tile("Tileset House_218 1");
         st.bandBotR = Tile("Tileset House_219 1");
+        st.bandBotEdge = Tile("Tileset House_216 1");
         st.concaveNW = Tile("Tileset House_1");
         st.concaveNE = Tile("Tileset House_3");
         st.concaveSW = Tile("Tileset House_68");
@@ -193,8 +195,8 @@ public static class HouseBuilders
             st.bgFill, st.floorTile,
             st.cornerTL, st.cornerTR, st.cornerBL, st.cornerBR,
             st.straightH, st.straightV,
-            st.bandTopL, st.bandTopM, st.bandTopR,
-            st.bandBotL, st.bandBotM, st.bandBotR,
+            st.bandTopL, st.bandTopM, st.bandTopR, st.bandTopEdge,
+            st.bandBotL, st.bandBotM, st.bandBotR, st.bandBotEdge,
             st.concaveAltNW, st.concaveAltNE, st.concaveAltSW, st.concaveAltSE,
             st.doorJambL, st.doorJambR, st.doorThreshold })
             if (o == null) missing++;
@@ -205,7 +207,7 @@ public static class HouseBuilders
         if (missing > 0)
             Debug.LogError("[House] WallStyle_Brick: НЕ НАШЁЛ ассетов: " + missing + " (проверь имена).");
         else
-            Debug.Log("[House] WallStyle_Brick готов: все 21 ссылки на месте.");
+            Debug.Log("[House] WallStyle_Brick готов: все 23 ссылки на месте.");
     }
 
     static bool FindRoomMaps(out UnityEngine.Tilemaps.Tilemap walls, out UnityEngine.Tilemaps.Tilemap floors)
@@ -300,6 +302,8 @@ public static class HouseBuilders
         var unmapped = new List<string>();
         int painted = HouseAutotiler.Stabilize(walls, floors, region, st, minY, null,
             st.floorTile, unmapped);
+        if (painted > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(walls.gameObject.scene);
         var after = HouseAutotiler.Audit(walls,
             HouseAutotiler.ComputeWanted(walls, region, st, minY, null, new List<string>()));
         Debug.Log("[House] Перестройка: записано клеток " + painted + ", остаточных расхождений " + after.Count +
@@ -344,8 +348,8 @@ public static class HouseBuilders
             st.bgFill, st.floorTile,
             st.cornerTL, st.cornerTR, st.cornerBL, st.cornerBR,
             st.straightH, st.straightV,
-            st.bandTopL, st.bandTopM, st.bandTopR,
-            st.bandBotL, st.bandBotM, st.bandBotR,
+            st.bandTopL, st.bandTopM, st.bandTopR, st.bandTopEdge,
+            st.bandBotL, st.bandBotM, st.bandBotR, st.bandBotEdge,
             st.doorJambL, st.doorJambR, st.doorThreshold })
             if (o == null) missing++;
         if (missing > 0)
@@ -378,9 +382,11 @@ public static class HouseBuilders
         st.bandTopL = Tile("Tileset House_405");
         st.bandTopM = Tile("Tileset House_406");
         st.bandTopR = Tile("Tileset House_407");
+        st.bandTopEdge = Tile("Tileset House_404");
         st.bandBotL = Tile("Tileset House_457");
         st.bandBotM = Tile("Tileset House_458");
         st.bandBotR = Tile("Tileset House_459");
+        st.bandBotEdge = Tile("Tileset House_456");
         st.doorThreshold = Tile("Tileset House_65");
 
         EditorUtility.SetDirty(st);
@@ -489,6 +495,9 @@ public static class HouseBuilders
         }
         int w = HouseReskin.PaintRoomWalls("Barn", false);
         int f = HouseReskin.PaintRoomFloor("Barn", false);
+        if (w + f > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         Debug.Log("[House] Тест покраски: стены " + w + ", пол " + f +
                   ". Нажми Ctrl+S, проверь глазами в Play, потом верни кирпич пунктом 13.");
     }
@@ -522,6 +531,9 @@ public static class HouseBuilders
         }
         int w = HouseReskin.PaintRoomWalls("Brick", false);
         int f = HouseReskin.PaintRoomFloor("Brick", false);
+        if (w + f > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         Debug.Log("[House] Возврат: стены " + w + ", пол " + f + ". Нажми Ctrl+S.");
     }
 
@@ -610,7 +622,11 @@ public static class HouseBuilders
             }
             Debug.Log("[House] 14: ищу комнату...");
             if (PickTargetTraced(0, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+            {
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                    UnityEngine.SceneManagement.SceneManager.GetActiveScene());
                 Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
+            }
             Debug.Log("[House] 14: конец.");
         }
         catch (System.Exception e)
@@ -651,7 +667,11 @@ public static class HouseBuilders
             return;
         }
         if (PickTarget(1, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
+        }
     }
 
     [MenuItem("Tools/House/16. Test Expand (Edit): +1 на ВОСТОК (бесплатно)")]
@@ -664,7 +684,11 @@ public static class HouseBuilders
             return;
         }
         if (PickTarget(2, out Vector3Int t) && HouseExpansion.TryExpand(t, true))
+        {
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
             Debug.Log("[House] Готово: Ctrl+S, затем смотри в Play (стены, проход, коллайдеры).");
+        }
     }
 
     [MenuItem("Tools/House/17. Test Expand (Play): +1 по-честному (дерево+голда)")]

@@ -53,8 +53,15 @@ public static class HouseAutotiler
     static bool IsBandTile(TileBase t, WallStyle st)
     {
         if (t == null || st == null) return false;
-        return t == st.bandTopL || t == st.bandTopM || t == st.bandTopR
-            || t == st.bandBotL || t == st.bandBotM || t == st.bandBotR;
+        return t == st.bandTopL || t == st.bandTopM || t == st.bandTopR || t == st.bandTopEdge
+            || t == st.bandBotL || t == st.bandBotM || t == st.bandBotR || t == st.bandBotEdge;
+    }
+
+    /// <summary>Крышка ленты (боковой край слева: 196 / 216).</summary>
+    static bool IsBandEdge(TileBase t, WallStyle st)
+    {
+        if (t == null || st == null) return false;
+        return t == st.bandTopEdge || t == st.bandBotEdge;
     }
 
     /// <summary>
@@ -226,12 +233,27 @@ public static class HouseAutotiler
 
     static TileBase BandEnd(WallStyle st, HashSet<Vector3Int> floor, Tilemap wallMap, Vector3Int c, bool top)
     {
-        // Концы — по соседям, продолжающим ленту (член комнаты с пустой стеной или лентой).
+        // Ряд ленты: [крышка][L][M...][R]. Концы — по соседям, продолжающим
+        // ленту (член комнаты с пустой стеной или лентой). Крышка — только
+        // самый западный (у него нет продолжения на запад), второй с запада
+        // с крышкой за спиной — L (определяем по Member-цепочке, без чтения
+        // тайлов: за 1 проход сходится, Stabilize догоняет остальное).
         bool w = BandCont(floor, wallMap, st, c + Vector3Int.left);
         bool e = BandCont(floor, wallMap, st, c + Vector3Int.right);
-        if (!w && e) return top ? st.bandTopL : st.bandBotL;
-        if (w && !e) return top ? st.bandTopR : st.bandBotR;
-        return top ? st.bandTopM : st.bandBotM;
+        TileBase edge = top ? st.bandTopEdge : st.bandBotEdge;
+        TileBase L = top ? st.bandTopL : st.bandBotL;
+        TileBase M = top ? st.bandTopM : st.bandBotM;
+        TileBase R = top ? st.bandTopR : st.bandBotR;
+        if (!w && e) return edge != null ? edge : L; // западный край — крышка
+        if (w && !e) return R; // восточный край
+        if (w && e)
+        {
+            // Второй с запада (западный сосед — край ряда) — L.
+            bool ww = BandCont(floor, wallMap, st, c + Vector3Int.left * 2);
+            if (!ww) return L;
+            return M;
+        }
+        return M;
     }
 
     /// <summary>
