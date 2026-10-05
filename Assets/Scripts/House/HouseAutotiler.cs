@@ -57,11 +57,39 @@ public static class HouseAutotiler
             || t == st.bandBotL || t == st.bandBotM || t == st.bandBotR || t == st.bandBotEdge;
     }
 
-    /// <summary>Крышка ленты (боковой край слева: 196 / 216).</summary>
-    static bool IsBandEdge(TileBase t, WallStyle st)
+    /// <summary>Верхний ряд ленты (включая крышку).</summary>
+    static bool IsTopBand(TileBase t, WallStyle st)
     {
         if (t == null || st == null) return false;
-        return t == st.bandTopEdge || t == st.bandBotEdge;
+        return t == st.bandTopL || t == st.bandTopM || t == st.bandTopR || t == st.bandTopEdge;
+    }
+
+    /// <summary>Нижний ряд ленты (включая крышку).</summary>
+    static bool IsBotBand(TileBase t, WallStyle st)
+    {
+        if (t == null || st == null) return false;
+        return t == st.bandBotL || t == st.bandBotM || t == st.bandBotR || t == st.bandBotEdge;
+    }
+
+    /// <summary>
+    /// Сосед продолжает ряд МОЕГО типа (верх/низ): член комнаты, стена пуста
+    /// или лента того же ряда. Чужая ступенька ряд обрывает (ступеньки идут
+    /// лесенкой: в одном y верх с одной стороны, низ с другой — снято с
+    /// ручных выступов владельца, коммит 975b41e2).
+    /// </summary>
+    /// <summary>
+    /// Сосед продолжает ряд МОЕГО типа: на нём лента того же ряда
+    /// (верх/низ). Голый пол, пустота, кольцо и чужая ступенька ряд
+    /// обрывают — устья коридоров получают концы (пристройка идёт встык:
+    /// +1 пол продолжает пол, ряды рвутся у устья).
+    /// </summary>
+    static bool BandContSame(HashSet<Vector3Int> floor, Tilemap wallMap, WallStyle st, Vector3Int c, bool top)
+    {
+        if (!Member(floor, wallMap, st, c)) return false;
+        TileBase t = wallMap.GetTile(c);
+        if (t == null || t == st.bgFill) return false;
+        if (!IsBandTile(t, st)) return false;
+        return top ? IsTopBand(t, st) : IsBotBand(t, st);
     }
 
     /// <summary>
@@ -73,14 +101,6 @@ public static class HouseAutotiler
     {
         if (floor.Contains(c)) return true;
         return IsBandTile(wallMap.GetTile(c), st);
-    }
-
-    /// <summary>Сосед продолжает ленту: член комнаты с пустой стеной или лентой.</summary>
-    static bool BandCont(HashSet<Vector3Int> floor, Tilemap wallMap, WallStyle st, Vector3Int c)
-    {
-        if (!Member(floor, wallMap, st, c)) return false;
-        TileBase w = wallMap.GetTile(c);
-        return w == null || IsBandTile(w, st);
     }
 
     /// <summary>Сосед открыт для кромки: стена пуста или кольцо (не фон).</summary>
@@ -131,6 +151,9 @@ public static class HouseAutotiler
             {
                 var c = new Vector3Int(x, y, 0);
                 if (!IsBandTile(wallMap.GetTile(c), st)) continue;
+                Vector3Int sdn = c + Vector3Int.down;
+                if (freshFloor != null && floor.Contains(sdn) && freshFloor.Contains(sdn)) continue; // флип верх→низ в 1б, не трогаем здесь
+                if (freshFloor != null && freshFloor.Contains(c) && floor.Contains(c)) continue; // свежая: верхний тайл снимается (съедение), не лента
                 if (IsBandTile(wallMap.GetTile(c + Vector3Int.up), st))
                     wanted[c] = BandEnd(st, floor, wallMap, c, false); // север — верх ленты: мы низ
                 else
@@ -138,30 +161,66 @@ public static class HouseAutotiler
             }
         }
 
-        // Проход 1б: лента для СВЕЖИХ клеток (фаза 4): верх — свежая клетка
-        // с комнатой южнее и без пола севернее; низ — ряд под свежим верхом
-        // (включая поглощённое кольцо: стена поверх затирается лентой).
-        // Только если лента вообще есть в комнате (иначе свежий тайл —
-        // обычный пол, как сейчас: владелец ленту убрал).
+        // Проход 1б: лента ВПЕРЕДИ свежих клеток (фаза 4, только север).
+        // Свежий пол чистый (как в эталоне: пол продолжает пол, верхний тайл
+        // снят правилом выше). Дальние ряды сеются на клетки без пола впереди
+        // выступа; бывшая кольцевая клетка прямо над свежей стопкой
+        // (юг — лента, юг-юг — свежий пол) становится верхом ленты.
+        // Только если лента вообще есть в комнате.
         if (freshFloor != null && RoomHasBand(wallMap, st, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY))
         {
-            var freshTops = new HashSet<Vector3Int>();
-            foreach (Vector3Int c in freshFloor)
+            int roomMaxY = int.MinValue;
+            foreach (Vector3Int c in floor)
             {
-                if (!floor.Contains(c)) continue;
-                TileBase w = wallMap.GetTile(c);
-                if (w != null && w != st.bgFill && !IsBandTile(w, st)) continue; // занято кольцом — не лента
-                if (floor.Contains(c + Vector3Int.up)) continue;
-                if (!Member(floor, wallMap, st, c + Vector3Int.down)) continue; // только над комнатой
-                freshTops.Add(c);
-                wanted[c] = BandEnd(st, floor, wallMap, c, true);
+                if (freshFloor.Contains(c)) continue;
+                if (c.y > roomMaxY) roomMaxY = c.y;
             }
-            foreach (Vector3Int c in wallMap.cellBounds.allPositionsWithin)
+            foreach (Vector3Int t in freshFloor)
             {
-                if (wanted.ContainsKey(c)) continue;
-                if (!floor.Contains(c)) continue;
-                if (freshTops.Contains(c + Vector3Int.up))
-                    wanted[c] = BandEnd(st, floor, wallMap, c, false);
+                if (!floor.Contains(t) || t.y <= roomMaxY) continue; // только выступ наверх
+                if (floor.Contains(t + Vector3Int.up)) continue; // над свежей есть пол — не верх
+                SeedFarBand(wallMap, st, floor, wanted, t + Vector3Int.up, false, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY);
+                SeedFarBand(wallMap, st, floor, wanted, t + Vector3Int.up * 2, true, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY);
+            }
+            // Конверсия: клетка без пола, под ней лента, под лентой свежий пол
+            // (бывшее кольцо над новой стопкой) — верх ленты, конец по контексту
+            // (одиночка на свежаке — крышка, как у владельца).
+            for (int x = scopeMinX; x <= scopeMaxX; x++)
+            {
+                for (int y = scopeMinY; y <= scopeMaxY; y++)
+                {
+                    var c = new Vector3Int(x, y, 0);
+                    if (wanted.ContainsKey(c)) continue;
+                    if (floor.Contains(c)) continue;
+                    TileBase cur = wallMap.GetTile(c);
+                    if (cur != null && st.lockTileNames != null && st.lockTileNames.Contains(cur.name)) continue;
+                    Vector3Int s1 = c + Vector3Int.down;
+                    // Флип верх→низ: лента прямо над свежим полом становится
+                    // низом у устья ((-85..-83,10) → 199/216/197). Только где
+                    // лента уже есть — боковые выступы лишнего не хватают.
+                    if (cur != null && IsBandTile(cur, st))
+                    {
+                        if (floor.Contains(s1) && freshFloor != null && freshFloor.Contains(s1))
+                        {
+                            bool bw = BandContSame(floor, wallMap, st, c + Vector3Int.left, false);
+                            bool be = BandContSame(floor, wallMap, st, c + Vector3Int.right, false);
+                            if (!bw && !be)
+                                wanted[c] = st.bandBotEdge != null ? st.bandBotEdge : st.bandBotM;
+                            else
+                                wanted[c] = BandEnd(st, floor, wallMap, c, false);
+                        }
+                        continue; // остальную ленту ведёт проход 1
+                    }
+                    Vector3Int s2 = c + Vector3Int.down * 2;
+                    if (!IsBandTile(wallMap.GetTile(s1), st)) continue;
+                    if (!floor.Contains(s2) || freshFloor == null || !freshFloor.Contains(s2)) continue;
+                    bool w = BandContSame(floor, wallMap, st, c + Vector3Int.left, true);
+                    bool e = BandContSame(floor, wallMap, st, c + Vector3Int.right, true);
+                    if (!w && !e)
+                        wanted[c] = st.bandTopEdge != null ? st.bandTopEdge : st.bandTopM;
+                    else
+                        wanted[c] = BandEnd(st, floor, wallMap, c, true);
+                }
             }
         }
 
@@ -176,19 +235,22 @@ public static class HouseAutotiler
                 TileBase cur = wallMap.GetTile(c);
                 if (cur != null && st.lockTileNames != null && st.lockTileNames.Contains(cur.name))
                     continue; // замок по имени: дверь, порог, маркер выхода — не трогаем
-                if (ownFloor && cur == st.bgFill)
-                {
-                    wanted[c] = st.bgFill; // stray — keep
-                    continue;
-                }
-                if (ownFloor && cur == null)
-                    continue; // чистый interior без ленты — слой стен пуст
-                // Свежая клетка с фоном (не забранная лентой 1б): снести фон.
-                if (freshFloor != null && freshFloor.Contains(c) && cur == st.bgFill && !wanted.ContainsKey(c))
+                bool isFresh = freshFloor != null && freshFloor.Contains(c);
+                // Свежая клетка ВНУТРИ стены (пристройка вплотную): верхний
+                // тайл (лента/кольцо/фон) снимается, идёт чистый пол — как
+                // рукой (эталон владельца: пол продолжает пол).
+                if (isFresh && ownFloor && cur != null)
                 {
                     wanted[c] = null;
                     continue;
                 }
+                if (ownFloor && cur == st.bgFill && !isFresh)
+                {
+                    wanted[c] = st.bgFill; // stray — keep (но не свежая: у свежей фон сносится ниже)
+                    continue;
+                }
+                if (ownFloor && cur == null)
+                    continue; // чистый interior без ленты — слой стен пуст
                 bool n = Member(floor, wallMap, st, c + Vector3Int.up);
                 bool s = Member(floor, wallMap, st, c + Vector3Int.down);
                 bool e = Member(floor, wallMap, st, c + Vector3Int.right);
@@ -224,6 +286,24 @@ public static class HouseAutotiler
         return false;
     }
 
+    /// <summary>
+    /// Посеять дальний ряд ленты (1б): клетка без пола впереди выступа.
+    /// Сеем только в пустоту/фон (занятое кольцо, замки, пол не трогаем);
+    /// одиночка на свежаке — сразу крышка (как у владельца).
+    /// </summary>
+    static void SeedFarBand(Tilemap wallMap, WallStyle st, HashSet<Vector3Int> floor,
+        Dictionary<Vector3Int, TileBase> wanted,
+        Vector3Int c, bool top, int x0, int x1, int y0, int y1)
+    {
+        if (c.x < x0 || c.x > x1 || c.y < y0 || c.y > y1) return;
+        if (wanted.ContainsKey(c)) return;
+        if (floor.Contains(c)) return; // на пол не сеем
+        TileBase cur = wallMap.GetTile(c);
+        if (cur != null && cur != st.bgFill) return; // занято (кольцо/лента/замок) — не сеем
+        TileBase edge = top ? st.bandTopEdge : st.bandBotEdge;
+        wanted[c] = edge != null ? edge : (top ? st.bandTopM : st.bandBotM);
+    }
+
     static bool Absorbed(bool n, bool s, bool e, bool w, Vector3Int c, HashSet<Vector3Int> fresh)
     {
         if (!((n && s) || (e && w))) return false;
@@ -233,26 +313,21 @@ public static class HouseAutotiler
 
     static TileBase BandEnd(WallStyle st, HashSet<Vector3Int> floor, Tilemap wallMap, Vector3Int c, bool top)
     {
-        // Ряд ленты: [крышка][L][M...][R]. Концы — по соседям, продолжающим
-        // ленту (член комнаты с пустой стеной или лентой). Крышка — только
-        // самый западный (у него нет продолжения на запад), второй с запада
-        // с крышкой за спиной — L (определяем по Member-цепочке, без чтения
-        // тайлов: за 1 проход сходится, Stabilize догоняет остальное).
-        bool w = BandCont(floor, wallMap, st, c + Vector3Int.left);
-        bool e = BandCont(floor, wallMap, st, c + Vector3Int.right);
-        TileBase edge = top ? st.bandTopEdge : st.bandBotEdge;
+        // Ряд: [L][M...][R] в пределах своего типа (ступеньки лесенкой).
+        // Одиночка: нарисованную художником не трогаем (крышки 196/216 живут
+        // на ступеньках как одиночки), свежей даём середину.
+        bool w = BandContSame(floor, wallMap, st, c + Vector3Int.left, top);
+        bool e = BandContSame(floor, wallMap, st, c + Vector3Int.right, top);
         TileBase L = top ? st.bandTopL : st.bandBotL;
         TileBase M = top ? st.bandTopM : st.bandBotM;
         TileBase R = top ? st.bandTopR : st.bandBotR;
-        if (!w && e) return edge != null ? edge : L; // западный край — крышка
-        if (w && !e) return R; // восточный край
-        if (w && e)
+        if (!w && !e)
         {
-            // Второй с запада (западный сосед — край ряда) — L.
-            bool ww = BandCont(floor, wallMap, st, c + Vector3Int.left * 2);
-            if (!ww) return L;
-            return M;
+            TileBase cur = wallMap.GetTile(c);
+            return IsBandTile(cur, st) ? cur : M;
         }
+        if (!w) return L; // западный край
+        if (!e) return R; // восточный край
         return M;
     }
 
@@ -322,27 +397,13 @@ public static class HouseAutotiler
             if (eRing) return st.cornerBL;
             return st.straightH;
         }
-        // Боковые кромки: продолжение стены определяет ориентацию.
-        // {E} с кольцом сверху+снизу = колонна (V); с кольцом только с одной
-        // стороны = кромка уходит горизонтально (H); иначе колонна.
+        // Одиночные боковые маски: интерьер сбоку = вертикальная грань
+        // (колонна/стык/торец выступа). Горизонталь здесь давала кривые углы
+        // (паттерн (-121,9): колонна с веткой пола — строго V).
         if (e && !w && !n && !s)
-        {
-            if (!OpenForEdge(wallMap, st, c + Vector3Int.right)) return st.bgFill;
-            bool nR = IsRing(wallMap, c + Vector3Int.up, st);
-            bool sR = IsRing(wallMap, c + Vector3Int.down, st);
-            if (nR && sR) return st.straightV;
-            if (nR || sR) return st.straightH;
-            return st.straightV;
-        }
+            return OpenForEdge(wallMap, st, c + Vector3Int.right) ? st.straightV : st.bgFill;
         if (w && !e && !n && !s)
-        {
-            if (!OpenForEdge(wallMap, st, c + Vector3Int.left)) return st.bgFill;
-            bool nR = IsRing(wallMap, c + Vector3Int.up, st);
-            bool sR = IsRing(wallMap, c + Vector3Int.down, st);
-            if (nR && sR) return st.straightV;
-            if (nR || sR) return st.straightH;
-            return st.straightV;
-        }
+            return OpenForEdge(wallMap, st, c + Vector3Int.left) ? st.straightV : st.bgFill;
         // Тройные маски — стена продолжается насквозь.
         if (e && w && !n && !s) return st.straightH;
         if (n && s && !e && !w) return st.straightV;

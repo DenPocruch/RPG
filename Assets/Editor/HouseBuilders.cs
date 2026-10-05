@@ -718,6 +718,132 @@ public static class HouseBuilders
     }
 
     // ═══════════════════════════════════════════════════════════
+    // Штамп среднего паттерна (калитка наверх): копирует нарисованный
+    // владельцем эталон 1-в-1 на ghost-таргет. Якорь эталона — его верхняя
+    // клетка пола P (в сцене: (-120,2)). Совмещение: P → ghost-таргет T,
+    // нижний ряд эталона обязан лечь на пол комнаты (проверяем, иначе отказ
+    // со списком). Стены копируем только НЕ-фон (пустоту не затираем,
+    // замки не трогаем). Пол кладём только недостающий (обычно сам T).
+    // ═══════════════════════════════════════════════════════════
+    static readonly Vector3Int PatternAnchorP = new Vector3Int(-120, 2, 0);
+
+    [MenuItem("Tools/House/19. Stamp Mid Pattern At Ghost (тест)")]
+    public static void StampMidPatternAtGhost()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play. Потом Ctrl+S.");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+        WallStyle brick = WallStyle.Load(HouseReskin.BaseStyleId);
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет стиля комнаты.");
+            return;
+        }
+        if (!floors.HasTile(PatternAnchorP))
+        {
+            Debug.LogError("[House] Нет эталона: в " + PatternAnchorP + " нет пола. Нарисуй средний паттерн сбоку.");
+            return;
+        }
+        List<Vector3Int> cands = HouseExpansion.ValidTargets(walls, floors, region, brick, lockY);
+        if (cands.Count == 0)
+        {
+            Debug.LogWarning("[House] Валидных клеток нет.");
+            return;
+        }
+        float cx = 0;
+        foreach (Vector3Int c in region) cx += c.x;
+        cx /= region.Count;
+        Vector3Int T = cands[0];
+        foreach (Vector3Int c in cands)
+            if (c.y > T.y || (c.y == T.y && Mathf.Abs(c.x - cx) < Mathf.Abs(T.x - cx))) T = c;
+        Vector3Int off = T - PatternAnchorP;
+        // Границы эталона: пол региона-якоря ±2.
+        var srcRegion = new HashSet<Vector3Int>();
+        {
+            var seen = new HashSet<Vector3Int> { PatternAnchorP };
+            var q = new Queue<Vector3Int>();
+            q.Enqueue(PatternAnchorP);
+            Vector3Int[] dirs = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
+            while (q.Count > 0)
+            {
+                Vector3Int c = q.Dequeue();
+                srcRegion.Add(c);
+                foreach (Vector3Int d in dirs)
+                {
+                    Vector3Int n = c + d;
+                    if (seen.Contains(n) || !floors.HasTile(n)) continue;
+                    seen.Add(n);
+                    q.Enqueue(n);
+                }
+            }
+        }
+        int sx0 = int.MaxValue, sx1 = int.MinValue, sy0 = int.MaxValue, sy1 = int.MinValue;
+        foreach (Vector3Int c in srcRegion)
+        {
+            if (c.x < sx0) sx0 = c.x; if (c.x > sx1) sx1 = c.x;
+            if (c.y < sy0) sy0 = c.y; if (c.y > sy1) sy1 = c.y;
+        }
+        // Проверка: пол эталона (кроме P) обязан лечь на пол комнаты.
+        var missing = new List<Vector3Int>();
+        foreach (Vector3Int c in srcRegion)
+        {
+            if (c == PatternAnchorP) continue;
+            if (!floors.HasTile(c + off)) missing.Add(c + off);
+        }
+        if (missing.Count > 0)
+        {
+            string s = "";
+            foreach (Vector3Int m in missing) s += m + " ";
+            Debug.LogError("[House] Штамп не лёг: нижний ряд эталона требует пол, нет: " + s + "(таргет " + T + ").");
+            return;
+        }
+        int putFloor = 0, putWall = 0, skipLock = 0, cleared = 0;
+        for (int x = sx0 - 4; x <= sx1 + 4; x++)
+        {
+            for (int y = sy0 - 4; y <= sy1 + 4; y++)
+            {
+                var s = new Vector3Int(x, y, 0);
+                Vector3Int d = s + off;
+                if (floors.HasTile(s) && !floors.HasTile(d))
+                {
+                    floors.SetTile(d, floors.GetTile(s));
+                    putFloor++;
+                }
+                UnityEngine.Tilemaps.TileBase wt = walls.GetTile(s);
+                UnityEngine.Tilemaps.TileBase cur = walls.GetTile(d);
+                bool dstLocked = cur != null && brick.lockTileNames != null && brick.lockTileNames.Contains(cur.name);
+                if (wt == null || (brick.bgFill != null && wt == brick.bgFill))
+                {
+                    // В эталоне стены нет: где встал пол — старую стену снести
+                    // (стена выше и перекрывает пол). Замки не трогаем.
+                    if (floors.HasTile(d) && cur != null && !dstLocked)
+                    {
+                        walls.SetTile(d, null);
+                        cleared++;
+                    }
+                    continue; // пустоту не копируем
+                }
+                if (dstLocked) { skipLock++; continue; }
+                if (cur != wt)
+                {
+                    walls.SetTile(d, wt);
+                    putWall++;
+                }
+            }
+        }
+        if (putFloor + putWall > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        Debug.Log("[House] Штамп: якорь " + PatternAnchorP + " → " + T + " (сдвиг " + off +
+                  "), пола +" + putFloor + ", стен +" + putWall + ", снесено стен под полом " + cleared +
+                  ", замков пропущено " + skipLock +
+                  ". Смотри глазами в Play. Учти: п.6 будет ругаться (код считал бы иначе) — это ожидаемо.");
+    }
+
+    // ═══════════════════════════════════════════════════════════
     // Эталоны сбоку (паттерны +1 вверх/влево/вправо): сверка каждого
     // маленького региона пола (не главной комнаты) с автотайлером.
     // Дверного ряда у паттернов нет — lock = minY-2 (кольцо снизу видно).

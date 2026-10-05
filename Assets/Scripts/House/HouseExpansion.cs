@@ -80,18 +80,15 @@ public static class HouseExpansion
             foreach (InventorySlot s in HotbarManager.Instance.slots) yield return s;
     }
 
-    /// <summary>Смежная с комнатой клетка? (пол/лента/кольцо рядом).</summary>
-    static bool AdjacentToRoom(HashSet<Vector3Int> floor, Tilemap walls, WallStyle st, Vector3Int c)
+    /// <summary>
+    /// Пол вплотную (продолжение пола): сосед по 4-направлениям — пол комнаты.
+    /// Расширение идёт строго смежно (как рукой: новый пол продолжает старый),
+    /// башен через пустоту больше нет.
+    /// </summary>
+    static bool AdjacentToFloor(HashSet<Vector3Int> floor, Vector3Int c)
     {
-        Vector3Int[] dirs = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
-        foreach (Vector3Int d in dirs)
-        {
-            Vector3Int n = c + d;
-            if (floor.Contains(n)) return true;
-            TileBase w = walls.GetTile(n);
-            if (w != null && w != st.bgFill) return true;
-        }
-        return false;
+        return floor.Contains(c + Vector3Int.up) || floor.Contains(c + Vector3Int.down)
+            || floor.Contains(c + Vector3Int.right) || floor.Contains(c + Vector3Int.left);
     }
 
     /// <summary>Можно ли строиться на клетку (без учёта цены)?</summary>
@@ -102,15 +99,15 @@ public static class HouseExpansion
         if (target.y < lockRowY) return false; // дверь и низ — нельзя
         if (floors.HasTile(target)) return false; // уже пол
         TileBase w = walls.GetTile(target);
-        if (w != null && w != st.bgFill) return false; // занято стеной
-        return AdjacentToRoom(floor, walls, st, target);
+        if (w != null && st.lockTileNames != null && st.lockTileNames.Contains(w.name)) return false; // замок
+        // Стену (кольцо/ленту/фон) есть можно: верхний тайл снимается под пол.
+        return AdjacentToFloor(floor, target);
     }
 
     /// <summary>
     /// Все валидные ghost-клетки вокруг комнаты (для меню/панели).
-    /// Ищем по скопу (bbox пола ±3, не ниже двери), а не только у пола:
-    /// север после возврата ленты — в двух рядах (там кольцо), запад/восток —
-    /// за кольцом. Иначе эти направления вообще не находятся.
+    /// Скоп bbox пола ±4: север за 2 рядами ленты + кольцом — ghost там
+    /// на +4 от пола (пол 8 → лента 9,10 → кольцо 11 → ghost 12).
     /// </summary>
     public static List<Vector3Int> ValidTargets(Tilemap walls, Tilemap floors,
         HashSet<Vector3Int> floor, WallStyle st, int lockRowY)
@@ -124,8 +121,8 @@ public static class HouseExpansion
             if (c.x > maxX) maxX = c.x;
             if (c.y > maxY) maxY = c.y;
         }
-        for (int x = minX - 3; x <= maxX + 3; x++)
-            for (int y = lockRowY; y <= maxY + 3; y++)
+        for (int x = minX - 4; x <= maxX + 4; x++)
+            for (int y = lockRowY; y <= maxY + 4; y++)
             {
                 var t = new Vector3Int(x, y, 0);
                 if (CanExpandAt(walls, floors, floor, st, lockRowY, t))
@@ -151,9 +148,9 @@ public static class HouseExpansion
         string samples = "";
         int shown = 0;
         Vector3Int[] dirs = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
-        for (int x = minX - 3; x <= maxX + 3; x++)
+        for (int x = minX - 4; x <= maxX + 4; x++)
         {
-            for (int y = lockRowY; y <= maxY + 3; y++)
+            for (int y = lockRowY; y <= maxY + 4; y++)
             {
                 Vector3Int t = new Vector3Int(x, y, 0);
                 total++;
@@ -163,8 +160,8 @@ public static class HouseExpansion
                 else
                 {
                     TileBase w = walls.GetTile(t);
-                    if (w != null && w != st.bgFill) { wallBusy++; why = "стена:" + w.name; }
-                    else if (!AdjacentToRoom(floor, walls, st, t)) { notAdj++; why = "не-смежн"; }
+                    if (w != null && st.lockTileNames != null && st.lockTileNames.Contains(w.name)) { wallBusy++; why = "замок:" + w.name; }
+                    else if (!AdjacentToFloor(floor, t)) { notAdj++; why = "не-смежн"; }
                     else { ok++; why = "ОК"; }
                 }
                 if (shown < 14) { samples += t + "=" + why + " "; shown++; }
