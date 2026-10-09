@@ -31,6 +31,18 @@ public class WallStyle : ScriptableObject
     [Tooltip("Бока (34)")]
     public TileBase straightV;
 
+    [Header("Вилки 3x3 (Т-стыки и крест)")]
+    [Tooltip("Верхний край (кирпич: 2) — Т-стык открытием вверх")]
+    public TileBase forkTop; // 2
+    [Tooltip("Нижний край (кирпич: 69) — Т-стык открытием вниз")]
+    public TileBase forkBottom; // 69
+    [Tooltip("Левый край (кирпич: 35) — Т-стык открытием влево")]
+    public TileBase forkLeft; // 35
+    [Tooltip("Правый край (кирпич: 37) — Т-стык открытием вправо")]
+    public TileBase forkRight; // 37
+    [Tooltip("Центр (кирпич: 36) — крест 4 стороны")]
+    public TileBase forkCenter; // 36
+
     [Header("Задняя лента (2 ряда поверх пола у севера)")]
     public TileBase bandTopL; // 197
     public TileBase bandTopM; // 198
@@ -41,6 +53,11 @@ public class WallStyle : ScriptableObject
     [Tooltip("Боковые крышки ленты слева (кирпич: 196 / 216)")]
     public TileBase bandTopEdge; // 196
     public TileBase bandBotEdge; // 216
+    [Tooltip("Западная колонна поворота (кирпич: 67 — низ, 37 — верх). Для сарая не размечены — null.")]
+    public TileBase westTurnA; // 67
+    public TileBase westTurnB; // 37
+    [Tooltip("Середина L-колонки под полом (кирпич: Tileset House_0). Для сарая не размечена — null.")]
+    public TileBase columnMid0; // 0
 
     [Header("Вогнутые углы (основной набор = как собрано сейчас)")]
     public TileBase concaveNW; // 1
@@ -92,8 +109,10 @@ public class WallStyle : ScriptableObject
         if (tile == null) return false;
         return tile == cornerTL || tile == cornerTR || tile == cornerBL || tile == cornerBR
             || tile == straightH || tile == straightV
+            || tile == forkTop || tile == forkBottom || tile == forkLeft || tile == forkRight || tile == forkCenter
             || tile == bandTopL || tile == bandTopM || tile == bandTopR || tile == bandTopEdge
             || tile == bandBotL || tile == bandBotM || tile == bandBotR || tile == bandBotEdge
+            || tile == westTurnA || tile == westTurnB || tile == columnMid0
             || tile == ConcaveNW || tile == ConcaveNE || tile == ConcaveSW || tile == ConcaveSE
             || tile == doorJambL || tile == doorJambR || tile == doorThreshold;
     }

@@ -20,6 +20,11 @@ MonoBehaviour:
   cornerBR: {fileID: 11400000, guid: aafa2e6cb694b6a4e8a529faef779a50, type: 2}
   straightH: {fileID: 11400000, guid: 2fa3eda8b85a6cd45884d32a33186564, type: 2}
   straightV: {fileID: 11400000, guid: 3a82e06a56d1c974aa9d8cb31e301a4a, type: 2}
+  forkTop: {fileID: 11400000, guid: cc5206a12e81783458fbe50673ac53ac, type: 2}
+  forkBottom: {fileID: 11400000, guid: 2131d9cc3aaea0f48bef8545071bf7a1, type: 2}
+  forkLeft: {fileID: 11400000, guid: 660bf7dd692c2db4493702fac446f6e5, type: 2}
+  forkRight: {fileID: 11400000, guid: 50b828d8ac3c89043b4fc20b731f9d02, type: 2}
+  forkCenter: {fileID: 11400000, guid: 6092102fbf85bb54cae8bd291d710d58, type: 2}
   bandTopL: {fileID: 11400000, guid: d27633371bfff7d40a1ed8f2d3773bd6, type: 2}
   bandTopM: {fileID: 11400000, guid: 26c48bbaeb85e3e44a826a7ab34218a8, type: 2}
   bandTopR: {fileID: 11400000, guid: b6e7b71c9ff1c5043a5a33f421e6a32b, type: 2}
@@ -28,6 +33,9 @@ MonoBehaviour:
   bandBotR: {fileID: 11400000, guid: 6c155c30b859f024cac5f192ac37e611, type: 2}
   bandTopEdge: {fileID: 11400000, guid: 6e6185653512cd446b52314a7db24499, type: 2}
   bandBotEdge: {fileID: 11400000, guid: 0cfc4aeccd77848458080569dab65889, type: 2}
+  westTurnA: {fileID: 11400000, guid: cce097e8fbf03984dbfc9ba496ab90b1, type: 2}
+  westTurnB: {fileID: 11400000, guid: 50b828d8ac3c89043b4fc20b731f9d02, type: 2}
+  columnMid0: {fileID: 11400000, guid: ad3581521d2de0f4da8eeea3e595da8c, type: 2}
   concaveNW: {fileID: 11400000, guid: 377fa58c613409b46b68687ffae8ab62, type: 2}
   concaveNE: {fileID: 11400000, guid: 78e3a60fef7fc85479b1c604e170ea4e, type: 2}
   concaveSW: {fileID: 11400000, guid: 4eaaebd629b3aaa4aa8f2243ec7352b4, type: 2}

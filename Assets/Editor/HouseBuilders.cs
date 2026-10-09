@@ -169,6 +169,11 @@ public static class HouseBuilders
         st.cornerBR = Tile("Tileset House_70");
         st.straightH = Tile("Tileset House_117");
         st.straightV = Tile("Tileset House_34");
+        st.forkTop = Tile("Tileset House_2");
+        st.forkBottom = Tile("Tileset House_69");
+        st.forkLeft = Tile("Tileset House_35");
+        st.forkRight = Tile("Tileset House_37");
+        st.forkCenter = Tile("Tileset House_36");
         st.bandTopL = Tile("Tileset House_197");
         st.bandTopM = Tile("Tileset House_198");
         st.bandTopR = Tile("Tileset House_199");
@@ -177,6 +182,9 @@ public static class HouseBuilders
         st.bandBotM = Tile("Tileset House_218 1");
         st.bandBotR = Tile("Tileset House_219 1");
         st.bandBotEdge = Tile("Tileset House_216 1");
+        st.westTurnA = Tile("Tileset House_67");
+        st.westTurnB = Tile("Tileset House_37");
+        st.columnMid0 = Tile("Tileset House_0");
         st.concaveNW = Tile("Tileset House_1");
         st.concaveNE = Tile("Tileset House_3");
         st.concaveSW = Tile("Tileset House_68");
@@ -195,8 +203,10 @@ public static class HouseBuilders
             st.bgFill, st.floorTile,
             st.cornerTL, st.cornerTR, st.cornerBL, st.cornerBR,
             st.straightH, st.straightV,
+            st.forkTop, st.forkBottom, st.forkLeft, st.forkRight, st.forkCenter,
             st.bandTopL, st.bandTopM, st.bandTopR, st.bandTopEdge,
             st.bandBotL, st.bandBotM, st.bandBotR, st.bandBotEdge,
+            st.westTurnA, st.westTurnB, st.columnMid0,
             st.concaveAltNW, st.concaveAltNE, st.concaveAltSW, st.concaveAltSE,
             st.doorJambL, st.doorJambR, st.doorThreshold })
             if (o == null) missing++;
@@ -207,7 +217,7 @@ public static class HouseBuilders
         if (missing > 0)
             Debug.LogError("[House] WallStyle_Brick: НЕ НАШЁЛ ассетов: " + missing + " (проверь имена).");
         else
-            Debug.Log("[House] WallStyle_Brick готов: все 23 ссылки на месте.");
+            Debug.Log("[House] WallStyle_Brick готов: все 31 ссылок на месте.");
     }
 
     static bool FindRoomMaps(out UnityEngine.Tilemaps.Tilemap walls, out UnityEngine.Tilemaps.Tilemap floors)
@@ -304,6 +314,11 @@ public static class HouseBuilders
             st.floorTile, unmapped);
         if (painted > 0)
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(walls.gameObject.scene);
+        // Регион мог подрасти доливом пола — пересчитываем перед сверкой,
+        // иначе аудит смотрит stale-набор и показывает вечные остатки.
+        region = HouseAutotiler.LargestFloorRegion(floors);
+        minY = int.MaxValue;
+        foreach (var c in region) if (c.y < minY) minY = c.y;
         var after = HouseAutotiler.Audit(walls,
             HouseAutotiler.ComputeWanted(walls, region, st, minY, null, new List<string>()));
         Debug.Log("[House] Перестройка: записано клеток " + painted + ", остаточных расхождений " + after.Count +
@@ -724,16 +739,84 @@ public static class HouseBuilders
         JournalScope(region, lockY, out int jx0, out int jx1, out int jy0, out int jy1);
         foreach (Vector3Int fc in fresh)
             HouseJournal.Record(walls, fc, jx0, jx1, jy0, jy1);
+        // Докажи что нарисовал ты: список свежих клеток (пол с покрывающей стеной).
+        var freshSorted = new List<Vector3Int>(fresh);
+        freshSorted.Sort((a, b) => a.y != b.y ? b.y.CompareTo(a.y) : a.x.CompareTo(b.x));
+        string fs = "";
+        foreach (Vector3Int fc in freshSorted) fs += fc + " ";
+        Debug.Log("[House] 20 fresh (" + fresh.Count + "): " + fs);
+        var freshBefore = new HashSet<Vector3Int>(fresh);
+        // Снап стен до стройки (скоп журнала) — после сравним что доложил код.
+        var beforeWalls = new Dictionary<Vector3Int, string>();
+        for (int x = jx0; x <= jx1; x++)
+            for (int y = jy0; y <= jy1; y++)
+            {
+                var c = new Vector3Int(x, y, 0);
+                UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+                beforeWalls[c] = t != null ? t.name : "<пусто>";
+            }
         var unmapped = new List<string>();
         int painted = HouseAutotiler.Stabilize(walls, floors, region, brick, lockY,
             fresh, brick.floorTile, unmapped);
-        if (painted > 0)
-            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        // Долив пола стабилизацией (новые клетки сверх нарисованных).
+        string addedF = "";
+        foreach (Vector3Int c in fresh)
+            if (!freshBefore.Contains(c)) addedF += c + " ";
+        if (!string.IsNullOrEmpty(addedF))
+            Debug.Log("[House] 20 долив пола: " + addedF);
+        // Регион мог подрасти доливом — пересчитываем, иначе вечные остатки.
+        // Аудит кольца делаем ДО колонки: строгий мост (1в) permissive-колонку
+        // п.23 не ждёт и показал бы её как расхождение.
+        region = HouseAutotiler.LargestFloorRegion(floors);
+        lockY = int.MaxValue;
+        foreach (Vector3Int c in region) if (c.y < lockY) lockY = c.y;
         var after = HouseAutotiler.Audit(walls,
             HouseAutotiler.ComputeWanted(walls, region, brick, lockY, null, new List<string>()));
+        // Колонка из п.23 — вместе с коробкой (ручное кольцо тоже её ставит).
+        int colBuilt = BuildCorridorColumnCore(walls, floors, region, brick, lockY, out int colSkipped);
+        if (painted + colBuilt > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        // Что доложил код: сравнение стен до/после по скопу + маска итога.
+        int logged = 0;
+        for (int x = jx0; x <= jx1 && logged < 150; x++)
+            for (int y = jy0; y <= jy1 && logged < 150; y++)
+            {
+                var c = new Vector3Int(x, y, 0);
+                UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+                string now = t != null ? t.name : "<пусто>";
+                string was = beforeWalls[c];
+                if (was != now)
+                {
+                    string mask = HouseAutotiler.DebugMask(walls, region, brick, c);
+                    string role = HouseAutotiler.RoleOf(brick, t);
+                    Debug.Log("[House] 20 put " + c + ": " + was + " → " + now + " (" + role + ") | " + mask);
+                    logged++;
+                }
+            }
+        // Карта скопа итогом (пол F + короткое имя стены) — видеть контур целиком.
+        // Строки сверху вниз, токен: F/пол? + имя (76=фон, .=пусто).
+        int scopeArea = (jx1 - jx0 + 1) * (jy1 - jy0 + 1);
+        if (scopeArea <= 400)
+        {
+            for (int y = jy1; y >= jy0; y--)
+            {
+                string row = "";
+                for (int x = jx0; x <= jx1; x++)
+                {
+                    var c = new Vector3Int(x, y, 0);
+                    bool fl = floors.HasTile(c);
+                    UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+                    string wn = t != null ? t.name.Replace("Tileset House_", "").Replace(" 1", "'") : ".";
+                    if (wn == "76") wn = "~";
+                    row += (fl ? "F" : "_") + wn + " ";
+                }
+                Debug.Log("[House] 20 map y=" + y + ": " + row);
+            }
+        }
         Debug.Log("[House] Кольцо: свежих " + fresh.Count + ", записано стен " + painted +
-                  ", расхождений " + after.Count + ", unmapped " + unmapped.Count + ". Потом Ctrl+S.");
+                  ", колонок " + colBuilt + " (пропущено " + colSkipped + ")" +
+                  ", расхождений кольца " + after.Count + ", unmapped " + unmapped.Count + ". Потом Ctrl+S.");
         foreach (string d in after)
             Debug.LogWarning("[House] Остаток: " + d);
         foreach (string u in unmapped)
@@ -979,6 +1062,163 @@ public static class HouseBuilders
                   ", записано стен " + painted + ", расхождений " + after.Count + ". Смотри глазами.");
         foreach (string d in after)
             Debug.LogWarning("[House] Остаток: " + d);
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // L-коридор (разделитель комнат): L-уголок из 3 полов в главной
+    // комнате → колонка по эталону владельца (x=-113: 34/67/196/216/
+    // пол/0/34). Пока N-варианты (рукав вверх) + зеркало E/W; S-варианты —
+    // когда нарисуешь. Эскизы (малые регионы) не трогаем.
+    // ═══════════════════════════════════════════════════════════
+    [MenuItem("Tools/House/23. Build L-Corridor Column (L-уголок → колонка)")]
+    public static void BuildCorridorColumn()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play.");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+        WallStyle brick = AssetDatabase.LoadAssetAtPath<WallStyle>(WallStylePath);
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick (пункт 5).");
+            return;
+        }
+        int built = BuildCorridorColumnCore(walls, floors, region, brick, lockY, out int skipped);
+        if (built > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        Debug.Log("[House] Колонки: построено клеток " + built + ", пропущено уголков " + skipped +
+                  " (готово/не влезло/S-вариант). Потом Ctrl+S.");
+    }
+
+    /// <summary>
+    /// Общее ядро колонки (п.23): L-уголок 2x2 с 3 полами + N-рукав → колонка
+    /// 34/67/196/216/пол/0/34 в сторону E/W-рукава. Используется и в п.20
+    /// (ручное кольцо ставит коробку + колонку за один проход). Возвращает
+    /// число записанных клеток стен.
+    /// Гейты (как строгий мост 1в): низ колонки не ниже ряда двери (lockY),
+    /// якорь в регионе, вторая масса за колонкой и отвязана от изгиба
+    /// (иначе одиночный выступ — не мост, там обычное кольцо).
+    /// </summary>
+    static int BuildCorridorColumnCore(UnityEngine.Tilemaps.Tilemap walls,
+        UnityEngine.Tilemaps.Tilemap floors, HashSet<Vector3Int> region, WallStyle brick, int lockY, out int skipped)
+    {
+        skipped = 0;
+        if (walls == null || floors == null || region == null || brick == null) return 0;
+        UnityEngine.Tilemaps.TileBase tileH0 = brick.columnMid0;
+        if (tileH0 == null)
+            tileH0 = AssetDatabase.LoadAssetAtPath<UnityEngine.Tilemaps.TileBase>(TileDir + "Tileset House_0.asset");
+        // Ряд колонки сверху вниз (эталон): 34, 67, 196, 216, ПОЛ, 0, 34.
+        UnityEngine.Tilemaps.TileBase[] col = {
+            brick.straightV, brick.westTurnA, brick.bandTopEdge,
+            brick.bandBotEdge, null, tileH0, brick.straightV };
+        int[] dys = { 4, 3, 2, 1, 0, -1, -2 };
+        for (int i = 0; i < col.Length; i++)
+        {
+            if (i == 4) continue; // пол — проверяем отдельно
+            if (col[i] == null)
+            {
+                Debug.LogError("[House] Нет тайла колонки (№" + i + ") — прогони пункт 5 / проверь Tileset House_0.");
+                return 0;
+            }
+        }
+        // L-уголки главной комнаты: блок 2x2 ровно с 3 полами.
+        int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
+        foreach (Vector3Int c in region)
+        {
+            if (c.x < minX) minX = c.x; if (c.x > maxX) maxX = c.x;
+            if (c.y < minY) minY = c.y; if (c.y > maxY) maxY = c.y;
+        }
+        int built = 0;
+        Vector3Int[] card = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
+        for (int x = minX - 1; x <= maxX + 1; x++)
+        {
+            for (int y = minY - 1; y <= maxY + 1; y++)
+            {
+                // 4 поворота блока 2x2: не хватает одной из 4 клеток.
+                Vector3Int[] sq = {
+                    new Vector3Int(x, y, 0), new Vector3Int(x + 1, y, 0),
+                    new Vector3Int(x, y + 1, 0), new Vector3Int(x + 1, y + 1, 0) };
+                int missing = -1, have = 0;
+                for (int k = 0; k < 4; k++)
+                {
+                    if (region.Contains(sq[k])) have++;
+                    else missing = k;
+                }
+                if (have != 3) continue;
+                // Изгиб = клетка, смежная с обеими другими (напротив пропущенной).
+                Vector3Int bend = sq[3 - missing];
+                if (!region.Contains(bend)) continue;
+                var arms = new List<Vector3Int>();
+                foreach (Vector3Int d in card)
+                {
+                    Vector3Int n = bend + d;
+                    if (n == sq[missing]) continue;
+                    if (region.Contains(n)) arms.Add(d);
+                }
+                if (arms.Count != 2) continue;
+                // Пока только N-рукав (вверх): колонка вертикально, в сторону E/W-рукава.
+                Vector3Int vArm = Vector3Int.zero, hArm = Vector3Int.zero;
+                foreach (Vector3Int a in arms)
+                {
+                    if (a == Vector3Int.up || a == Vector3Int.down) vArm = a;
+                    else hArm = a;
+                }
+                if (vArm != Vector3Int.up || hArm == Vector3Int.zero) continue; // S-варианты позже
+                int sx = hArm == Vector3Int.right ? 1 : -1;
+                // Низ колонки (bend.y-2) не должен уходить в ряд двери и ниже.
+                if (bend.y - 2 < lockY) { skipped++; continue; }
+                // Проверка: клетка колонки на уровне изгиба — пол региона есть.
+                Vector3Int anchor = bend + new Vector3Int(sx, 0, 0);
+                if (!region.Contains(anchor))
+                {
+                    skipped++;
+                    continue;
+                }
+                // Вторая масса за колонкой, отвязанная от изгиба (иначе это
+                // одиночный выступ той же комнаты — мост не строим).
+                Vector3Int farCell = default;
+                bool farMass = false;
+                for (int fx = bend.x + sx * 2; fx != bend.x + sx * 4 && !farMass; fx += sx)
+                {
+                    for (int fy = bend.y - 1; fy <= bend.y + 1; fy++)
+                    {
+                        var fc = new Vector3Int(fx, fy, 0);
+                        if (region.Contains(fc)) { farMass = true; farCell = fc; break; }
+                    }
+                }
+                if (!farMass) { skipped++; continue; }
+                if (HouseAutotiler.ConnectedThruFloor(region, bend, farCell, 400)) { skipped++; continue; }
+                // Проверка: остальные клетки колонки без пола.
+                bool ok = true;
+                for (int i = 0; i < dys.Length; i++)
+                {
+                    if (i == 4) continue;
+                    if (floors.HasTile(new Vector3Int(bend.x + sx, bend.y + dys[i], 0))) { ok = false; break; }
+                }
+                if (!ok) { skipped++; continue; }
+                // Совпадает — пропускаем (идемпотентно).
+                bool same = true;
+                for (int i = 0; i < dys.Length; i++)
+                {
+                    if (i == 4) continue;
+                    if (walls.GetTile(new Vector3Int(bend.x + sx, bend.y + dys[i], 0)) != col[i]) { same = false; break; }
+                }
+                if (same) { skipped++; continue; }
+                for (int i = 0; i < dys.Length; i++)
+                {
+                    if (i == 4) continue;
+                    Vector3Int d = new Vector3Int(bend.x + sx, bend.y + dys[i], 0);
+                    UnityEngine.Tilemaps.TileBase cur = walls.GetTile(d);
+                    if (cur != null && brick.lockTileNames != null && brick.lockTileNames.Contains(cur.name)) continue;
+                    walls.SetTile(d, col[i]);
+                    built++;
+                }
+            }
+        }
+        return built;
     }
 
     [MenuItem("Tools/House/22. Clear Journal (забыть стройки)")]
