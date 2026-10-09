@@ -128,11 +128,12 @@ public static class HouseAutotiler
             if (c.x > maxX) maxX = c.x;
             if (c.y > maxY) maxY = c.y;
         }
-        // Скоп = bbox пола ±4 (лента 2 ряда + кольцо 1 + запас 1).
-        // Лента ВНЕ скопа (мусор удалённых комнат) — не трогаем, только ругаемся.
+        // Скоп = bbox пола ±4, вниз до ряда двери ВКЛЮЧИТЕЛЬНО (кольцо ряда
+        // двери и вокруг двери дорисовывается; сама дверь под замком по именам,
+        // ниже двери не идём. Таргеты ниже lockRowY запрещены (CanExpandAt).
         const int ScopePad = 4;
         int scopeMinX = minX - ScopePad, scopeMaxX = maxX + ScopePad;
-        int scopeMinY = lockRowY + 1, scopeMaxY = maxY + ScopePad;
+        int scopeMinY = lockRowY - 1, scopeMaxY = maxY + ScopePad;
         foreach (Vector3Int c in wallMap.cellBounds.allPositionsWithin)
         {
             TileBase t = wallMap.GetTile(c);
@@ -181,6 +182,27 @@ public static class HouseAutotiler
                 if (floor.Contains(t + Vector3Int.up)) continue; // над свежей есть пол — не верх
                 SeedFarBand(wallMap, st, floor, wanted, t + Vector3Int.up, false, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY);
                 SeedFarBand(wallMap, st, floor, wanted, t + Vector3Int.up * 2, true, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY);
+            }
+            // Боковые крышки: над боковым выступом (свежий пол НЕ выше комнаты)
+            // две клетки вверх — крышки низа/верха (эталон: 216/196 над полом).
+            // Ленту и замки не трогаем (повороты — ручная работа).
+            foreach (Vector3Int t in freshFloor)
+            {
+                if (!floor.Contains(t) || t.y > roomMaxY) continue;
+                for (int k = 1; k <= 2; k++)
+                {
+                    Vector3Int c = t + Vector3Int.up * k;
+                    if (c.x < scopeMinX || c.x > scopeMaxX || c.y < scopeMinY || c.y > scopeMaxY) continue;
+                    if (wanted.ContainsKey(c)) continue;
+                    if (floor.Contains(c)) continue;
+                    TileBase cur = wallMap.GetTile(c);
+                    if (cur != null && IsBandTile(cur, st)) continue;
+                    if (cur != null && st.lockTileNames != null && st.lockTileNames.Contains(cur.name)) continue;
+                    TileBase edge = k == 1
+                        ? (st.bandBotEdge != null ? st.bandBotEdge : st.bandBotM)
+                        : (st.bandTopEdge != null ? st.bandTopEdge : st.bandTopM);
+                    wanted[c] = edge;
+                }
             }
             // Конверсия: клетка без пола, под ней лента, под лентой свежий пол
             // (бывшее кольцо над новой стопкой) — верх ленты, конец по контексту

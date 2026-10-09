@@ -96,10 +96,11 @@ public static class HouseExpansion
         WallStyle st, int lockRowY, Vector3Int target)
     {
         if (walls == null || floors == null || st == null) return false;
-        if (target.y < lockRowY) return false; // дверь и низ — нельзя
+        if (target.y <= lockRowY) return false; // ряд двери и ниже: новый пол ставить нельзя
         if (floors.HasTile(target)) return false; // уже пол
         TileBase w = walls.GetTile(target);
-        if (w != null && st.lockTileNames != null && st.lockTileNames.Contains(w.name)) return false; // замок
+        // Дверь (косяки/порог по именам) менять нельзя — только остальное.
+        if (w != null && st.lockTileNames != null && st.lockTileNames.Contains(w.name)) return false;
         // Стену (кольцо/ленту/фон) есть можно: верхний тайл снимается под пол.
         return AdjacentToFloor(floor, target);
     }
@@ -155,7 +156,7 @@ public static class HouseExpansion
                 Vector3Int t = new Vector3Int(x, y, 0);
                 total++;
                 string why;
-                if (t.y < lockRowY) { lowY++; why = "низ"; }
+                if (t.y <= lockRowY) { lowY++; why = "низ"; }
                 else if (floors.HasTile(t)) { hasFloor++; why = "пол"; }
                 else
                 {

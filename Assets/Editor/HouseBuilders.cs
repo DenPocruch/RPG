@@ -941,7 +941,7 @@ public static class HouseBuilders
             if (c.x > maxX) maxX = c.x;
             if (c.y > maxY) maxY = c.y;
         }
-        x0 = minX - 4; x1 = maxX + 4; y0 = lockY + 1; y1 = maxY + 4;
+        x0 = minX - 4; x1 = maxX + 4; y0 = lockY - 1; y1 = maxY + 4;
     }
 
     [MenuItem("Tools/House/21. Shrink (снести снесённое обратно)")]
@@ -1077,7 +1077,17 @@ public static class HouseBuilders
 
             var unmapped = new List<string>();
             var wanted = HouseAutotiler.ComputeWanted(walls, region, st, minY - 2, null, unmapped);
-            var diffs = HouseAutotiler.Audit(walls, wanted);
+            // Своя сверка: пустота→фон вдали (клетки вообще не крашены) — шум, пропускаем.
+            var diffs = new List<string>();
+            foreach (var kvp in wanted)
+            {
+                UnityEngine.Tilemaps.TileBase cur = walls.GetTile(kvp.Key);
+                if (cur == kvp.Value) continue;
+                if (cur == null && kvp.Value == st.bgFill) continue;
+                string cn = cur != null ? cur.name : "<пусто>";
+                string wn = kvp.Value != null ? kvp.Value.name : "<пусто>";
+                diffs.Add(kvp.Key + ": сейчас " + cn + " → надо " + wn);
+            }
             foreach (string u in unmapped)
                 Debug.LogWarning("[House] Эталон №" + i + " UNMAPPED: " + u);
             if (diffs.Count == 0)
