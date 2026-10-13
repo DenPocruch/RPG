@@ -133,9 +133,11 @@ public static class HouseFurniture
     /// Можно ли поставить префаб в точку (mount — явно; Both идёт как декор пола).
     /// region — пол комнаты (LargestFloorRegion): привязка только к комнате,
     /// внешний контур/полы паттернов не катят (иначе декор висит не в комнате).
+    /// ignore — несомый предмет (драг): себя не считаем препятствием.
     /// </summary>
     public static bool CanPlaceAt(Tilemap walls, Tilemap floors, HashSet<Vector3Int> region,
-        GameObject prefab, Vector3 worldPos, FurnitureMount mount, out string reason)
+        GameObject prefab, Vector3 worldPos, FurnitureMount mount, out string reason,
+        GameObject ignore = null)
     {
         reason = "";
         if (walls == null || floors == null) { reason = "нет тайлмапов"; return false; }
@@ -151,7 +153,7 @@ public static class HouseFurniture
             if (cellScratch.Count == 0) { reason = "вне карты"; return false; }
             foreach (Vector3Int c in cellScratch)
             {
-                if (!IsBandTile(walls.GetTile(c))) { reason = "только на ленту лица"; return false; }
+                if (!IsBandTile(walls.GetTile(c))) { reason = "только на стену комнаты"; return false; }
                 if (!NearRoom(region, c)) { reason = "только в комнате"; return false; }
             }
             return true;
@@ -176,6 +178,7 @@ public static class HouseFurniture
             foreach (Collider2D h in hits)
             {
                 if (h == null || h.isTrigger) continue;
+                if (ignore != null && (h.transform == ignore.transform || h.transform.IsChildOf(ignore.transform))) continue; // сам несомый
                 if (h.CompareTag("Player")) continue;
                 if (h.GetComponentInParent<AnimalController>() != null) continue;
                 reason = "место занято (" + h.name + ")";
