@@ -270,6 +270,10 @@ public static class HouseExpansion
         var diffs = HouseAutotiler.Audit(walls,
             HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY, null, new List<string>()));
 
+        // Свежая клетка могла съесть стену под настенным декором — сбросить (фаза 5).
+        // free (тест редактора): склад не трогаем, только снести с варнингом.
+        HouseFurniture.RefreshPlaced(walls, floors, !free);
+
         if (!free)
         {
             if (!TakeWood(needWood) || !CurrencyManager.Instance.SpendGold(needGold))

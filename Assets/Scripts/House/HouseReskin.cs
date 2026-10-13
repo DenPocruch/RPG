@@ -133,6 +133,9 @@ public static class HouseReskin
             walls.SetTile(c, next);
             painted++;
         }
+        // Настенный декор, из-под которого ушла стена, падает на склад (фаза 5).
+        // useStock=false (тест редактора): только снести с варнингом, склад не трогаем.
+        HouseFurniture.RefreshPlaced(walls, floors, useStock);
         Debug.Log("[House] Стены → " + styleId + ": перекрашено " + painted + (useStock ? " (со склада)" : " (бесплатно, тест)"));
         return painted;
     }
@@ -162,6 +165,8 @@ public static class HouseReskin
             floors.SetTile(c, to.floorTile);
             painted++;
         }
+        // Мебель, из-под которой ушёл пол, — на склад (фаза 5).
+        HouseFurniture.RefreshPlaced(walls, floors, useStock);
         Debug.Log("[House] Пол → " + styleId + ": перекрашено " + painted + (useStock ? " (со склада)" : " (бесплатно, тест)"));
         return painted;
     }

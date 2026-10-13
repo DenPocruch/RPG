@@ -170,9 +170,34 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
                     wallTilemap.SetTile(new Vector3Int(r.x, r.y, 0), next);
             }
         }
-        // Мебель спавнится из записей — фаза 5.
+        // Мебель спавнится из записей (фаза 5): каталог = реестр префабов.
         if (save.furniture != null && save.furniture.Count > 0)
-            Debug.LogWarning("[House] В сейве мебель (" + save.furniture.Count + ") — спавн будет в фазе 5.");
+        {
+            if (floorTilemap == null || wallTilemap == null)
+            {
+                Debug.LogWarning("[House] В сейве мебель (" + save.furniture.Count +
+                                 ") — нет тайлмапов, спавн пропущен.");
+            }
+            else
+            {
+                var pieces = new System.Collections.Generic.List<HouseFurniture.SavedPiece>();
+                foreach (PlacedRec r in save.furniture)
+                {
+                    if (r == null || string.IsNullOrEmpty(r.prefabPath)) continue;
+                    pieces.Add(new HouseFurniture.SavedPiece
+                    {
+                        prefabName = r.prefabPath,
+                        x = r.x,
+                        y = r.y
+                    });
+                }
+                int spawned = HouseFurniture.SpawnSaved(pieces, wallTilemap, floorTilemap,
+                    out var missing);
+                Debug.Log("[House] Мебель из сейва: " + spawned + "/" + pieces.Count + ".");
+                foreach (string m in missing)
+                    Debug.LogWarning("[House] Нет префаба в каталоге: " + m + ".");
+            }
+        }
     }
 
     static TileBase MapBaseSlot(TileBase cur, WallStyle from, WallStyle to)

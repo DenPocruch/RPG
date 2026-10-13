@@ -214,6 +214,7 @@ public static class HouseBuilders
         EditorUtility.SetDirty(st);
         AssetDatabase.SaveAssets();
         Selection.activeObject = st;
+        HouseFurniture.InvalidateHangCache(); // лента/фон могли поменяться
         if (missing > 0)
             Debug.LogError("[House] WallStyle_Brick: НЕ НАШЁЛ ассетов: " + missing + " (проверь имена).");
         else
@@ -407,6 +408,7 @@ public static class HouseBuilders
         EditorUtility.SetDirty(st);
         AssetDatabase.SaveAssets();
         Selection.activeObject = st;
+        HouseFurniture.InvalidateHangCache(); // лента/фон могли поменяться
         CheckRefs(st, "WallStyle_Barn");
     }
 
@@ -774,6 +776,8 @@ public static class HouseBuilders
             HouseAutotiler.ComputeWanted(walls, region, brick, lockY, null, new List<string>()));
         // Колонка из п.23 — вместе с коробкой (ручное кольцо тоже её ставит).
         int colBuilt = BuildCorridorColumnCore(walls, floors, region, brick, lockY, out int colSkipped);
+        // Декор, из-под которого ушла стена/пол, — снести (фаза 5, склад не трогаем).
+        HouseFurniture.RefreshPlaced(walls, floors, false);
         if (painted + colBuilt > 0)
             UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene());
@@ -1054,6 +1058,8 @@ public static class HouseBuilders
         var unmapped = new List<string>();
         int painted = HouseAutotiler.Stabilize(walls, floors, region, st, lockY,
             fresh, st.floorTile, unmapped);
+        // Снесённые полы могли держать мебель — проверить (фаза 5, склад не трогаем).
+        HouseFurniture.RefreshPlaced(walls, floors, false);
         UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
             UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         var after = HouseAutotiler.Audit(walls,
@@ -1340,5 +1346,367 @@ public static class HouseBuilders
             }
         }
         Debug.Log("[House] Готово: скопируй diff эталонов сюда текстом.");
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ФАЗА 5: мебель (24–27). Сцену не сохраняем: база в файле чистая,
+    // тесты в открытой сцене без сохранения (протокол). 24 — набор каталога
+    // (только дописывает недостающее + цены где 0, ручное не трёт).
+    // ═══════════════════════════════════════════════════════════
+    const string CandlePrefabPath = "Assets/Prefab/Interior/Candles/Candle 1_0.prefab";
+
+    static int FurniturePriceFor(string prefabName)
+    {
+        if (prefabName == "Beds_0") return 300;
+        if (prefabName == "Tables_71") return 200;
+        if (prefabName == "Chairs_13") return 100;
+        if (prefabName == "Candle 1_0") return 50;
+        if (prefabName.StartsWith("Part 1 copiar_")) return 150;
+        return 100;
+    }
+
+    [MenuItem("Tools/House/24. Furniture Test Set (каталог 8 + цены)")]
+    public static void EnsureFurnitureTestSet()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Выключи Play-режим.");
+            return;
+        }
+        BuildMountTable(); // недостающие записи таблицы (ручные не трёт)
+
+        // Напольные из папки Part* (увидели глазами): торшер + цветок + предмет у двери.
+        string[] floorOverrides = { "Part 1 copiar_29", "Part 1 copiar_114", "Part 1 copiar_116" };
+        FurnitureMountTable mtable = AssetDatabase.LoadAssetAtPath<FurnitureMountTable>(MountTablePath);
+        if (mtable != null)
+        {
+            foreach (string ov in floorOverrides)
+            {
+                foreach (FurnitureMountTable.Entry en in mtable.entries)
+                {
+                    if (en != null && en.prefabName == ov && en.mount != FurnitureMount.Floor)
+                    {
+                        en.mount = FurnitureMount.Floor;
+                        mtable.RebuildCache();
+                        EditorUtility.SetDirty(mtable);
+                        Debug.Log("[House] " + ov + " переведён в Floor (был Wall).");
+                        break;
+                    }
+                }
+            }
+        }
+
+        HouseCatalog catalog = AssetDatabase.LoadAssetAtPath<HouseCatalog>(CatalogPath);
+        if (catalog == null)
+        {
+            Debug.LogError("[House] Нет каталога — сначала пункт 2.");
+            return;
+        }
+        bool hasCandle = false;
+        foreach (HouseCatalog.Entry e in catalog.entries)
+        {
+            if (e != null && e.prefab != null && e.prefab.name == "Candle 1_0") { hasCandle = true; break; }
+        }
+        if (!hasCandle)
+        {
+            GameObject candle = AssetDatabase.LoadAssetAtPath<GameObject>(CandlePrefabPath);
+            if (candle == null)
+                Debug.LogError("[House] Нет префаба свечи: " + CandlePrefabPath);
+            else
+            {
+                catalog.entries.Add(new HouseCatalog.Entry { prefab = candle, price = 50 });
+                Debug.Log("[House] В каталог добавлена свеча Candle 1_0 (кандидат мелочёвки).");
+            }
+        }
+        int priced = 0;
+        foreach (HouseCatalog.Entry e in catalog.entries)
+        {
+            if (e == null || e.prefab == null) continue;
+            if (e.price == 0)
+            {
+                e.price = FurniturePriceFor(e.prefab.name);
+                priced++;
+            }
+        }
+        EditorUtility.SetDirty(catalog);
+        AssetDatabase.SaveAssets();
+        Debug.Log("[House] Набор: записей " + catalog.entries.Count + ", цен проставлено " + priced +
+                  " (ненулевые не тронуты, правятся в инспекторе). Часы и ковёр (Both) — " +
+                  "покажи какие префабы, добавим следующим шагом.");
+    }
+
+    [MenuItem("Tools/House/25. Audit Furniture Catalog (только сверка)")]
+    public static void AuditFurnitureCatalog()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Выключи Play-режим.");
+            return;
+        }
+        HouseCatalog catalog = AssetDatabase.LoadAssetAtPath<HouseCatalog>(CatalogPath);
+        if (catalog == null)
+        {
+            Debug.LogError("[House] Нет каталога — сначала пункт 2.");
+            return;
+        }
+        FurnitureMountTable table = AssetDatabase.LoadAssetAtPath<FurnitureMountTable>(MountTablePath);
+        Debug.Log("[House] Каталог: записей " + catalog.entries.Count + " (ждём 8: кровать/стол/стул/4 настенных/свеча).");
+        foreach (HouseCatalog.Entry e in catalog.entries)
+        {
+            if (e == null || e.prefab == null)
+            {
+                Debug.LogError("[House] Пустая запись каталога!");
+                continue;
+            }
+            string nm = e.prefab.name;
+            FurnitureMount mount = table != null ? table.GetMount(nm)
+                : FurnitureMountTable.DefaultForPrefabName(nm);
+            bool hasTable = table != null && table.HasEntry(nm);
+            BoxCollider2D col = e.prefab.GetComponent<BoxCollider2D>();
+            string colInfo = col != null ? ("футпринт " + col.size.x.ToString("0.00") + "x" + col.size.y.ToString("0.00")) : "без коллайдера";
+            SpriteRenderer sr = e.prefab.GetComponent<SpriteRenderer>();
+            string sprInfo = (sr != null && sr.sprite != null)
+                ? ("спрайт " + sr.sprite.bounds.size.x.ToString("0.00") + "x" + sr.sprite.bounds.size.y.ToString("0.00"))
+                : "НЕТ СПРАЙТА";
+            bool ysort = false;
+            foreach (MonoBehaviour mb in e.prefab.GetComponents<MonoBehaviour>())
+            {
+                if (mb != null && mb.GetType().Name == "YSort") { ysort = true; break; }
+            }
+            // Свеча без MonoBehaviour вообще — GetComponents вернёт пусто, это норма.
+            Debug.Log("[House] " + nm + ": mount=" + mount + (hasTable ? "" : " (НЕТ В ТАБЛИЦЕ!)") +
+                      ", цена=" + e.price + ", " + colInfo + ", " + sprInfo + ", YSort=" + (ysort ? "да" : "нет"));
+        }
+    }
+
+    /// <summary>Прямоугольники уже расставленной мебели (чтобы тест не клал в одну точку).</summary>
+    static List<Rect> OccupiedRects()
+    {
+        var list = new List<Rect>();
+        foreach (HousePlacedFurniture f in HouseFurniture.FindPlaced())
+        {
+            if (f == null) continue;
+            SpriteRenderer sr = f.GetComponent<SpriteRenderer>();
+            if (sr != null && sr.sprite != null)
+            {
+                Bounds b = sr.bounds;
+                list.Add(new Rect(b.min.x, b.min.y, b.size.x, b.size.y));
+            }
+            else
+            {
+                Vector3 p = f.transform.position;
+                list.Add(new Rect(p.x - 0.5f, p.y - 0.5f, 1f, 1f));
+            }
+        }
+        return list;
+    }
+
+    static bool HitsOccupied(List<Rect> occ, Vector2 center, Vector2 size)
+    {
+        // С усадкой 0.8: лёгкие касания разрешаем, полные стаки — нет.
+        Rect r = new Rect(center.x - size.x * 0.4f, center.y - size.y * 0.4f,
+            size.x * 0.8f, size.y * 0.8f);
+        foreach (Rect o in occ)
+            if (r.Overlaps(o)) return true;
+        return false;
+    }
+
+    /// <summary>Первое валидное место: напольным — центры клеток пола, настенным — центры клеток стен.</summary>
+    static bool FindSpotFor(UnityEngine.Tilemaps.Tilemap walls, UnityEngine.Tilemaps.Tilemap floors,
+        HashSet<Vector3Int> region, GameObject prefab, FurnitureMount mount, out Vector3 spot)
+    {
+        spot = Vector3.zero;
+        List<Rect> occ = OccupiedRects();
+        if (mount == FurnitureMount.Wall)
+        {
+            if (!HouseFurniture.SpriteSize(prefab, out Vector2 ssize, out Vector2 scenter))
+                return false;
+            // Только кольцо КОМНАТЫ: клетка стены не дальше 2 от пола региона.
+            // Иначе поиск хватает боковые паттерны/остатки в пустоте (баг 26: y=12.5).
+            int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
+            foreach (Vector3Int c in region)
+            {
+                if (c.x < minX) minX = c.x; if (c.x > maxX) maxX = c.x;
+                if (c.y < minY) minY = c.y; if (c.y > maxY) maxY = c.y;
+            }
+            for (int y = maxY + 4; y >= minY - 4; y--)
+                for (int x = minX - 4; x <= maxX + 4; x++)
+                {
+                    var c = new Vector3Int(x, y, 0);
+                    if (!walls.HasTile(c)) continue;
+                    bool near = false;
+                    foreach (Vector3Int f in region)
+                    {
+                        if (Mathf.Abs(f.x - x) <= 2 && Mathf.Abs(f.y - y) <= 2) { near = true; break; }
+                    }
+                    if (!near) continue;
+                    Vector3 p = walls.GetCellCenterWorld(c);
+                    if (HitsOccupied(occ, (Vector2)p + scenter, ssize)) continue;
+                    if (HouseFurniture.CanPlaceAt(walls, floors, region, prefab, p, mount, out _)) { spot = p; return true; }
+                }
+            return false;
+        }
+        // Напольным: габарит для разноса — футпринт, без коллайдера — полспрайта.
+        Vector2 gapSize = new Vector2(0.5f, 0.5f);
+        Vector2 gapOff = Vector2.zero;
+        if (HouseFurniture.Footprint(prefab, out Vector2 fsize, out Vector2 foff))
+        {
+            gapSize = fsize;
+            gapOff = foff;
+        }
+        else if (HouseFurniture.SpriteSize(prefab, out Vector2 ssize2, out Vector2 scenter2))
+        {
+            gapSize = ssize2 * 0.5f;
+            gapOff = scenter2;
+        }
+        var cells = new List<Vector3Int>(region);
+        cells.Sort((a, b) => a.x != b.x ? a.x.CompareTo(b.x) : a.y.CompareTo(b.y));
+        foreach (Vector3Int c in cells)
+        {
+            Vector3 p = floors.GetCellCenterWorld(c);
+            if (HitsOccupied(occ, (Vector2)p + gapOff, gapSize)) continue;
+            if (HouseFurniture.CanPlaceAt(walls, floors, region, prefab, p, mount, out _)) { spot = p; return true; }
+        }
+        return false;
+    }
+
+    [MenuItem("Tools/House/26. Test Place All (Edit, оставить для глаз)")]
+    public static void TestPlaceAllFurniture()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play. Потом смотри в Play, сцену НЕ сохраняй (п.27 уберёт).");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+        HouseCatalog catalog = AssetDatabase.LoadAssetAtPath<HouseCatalog>(CatalogPath);
+        if (catalog == null)
+        {
+            Debug.LogError("[House] Нет каталога — сначала пункт 2.");
+            return;
+        }
+        int placed = 0;
+        foreach (HouseCatalog.Entry e in catalog.entries)
+        {
+            if (e == null || e.prefab == null) continue;
+            FurnitureMount mount = HouseFurniture.MountOfPrefab(e.prefab.name);
+            if (!FindSpotFor(walls, floors, region, e.prefab, mount, out Vector3 spot))
+            {
+                Debug.LogError("[House] Не влезло: " + e.prefab.name + " (mount " + mount + ").");
+                continue;
+            }
+            GameObject go = HouseFurniture.TryPlace(walls, floors, e.prefab, spot, false, out string reason);
+            if (go == null)
+                Debug.LogError("[House] Не встало: " + e.prefab.name + " — " + reason);
+            else
+            {
+                placed++;
+                Debug.Log("[House] Стоит: " + e.prefab.name + " в " + spot + " (mount " + mount + ").");
+            }
+        }
+        // Both-путь (ковры): свечи нет в таблице как Both — гоняем правило в памяти.
+        GameObject candle = AssetDatabase.LoadAssetAtPath<GameObject>(CandlePrefabPath);
+        if (candle != null && region.Count > 0)
+        {
+            var cells = new List<Vector3Int>(region);
+            cells.Sort((a, b) => a.x != b.x ? a.x.CompareTo(b.x) : a.y.CompareTo(b.y));
+            Vector3 p = floors.GetCellCenterWorld(cells[0]);
+            if (HouseFurniture.CanPlaceAt(walls, floors, region, candle, p, FurnitureMount.Both, out string br))
+                Debug.Log("[House] Both-путь: ОК на " + p + " (ковёр добавим, когда покажешь префаб).");
+            else
+                Debug.LogError("[House] Both-путь: отказ — " + br);
+        }
+        if (placed > 0)
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        Debug.Log("[House] Поставлено " + placed + ". Сцену НЕ сохраняй! Смотри в Play глазами, потом п.27.");
+    }
+
+    [MenuItem("Tools/House/27. Remove Test Furniture (убрать)")]
+    public static void RemoveTestFurniture()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play.");
+            return;
+        }
+        HousePlacedFurniture[] all = HouseFurniture.FindPlaced();
+        int n = 0;
+        foreach (HousePlacedFurniture f in all)
+        {
+            if (f == null) continue;
+            Object.DestroyImmediate(f.gameObject);
+            n++;
+        }
+        Debug.Log("[House] Убрано мебели: " + n + ". Если сцена запачкана тестами — перезагрузи без сохранения.");
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // 28. Дамп зоны настенных (ТОЛЬКО ЧТЕНИЕ): сетка тайлов стен,
+    // вручную повешенный декор (без маркера) + тайлы под ним.
+    // Сцену не пачкает, склад не трогает. Лог — сюда текстом.
+    // ═══════════════════════════════════════════════════════════
+    [MenuItem("Tools/House/28. Dump Wall Zone (только чтение)")]
+    public static void DumpWallZone()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Только НЕ в Play.");
+            return;
+        }
+        if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
+
+        // Сетка стен x[-90,-77] y[13..7]: короткие имена, ~ = фон 76, . = пусто, F = пол.
+        for (int y = 13; y >= 7; y--)
+        {
+            string row = "";
+            for (int x = -90; x <= -77; x++)
+            {
+                var c = new Vector3Int(x, y, 0);
+                UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+                string wn = t != null ? t.name.Replace("Tileset House_", "").Replace(" 1", "'") : ".";
+                if (wn == "76") wn = "~";
+                string fl = floors.HasTile(c) ? "F" : "_";
+                row += fl + wn + " ";
+            }
+            Debug.Log("[House] 28 map y=" + y + ": " + row);
+        }
+
+        // Ручной декор: дети Interior без маркера HousePlacedFurniture (тестовые с маркером — отдельно).
+        GameObject interior = GameObject.Find("Interior");
+        if (interior == null)
+        {
+            Debug.LogWarning("[House] 28: нет объекта Interior.");
+            return;
+        }
+        foreach (Transform tr in interior.transform)
+        {
+            if (tr == null) continue;
+            SpriteRenderer sr = tr.GetComponent<SpriteRenderer>();
+            if (sr == null || sr.sprite == null) continue;
+            bool isTest = tr.GetComponent<HousePlacedFurniture>() != null;
+            Vector3 p = tr.position;
+            Vector2 center = (Vector2)p + (Vector2)sr.sprite.bounds.center;
+            Vector2 size = sr.sprite.bounds.size;
+            Vector3Int anchor = walls.WorldToCell(p);
+            UnityEngine.Tilemaps.TileBase at = walls.GetTile(anchor);
+            // Клетки спрайта + тайлы стен под ними.
+            Vector3Int c0 = walls.WorldToCell(new Vector3(center.x - size.x * 0.5f, center.y - size.y * 0.5f, 0f));
+            Vector3Int c1 = walls.WorldToCell(new Vector3(center.x + size.x * 0.5f, center.y + size.y * 0.5f, 0f));
+            string cover = "";
+            for (int x = c0.x; x <= c1.x; x++)
+                for (int y = c0.y; y <= c1.y; y++)
+                {
+                    var c = new Vector3Int(x, y, 0);
+                    UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+                    cover += c + "=" + (t != null ? t.name.Replace("Tileset House_", "") : ".") + " ";
+                }
+            Debug.Log("[House] 28 " + (isTest ? "ТЕСТ" : "РУЧНОЙ") + " " + tr.name +
+                      " в " + p.ToString("0.00") + ", якорь " + anchor +
+                      "=(" + (at != null ? at.name.Replace("Tileset House_", "") : ".") + ")" +
+                      ", спрайт " + size.x.ToString("0.00") + "x" + size.y.ToString("0.00") +
+                      " | " + cover);
+        }
+        Debug.Log("[House] 28 готово: скопируй весь лог сюда текстом.");
     }
 }
