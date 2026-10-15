@@ -119,6 +119,7 @@ public class HouseDragController : MonoBehaviour
 
     void BeginPress(Vector2 screenPos, int pointerId)
     {
+        if (HouseEditMode.IsOpen) return; // панель открыта — таскаем из неё, не со сцены
         downOnUI = EventSystem.current != null &&
             (pointerId < 0 ? EventSystem.current.IsPointerOverGameObject()
                            : EventSystem.current.IsPointerOverGameObject(pointerId));

@@ -1709,4 +1709,42 @@ public static class HouseBuilders
         }
         Debug.Log("[House] 28 готово: скопируй весь лог сюда текстом.");
     }
+
+    // ═══════════════════════════════════════════════════════════
+    // ФАЗА 7: карточка входа в планировку (чертёж, многоразовый).
+    // Удар с чертежом в хотбаре = HouseEditMode.Toggle. Иконку проставь
+    // в инспекторе ассета. Цена на ассете (правится там же).
+    // ═══════════════════════════════════════════════════════════
+    [MenuItem("Tools/House/30. Build Blueprint Card (вход в планировку)")]
+    public static void BuildBlueprintCard()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Выключи Play-режим.");
+            return;
+        }
+        const string dir = "Assets/Resources/Items/House";
+        EnsureFolder(dir);
+        const string path = "Assets/Resources/Items/House/Blueprint.asset";
+        ItemData item = AssetDatabase.LoadAssetAtPath<ItemData>(path);
+        if (item == null)
+        {
+            item = ScriptableObject.CreateInstance<ItemData>();
+            AssetDatabase.CreateAsset(item, path);
+        }
+        item.itemName = "Чертёж дома";
+        item.description = "Многоразовый чертёж. Удар с ним в руках — режим планировки дома.";
+        item.itemType = ItemType.Blueprint;
+        item.rarity = ItemRarity.Common;
+        item.isStackable = false;
+        item.maxStack = 1;
+        if (item.shopPrice <= 0) item.shopPrice = 500;
+        EditorUtility.SetDirty(item);
+        AssetDatabase.SaveAssets();
+        Selection.activeObject = item;
+        if (item.icon == null)
+            Debug.LogWarning("[House] Чертёж готов, но без иконки — проставь спрайт в инспекторе (иначе в хотбаре пусто).");
+        else
+            Debug.Log("[House] Чертёж готов (в магазине появится сам, кодом).");
+    }
 }

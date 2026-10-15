@@ -127,6 +127,7 @@ public class ShopInteraction : MonoBehaviour, IInteractable
         added |= TryAddFarmStock(list, "Wallpaper_Barn", "");   // обои сарай
         added |= TryAddFarmStock(list, "FloorTile_Brick", "");  // плитка кирпич
         added |= TryAddFarmStock(list, "FloorTile_Barn", "");   // плитка сарай
+        added |= TryAddFarmStock(list, "Blueprint", "");        // чертёж дома: удар = режим планировки
         if (added) itemsForSaleAnimals = list.ToArray();
     }
 

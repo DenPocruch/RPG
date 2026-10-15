@@ -52,6 +52,12 @@ public class HouseStock : MonoBehaviour, ISaveable
         return counts.TryGetValue(id, out int c) ? c : 0;
     }
 
+    /// <summary>Все id на складе (снимок ключей; для сетки панели).</summary>
+    public List<string> AllIds()
+    {
+        return new List<string>(counts.Keys);
+    }
+
     /// <summary>Положить на склад (стакается без лимита).</summary>
     public void Add(string id, int count = 1)
     {

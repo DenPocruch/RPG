@@ -154,20 +154,71 @@ public static class HouseReskin
         foreach (Vector3Int c in region)
         {
             if (painted >= maxCells) break;
-            TileBase cur = floors.GetTile(c);
-            if (cur == null || cur == to.floorTile) continue;
-            string oldId = WhichFloorStyle(cur);
-            if (useStock)
-            {
-                if (!HouseStock.Instance.Remove(FloorKey(styleId))) break;
-                HouseStock.Instance.Add(FloorKey(oldId));
-            }
-            floors.SetTile(c, to.floorTile);
-            painted++;
+            if (TryPaintFloorCellAt(walls, floors, c, to, styleId, useStock))
+                painted++;
         }
         // Мебель, из-под которой ушёл пол, — на склад (фаза 5).
         HouseFurniture.RefreshPlaced(walls, floors, useStock);
         Debug.Log("[House] Пол → " + styleId + ": перекрашено " + painted + (useStock ? " (со склада)" : " (бесплатно, тест)"));
         return painted;
+    }
+
+    static bool TryPaintFloorCellAt(Tilemap walls, Tilemap floors,
+        Vector3Int c, WallStyle to, string styleId, bool useStock)
+    {
+        TileBase cur = floors.GetTile(c);
+        if (cur == null || cur == to.floorTile) return false;
+        string oldId = WhichFloorStyle(cur);
+        if (useStock)
+        {
+            if (HouseStock.Instance == null || !HouseStock.Instance.Remove(FloorKey(styleId))) return false;
+            HouseStock.Instance.Add(FloorKey(oldId));
+        }
+        floors.SetTile(c, to.floorTile);
+        return true;
+    }
+
+    /// <summary>Перекрасить 1 клетку пола (драг из панели): своп со складом. Только пол комнаты.</summary>
+    public static bool TryPaintFloorCell(Vector3Int cell, string styleId, bool useStock)
+    {
+        if (!FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY)) return false;
+        WallStyle to = StyleOf(styleId);
+        if (to == null || to.floorTile == null) return false;
+        if (!region.Contains(cell)) return false;
+        return TryPaintFloorCellAt(walls, floors, cell, to, styleId, useStock);
+    }
+
+    /// <summary>Можно ли перекрасить 1 клетку стены в стиль (валидация драга панели).</summary>
+    public static bool CanPaintWallCell(Vector3Int cell, string styleId)
+    {
+        if (!FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY)) return false;
+        WallStyle to = StyleOf(styleId);
+        if (to == null) return false;
+        if (cell.y <= lockY) return false; // дверь и ниже — locked
+        TileBase cur = walls.GetTile(cell);
+        if (cur == null || cur == to.bgFill) return false;
+        if (to.lockTileNames != null && to.lockTileNames.Contains(cur.name)) return false;
+        string oldId = WhichWallStyle(cur);
+        TileBase next = MapWallSlot(cur, StyleOf(oldId), to);
+        return next != null && next != cur;
+    }
+
+    /// <summary>Перекрасить 1 клетку стены (драг из панели): своп со складом + сброс декора.</summary>
+    public static bool TryPaintWallCell(Vector3Int cell, string styleId, bool useStock)
+    {
+        if (!CanPaintWallCell(cell, styleId)) return false;
+        if (!FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY)) return false;
+        WallStyle to = StyleOf(styleId);
+        TileBase cur = walls.GetTile(cell);
+        string oldId = WhichWallStyle(cur);
+        TileBase next = MapWallSlot(cur, StyleOf(oldId), to);
+        if (useStock)
+        {
+            if (HouseStock.Instance == null || !HouseStock.Instance.Remove(WallKey(styleId))) return false;
+            HouseStock.Instance.Add(WallKey(oldId));
+        }
+        walls.SetTile(cell, next);
+        HouseFurniture.RefreshPlaced(walls, floors, useStock);
+        return true;
     }
 }

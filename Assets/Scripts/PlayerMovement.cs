@@ -292,6 +292,9 @@ public class PlayerMovement : MonoBehaviour
             case ItemType.Consumable:
                 EatFood(activeItem);
                 break;
+            case ItemType.Blueprint:
+                HouseEditMode.Toggle(); // чертёж дома: вход/выход из планировки
+                break;
             default:
                 // Удобрение: активным предметом по грядке с растением
                 if (activeItem != null && activeItem.isFertilizer && farmInteraction != null)
