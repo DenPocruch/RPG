@@ -304,13 +304,32 @@ public class HouseEditUI : MonoBehaviour
             binder.hintLabel.text = text;
     }
 
-    // ─── Драг из панели (только Склад): мебель — настоящий инстанс в сцене
-    // (та же механика что перенос в доме: что видишь, туда и встанет),
-    // стили — подсветка клетки в мире. UI-двойников нет (давали рассинхрон).
+    // ─── Драг из панели (только Склад): один видимый предмет за раз.
+    // Над панелью — UI-иконка в РЕАЛЬНОМ размере поверх оверлея (мировой
+    // спрайт всегда под Screen Space Overlay, иначе стол прячется за панель).
+    // Над миром — настоящий инстанс в сцене (что видишь, туда и встанет).
+    // Переключение — по IsPointerOverPanel, двойника нет.
     GameObject dragInstance;
     Color dragInstanceColor;
     GameObject cellHighlight;
+    GameObject dragIcon; // UI-копия для отображения поверх панели
+    Vector2 dragIconOffsetPx; // палец = низ стола как в доме, а не центр картинки
     static Sprite whiteSquare;
+
+    /// <summary>Канвас панели без создания синглтона (для драга со сцены).</summary>
+    public static Canvas PanelCanvas()
+    {
+        if (_instance == null) return null;
+        if (_instance.binder == null || _instance.binder.panel == null) return null;
+        return _instance.binder.panel.GetComponentInParent<Canvas>();
+    }
+
+    /// <summary>Точка над панелью без создания синглтона (для драга со сцены).</summary>
+    public static bool OverPanelNoCreate(Vector2 screenPos)
+    {
+        if (_instance == null) return false;
+        return _instance.IsPointerOverPanel(screenPos);
+    }
 
     public void BeginPanelDrag(int rowIndex, BaseEventData _)
     {
@@ -325,6 +344,9 @@ public class HouseEditUI : MonoBehaviour
         Vector3 wp = ScreenToWorld(PointerPos(_));
         wp.z = 0f;
         ghostRowIndex = rowIndex;
+        Vector2 screenPos = PointerPos(_);
+        Vector2 iconPx = new Vector2(72, 72);
+        Vector2 iconOffset = Vector2.zero;
         if (r.kind == RowKind.Furniture && r.prefab != null)
         {
             dragInstance = Instantiate(r.prefab, wp, Quaternion.identity);
@@ -334,6 +356,12 @@ public class HouseEditUI : MonoBehaviour
             {
                 dragInstanceColor = sr.color;
                 sr.color = new Color(dragInstanceColor.r, dragInstanceColor.g, dragInstanceColor.b, 0.6f);
+                if (sr.sprite != null)
+                {
+                    iconPx = WorldToScreenSize(sr.bounds.size);
+                    // Якорь как в доме: палец держит низ (трансформ), а не центр спрайта.
+                    iconOffset = PxPerUnit() * ((Vector2)sr.bounds.center - (Vector2)dragInstance.transform.position);
+                }
             }
         }
         else
@@ -343,7 +371,16 @@ public class HouseEditUI : MonoBehaviour
             hr.sprite = WhiteSquare();
             hr.sortingOrder = 59;
             cellHighlight.transform.localScale = new Vector3(0.9f, 0.9f, 1f);
+            Vector2 tileWorld = floors != null
+                ? new Vector2(floors.cellSize.x, floors.cellSize.y) : Vector2.one;
+            if (tileWorld.x <= 0f) tileWorld.x = 1f;
+            if (tileWorld.y <= 0f) tileWorld.y = 1f;
+            iconPx = WorldToScreenSize(tileWorld);
         }
+        ShowDragIcon(RowSprite(r), screenPos, iconPx);
+        dragIconOffsetPx = iconOffset; // после Show (внутри Hide сбрасывает в ноль)
+        MoveDragIcon(screenPos);
+        UpdatePanelDragVisibility(screenPos);
     }
 
     static Sprite WhiteSquare()
@@ -367,7 +404,8 @@ public class HouseEditUI : MonoBehaviour
     {
         if (ghostRowIndex < 0 || ghostRowIndex >= rows.Count) return;
         Row r = rows[ghostRowIndex];
-        Vector3 wp = ScreenToWorld(PointerPos(data));
+        Vector2 screenPos = PointerPos(data);
+        Vector3 wp = ScreenToWorld(screenPos);
         wp.z = 0f;
         if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
             return;
@@ -379,6 +417,8 @@ public class HouseEditUI : MonoBehaviour
             if (sr != null)
                 sr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.6f)
                               : new Color(1f, 0.35f, 0.35f, 0.6f);
+            TintDragIcon(ok);
+            MoveDragIcon(screenPos);
         }
         else if (cellHighlight != null)
         {
@@ -394,7 +434,10 @@ public class HouseEditUI : MonoBehaviour
             if (hr != null)
                 hr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.5f)
                               : new Color(1f, 0.35f, 0.35f, 0.5f);
+            TintDragIcon(ok);
+            MoveDragIcon(screenPos);
         }
+        UpdatePanelDragVisibility(screenPos);
     }
 
     public void EndPanelDrag(BaseEventData data)
@@ -405,13 +448,24 @@ public class HouseEditUI : MonoBehaviour
             return;
         }
         Row r = rows[ghostRowIndex];
-        Vector3 wp = ScreenToWorld(PointerPos(data));
+        Vector2 screenPos = PointerPos(data);
+        // Отпустил над панелью = отмена без списания (предмет остаётся на складе).
+        if (IsPointerOverPanel(screenPos))
+        {
+            CancelPanelDrag();
+            Refresh();
+            Debug.Log("[House] Возврат: отпустил над панелью.");
+            return;
+        }
+        Vector3 wp = ScreenToWorld(screenPos);
         wp.z = 0f;
         GameObject instance = dragInstance;
         dragInstance = null;
         if (cellHighlight != null) Destroy(cellHighlight);
         cellHighlight = null;
+        HideDragIcon();
         ghostRowIndex = -1;
+        SetDragWorldVisible(instance, true);
         if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
         {
             if (instance != null) Destroy(instance);
@@ -462,6 +516,108 @@ public class HouseEditUI : MonoBehaviour
         dragInstance = null;
         if (cellHighlight != null) Destroy(cellHighlight);
         cellHighlight = null;
+        HideDragIcon();
+    }
+
+    // ─── UI-иконка поверх панели (паттерн ItemDragHandler/HookSocketUI) ───
+    // Размер — реальный мировой (стол над панелью тот же что в доме).
+    void ShowDragIcon(Sprite sprite, Vector2 screenPos, Vector2 pxSize)
+    {
+        HideDragIcon();
+        if (sprite == null) return;
+        if (binder == null || binder.panel == null) return;
+        Canvas canvas = binder.panel.GetComponentInParent<Canvas>();
+        if (canvas == null) return;
+        dragIcon = new GameObject("HouseDragIcon");
+        dragIcon.transform.SetParent(canvas.transform, false);
+        dragIcon.transform.SetAsLastSibling();
+        Image img = dragIcon.AddComponent<Image>();
+        img.sprite = sprite;
+        img.raycastTarget = false;
+        img.preserveAspect = true;
+        if (pxSize.x < 8f) pxSize.x = 8f;
+        if (pxSize.y < 8f) pxSize.y = 8f;
+        dragIcon.GetComponent<RectTransform>().sizeDelta = pxSize;
+        MoveDragIcon(screenPos);
+        TintDragIcon(true);
+    }
+
+    /// <summary>Один видимый: над панелью — иконка, над миром — настоящий.</summary>
+    void UpdatePanelDragVisibility(Vector2 screenPos)
+    {
+        if (dragIcon == null) return; // иконки нет — мир не прячем
+        bool overPanel = IsPointerOverPanel(screenPos);
+        dragIcon.SetActive(overPanel);
+        SetDragWorldVisible(dragInstance, !overPanel);
+        if (cellHighlight != null)
+        {
+            SpriteRenderer hr = cellHighlight.GetComponent<SpriteRenderer>();
+            if (hr != null) hr.enabled = !overPanel;
+        }
+    }
+
+    static void SetDragWorldVisible(GameObject go, bool visible)
+    {
+        if (go == null) return;
+        foreach (SpriteRenderer sr in go.GetComponentsInChildren<SpriteRenderer>(true))
+            sr.enabled = visible;
+    }
+
+    static Vector2 WorldToScreenSize(Vector2 worldSize)
+    {
+        return worldSize * PxPerUnit();
+    }
+
+    static Vector2 PxPerUnit()
+    {
+        Camera cam = Camera.main;
+        if (cam == null || !cam.orthographic) return Vector2.one * 72f;
+        if (cam.orthographicSize <= 0f) return Vector2.one * 72f;
+        float p = Screen.height / (2f * cam.orthographicSize);
+        return new Vector2(p, p);
+    }
+
+    void MoveDragIcon(Vector2 screenPos)
+    {
+        if (dragIcon == null) return;
+        if (binder == null || binder.panel == null) return;
+        Canvas canvas = binder.panel.GetComponentInParent<Canvas>();
+        if (canvas == null) return;
+        dragIcon.transform.SetAsLastSibling(); // сетка пересобирается — держим иконку сверху
+        // Центр картинки смещён так, чтобы палец был внизу стола как в доме.
+        Vector2 iconScreen = screenPos + dragIconOffsetPx;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.GetComponent<RectTransform>(),
+                iconScreen, canvas.worldCamera, out Vector2 local))
+            dragIcon.GetComponent<RectTransform>().localPosition = local;
+    }
+
+    void TintDragIcon(bool ok)
+    {
+        if (dragIcon == null) return;
+        Image img = dragIcon.GetComponent<Image>();
+        if (img == null) return;
+        img.color = ok ? new Color(0.7f, 1f, 0.7f, 0.95f)
+                       : new Color(1f, 0.45f, 0.45f, 0.95f);
+    }
+
+    void HideDragIcon()
+    {
+        if (dragIcon != null) Destroy(dragIcon);
+        dragIcon = null;
+        dragIconOffsetPx = Vector2.zero;
+    }
+
+    static Sprite RowSprite(Row r)
+    {
+        if (r == null) return null;
+        if (r.icon != null) return r.icon;
+        if (r.prefab != null)
+        {
+            SpriteRenderer sr = r.prefab.GetComponent<SpriteRenderer>();
+            if (sr != null) return sr.sprite;
+        }
+        return null;
     }
 
     static Vector2 PointerPos(BaseEventData data)

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 /// <summary>
@@ -47,6 +48,8 @@ public class HouseDragController : MonoBehaviour
     Vector3 originPos;
     Color originColor;
     GameObject sourceHighlight;
+    GameObject carryIcon; // UI-копия поверх панели (обратный драг дом → панель)
+    Vector2 carryIconOffsetPx; // тот же якорь: палец внизу стола
 
     static Sprite whiteSquare;
 
@@ -219,6 +222,19 @@ public class HouseDragController : MonoBehaviour
             sourceHighlight.transform.localScale = new Vector3(0.9f, 0.9f, 1f);
         }
         hr.color = new Color(0.55f, 1f, 0.55f, 0.5f);
+        // UI-копия для панели: реальный размер + якорь внизу (палец как в доме).
+        // Над миром скрыта, над панелью — она вместо мирового (он под оверлеем).
+        Vector2 iconOffset = Vector2.zero;
+        Sprite iconSprite = sr != null ? sr.sprite : null;
+        Vector2 iconPx = new Vector2(72, 72);
+        if (sr != null && sr.sprite != null)
+        {
+            iconPx = WorldToScreenSize(sr.bounds.size);
+            iconOffset = PxPerUnit() * ((Vector2)sr.bounds.center - (Vector2)carried.transform.position);
+        }
+        ShowCarryIcon(iconSprite, iconPx);
+        carryIconOffsetPx = iconOffset; // после Show (внутри Hide сбрасывает в ноль)
+        MoveCarryIcon(downScreenPos);
         try { Handheld.Vibrate(); } catch { }
         Debug.Log("[House] Несу: " + carried.name + " (отпусти — встанет, мимо — вернётся).");
         state = DragState.Carrying;
@@ -231,7 +247,8 @@ public class HouseDragController : MonoBehaviour
         Vector3 wp = ScreenToWorld(screenPos);
         carried.transform.position = new Vector3(wp.x, wp.y, 0f);
         // Над панелью = убрать на склад: всегда зелёный.
-        bool overPanel = HouseEditUI.Instance != null && HouseEditUI.Instance.IsPointerOverPanel(screenPos);
+        // Над панелью видна только UI-копия (мир под оверлеем), над миром — настоящий.
+        bool overPanel = HouseEditUI.OverPanelNoCreate(screenPos);
         bool ok = overPanel;
         if (!overPanel && HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
             ok = HouseFurniture.CanPlaceAt(walls, floors, region, carriedPrefab,
@@ -240,6 +257,9 @@ public class HouseDragController : MonoBehaviour
         if (sr != null)
             sr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.6f)
                           : new Color(1f, 0.35f, 0.35f, 0.6f);
+        TintCarryIcon(ok);
+        MoveCarryIcon(screenPos);
+        UpdateCarryVisibility(screenPos);
     }
 
     void Drop(Vector2 screenPos)
@@ -248,9 +268,11 @@ public class HouseDragController : MonoBehaviour
         GameObject go = carried;
         carried = null;
         state = DragState.Idle;
+        SetCarriedVisible(go, true);
+        HideCarryIcon();
         CleanupCarryVisual(go);
         // Бросок на панель = убрать на склад (режим планировки).
-        if (HouseEditUI.Instance != null && HouseEditUI.Instance.IsPointerOverPanel(screenPos))
+        if (HouseEditUI.OverPanelNoCreate(screenPos))
         {
             StoreToPanel(go);
             return;
@@ -289,9 +311,11 @@ public class HouseDragController : MonoBehaviour
         if (carried != null)
         {
             carried.transform.position = originPos;
+            SetCarriedVisible(carried, true);
             CleanupCarryVisual(carried);
             Debug.Log("[House] Перенос отменён.");
         }
+        HideCarryIcon();
         carried = null;
         candidate = null;
         state = DragState.Idle;
@@ -310,7 +334,7 @@ public class HouseDragController : MonoBehaviour
         if (HouseFurniture.TryStore(marker, true, out string reason))
         {
             Debug.Log("[House] Убрано на склад: " + marker.prefabName + ".");
-            if (HouseEditUI.Instance != null) HouseEditUI.Instance.Refresh(); // счётчики сразу
+            Object.FindFirstObjectByType<HouseEditUI>()?.Refresh(); // счётчики сразу
         }
         else
             Debug.Log("[House] Не убралось (" + reason + ") — вернул на место.");
@@ -327,6 +351,92 @@ public class HouseDragController : MonoBehaviour
         }
         if (sourceHighlight != null) Destroy(sourceHighlight);
         sourceHighlight = null;
+    }
+
+    // ─── UI-копия несомого поверх панели (обратный драг дом → панель) ───
+    void ShowCarryIcon(Sprite sprite, Vector2 pxSize)
+    {
+        HideCarryIcon();
+        if (sprite == null) return;
+        Canvas canvas = ResolveCanvas();
+        if (canvas == null) return;
+        carryIcon = new GameObject("HouseCarryIcon");
+        carryIcon.transform.SetParent(canvas.transform, false);
+        carryIcon.transform.SetAsLastSibling();
+        Image img = carryIcon.AddComponent<Image>();
+        img.sprite = sprite;
+        img.raycastTarget = false;
+        img.preserveAspect = true;
+        if (pxSize.x < 8f) pxSize.x = 8f;
+        if (pxSize.y < 8f) pxSize.y = 8f;
+        carryIcon.GetComponent<RectTransform>().sizeDelta = pxSize;
+        carryIcon.SetActive(false); // подхват из мира: покажем только над панелью
+        TintCarryIcon(true);
+    }
+
+    void MoveCarryIcon(Vector2 screenPos)
+    {
+        if (carryIcon == null) return;
+        Canvas canvas = ResolveCanvas();
+        if (canvas == null) return;
+        carryIcon.transform.SetAsLastSibling();
+        Vector2 iconScreen = screenPos + carryIconOffsetPx;
+        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                canvas.GetComponent<RectTransform>(),
+                iconScreen, canvas.worldCamera, out Vector2 local))
+            carryIcon.GetComponent<RectTransform>().localPosition = local;
+    }
+
+    void TintCarryIcon(bool ok)
+    {
+        if (carryIcon == null) return;
+        Image img = carryIcon.GetComponent<Image>();
+        if (img == null) return;
+        img.color = ok ? new Color(0.7f, 1f, 0.7f, 0.95f)
+                       : new Color(1f, 0.45f, 0.45f, 0.95f);
+    }
+
+    void UpdateCarryVisibility(Vector2 screenPos)
+    {
+        if (carryIcon == null) return;
+        bool overPanel = HouseEditUI.OverPanelNoCreate(screenPos);
+        carryIcon.SetActive(overPanel);
+        SetCarriedVisible(carried, !overPanel);
+    }
+
+    void HideCarryIcon()
+    {
+        if (carryIcon != null) Destroy(carryIcon);
+        carryIcon = null;
+        carryIconOffsetPx = Vector2.zero;
+    }
+
+    static void SetCarriedVisible(GameObject go, bool visible)
+    {
+        if (go == null) return;
+        foreach (SpriteRenderer sr in go.GetComponentsInChildren<SpriteRenderer>(true))
+            sr.enabled = visible;
+    }
+
+    static Canvas ResolveCanvas()
+    {
+        Canvas c = HouseEditUI.PanelCanvas();
+        if (c != null) return c;
+        return Object.FindFirstObjectByType<Canvas>();
+    }
+
+    static Vector2 WorldToScreenSize(Vector2 worldSize)
+    {
+        return worldSize * PxPerUnit();
+    }
+
+    static Vector2 PxPerUnit()
+    {
+        Camera cam = Camera.main;
+        if (cam == null || !cam.orthographic) return Vector2.one * 72f;
+        if (cam.orthographicSize <= 0f) return Vector2.one * 72f;
+        float p = Screen.height / (2f * cam.orthographicSize);
+        return new Vector2(p, p);
     }
 
     static Vector3 ScreenToWorld(Vector2 screenPos)
