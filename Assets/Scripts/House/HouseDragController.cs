@@ -49,34 +49,6 @@ public class HouseDragController : MonoBehaviour
     GameObject sourceHighlight;
 
     static Sprite whiteSquare;
-    static Canvas uiCanvas;
-
-    /// <summary>Размер UI-двойника ровно под экранный размер предмета
-    /// (для призрака панели; сам драг сцены идёт видимым предметом).</summary>
-    public static void FitMirrorToWorld(GameObject mirror, Vector2 worldSize)
-    {
-        if (mirror == null) return;
-        if (uiCanvas == null)
-        {
-            GameObject root = GameObject.Find("Canvas");
-            if (root != null) uiCanvas = root.GetComponent<Canvas>();
-            if (uiCanvas == null) uiCanvas = Object.FindFirstObjectByType<Canvas>();
-            if (uiCanvas == null) return;
-        }
-        Camera cam = Camera.main;
-        if (cam == null) return;
-        RectTransform rt = mirror.transform as RectTransform;
-        if (rt == null) return;
-        Vector3 center = cam.transform.position;
-        center.z = 0f;
-        Vector2 half = worldSize * 0.5f;
-        Vector3 s0 = cam.WorldToScreenPoint(center - (Vector3)half);
-        Vector3 s1 = cam.WorldToScreenPoint(center + (Vector3)half);
-        Vector2 px = new Vector2(Mathf.Abs(s1.x - s0.x), Mathf.Abs(s1.y - s0.y));
-        float k = uiCanvas.scaleFactor;
-        if (k <= 0f) k = 1f;
-        rt.sizeDelta = px / k;
-    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Boot()

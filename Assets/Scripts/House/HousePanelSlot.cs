@@ -9,7 +9,7 @@ using TMPro;
 /// Тап = выбрать в карточку, драг = потащить в дом (только вкладка Склад).
 /// </summary>
 public class HousePanelSlot : MonoBehaviour,
-    IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+    IPointerClickHandler, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     [Header("Иконка товара")]
     public Image icon;
@@ -25,6 +25,13 @@ public class HousePanelSlot : MonoBehaviour,
     {
         if (HouseEditUI.Instance != null)
             HouseEditUI.Instance.SlotClicked(rowIndex);
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // Призрак сразу по нажатию (BeginDrag приходит только после сдвига).
+        if (HouseEditUI.Instance != null)
+            HouseEditUI.Instance.BeginPanelDrag(rowIndex, eventData);
     }
 
     public void OnBeginDrag(PointerEventData eventData)

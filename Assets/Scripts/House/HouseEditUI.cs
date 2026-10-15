@@ -53,8 +53,6 @@ public class HouseEditUI : MonoBehaviour
     Cat cat = Cat.Floor;
     readonly List<Row> rows = new List<Row>();
     int selectedIndex = -1;
-
-    GameObject panelGhost;
     int ghostRowIndex = -1;
 
     void Awake()
@@ -106,7 +104,7 @@ public class HouseEditUI : MonoBehaviour
 
     public void Close()
     {
-        CancelGhost();
+        CancelPanelDrag();
         if (binder != null && binder.panel != null)
             binder.panel.SetActive(false);
     }
@@ -306,35 +304,56 @@ public class HouseEditUI : MonoBehaviour
             binder.hintLabel.text = text;
     }
 
-    // ─── Драг из панели (только Склад): UI-призрак поверх канваса ───
+    // ─── Драг из панели (только Склад): мебель — настоящий инстанс в сцене
+    // (та же механика что перенос в доме: что видишь, туда и встанет),
+    // стили — подсветка клетки в мире. UI-двойников нет (давали рассинхрон).
+    GameObject dragInstance;
+    Color dragInstanceColor;
+    GameObject cellHighlight;
+    static Sprite whiteSquare;
+
     public void BeginPanelDrag(int rowIndex, BaseEventData _)
     {
-        CancelGhost();
+        CancelPanelDrag();
         ghostRowIndex = -1;
         if (!tabStock) return; // из магазина — сначала купи
         if (rowIndex < 0 || rowIndex >= rows.Count) return;
         Row r = rows[rowIndex];
-        if (r.icon == null) return;
         if (HouseStock.Instance == null || HouseStock.Instance.Count(StockIdOf(r)) <= 0) return;
-        Canvas canvas = FindCanvas();
-        if (canvas == null) return;
+        if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
+            return;
+        Vector3 wp = ScreenToWorld(PointerPos(_));
+        wp.z = 0f;
         ghostRowIndex = rowIndex;
-        panelGhost = new GameObject("HousePanelGhost");
-        panelGhost.transform.SetParent(canvas.transform, false);
-        panelGhost.transform.SetAsLastSibling();
-        Image img = panelGhost.AddComponent<Image>();
-        img.sprite = r.icon;
-        img.raycastTarget = false;
-        // Размер 1-в-1 как предмет на экране: мебель — спрайт префаба, стили — тайл 1×1.
-        Vector2 worldSize = Vector2.one;
         if (r.kind == RowKind.Furniture && r.prefab != null)
         {
-            SpriteRenderer psr = r.prefab.GetComponent<SpriteRenderer>();
-            if (psr != null && psr.sprite != null)
-                worldSize = psr.sprite.bounds.size;
+            dragInstance = Instantiate(r.prefab, wp, Quaternion.identity);
+            dragInstance.name = r.prefab.name;
+            SpriteRenderer sr = dragInstance.GetComponent<SpriteRenderer>();
+            if (sr != null)
+            {
+                dragInstanceColor = sr.color;
+                sr.color = new Color(dragInstanceColor.r, dragInstanceColor.g, dragInstanceColor.b, 0.6f);
+            }
         }
-        HouseDragController.FitMirrorToWorld(panelGhost, worldSize);
-        img.color = new Color(1f, 1f, 1f, 0.8f);
+        else
+        {
+            cellHighlight = new GameObject("HousePaintHighlight");
+            SpriteRenderer hr = cellHighlight.AddComponent<SpriteRenderer>();
+            hr.sprite = WhiteSquare();
+            hr.sortingOrder = 59;
+            cellHighlight.transform.localScale = new Vector3(0.9f, 0.9f, 1f);
+        }
+    }
+
+    static Sprite WhiteSquare()
+    {
+        if (whiteSquare != null) return whiteSquare;
+        Texture2D tex = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+        tex.SetPixel(0, 0, Color.white);
+        tex.Apply();
+        whiteSquare = Sprite.Create(tex, new Rect(0, 0, 1, 1), new Vector2(0.5f, 0.5f), 1f);
+        return whiteSquare;
     }
 
     static string StockIdOf(Row r)
@@ -346,104 +365,103 @@ public class HouseEditUI : MonoBehaviour
 
     public void PanelDrag(BaseEventData data)
     {
-        if (panelGhost == null || ghostRowIndex < 0 || ghostRowIndex >= rows.Count) return;
-        Vector2 screenPos = PointerPos(data);
-        MoveGhostVisual(screenPos);
-        Vector3 wp = ScreenToWorld(screenPos); // строго под пальцем
-        bool ok = ValidateGhost(rows[ghostRowIndex], wp);
-        Image img = panelGhost.GetComponent<Image>();
-        if (img != null)
-            img.color = ok ? new Color(0.55f, 1f, 0.55f, 0.9f)
-                           : new Color(1f, 0.35f, 0.35f, 0.9f);
+        if (ghostRowIndex < 0 || ghostRowIndex >= rows.Count) return;
+        Row r = rows[ghostRowIndex];
+        Vector3 wp = ScreenToWorld(PointerPos(data));
+        wp.z = 0f;
+        if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
+            return;
+        if (dragInstance != null)
+        {
+            dragInstance.transform.position = wp;
+            bool ok = HouseFurniture.CanPlaceAt(walls, floors, region, r.prefab, wp, r.mount, out _, dragInstance);
+            SpriteRenderer sr = dragInstance.GetComponent<SpriteRenderer>();
+            if (sr != null)
+                sr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.6f)
+                              : new Color(1f, 0.35f, 0.35f, 0.6f);
+        }
+        else if (cellHighlight != null)
+        {
+            Vector3Int cell = r.kind == RowKind.WallStyle
+                ? walls.WorldToCell(wp) : floors.WorldToCell(wp);
+            Vector3 center = r.kind == RowKind.WallStyle
+                ? walls.GetCellCenterWorld(cell) : floors.GetCellCenterWorld(cell);
+            cellHighlight.transform.position = center;
+            bool ok = r.kind == RowKind.WallStyle
+                ? HouseReskin.CanPaintWallCell(cell, r.id)
+                : region.Contains(cell) && floors.HasTile(cell);
+            SpriteRenderer hr = cellHighlight.GetComponent<SpriteRenderer>();
+            if (hr != null)
+                hr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.5f)
+                              : new Color(1f, 0.35f, 0.35f, 0.5f);
+        }
     }
 
     public void EndPanelDrag(BaseEventData data)
     {
-        if (panelGhost == null || ghostRowIndex < 0 || ghostRowIndex >= rows.Count)
+        if (ghostRowIndex < 0 || ghostRowIndex >= rows.Count)
         {
-            CancelGhost();
+            CancelPanelDrag();
             return;
         }
         Row r = rows[ghostRowIndex];
-        Vector3 wp = ScreenToWorld(PointerPos(data)); // строго под пальцем
-        CancelGhost();
+        Vector3 wp = ScreenToWorld(PointerPos(data));
+        wp.z = 0f;
+        GameObject instance = dragInstance;
+        dragInstance = null;
+        if (cellHighlight != null) Destroy(cellHighlight);
+        cellHighlight = null;
+        ghostRowIndex = -1;
         if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
-            return;
-        bool placed = false;
-        if (r.kind == RowKind.Furniture && r.prefab != null)
         {
-            GameObject go = HouseFurniture.TryPlace(walls, floors, r.prefab, wp, true, out string reason);
-            if (go == null)
-                Debug.Log("[House] Сюда нельзя (" + reason + ").");
+            if (instance != null) Destroy(instance);
+            return;
+        }
+        if (instance != null)
+        {
+            // Валидно = забираем со склада и оставляем (маркер + сейв), мимо = сносим.
+            instance.transform.position = wp;
+            if (HouseFurniture.CanPlaceAt(walls, floors, region, r.prefab, wp, r.mount, out string reason, instance)
+                && HouseStock.Instance != null && HouseStock.Instance.Remove(StockIdOf(r)))
+            {
+                SpriteRenderer sr = instance.GetComponent<SpriteRenderer>();
+                if (sr != null) sr.color = dragInstanceColor;
+                HousePlacedFurniture marker = instance.AddComponent<HousePlacedFurniture>();
+                marker.prefabName = r.prefab.name;
+                SaveManager.Instance?.Save();
+                Debug.Log("[House] Поставлено из панели: " + r.id + ".");
+            }
             else
             {
-                placed = true;
-                Debug.Log("[House] Поставлено из панели: " + r.id + ".");
+                Destroy(instance);
+                Debug.Log("[House] Сюда нельзя" +
+                          (string.IsNullOrEmpty(reason) ? "." : " (" + reason + ")."));
             }
         }
         else if (r.kind == RowKind.FloorStyle)
         {
             Vector3Int cell = floors.WorldToCell(wp);
-            placed = HouseReskin.TryPaintFloorCell(cell, r.id, true);
-            Debug.Log(placed ? "[House] Пол перекрашен: " + cell + "."
-                             : "[House] Сюда нельзя (только пол комнаты / нет на складе).");
+            bool painted = HouseReskin.TryPaintFloorCell(cell, r.id, true);
+            Debug.Log(painted ? "[House] Пол перекрашен: " + cell + "."
+                              : "[House] Сюда нельзя (только пол комнаты / нет на складе).");
         }
         else if (r.kind == RowKind.WallStyle)
         {
             Vector3Int cell = walls.WorldToCell(wp);
-            placed = HouseReskin.TryPaintWallCell(cell, r.id, true);
-            Debug.Log(placed ? "[House] Стена перекрашена: " + cell + "."
-                             : "[House] Сюда нельзя (только лента лица / нет на складе).");
+            bool painted = HouseReskin.TryPaintWallCell(cell, r.id, true);
+            Debug.Log(painted ? "[House] Стена перекрашена: " + cell + "."
+                              : "[House] Сюда нельзя (только стена комнаты / нет на складе).");
         }
         Refresh();
     }
 
-    bool ValidateGhost(Row r, Vector3 wp)
-    {
-        if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
-            return false;
-        if (r.kind == RowKind.Furniture && r.prefab != null)
-            return HouseFurniture.CanPlaceAt(walls, floors, region, r.prefab, wp, r.mount, out _);
-        if (r.kind == RowKind.FloorStyle)
-        {
-            Vector3Int cell = floors.WorldToCell(wp);
-            return region.Contains(cell) && floors.HasTile(cell);
-        }
-        Vector3Int wcell = walls.WorldToCell(wp);
-        return HouseReskin.CanPaintWallCell(wcell, r.id);
-    }
-
-    void CancelGhost()
+    void CancelPanelDrag()
     {
         ghostRowIndex = -1;
-        if (panelGhost != null) Destroy(panelGhost);
-        panelGhost = null;
-    }
-
-    static Canvas uiCanvas;
-
-    static Canvas FindCanvas()
-    {
-        if (uiCanvas == null)
-        {
-            GameObject root = GameObject.Find("Canvas");
-            if (root != null) uiCanvas = root.GetComponent<Canvas>();
-            if (uiCanvas == null) uiCanvas = Object.FindFirstObjectByType<Canvas>();
-        }
-        return uiCanvas;
-    }
-
-    void MoveGhostVisual(Vector2 screenPos)
-    {
-        // Призрак строго под пальцем, без сдвигов.
-        if (panelGhost == null || uiCanvas == null) return;
-        RectTransform rt = panelGhost.transform as RectTransform;
-        if (rt == null) return;
-        Vector2 p = screenPos;
-        Vector2 local = p;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            uiCanvas.transform as RectTransform, p, uiCanvas.worldCamera, out local);
-        rt.anchoredPosition = local;
+        if (dragInstance != null) Destroy(dragInstance);
+        dragInstance = null;
+        if (cellHighlight != null) Destroy(cellHighlight);
+        cellHighlight = null;
     }
 
     static Vector2 PointerPos(BaseEventData data)
