@@ -30,7 +30,7 @@ public class HouseEditUI : MonoBehaviour
     private static HouseEditUI _instance;
 
     enum Cat { Floor, Wallpaper, Furniture, Decor }
-    enum RowKind { Furniture, FloorStyle, WallStyle }
+    enum RowKind { Furniture, FloorStyle, WallStyle, Expansion }
 
     class Row
     {
@@ -173,6 +173,9 @@ public class HouseEditUI : MonoBehaviour
                     count = HouseStock.Instance.Count(key)
                 });
             }
+            // Билет расширения живёт во вкладке Пол (склад): +1 тайл, тащи в дом.
+            if (!wall)
+                rows.Add(ExpansionRow(ExpansionIcon(), HouseExpansion.TicketCount(), 0));
             return;
         }
         bool wantDecor = cat == Cat.Decor;
@@ -219,6 +222,9 @@ public class HouseEditUI : MonoBehaviour
                     price = item.shopPrice
                 });
             }
+            // Билет расширения живёт во вкладке Пол (магазин): цена-лесенка, только голда.
+            if (!wall)
+                rows.Add(ExpansionRow(ExpansionIcon(), 0, HouseExpansion.NextTicketGold()));
             return;
         }
         HouseCatalog catalog = HouseCatalog.Load();
@@ -277,6 +283,13 @@ public class HouseEditUI : MonoBehaviour
         if (tabStock) return;
         if (selectedIndex < 0 || selectedIndex >= rows.Count) return;
         Row r = rows[selectedIndex];
+        // Билет расширения: лесенка цены + счётчик покупок внутри BuyTicket.
+        if (r.kind == RowKind.Expansion)
+        {
+            HouseExpansion.BuyTicket(out _);
+            Refresh();
+            return;
+        }
         if (CurrencyManager.Instance == null) return;
         if (CurrencyManager.Instance.Gold < r.price)
         {
@@ -395,9 +408,30 @@ public class HouseEditUI : MonoBehaviour
 
     static string StockIdOf(Row r)
     {
+        if (r.kind == RowKind.Expansion) return HouseExpansion.TicketKey;
         return r.kind == RowKind.Furniture ? r.id
             : r.kind == RowKind.WallStyle ? HouseReskin.WallKey(r.id)
             : HouseReskin.FloorKey(r.id);
+    }
+
+    static Row ExpansionRow(Sprite icon, int count, int price)
+    {
+        return new Row
+        {
+            kind = RowKind.Expansion,
+            id = HouseExpansion.TicketKey,
+            title = "Расширение дома",
+            desc = "Билет +1 тайл пола. Тащи в дом. Цена растёт каждые 5.",
+            icon = icon,
+            count = count,
+            price = price
+        };
+    }
+
+    Sprite ExpansionIcon()
+    {
+        if (binder != null && binder.expansionIcon != null) return binder.expansionIcon;
+        return null;
     }
 
     public void PanelDrag(BaseEventData data)
@@ -422,6 +456,24 @@ public class HouseEditUI : MonoBehaviour
         }
         else if (cellHighlight != null)
         {
+            if (r.kind == RowKind.Expansion)
+            {
+                // Драг билета: подсветка ghost-клетки встык (плюсы на сцену не рисуем).
+                Vector3Int cell = floors.WorldToCell(wp);
+                cellHighlight.transform.position = floors.GetCellCenterWorld(cell);
+                WallStyle brick = WallStyle.Load(HouseReskin.BaseStyleId);
+                bool ok = brick != null
+                    && HouseExpansion.CanExpandAt(walls, floors, region, brick, lockY, cell)
+                    && region.Count < HousePricing.MaxFloorTiles;
+                SpriteRenderer hr0 = cellHighlight.GetComponent<SpriteRenderer>();
+                if (hr0 != null)
+                    hr0.color = ok ? new Color(0.55f, 1f, 0.55f, 0.5f)
+                                   : new Color(1f, 0.35f, 0.35f, 0.5f);
+                TintDragIcon(ok);
+                MoveDragIcon(screenPos);
+            }
+            else
+            {
             Vector3Int cell = r.kind == RowKind.WallStyle
                 ? walls.WorldToCell(wp) : floors.WorldToCell(wp);
             Vector3 center = r.kind == RowKind.WallStyle
@@ -436,6 +488,7 @@ public class HouseEditUI : MonoBehaviour
                               : new Color(1f, 0.35f, 0.35f, 0.5f);
             TintDragIcon(ok);
             MoveDragIcon(screenPos);
+            }
         }
         UpdatePanelDragVisibility(screenPos);
     }
@@ -491,6 +544,13 @@ public class HouseEditUI : MonoBehaviour
                 Debug.Log("[House] Сюда нельзя" +
                           (string.IsNullOrEmpty(reason) ? "." : " (" + reason + ")."));
             }
+        }
+        else if (r.kind == RowKind.Expansion)
+        {
+            Vector3Int cell = floors.WorldToCell(wp);
+            bool built = HouseExpansion.TryExpandTicket(cell);
+            Debug.Log(built ? "[House] Дом расширен: " + cell + "."
+                            : "[House] Сюда нельзя (только клетка встык / нет билета).");
         }
         else if (r.kind == RowKind.FloorStyle)
         {

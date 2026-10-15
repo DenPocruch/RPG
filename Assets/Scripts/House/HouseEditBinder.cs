@@ -46,6 +46,10 @@ public class HouseEditBinder : MonoBehaviour
     public TMP_Text hintLabel;
     public TMP_Text goldLabel;
 
+    [Header("Расширение дома (билет +1 тайл)")]
+    [Tooltip("Сюда перетащить спрайт Tileset House+_0 (иконка билета в панели)")]
+    public Sprite expansionIcon;
+
     void Awake()
     {
         ApplyBind();

@@ -1763,4 +1763,45 @@ public static class HouseBuilders
             Debug.Log("[House] Чертёж готов (в магазине появится сам, кодом).");
         }
     }
+
+    [MenuItem("Tools/House/31. Link Expansion Icon (плюсик в биндер панели)")]
+    public static void LinkExpansionIcon()
+    {
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Выключи Play-режим.");
+            return;
+        }
+        // Спрайт билета: Tileset House+_0 из Assets/Art/UI/Tileset House+.png.
+        Sprite plus = null;
+        foreach (Object o in AssetDatabase.LoadAllAssetsAtPath("Assets/Art/UI/Tileset House+.png"))
+        {
+            if (o is Sprite s && s.name == "Tileset House+_0") { plus = s; break; }
+        }
+        if (plus == null)
+        {
+            foreach (Object o in AssetDatabase.LoadAllAssetsAtPath("Assets/Art/UI/Tileset House+.png"))
+            {
+                if (o is Sprite s) { plus = s; break; }
+            }
+        }
+        if (plus == null)
+        {
+            Debug.LogError("[House] Не нашёл спрайт в Tileset House+.png — проверь нарезку (Sprite Editor).");
+            return;
+        }
+        HouseEditBinder[] binders = Object.FindObjectsByType<HouseEditBinder>(FindObjectsSortMode.None);
+        if (binders == null || binders.Length == 0)
+        {
+            Debug.LogError("[House] В открытой сцене нет HouseEditBinder — открой SampleScene.");
+            return;
+        }
+        foreach (HouseEditBinder b in binders)
+        {
+            if (b == null) continue;
+            b.expansionIcon = plus;
+            EditorUtility.SetDirty(b);
+        }
+        Debug.Log("[House] Плюсик привязан (" + plus.name + ", биндеров: " + binders.Length + ") — нажми Ctrl+S.");
+    }
 }

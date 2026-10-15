@@ -20,6 +20,12 @@ public static class HouseExpansion
     const string WoodItemName = "Wood"; // Resources/Items/Wood/Wood.asset
     const string ExpandedKey = "$expanded"; // служебный счётчик (в UI не показываем)
 
+    // Билет расширения (ДОМ-ПАНЕЛЬ-01): покупается в магазине панели за голду
+    // (лесенка HousePricing, дерево прикрутим позже), лежит на house_stock,
+    // драг из склада на ghost-клетку строит +1 тайл без доп. списаний.
+    public const string TicketKey = "expansion"; // билеты на руках
+    const string BoughtKey = "$expansion_bought"; // билетов куплено всего (шаг лесенки)
+
     public static int PurchasedCount()
     {
         if (HouseStock.Instance == null) return 0;
@@ -30,6 +36,44 @@ public static class HouseExpansion
     {
         if (HouseStock.Instance == null) return;
         HouseStock.Instance.Add(ExpandedKey, 1);
+    }
+
+    /// <summary>Сколько билетов расширения на руках.</summary>
+    public static int TicketCount()
+    {
+        if (HouseStock.Instance == null) return 0;
+        return HouseStock.Instance.Count(TicketKey);
+    }
+
+    /// <summary>Цена следующего билета (пока только голда; дерево позже).</summary>
+    public static int NextTicketGold()
+    {
+        int bought = 0;
+        if (HouseStock.Instance != null)
+            bought = HouseStock.Instance.Count(BoughtKey);
+        HousePricing.CostFor(bought, out _, out int gold);
+        return gold;
+    }
+
+    /// <summary>Купить билет за голду (лесенка по числу купленных). Деньги уже проверены? Нет — проверяем сами.</summary>
+    public static bool BuyTicket(out string reason)
+    {
+        reason = "";
+        int price = NextTicketGold();
+        if (CurrencyManager.Instance == null) { reason = "нет кассы"; return false; }
+        if (CurrencyManager.Instance.Gold < price)
+        {
+            reason = "надо " + price + "g";
+            Debug.Log("[House] Билет расширения: не хватает голды (" + reason + ").");
+            return false;
+        }
+        if (!CurrencyManager.Instance.SpendGold(price)) { reason = "не списалось"; return false; }
+        if (HouseStock.Instance == null) { reason = "нет склада"; return false; }
+        HouseStock.Instance.Add(TicketKey, 1);
+        HouseStock.Instance.Add(BoughtKey, 1);
+        Debug.Log("[House] Куплен билет расширения (" + price + "g, на руках " +
+                  HouseStock.Instance.Count(TicketKey) + "). Тащи его в дом.");
+        return true;
     }
 
     /// <summary>Дерева в рюкзаке+хотбаре (по имени ассета, как ItemDatabase).</summary>
@@ -226,20 +270,10 @@ public static class HouseExpansion
         HousePricing.CostFor(bought, out int needWood, out int needGold);
 
         // Симуляция: сколько клеток добавится (таргет + поглощённые без пола).
-        var simFloor = new HashSet<Vector3Int>(region) { target };
-        var simUnmapped = new List<string>();
-        var simWanted = HouseAutotiler.ComputeWanted(walls, simFloor, brick, lockY,
-            new HashSet<Vector3Int> { target }, simUnmapped);
-        var newCells = new HashSet<Vector3Int> { target };
-        foreach (var kvp in simWanted)
-        {
-            if (kvp.Value == null && !floors.HasTile(kvp.Key))
-                newCells.Add(kvp.Key);
-        }
-        if (region.Count + newCells.Count > HousePricing.MaxFloorTiles)
+        if (!SimulateGrowth(region, walls, floors, brick, lockY, target, out var newCells))
         {
             Debug.LogWarning("[House] Кап " + HousePricing.MaxFloorTiles + ": не влезет (сейчас " +
-                             region.Count + ", надо +" + newCells.Count + ").");
+                              region.Count + ", надо +" + newCells.Count + ").");
             return false;
         }
         if (!free)
@@ -257,22 +291,13 @@ public static class HouseExpansion
         string styleId = DominantFloorStyle(floors, region);
         WallStyle fst = WallStyle.Load(styleId);
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
-        floors.SetTile(target, floorTile);
 
         // 2–4. Стабилизация: кольцо + долив пола + углы — до сходимости.
-        var floorLive = new HashSet<Vector3Int>(region) { target };
-        var freshLive = new HashSet<Vector3Int> { target };
-        var unmappedLive = new List<string>();
-        int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
-            freshLive, floorTile, unmappedLive);
-        var unmapped = unmappedLive;
-        var allNew = new HashSet<Vector3Int>(freshLive);
-        var diffs = HouseAutotiler.Audit(walls,
-            HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY, null, new List<string>()));
-
         // Свежая клетка могла съесть стену под настенным декором — сбросить (фаза 5).
         // free (тест редактора): склад не трогаем, только снести с варнингом.
-        HouseFurniture.RefreshPlaced(walls, floors, !free);
+        BuildGeometry(target, walls, floors, region, lockY, brick, floorTile,
+            !free, out int painted, out var diffs, out var unmapped,
+            out int floorNow, out int addedCount);
 
         if (!free)
         {
@@ -284,14 +309,103 @@ public static class HouseExpansion
             AddPurchased();
         }
 
-        Debug.Log("[House] Пристройка " + target + " (" + styleId + "): +" + allNew.Count +
-                  " пола (теперь " + floorLive.Count + "), записано стен " + painted +
-                  ", расхождений " + diffs.Count + ", unmapped " + unmapped.Count +
-                  (free ? " (бесплатно, тест)" : " (снято " + needWood + " дерева + " + needGold + "g, покупка №" + (bought + 1) + ")"));
+        Debug.Log("[House] Пристройка " + target + " (" + styleId + "): +" + addedCount +
+                   " пола (теперь " + floorNow + "), записано стен " + painted +
+                   ", расхождений " + diffs.Count + ", unmapped " + unmapped.Count +
+                   (free ? " (бесплатно, тест)" : " (снято " + needWood + " дерева + " + needGold + "g, покупка №" + (bought + 1) + ")"));
         foreach (string d in diffs)
             Debug.LogWarning("[House] Остаток: " + d);
         foreach (string u in unmapped)
             Debug.LogWarning("[House] UNMAPPED: " + u);
         return diffs.Count == 0;
+    }
+
+    /// <summary>
+    /// Построить тайл за билет со склада (драг из панели, ДОМ-ПАНЕЛЬ-01).
+    /// Дерево/голда НЕ списываются (уплачены при покупке билета).
+    /// </summary>
+    public static bool TryExpandTicket(Vector3Int target)
+    {
+        if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
+        {
+            Debug.LogError("[House] Нет комнаты (InteriorWalls/InteriorFloor).");
+            return false;
+        }
+        WallStyle brick = WallStyle.Load(HouseReskin.BaseStyleId);
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick (пункт 5).");
+            return false;
+        }
+        if (!CanExpandAt(walls, floors, region, brick, lockY, target))
+        {
+            Debug.LogWarning("[House] Сюда строиться нельзя: " + target + ".");
+            return false;
+        }
+        if (!SimulateGrowth(region, walls, floors, brick, lockY, target, out var newCells))
+        {
+            Debug.LogWarning("[House] Кап " + HousePricing.MaxFloorTiles + ": не влезет (сейчас " +
+                              region.Count + ", надо +" + newCells.Count + ").");
+            return false;
+        }
+        if (HouseStock.Instance == null || !HouseStock.Instance.Remove(TicketKey))
+        {
+            Debug.LogWarning("[House] Нет билета расширения — купи в магазине панели.");
+            return false;
+        }
+
+        string styleId = DominantFloorStyle(floors, region);
+        WallStyle fst = WallStyle.Load(styleId);
+        TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
+
+        BuildGeometry(target, walls, floors, region, lockY, brick, floorTile,
+            true, out int painted, out var diffs, out var unmapped,
+            out int floorNow, out int addedCount);
+
+        Debug.Log("[House] Пристройка " + target + " (" + styleId + "): +" + addedCount +
+                   " пола (теперь " + floorNow + "), записано стен " + painted +
+                   ", расхождений " + diffs.Count + ", unmapped " + unmapped.Count +
+                   " (билет расширения).");
+        foreach (string d in diffs)
+            Debug.LogWarning("[House] Остаток: " + d);
+        foreach (string u in unmapped)
+            Debug.LogWarning("[House] UNMAPPED: " + u);
+        return diffs.Count == 0;
+    }
+
+    /// <summary>Симуляция роста: таргет + поглощённые без пола. False = кап превышен.</summary>
+    static bool SimulateGrowth(HashSet<Vector3Int> region, Tilemap walls, Tilemap floors,
+        WallStyle brick, int lockY, Vector3Int target, out HashSet<Vector3Int> newCells)
+    {
+        var simFloor = new HashSet<Vector3Int>(region) { target };
+        var simWanted = HouseAutotiler.ComputeWanted(walls, simFloor, brick, lockY,
+            new HashSet<Vector3Int> { target }, new List<string>());
+        newCells = new HashSet<Vector3Int> { target };
+        foreach (var kvp in simWanted)
+        {
+            if (kvp.Value == null && !floors.HasTile(kvp.Key))
+                newCells.Add(kvp.Key);
+        }
+        return region.Count + newCells.Count <= HousePricing.MaxFloorTiles;
+    }
+
+    /// <summary>Геометрия пристройки: пол → стабилизация → аудит → сброс декора.</summary>
+    static void BuildGeometry(Vector3Int target, Tilemap walls, Tilemap floors,
+        HashSet<Vector3Int> region, int lockY, WallStyle brick, TileBase floorTile,
+        bool decorToStock, out int painted, out List<string> diffs, out List<string> unmapped,
+        out int floorNow, out int addedCount)
+    {
+        floors.SetTile(target, floorTile);
+        var floorLive = new HashSet<Vector3Int>(region) { target };
+        var freshLive = new HashSet<Vector3Int> { target };
+        var unmappedLive = new List<string>();
+        painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
+            freshLive, floorTile, unmappedLive);
+        unmapped = unmappedLive;
+        addedCount = new HashSet<Vector3Int>(freshLive).Count;
+        diffs = HouseAutotiler.Audit(walls,
+            HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY, null, new List<string>()));
+        HouseFurniture.RefreshPlaced(walls, floors, decorToStock);
+        floorNow = floorLive.Count;
     }
 }
