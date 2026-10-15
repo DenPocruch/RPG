@@ -1743,8 +1743,24 @@ public static class HouseBuilders
         AssetDatabase.SaveAssets();
         Selection.activeObject = item;
         if (item.icon == null)
-            Debug.LogWarning("[House] Чертёж готов, но без иконки — проставь спрайт в инспекторе (иначе в хотбаре пусто).");
+        {
+            // Тестовая иконка (владелец заменит артом): спрайт плитки кирпича.
+            ItemData brick = AssetDatabase.LoadAssetAtPath<ItemData>(
+                "Assets/Resources/Items/House/FloorTile_Brick.asset");
+            if (brick != null && brick.icon != null)
+            {
+                item.icon = brick.icon;
+                item.worldSprite = brick.worldSprite;
+                Debug.Log("[House] Чертёж готов (в магазине появится сам). Иконка ВРЕМЕННАЯ (от плитки) — замени артом в инспекторе.");
+            }
+            else
+            {
+                Debug.LogWarning("[House] Чертёж готов, но без иконки — проставь спрайт в инспекторе (иначе в хотбаре пусто).");
+            }
+        }
         else
+        {
             Debug.Log("[House] Чертёж готов (в магазине появится сам, кодом).");
+        }
     }
 }

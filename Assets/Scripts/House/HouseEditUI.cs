@@ -111,6 +111,15 @@ public class HouseEditUI : MonoBehaviour
             binder.panel.SetActive(false);
     }
 
+    /// <summary>Точка над панелью? (бросок со сцены на склад).</summary>
+    public bool IsPointerOverPanel(Vector2 screenPos)
+    {
+        if (binder == null || binder.panel == null || !binder.panel.activeInHierarchy) return false;
+        RectTransform rt = binder.panel.transform as RectTransform;
+        if (rt == null) return false;
+        return RectTransformUtility.RectangleContainsScreenPoint(rt, screenPos);
+    }
+
     // ─── Сетка ───
     public void Refresh()
     {
@@ -136,7 +145,7 @@ public class HouseEditUI : MonoBehaviour
         }
         RefreshDetail();
         RefreshGold();
-        SetHint(tabStock ? "Перетащи предмет в дом, чтобы установить" : "Купи — упадёт на склад, потом тащи в дом");
+        SetHint(tabStock ? "Drag an item into the house to place it" : "Buy it first — it lands in stock, then drag it home");
     }
 
     void BuildRows()
@@ -260,7 +269,7 @@ public class HouseEditUI : MonoBehaviour
         if (binder.detailIcon != null) binder.detailIcon.sprite = r != null ? r.icon : null;
         if (binder.detailName != null) binder.detailName.text = r != null ? r.title : "";
         if (binder.detailDesc != null) binder.detailDesc.text = r != null ? r.desc : "";
-        if (binder.detailCount != null) binder.detailCount.text = r != null && tabStock ? "На складе: " + r.count : "";
+        if (binder.detailCount != null) binder.detailCount.text = r != null && tabStock ? "In stock: " + r.count : "";
         if (binder.detailPrice != null) binder.detailPrice.text = r != null && !tabStock ? r.price + "g" : "";
         if (binder.buyButton != null) binder.buyButton.gameObject.SetActive(!tabStock && r != null);
     }
@@ -297,7 +306,7 @@ public class HouseEditUI : MonoBehaviour
             binder.hintLabel.text = text;
     }
 
-    // ─── Драг из панели (только Склад) ───
+    // ─── Драг из панели (только Склад): UI-призрак поверх канваса ───
     public void BeginPanelDrag(int rowIndex, BaseEventData _)
     {
         CancelGhost();
@@ -307,14 +316,25 @@ public class HouseEditUI : MonoBehaviour
         Row r = rows[rowIndex];
         if (r.icon == null) return;
         if (HouseStock.Instance == null || HouseStock.Instance.Count(StockIdOf(r)) <= 0) return;
+        Canvas canvas = FindCanvas();
+        if (canvas == null) return;
         ghostRowIndex = rowIndex;
         panelGhost = new GameObject("HousePanelGhost");
-        SpriteRenderer sr = panelGhost.AddComponent<SpriteRenderer>();
-        sr.sprite = r.icon;
-        sr.sortingOrder = 60;
-        Color c = sr.color;
-        c.a = 0.6f;
-        sr.color = c;
+        panelGhost.transform.SetParent(canvas.transform, false);
+        panelGhost.transform.SetAsLastSibling();
+        Image img = panelGhost.AddComponent<Image>();
+        img.sprite = r.icon;
+        img.raycastTarget = false;
+        // Размер 1-в-1 как предмет на экране: мебель — спрайт префаба, стили — тайл 1×1.
+        Vector2 worldSize = Vector2.one;
+        if (r.kind == RowKind.Furniture && r.prefab != null)
+        {
+            SpriteRenderer psr = r.prefab.GetComponent<SpriteRenderer>();
+            if (psr != null && psr.sprite != null)
+                worldSize = psr.sprite.bounds.size;
+        }
+        HouseDragController.FitMirrorToWorld(panelGhost, worldSize);
+        img.color = new Color(1f, 1f, 1f, 0.8f);
     }
 
     static string StockIdOf(Row r)
@@ -328,13 +348,13 @@ public class HouseEditUI : MonoBehaviour
     {
         if (panelGhost == null || ghostRowIndex < 0 || ghostRowIndex >= rows.Count) return;
         Vector2 screenPos = PointerPos(data);
-        Vector3 wp = ScreenToWorld(screenPos);
-        panelGhost.transform.position = new Vector3(wp.x, wp.y, 0f);
+        MoveGhostVisual(screenPos);
+        Vector3 wp = ScreenToWorld(screenPos); // строго под пальцем
         bool ok = ValidateGhost(rows[ghostRowIndex], wp);
-        SpriteRenderer sr = panelGhost.GetComponent<SpriteRenderer>();
-        if (sr != null)
-            sr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.6f)
-                          : new Color(1f, 0.35f, 0.35f, 0.6f);
+        Image img = panelGhost.GetComponent<Image>();
+        if (img != null)
+            img.color = ok ? new Color(0.55f, 1f, 0.55f, 0.9f)
+                           : new Color(1f, 0.35f, 0.35f, 0.9f);
     }
 
     public void EndPanelDrag(BaseEventData data)
@@ -345,7 +365,7 @@ public class HouseEditUI : MonoBehaviour
             return;
         }
         Row r = rows[ghostRowIndex];
-        Vector3 wp = ScreenToWorld(PointerPos(data));
+        Vector3 wp = ScreenToWorld(PointerPos(data)); // строго под пальцем
         CancelGhost();
         if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
             return;
@@ -398,6 +418,32 @@ public class HouseEditUI : MonoBehaviour
         ghostRowIndex = -1;
         if (panelGhost != null) Destroy(panelGhost);
         panelGhost = null;
+    }
+
+    static Canvas uiCanvas;
+
+    static Canvas FindCanvas()
+    {
+        if (uiCanvas == null)
+        {
+            GameObject root = GameObject.Find("Canvas");
+            if (root != null) uiCanvas = root.GetComponent<Canvas>();
+            if (uiCanvas == null) uiCanvas = Object.FindFirstObjectByType<Canvas>();
+        }
+        return uiCanvas;
+    }
+
+    void MoveGhostVisual(Vector2 screenPos)
+    {
+        // Призрак строго под пальцем, без сдвигов.
+        if (panelGhost == null || uiCanvas == null) return;
+        RectTransform rt = panelGhost.transform as RectTransform;
+        if (rt == null) return;
+        Vector2 p = screenPos;
+        Vector2 local = p;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            uiCanvas.transform as RectTransform, p, uiCanvas.worldCamera, out local);
+        rt.anchoredPosition = local;
     }
 
     static Vector2 PointerPos(BaseEventData data)

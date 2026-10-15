@@ -49,6 +49,34 @@ public class HouseDragController : MonoBehaviour
     GameObject sourceHighlight;
 
     static Sprite whiteSquare;
+    static Canvas uiCanvas;
+
+    /// <summary>Размер UI-двойника ровно под экранный размер предмета
+    /// (для призрака панели; сам драг сцены идёт видимым предметом).</summary>
+    public static void FitMirrorToWorld(GameObject mirror, Vector2 worldSize)
+    {
+        if (mirror == null) return;
+        if (uiCanvas == null)
+        {
+            GameObject root = GameObject.Find("Canvas");
+            if (root != null) uiCanvas = root.GetComponent<Canvas>();
+            if (uiCanvas == null) uiCanvas = Object.FindFirstObjectByType<Canvas>();
+            if (uiCanvas == null) return;
+        }
+        Camera cam = Camera.main;
+        if (cam == null) return;
+        RectTransform rt = mirror.transform as RectTransform;
+        if (rt == null) return;
+        Vector3 center = cam.transform.position;
+        center.z = 0f;
+        Vector2 half = worldSize * 0.5f;
+        Vector3 s0 = cam.WorldToScreenPoint(center - (Vector3)half);
+        Vector3 s1 = cam.WorldToScreenPoint(center + (Vector3)half);
+        Vector2 px = new Vector2(Mathf.Abs(s1.x - s0.x), Mathf.Abs(s1.y - s0.y));
+        float k = uiCanvas.scaleFactor;
+        if (k <= 0f) k = 1f;
+        rt.sizeDelta = px / k;
+    }
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Boot()
@@ -119,7 +147,8 @@ public class HouseDragController : MonoBehaviour
 
     void BeginPress(Vector2 screenPos, int pointerId)
     {
-        if (HouseEditMode.IsOpen) return; // панель открыта — таскаем из неё, не со сцены
+        // Панель открыта — не помеха: старт с UI игнорируем ниже (downOnUI),
+        // а бросок на панель = убрать на склад (см. Drop).
         downOnUI = EventSystem.current != null &&
             (pointerId < 0 ? EventSystem.current.IsPointerOverGameObject()
                            : EventSystem.current.IsPointerOverGameObject(pointerId));
@@ -195,6 +224,7 @@ public class HouseDragController : MonoBehaviour
             originColor = sr.color;
             sr.color = new Color(originColor.r, originColor.g, originColor.b, 0.55f);
         }
+        // Несомый остаётся видимым под пальцем (рабочая версия).
         // Призрак-источник: тот же предмет, зелёный, на старом месте.
         sourceHighlight = new GameObject("HouseDragSource");
         SpriteRenderer hr = sourceHighlight.AddComponent<SpriteRenderer>();
@@ -225,12 +255,15 @@ public class HouseDragController : MonoBehaviour
     void MoveCarried(Vector2 screenPos)
     {
         if (carried == null) { state = DragState.Idle; return; }
+        // Строго под пальцем, без сдвигов.
         Vector3 wp = ScreenToWorld(screenPos);
         carried.transform.position = new Vector3(wp.x, wp.y, 0f);
-        if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
-            return;
-        bool ok = HouseFurniture.CanPlaceAt(walls, floors, region, carriedPrefab,
-            carried.transform.position, carriedMount, out _, carried);
+        // Над панелью = убрать на склад: всегда зелёный.
+        bool overPanel = HouseEditUI.Instance != null && HouseEditUI.Instance.IsPointerOverPanel(screenPos);
+        bool ok = overPanel;
+        if (!overPanel && HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
+            ok = HouseFurniture.CanPlaceAt(walls, floors, region, carriedPrefab,
+                carried.transform.position, carriedMount, out _, carried);
         SpriteRenderer sr = carried.GetComponent<SpriteRenderer>();
         if (sr != null)
             sr.color = ok ? new Color(0.55f, 1f, 0.55f, 0.6f)
@@ -244,12 +277,18 @@ public class HouseDragController : MonoBehaviour
         carried = null;
         state = DragState.Idle;
         CleanupCarryVisual(go);
+        // Бросок на панель = убрать на склад (режим планировки).
+        if (HouseEditUI.Instance != null && HouseEditUI.Instance.IsPointerOverPanel(screenPos))
+        {
+            StoreToPanel(go);
+            return;
+        }
         if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
         {
             go.transform.position = originPos;
             return;
         }
-        // Без снапа: встаёт точно под палец/курсор (снап к клетке тянул мимо).
+        // Встаёт точно под палец, без сдвигов и снапов.
         Vector3 wp = ScreenToWorld(screenPos);
         wp.z = 0f;
         Vector3 snapped = wp;
@@ -284,6 +323,27 @@ public class HouseDragController : MonoBehaviour
         carried = null;
         candidate = null;
         state = DragState.Idle;
+    }
+
+    /// <summary>Бросок несомого на панель: снять со сцены, +1 на склад.</summary>
+    void StoreToPanel(GameObject go)
+    {
+        if (go == null) return;
+        HousePlacedFurniture marker = go.GetComponent<HousePlacedFurniture>();
+        if (marker == null)
+        {
+            marker = go.AddComponent<HousePlacedFurniture>();
+            marker.prefabName = go.name;
+        }
+        if (HouseFurniture.TryStore(marker, true, out string reason))
+        {
+            Debug.Log("[House] Убрано на склад: " + marker.prefabName + ".");
+            if (HouseEditUI.Instance != null) HouseEditUI.Instance.Refresh(); // счётчики сразу
+        }
+        else
+            Debug.Log("[House] Не убралось (" + reason + ") — вернул на место.");
+        if (marker != null && marker.gameObject != null)
+            marker.transform.position = originPos; // откат если не убралось
     }
 
     void CleanupCarryVisual(GameObject go)
