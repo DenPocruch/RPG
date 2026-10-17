@@ -329,11 +329,13 @@ public class HouseDragController : MonoBehaviour
         {
             go.transform.position = snapped;
             // Ручной декор входит в сейв-систему.
+            bool sceneDefault = go.transform.parent != null && go.transform.parent.name == "Interior";
             HousePlacedFurniture marker = go.GetComponent<HousePlacedFurniture>();
             if (marker == null)
             {
                 marker = go.AddComponent<HousePlacedFurniture>();
                 marker.prefabName = go.name;
+                if (sceneDefault) marker.fromScene = true;
             }
             SaveManager.Instance?.Save();
             Debug.Log("[House] Поставлено: " + go.name + " в " + snapped + ".");
@@ -370,6 +372,8 @@ public class HouseDragController : MonoBehaviour
         {
             marker = go.AddComponent<HousePlacedFurniture>();
             marker.prefabName = go.name;
+            if (go.transform.parent != null && go.transform.parent.name == "Interior")
+                marker.fromScene = true;
         }
         if (HouseFurniture.TryStore(marker, true, out string reason))
         {

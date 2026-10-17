@@ -45,6 +45,20 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         m.grownRuntime.Add(cell);
     }
 
+    // Сценовый декор, убранный игроком в инвентарь: сцена при входе снова его
+    // создаст, поэтому на restore такие копии подавляем (иначе предмет и на
+    // стене, и в инвентаре). Запоминаем по имени префаба.
+    private readonly HashSet<string> removedScene = new HashSet<string>();
+
+    /// <summary>Запомнить, что сценовый декор убран (зовут HouseFurniture.DestroyPlaced).</summary>
+    public static void NoteSceneRemoved(string prefabName)
+    {
+        if (string.IsNullOrEmpty(prefabName)) return;
+        var m = Live();
+        if (m == null) return;
+        m.removedScene.Add(prefabName);
+    }
+
     /// <summary>Живой менеджер сцены (для стройки/сноса из кода).</summary>
     public static HouseInteriorManager Live()
     {
@@ -262,7 +276,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     [System.Serializable]
     private class CellRec { public int x; public int y; public string style; }
     [System.Serializable]
-    private class PlacedRec { public string prefabPath; public float x; public float y; }
+    private class PlacedRec { public string prefabPath; public float x; public float y; public bool fromScene; }
     [System.Serializable]
     private class HouseSave
     {
@@ -272,6 +286,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         public List<PlacedRec> furniture = new List<PlacedRec>();
         public List<CellRec> grown = new List<CellRec>();   // прирощенные стройками клетки (кольцо)
         public List<JournalEntry> journal = new List<JournalEntry>(); // снапшоты стен до строек
+        public List<string> removedScene = new List<string>(); // сценовый декор, убранный в инвентарь
     }
 
     [System.Serializable]
@@ -323,7 +338,8 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             {
                 prefabPath = f.prefabName,
                 x = f.transform.position.x,
-                y = f.transform.position.y
+                y = f.transform.position.y,
+                fromScene = f.fromScene
             });
         }
         // Детерминированный порядок — дешевле dirty-flag сейва.
@@ -341,6 +357,8 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             save.journal.Add(entry);
         }
         save.journal.Sort((a, b) => a.tx != b.tx ? a.tx - b.tx : a.ty - b.ty);
+        foreach (string s in removedScene)
+            if (!string.IsNullOrEmpty(s)) save.removedScene.Add(s);
         return JsonUtility.ToJson(save);
     }
 
@@ -368,6 +386,11 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
                 if (g == null) continue;
                 grownRuntime.Add(new Vector3Int(g.x, g.y, 0));
             }
+        }
+        if (save.removedScene != null)
+        {
+            foreach (string s in save.removedScene)
+                if (!string.IsNullOrEmpty(s)) removedScene.Add(s);
         }
         if (save.journal != null)
         {
@@ -426,6 +449,10 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
                   ", unmapped " + ringUnmapped +
                   ", расхождений " + ringDiffs + "), пристроек: " + grownRuntime.Count +
                   ", мебели " + furnitureTotal + " (покупок тайлов: " + save.expandedCount + ").");
+        // Декор, расставленный на сцене и перенесённый игроком, сцена при входе
+        // создаёт заново на старом месте — убираем сценовую копию ДО спавна из сейва,
+        // иначе предмет удваивается.
+        RemoveSceneDuplicates(save);
         // Мебель спавнится из записей (фаза 5): каталог = реестр префабов.
         if (save.furniture != null && save.furniture.Count > 0)
         {
@@ -453,6 +480,50 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
                 foreach (string m in missing)
                     Debug.LogWarning("[House] Нет префаба в каталоге: " + m + ".");
             }
+        }
+    }
+
+    /// <summary>
+    /// Убрать сценовые копии декора, который игрок уже переносил (сейв его
+    /// переспавнит). Сцена всегда создаёт расставленный владельцем декор заново,
+    /// поэтому без этого перенесённый предмет появлялся бы дважды.
+    /// Трогаем только детей Interior без маркера и только те, что есть в каталоге
+    /// (иначе сейв их всё равно не переспавнит — потеряли бы предмет).
+    /// </summary>
+    void RemoveSceneDuplicates(HouseSave save)
+    {
+        if (save == null || save.furniture == null) return;
+        bool anyFromScene = false;
+        foreach (PlacedRec r in save.furniture)
+            if (r != null && r.fromScene) { anyFromScene = true; break; }
+        GameObject interior = GameObject.Find("Interior");
+        if (interior == null) return;
+        var toRemove = new List<GameObject>();
+        foreach (Transform tr in interior.transform)
+        {
+            if (tr == null) continue;
+            if (tr.GetComponent<HousePlacedFurniture>() != null) continue; // уже сейвный
+            if (tr.GetComponent<ChestInteraction>() != null) continue;      // сундук — не декор
+            if (HouseFurniture.ResolvePrefab(tr.name) == null) continue;   // не переспавнится
+            bool remove = false;
+            if (removedScene.Contains(tr.name)) remove = true;             // убран в инвентарь
+            else
+            {
+                foreach (PlacedRec r in save.furniture)
+                {
+                    if (r == null || r.prefabPath != tr.name) continue;
+                    if (r.fromScene) { remove = true; break; }             // перенесён (новый сейв)
+                    if (!anyFromScene && Vector2.Distance(new Vector2(r.x, r.y), (Vector2)tr.position) > 0.5f)
+                    { remove = true; break; }                              // старый сейв, позиция другая
+                }
+            }
+            if (!remove) continue;
+            toRemove.Add(tr.gameObject);
+        }
+        foreach (GameObject go in toRemove)
+        {
+            Debug.Log("[House] Убираю дубль сцены: " + go.name + " (перенесён/убран, сейв его переспавнит).");
+            Object.Destroy(go);
         }
     }
 

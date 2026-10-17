@@ -233,6 +233,7 @@ public static class HouseFurniture
     static void DestroyPlaced(HousePlacedFurniture f)
     {
         if (f == null) return;
+        if (f.fromScene) HouseInteriorManager.NoteSceneRemoved(f.gameObject.name);
         if (Application.isPlaying) Object.Destroy(f.gameObject);
         else Object.DestroyImmediate(f.gameObject);
     }
