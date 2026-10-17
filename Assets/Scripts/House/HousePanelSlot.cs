@@ -21,21 +21,23 @@ public class HousePanelSlot : MonoBehaviour,
     [HideInInspector]
     public int rowIndex = -1;
 
+    bool wasDragging;
+
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (wasDragging) { wasDragging = false; return; }
         if (HouseEditUI.Instance != null)
             HouseEditUI.Instance.SlotClicked(rowIndex);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        // Призрак сразу по нажатию (BeginDrag приходит только после сдвига).
-        if (HouseEditUI.Instance != null)
-            HouseEditUI.Instance.BeginPanelDrag(rowIndex, eventData);
+        wasDragging = false;
     }
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        wasDragging = true;
         if (HouseEditUI.Instance != null)
             HouseEditUI.Instance.BeginPanelDrag(rowIndex, eventData);
     }

@@ -1804,4 +1804,18 @@ public static class HouseBuilders
         }
         Debug.Log("[House] Плюсик привязан (" + plus.name + ", биндеров: " + binders.Length + ") — нажми Ctrl+S.");
     }
+
+    [MenuItem("Tools/House/32. Test (Play): +30 билетов расширения")]
+    public static void TestGiveExpansionTickets()
+    {
+        if (!EditorApplication.isPlaying)
+        {
+            Debug.LogError("[House] Выдача билетов — только в Play (запусти из SampleScene).");
+            return;
+        }
+        if (HouseStock.Instance == null) return;
+        HouseStock.Instance.Add(HouseExpansion.TicketKey, 30);
+        Debug.Log("[House] Тест: билетов расширения = " +
+                  HouseStock.Instance.Count(HouseExpansion.TicketKey) + " (ищи во вкладке Пол).");
+    }
 }

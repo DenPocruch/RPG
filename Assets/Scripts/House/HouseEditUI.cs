@@ -551,6 +551,7 @@ public class HouseEditUI : MonoBehaviour
             bool built = HouseExpansion.TryExpandTicket(cell);
             Debug.Log(built ? "[House] Дом расширен: " + cell + "."
                             : "[House] Сюда нельзя (только клетка встык / нет билета).");
+            if (built) SaveManager.Instance?.Save();
         }
         else if (r.kind == RowKind.FloorStyle)
         {
@@ -558,6 +559,7 @@ public class HouseEditUI : MonoBehaviour
             bool painted = HouseReskin.TryPaintFloorCell(cell, r.id, true);
             Debug.Log(painted ? "[House] Пол перекрашен: " + cell + "."
                               : "[House] Сюда нельзя (только пол комнаты / нет на складе).");
+            if (painted) SaveManager.Instance?.Save();
         }
         else if (r.kind == RowKind.WallStyle)
         {
@@ -565,6 +567,7 @@ public class HouseEditUI : MonoBehaviour
             bool painted = HouseReskin.TryPaintWallCell(cell, r.id, true);
             Debug.Log(painted ? "[House] Стена перекрашена: " + cell + "."
                               : "[House] Сюда нельзя (только стена комнаты / нет на складе).");
+            if (painted) SaveManager.Instance?.Save();
         }
         Refresh();
     }

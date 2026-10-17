@@ -17,6 +17,39 @@ public static class HouseReskin
     // TODO(фаза 3.5): реестр стилей вместо списка (когда цветов станет больше двух).
     static readonly string[] KnownStyleIds = { "Brick", "Barn" };
 
+    // Реестр тайлов по именам (для журнала сноса: снапшот хранит имена,
+    // AssetDatabase в рантайме нет). Строится по полям WallStyle всех
+    // известных стилей: автотайлер ставит только эти тайлы.
+    static Dictionary<string, TileBase> tileByNameCache;
+
+    /// <summary>Тайл по имени ассета (null = нет/неизвестен).</summary>
+    public static TileBase TileByName(string tileName)
+    {
+        if (string.IsNullOrEmpty(tileName)) return null;
+        if (tileByNameCache == null)
+        {
+            tileByNameCache = new Dictionary<string, TileBase>();
+            foreach (string id in KnownStyleIds)
+            {
+                WallStyle st = StyleOf(id);
+                if (st == null) continue;
+                foreach (var f in typeof(WallStyle).GetFields(
+                    System.Reflection.BindingFlags.Public |
+                    System.Reflection.BindingFlags.NonPublic |
+                    System.Reflection.BindingFlags.Instance))
+                {
+                    if (!typeof(TileBase).IsAssignableFrom(f.FieldType)) continue;
+                    TileBase t = f.GetValue(st) as TileBase;
+                    if (t == null) continue;
+                    if (!tileByNameCache.ContainsKey(t.name))
+                        tileByNameCache[t.name] = t;
+                }
+            }
+        }
+        tileByNameCache.TryGetValue(tileName, out TileBase found);
+        return found;
+    }
+
     public static string WallKey(string styleId) => "wall_" + styleId.ToLowerInvariant();
     public static string FloorKey(string styleId) => "floor_" + styleId.ToLowerInvariant();
 

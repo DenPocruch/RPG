@@ -217,7 +217,7 @@ public static class HouseExpansion
     }
 
     /// <summary>Доминирующий стиль пола комнаты (новичок красится им).</summary>
-    static string DominantFloorStyle(Tilemap floors, HashSet<Vector3Int> floor)
+    public static string DominantFloorStyle(Tilemap floors, HashSet<Vector3Int> floor)
     {
         var counts = new Dictionary<string, int>();
         foreach (Vector3Int c in floor)
@@ -295,6 +295,10 @@ public static class HouseExpansion
         // 2–4. Стабилизация: кольцо + долив пола + углы — до сходимости.
         // Свежая клетка могла съесть стену под настенным декором — сбросить (фаза 5).
         // free (тест редактора): склад не трогаем, только снести с варнингом.
+        // Честная стройка: снапшот стен до (журнал сноса) + коммит после.
+        var mgr = HouseInteriorManager.Live();
+        if (!free && mgr != null)
+            mgr.BeginJournal(target, walls, HouseInteriorManager.JournalScopeCells(region, lockY));
         BuildGeometry(target, walls, floors, region, lockY, brick, floorTile,
             !free, out int painted, out var diffs, out var unmapped,
             out int floorNow, out int addedCount);
@@ -307,6 +311,8 @@ public static class HouseExpansion
                 return false;
             }
             AddPurchased();
+            HouseInteriorManager.NoteGrown(target); // честная стройка переживает рестарт
+            if (mgr != null) mgr.CommitJournal(target, walls);
         }
 
         Debug.Log("[House] Пристройка " + target + " (" + styleId + "): +" + addedCount +
@@ -318,6 +324,50 @@ public static class HouseExpansion
         foreach (string u in unmapped)
             Debug.LogWarning("[House] UNMAPPED: " + u);
         return diffs.Count == 0;
+    }
+
+    /// <summary>
+    /// Снести пристроенный пол за возврат билета (лонг-пресс в планировке).
+    /// Основу дома (нетрекнутые клетки) снести нельзя. Кольцо смыкается той же
+    /// операцией (рантайм-аналог п.21), мебель без опоры падает на склад.
+    /// </summary>
+    public static bool TryDemolishTicket(Vector3Int target)
+    {
+        if (!HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
+        {
+            Debug.LogError("[House] Нет комнаты (InteriorWalls/InteriorFloor).");
+            return false;
+        }
+        WallStyle brick = WallStyle.Load(HouseReskin.BaseStyleId);
+        if (brick == null)
+        {
+            Debug.LogError("[House] Нет WallStyle_Brick (пункт 5).");
+            return false;
+        }
+        if (!region.Contains(target) || !floors.HasTile(target))
+        {
+            Debug.LogWarning("[House] Тут нет пола комнаты: " + target + ".");
+            return false;
+        }
+        var mgr = HouseInteriorManager.Live();
+        if (mgr == null || !mgr.IsGrown(target))
+        {
+            Debug.Log("[House] Это основа дома — снести можно только пристроенные тайлы.");
+            return false;
+        }
+        // Откат стен по журналу (как п.21): вернуть "как было до стройки" там,
+        // где нет пола. Без записи (legacy) — только Stabilize ниже.
+        bool hadJournal = mgr.UndoJournal(target, walls, floors);
+        floors.SetTile(target, null);
+        mgr.ForgetGrown(target);
+        int painted = mgr.RebuildAfterDemolish(out int unmapped, out int diffs);
+        if (HouseStock.Instance != null)
+            HouseStock.Instance.Add(TicketKey, 1);
+        SaveManager.Instance?.Save();
+        Debug.Log("[House] Пол убран: " + target + " (билет +1 на складе, журнал: " +
+                  (hadJournal ? "откат" : "нет записи") + ", стен переписано " +
+                  painted + ", расхождений " + diffs + ", unmapped " + unmapped + ").");
+        return diffs == 0;
     }
 
     /// <summary>
@@ -358,9 +408,14 @@ public static class HouseExpansion
         WallStyle fst = WallStyle.Load(styleId);
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
 
+        var mgr = HouseInteriorManager.Live();
+        if (mgr != null)
+            mgr.BeginJournal(target, walls, HouseInteriorManager.JournalScopeCells(region, lockY));
         BuildGeometry(target, walls, floors, region, lockY, brick, floorTile,
             true, out int painted, out var diffs, out var unmapped,
             out int floorNow, out int addedCount);
+        if (mgr != null) mgr.CommitJournal(target, walls);
+        HouseInteriorManager.NoteGrown(target); // билетная стройка переживает рестарт
 
         Debug.Log("[House] Пристройка " + target + " (" + styleId + "): +" + addedCount +
                    " пола (теперь " + floorNow + "), записано стен " + painted +

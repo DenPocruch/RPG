@@ -50,6 +50,8 @@ public class HouseDragController : MonoBehaviour
     GameObject sourceHighlight;
     GameObject carryIcon; // UI-копия поверх панели (обратный драг дом → панель)
     Vector2 carryIconOffsetPx; // тот же якорь: палец внизу стола
+    Vector3Int floorCell; // кандидат на снос (лонг-пресс по пристроенному полу)
+    bool hasFloorCell;
 
     static Sprite whiteSquare;
 
@@ -103,15 +105,19 @@ public class HouseDragController : MonoBehaviour
             BeginPress(screenPos, pointerId);
         else if (state == DragState.Pressing)
         {
-            if (!held || released) { state = DragState.Idle; candidate = null; return; } // был тап
+            if (!held || released) { state = DragState.Idle; candidate = null; hasFloorCell = false; return; } // был тап
             if ((screenPos - downScreenPos).magnitude > DRAG_THRESHOLD_PX)
             {
                 state = DragState.Idle; // сдвиг — не лонг-пресс
                 candidate = null;
+                hasFloorCell = false;
                 return;
             }
             if (!downOnUI && Time.unscaledTime - downTime >= HOLD_TIME)
-                Pickup();
+            {
+                if (candidate != null) Pickup();
+                else if (hasFloorCell) DemolishFloor();
+            }
         }
         else if (state == DragState.Carrying)
         {
@@ -129,11 +135,32 @@ public class HouseDragController : MonoBehaviour
                            : EventSystem.current.IsPointerOverGameObject(pointerId));
         if (downOnUI) return;
         GameObject hit = FindFurniture(ScreenToWorld(screenPos));
-        if (hit == null) return;
-        candidate = hit;
-        downScreenPos = screenPos;
-        downTime = Time.unscaledTime;
-        state = DragState.Pressing;
+        if (hit != null)
+        {
+            candidate = hit;
+            downScreenPos = screenPos;
+            downTime = Time.unscaledTime;
+            state = DragState.Pressing;
+            return;
+        }
+        // Мебели нет: в режиме планировки лонг-пресс по пристроенному полу =
+        // снос с возвратом билета (рантайм-аналог п.21). Только планировка —
+        // в обычной игре пол свят.
+        hasFloorCell = false;
+        if (HouseEditMode.IsOpen &&
+            HouseReskin.FindRoom(out Tilemap walls, out Tilemap floors, out var region, out int lockY))
+        {
+            Vector3 wp = ScreenToWorld(screenPos);
+            Vector3Int cell = floors.WorldToCell(wp);
+            if (region.Contains(cell) && floors.HasTile(cell))
+            {
+                floorCell = cell;
+                hasFloorCell = true;
+                downScreenPos = screenPos;
+                downTime = Time.unscaledTime;
+                state = DragState.Pressing;
+            }
+        }
     }
 
     /// <summary>Мебель под точкой: с маркером или ручная (дети Interior). Игрок/животные — мимо.</summary>
@@ -240,6 +267,18 @@ public class HouseDragController : MonoBehaviour
         state = DragState.Carrying;
     }
 
+    /// <summary>Лонг-пресс по пристроенному полу: снос с возвратом билета.</summary>
+    void DemolishFloor()
+    {
+        state = DragState.Idle;
+        Vector3Int cell = floorCell;
+        hasFloorCell = false;
+        candidate = null;
+        if (HouseExpansion.TryDemolishTicket(cell))
+            try { Handheld.Vibrate(); } catch { }
+        Object.FindFirstObjectByType<HouseEditUI>()?.Refresh(); // счётчик билетов сразу
+    }
+
     void MoveCarried(Vector2 screenPos)
     {
         if (carried == null) { state = DragState.Idle; return; }
@@ -318,6 +357,7 @@ public class HouseDragController : MonoBehaviour
         HideCarryIcon();
         carried = null;
         candidate = null;
+        hasFloorCell = false;
         state = DragState.Idle;
     }
 

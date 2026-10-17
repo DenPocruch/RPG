@@ -53415,7 +53415,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &350754984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124058,6 +124058,7 @@ MonoBehaviour:
   buyButton: {fileID: 1754655240}
   hintLabel: {fileID: 0}
   goldLabel: {fileID: 0}
+  expansionIcon: {fileID: 528100885025308941, guid: 130783385e519d14fa0851d005f2abd3, type: 3}
 --- !u!1001 &1560505574
 PrefabInstance:
   m_ObjectHideFlags: 0
