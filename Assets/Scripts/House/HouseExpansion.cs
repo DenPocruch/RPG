@@ -513,6 +513,9 @@ public static class HouseExpansion
         addedCount = new HashSet<Vector3Int>(freshLive).Count;
         diffs = HouseAutotiler.Audit(walls,
             HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY, null, new List<string>()));
+        // Колонка разделителя (пункт 23) — как в редакторе (инструмент 20).
+        int colBuilt = HouseAutotiler.BuildCorridorColumnCore(walls, floors, floorLive, brick, lockY, out int colSkipped);
+        Debug.Log("[House] Колонна: построено " + colBuilt + ", пропущено " + colSkipped + " (таргет " + target + ").");
         HouseFurniture.RefreshPlaced(walls, floors, decorToStock);
         floorNow = floorLive.Count;
     }

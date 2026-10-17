@@ -864,13 +864,174 @@ public static class HouseAutotiler
                     if (wanted.ContainsKey(d)) continue;
                     TileBase cur = wallMap.GetTile(d);
                     if (cur != null && st.lockTileNames != null && st.lockTileNames.Contains(cur.name)) continue;
-                    if (wallMap.GetTile(d) != col[i])
+                if (wallMap.GetTile(d) != col[i])
+                {
+                    wanted[d] = col[i];
+                }
+            }
+        // Прямая вертикальная стена: колонна справа от стены (для линейного роста плиткой по одной).
+        // Ставит колонну в wanted, чтобы Stabilize применил и колонна не "ездила" между расширениями.
+        // Паттерн снизу вверх: bandBotEdge, bandTopEdge, westTurnA, westTurnB.
+        if (st.bandBotEdge == null || st.bandTopEdge == null || st.westTurnA == null || st.westTurnB == null)
+            return;
+        TileBase[] straightColTiles = { st.bandBotEdge, st.bandTopEdge, st.westTurnA, st.westTurnB };
+        for (int cx = x0; cx <= x1 - 1; cx++)
+        {
+            int runStart = int.MinValue;
+            for (int cy0 = y0; cy0 <= y1; cy0++)
+            {
+                var c = new Vector3Int(cx, cy0, 0);
+                TileBase cur = wallMap.GetTile(c);
+                bool isWall = cur != null && cur != st.bgFill
+                    && (IsBandTile(cur, st) || cur == st.straightV || cur == st.westTurnA || cur == st.westTurnB);
+                if (isWall && runStart == int.MinValue) runStart = cy0;
+                if ((!isWall || cy0 == y1) && runStart != int.MinValue)
+                {
+                    int colX = cx + 1;
+                    if (colX <= x1)
                     {
-                        wanted[d] = col[i];
+                        for (int k = 0; k < straightColTiles.Length; k++)
+                        {
+                            int cy = runStart + k;
+                            if (cy > y1) break;
+                            if (straightColTiles[k] == null) continue;
+                            var colPos = new Vector3Int(colX, cy, 0);
+                            if (wanted.ContainsKey(colPos))
+                            {
+                                var existing = wanted[colPos];
+                                if (existing == st.straightV || existing == st.westTurnA || existing == st.westTurnB
+                                    || existing == st.bandTopEdge || existing == st.bandBotEdge)
+                                    continue; // уже колонна — не перебиваем
+                            }
+                            TileBase colCur = wallMap.GetTile(colPos);
+                            if (colCur != null && colCur != st.bgFill) continue;
+                            if (st.lockTileNames != null && st.lockTileNames.Contains(colCur.name)) continue;
+                            wanted[colPos] = straightColTiles[k];
+                        }
                     }
+                    runStart = int.MinValue;
                 }
             }
         }
+    }
+    }
+    }
+
+    /// <summary>
+    /// L-колонка разделителя (пункт 23): L-уголок + вторая масса nearby дают колонку
+    /// 34/67/196/216/пол/0/34. Аналог BuildCorridorColumnCore из HouseBuilders.cs,
+    /// но без AssetDatabase — работает в рантайме.
+    /// </summary>
+    public static int BuildCorridorColumnCore(Tilemap walls, Tilemap floors,
+        HashSet<Vector3Int> region, WallStyle brick, int lockY, out int skipped)
+    {
+        skipped = 0;
+        if (walls == null || floors == null || region == null || brick == null) return 0;
+        TileBase tileH0 = brick.columnMid0;
+        if (tileH0 == null) return 0;
+        // Ряд колонки сверху вниз (эталон): 34, 67, 196, 216, ПОЛ, 0, 34.
+        TileBase[] col = {
+            brick.straightV, brick.westTurnA, brick.bandTopEdge,
+            brick.bandBotEdge, null, tileH0, brick.straightV };
+        int[] dys = { 4, 3, 2, 1, 0, -1, -2 };
+        for (int i = 0; i < col.Length; i++)
+        {
+            if (i == 4) continue;
+            if (col[i] == null)
+            {
+                Debug.LogError("[House] Нет тайла колонки (№" + i + ") — прогони пункт 5 / проверь Tileset House_0.");
+                return 0;
+            }
+        }
+        int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
+        foreach (Vector3Int c in region)
+        {
+            if (c.x < minX) minX = c.x; if (c.x > maxX) maxX = c.x;
+            if (c.y < minY) minY = c.y; if (c.y > maxY) maxY = c.y;
+        }
+        int built = 0;
+        Vector3Int[] card = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
+        for (int x = minX - 1; x <= maxX + 1; x++)
+        {
+            for (int y = minY - 1; y <= maxY + 1; y++)
+            {
+                Vector3Int[] sq = {
+                    new Vector3Int(x, y, 0), new Vector3Int(x + 1, y, 0),
+                    new Vector3Int(x, y + 1, 0), new Vector3Int(x + 1, y + 1, 0) };
+                int missing = -1, have = 0;
+                for (int k = 0; k < 4; k++)
+                {
+                    if (region.Contains(sq[k])) have++;
+                    else missing = k;
+                }
+                if (have != 3)
+                {
+                    Debug.Log("[House] Column: skip 2x2 at (" + x + "," + y + ") have=" + have + " (need 3 floors for L-изгиб)");
+                    continue;
+                }
+                Vector3Int bend = sq[3 - missing];
+                if (!region.Contains(bend)) { Debug.Log("[House] Column: skip bend not in region"); continue; }
+                var arms = new List<Vector3Int>();
+                foreach (Vector3Int d in card)
+                {
+                    Vector3Int n = bend + d;
+                    if (n == sq[missing]) continue;
+                    if (region.Contains(n)) arms.Add(d);
+                }
+                if (arms.Count != 2) { Debug.Log("[House] Column: skip arms=" + arms.Count + " (need 2)"); continue; }
+                Vector3Int vArm = Vector3Int.zero, hArm = Vector3Int.zero;
+                foreach (Vector3Int a in arms)
+                {
+                    if (a == Vector3Int.up || a == Vector3Int.down) vArm = a;
+                    else hArm = a;
+                }
+                if (vArm != Vector3Int.up || hArm == Vector3Int.zero)
+                {
+                    Debug.Log("[House] Column: skip vArm=" + vArm + " hArm=" + hArm + " (need N-рукав + E/W-рукав)");
+                    continue;
+                }
+                int sx = hArm == Vector3Int.right ? 1 : -1;
+                if (bend.y - 2 < lockY) { skipped++; continue; }
+                Vector3Int anchor = bend + new Vector3Int(sx, 0, 0);
+                if (!region.Contains(anchor)) { skipped++; continue; }
+                Vector3Int farCell = default;
+                bool farMass = false;
+                for (int fx = bend.x + sx * 2; fx != bend.x + sx * 4 && !farMass; fx += sx)
+                {
+                    for (int fy = bend.y - 1; fy <= bend.y + 1; fy++)
+                    {
+                        var fc = new Vector3Int(fx, fy, 0);
+                        if (region.Contains(fc)) { farMass = true; farCell = fc; break; }
+                    }
+                }
+                if (!farMass) { Debug.Log("[House] Column: skip no farMass at sx=" + sx); skipped++; continue; }
+                if (ConnectedThruFloor(region, bend, farCell, 400)) { Debug.Log("[House] Column: skip connected through floor"); skipped++; continue; }
+                bool ok = true;
+                for (int i2 = 0; i2 < dys.Length; i2++)
+                {
+                    if (i2 == 4) continue;
+                    if (floors.HasTile(new Vector3Int(bend.x + sx, bend.y + dys[i2], 0))) { ok = false; break; }
+                }
+                if (!ok) { Debug.Log("[House] Column: skip floor under column cells"); skipped++; continue; }
+                bool same = true;
+                for (int i2 = 0; i2 < dys.Length; i2++)
+                {
+                    if (i2 == 4) continue;
+                    if (walls.GetTile(new Vector3Int(bend.x + sx, bend.y + dys[i2], 0)) != col[i2]) { same = false; break; }
+                }
+                if (same) { Debug.Log("[House] Column: skip already same"); skipped++; continue; }
+                for (int i2 = 0; i2 < dys.Length; i2++)
+                {
+                    if (i2 == 4) continue;
+                    Vector3Int d = new Vector3Int(bend.x + sx, bend.y + dys[i2], 0);
+                    TileBase cur = walls.GetTile(d);
+                    if (cur != null && brick.lockTileNames != null && brick.lockTileNames.Contains(cur.name)) continue;
+                    walls.SetTile(d, col[i2]);
+                    built++;
+                }
+            }
+        }
+        return built;
     }
 
     /// <summary>
