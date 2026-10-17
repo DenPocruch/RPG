@@ -1573,11 +1573,6 @@ public static class HouseBuilders
     [MenuItem("Tools/House/26. Test Place All (Edit, оставить для глаз)")]
     public static void TestPlaceAllFurniture()
     {
-        if (EditorApplication.isPlaying)
-        {
-            Debug.LogError("[House] Только НЕ в Play. Потом смотри в Play, сцену НЕ сохраняй (п.27 уберёт).");
-            return;
-        }
         if (!FindRoomForExpand(out var walls, out var floors, out var region, out int lockY)) return;
         HouseCatalog catalog = AssetDatabase.LoadAssetAtPath<HouseCatalog>(CatalogPath);
         if (catalog == null)

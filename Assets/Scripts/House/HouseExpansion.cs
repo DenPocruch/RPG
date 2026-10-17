@@ -411,9 +411,62 @@ public static class HouseExpansion
         var mgr = HouseInteriorManager.Live();
         if (mgr != null)
             mgr.BeginJournal(target, walls, HouseInteriorManager.JournalScopeCells(region, lockY));
+        // Снап стен до стройки по скопу журнала — чтобы логировать что именно перекрасилось.
+        var jscope = HouseInteriorManager.JournalScopeCells(region, lockY);
+        var beforeWalls = new Dictionary<Vector3Int, string>();
+        foreach (var c in jscope)
+        {
+            UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+            beforeWalls[c] = t != null ? t.name : "<пусто>";
+        }
+        int jx0 = int.MaxValue, jx1 = int.MinValue, jy0 = int.MaxValue, jy1 = int.MinValue;
+        foreach (var c in jscope) { if (c.x < jx0) jx0 = c.x; if (c.x > jx1) jx1 = c.x; if (c.y < jy0) jy0 = c.y; if (c.y > jy1) jy1 = c.y; }
         BuildGeometry(target, walls, floors, region, lockY, brick, floorTile,
             true, out int painted, out var diffs, out var unmapped,
             out int floorNow, out int addedCount);
+        // Свежие клетки (пол с покрывающей стеной после пристройки).
+        var freshLive = new HashSet<Vector3Int>(region) { target };
+        var freshSorted = new List<Vector3Int>(freshLive);
+        freshSorted.Sort((a, b) => a.y != b.y ? b.y.CompareTo(a.y) : a.x.CompareTo(b.x));
+        string fs = "";
+        foreach (Vector3Int fc in freshSorted) fs += fc + " ";
+        Debug.Log("[House] 20 fresh (" + freshLive.Count + "): " + fs);
+        // Поячейное логирование изменений стен по скопу (как инструмент 20).
+        int logged = 0;
+        for (int x = jx0; x <= jx1 && logged < 150; x++)
+            for (int y = jy0; y <= jy1 && logged < 150; y++)
+            {
+                var c = new Vector3Int(x, y, 0);
+                UnityEngine.Tilemaps.TileBase t = walls.GetTile(c);
+                string now = t != null ? t.name : "<пусто>";
+                string was = beforeWalls.TryGetValue(c, out var w) ? w : now;
+                if (was != now)
+                {
+                    string mask = HouseAutotiler.DebugMask(walls, region, brick, c);
+                    string role = HouseAutotiler.RoleOf(brick, t);
+                    Debug.Log("[House] 20 put " + c + ": " + was + " → " + now + " (" + role + ") | " + mask);
+                    logged++;
+                }
+            }
+        // Карта скопа итогом (пол F + короткое имя стены).
+        int scopeArea = (jx1 - jx0 + 1) * (jy1 - jy0 + 1);
+        if (scopeArea <= 400)
+        {
+            for (int y = jy1; y >= jy0; y--)
+            {
+                string row = "";
+                for (int x = jx0; x <= jx1; x++)
+                {
+                    var c = new Vector3Int(x, y, 0);
+                    bool fl = floors.HasTile(c);
+                    UnityEngine.Tilemaps.TileBase tt = walls.GetTile(c);
+                    string wn = tt != null ? tt.name.Replace("Tileset House_", "").Replace(" 1", "'") : ".";
+                    if (wn == "76") wn = "~";
+                    row += (fl ? "F" : "_") + wn + " ";
+                }
+                Debug.Log("[House] 20 map y=" + y + ": " + row);
+            }
+        }
         if (mgr != null) mgr.CommitJournal(target, walls);
         HouseInteriorManager.NoteGrown(target); // билетная стройка переживает рестарт
 
