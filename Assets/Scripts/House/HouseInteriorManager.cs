@@ -29,6 +29,17 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     // в рантайме и в сейве полов его нет. Переживает сессии через блоб grown.
     private readonly HashSet<Vector3Int> grownRuntime = new HashSet<Vector3Int>();
 
+    // База скопа для канонизации после сноса: имя тайла стены ДО первой
+    // рантайм-стройки этой сессии (сливается из снапшотов BeginJournal).
+    // Снос не в обратном порядке строек + пропуск клеток под полом оставляют
+    // «промежуточные» узоры, которые Stabilize(fresh=null) не разлепляет:
+    // канонизация сбрасывает скоп к базе и заново «строит» оставшиеся клетки.
+    private readonly Dictionary<Vector3Int, string> baseWallNames = new Dictionary<Vector3Int, string>();
+
+    // Песочный слой полов для канонизации: долив Stabilize идёт сюда, а не в
+    // настоящий слой (иначе лишние клетки пола уехали бы в сейв).
+    private Tilemap canonicalSandFloor;
+
     // Рантайм-журнал сноса (аналог HouseJournal п.21, но в блобе, не в
     // EditorPrefs): таргет стройки → стены скопа ДО неё (только изменившиеся).
     // Снос = откат этих клеток + Stabilize дотягивает концы.
@@ -83,6 +94,8 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
                 snap[c] = t != null ? t.name : "";
             }
         }
+        foreach (var kvp in snap)
+            if (!baseWallNames.ContainsKey(kvp.Key)) baseWallNames[kvp.Key] = kvp.Value;
         journalPending[target] = snap;
     }
 
@@ -186,6 +199,10 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         // после удаления пола (bandBot без пола ниже → bandTop, и наоборот).
         int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
             null, floorTile, unmapped);
+        // Канон: откат журнала не в порядке, обратном стройкам, залипает на
+        // промежуточных узорах (уголки/ленты сдвинуты) — сброс к базе и повтор
+        // стройки оставшихся клеток дают состояние как после перезахода.
+        painted += CanonicalizeWalls(walls, floors, floorLive, lockY, brick, floorTile, demolishedCell);
         HouseFurniture.RefreshPlaced(walls, floors, true);
         unmappedCount = unmapped.Count;
         var checkWanted = HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY,
@@ -197,6 +214,76 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         foreach (string u in unmapped)
             Debug.LogWarning("[House] Снос UNMAPPED: " + u);
         return painted;
+    }
+
+    /// <summary>
+    /// Канонизация стен после сноса (реплей 18.10.2026): журнальный откат идёт
+    /// не в порядке, обратном стройкам, и пропускает клетки под полом — на
+    /// выходе «промежуточные» узоры (уголок/лента сдвинуты на клетку), которые
+    /// Stabilize(fresh=null) считает согласованными. Лечим повтором операции
+    /// стройки: сброс скопа к базовой карте (имя тайла до первой рантайм-стройки
+    /// сессии) и Stabilize по одной оставшейся прирощенной клетке, по
+    /// возрастанию x, затем y. Офлайн-реплей сейва: 12 расхождений → 0.
+    /// Долив пола идёт в песочный слой. Возвращает число переписанных стен.
+    /// </summary>
+    int CanonicalizeWalls(Tilemap walls, Tilemap floors, HashSet<Vector3Int> floorLive,
+        int lockY, WallStyle brick, TileBase floorTile, Vector3Int demolished)
+    {
+        if (walls == null || floors == null || brick == null) return 0;
+        if (baseWallNames.Count == 0) return 0; // базы нет (всё из сейва) — не трогаем
+        var cells = new List<Vector3Int>();
+        foreach (Vector3Int c in grownRuntime)
+        {
+            if (c == demolished) continue;
+            if (!floors.HasTile(c)) continue;
+            cells.Add(c);
+        }
+        if (cells.Count == 0) return 0;
+        cells.Sort((a, b) => a.x != b.x ? a.x - b.x : a.y - b.y);
+        // 1) Скоп назад к базе: «снести» всё, что построила эта сессия.
+        int reset = 0;
+        foreach (var kvp in baseWallNames)
+        {
+            TileBase want = HouseReskin.TileByName(kvp.Value);
+            if (want == null && !string.IsNullOrEmpty(kvp.Value)) continue;
+            if (walls.GetTile(kvp.Key) != want)
+            {
+                walls.SetTile(kvp.Key, want);
+                reset++;
+            }
+        }
+        // 2) Заново «построить» оставшиеся пристройки — по одной, как в живой
+        //    стройке: свежесть растушёвывает кольцо тем же порядком.
+        Tilemap sand = SandboxFloorTilemap(floors);
+        var live = new HashSet<Vector3Int>(floorLive);
+        var unmapped = new List<string>();
+        int painted = 0;
+        foreach (Vector3Int c in cells)
+            painted += HouseAutotiler.Stabilize(walls, sand, live, brick, lockY,
+                new HashSet<Vector3Int> { c }, floorTile, unmapped);
+        Debug.Log("[House] Канон после сноса " + demolished + ": сброс " + reset +
+                  ", стен переписано " + painted + ", unmapped " + unmapped.Count + ".");
+        return painted;
+    }
+
+    /// <summary>Песочный слой полов (копия текущего): долив Stabilize идёт сюда, не в сейв.</summary>
+    Tilemap SandboxFloorTilemap(Tilemap source)
+    {
+        if (canonicalSandFloor == null)
+        {
+            var go = new GameObject("HouseCanonSandFloor");
+            go.transform.SetParent(transform, false);
+            go.hideFlags = HideFlags.HideAndDontSave;
+            canonicalSandFloor = go.AddComponent<Tilemap>();
+        }
+        canonicalSandFloor.ClearAllTiles();
+        BoundsInt b = source.cellBounds;
+        foreach (Vector3Int c in b.allPositionsWithin)
+        {
+            TileBase t = source.GetTile(c);
+            if (t != null) canonicalSandFloor.SetTile(c, t);
+        }
+        return canonicalSandFloor;
     }
 
     /// <summary>Автосоздание в сцене (паттерн PlaceablesSaveManager): зовётся из
