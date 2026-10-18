@@ -356,7 +356,7 @@ public static class HouseAutotiler
                     {
                         if (c.y == lockRowY - 1)
                         {
-                            TileBase gf0 = GeometricFork(wallMap, st, c);
+                            TileBase gf0 = GeometricFork(wallMap, st, c, floor);
                             if (gf0 != null) { wanted[c] = gf0; continue; }
                         }
                         continue;
@@ -391,7 +391,7 @@ public static class HouseAutotiler
                     TileBase diag = DiagonalCorner(c, floor, wallMap, st);
                     if (diag != null) { wanted[c] = diag; continue; }
                     // Голый контур без членов: Т-стык кольцом (вилка по открытию).
-                    TileBase gf = GeometricFork(wallMap, st, c);
+                    TileBase gf = GeometricFork(wallMap, st, c, floor);
                     wanted[c] = gf != null ? gf : st.bgFill;
                     continue;
                 }
@@ -431,12 +431,12 @@ public static class HouseAutotiler
                 {
                     if (IsDoomedTooth(wallMap, floor, st, c, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY))
                     {
-                        TileBase back = Classify(n, s, e, w, false, c, wallMap, st, unmapped, freshFloor);
+                        TileBase back = Classify(n, s, e, w, false, c, wallMap, st, unmapped, freshFloor, floor);
                         if (back != null) { wanted[c] = back; continue; }
                         // null — падаем ниже на общий путь (unmapped запишется раз)
                     }
                 }
-                TileBase tile = Classify(n, s, e, w, ownFloor, c, wallMap, st, unmapped, freshFloor);
+                TileBase tile = Classify(n, s, e, w, ownFloor, c, wallMap, st, unmapped, freshFloor, floor);
                 if (tile != null)
                     wanted[c] = tile;
                 // null = UNMAPPED: не трогаем + запись в unmapped.
@@ -621,7 +621,8 @@ public static class HouseAutotiler
     }
 
     static TileBase Classify(bool n, bool s, bool e, bool w, bool ownFloor, Vector3Int c,
-        Tilemap wallMap, WallStyle st, List<string> unmapped, HashSet<Vector3Int> freshFloor)
+        Tilemap wallMap, WallStyle st, List<string> unmapped, HashSet<Vector3Int> freshFloor,
+        HashSet<Vector3Int> floor)
     {
         bool eRing = IsRing(wallMap, c + Vector3Int.right, st);
         bool wRing = IsRing(wallMap, c + Vector3Int.left, st);
@@ -663,7 +664,7 @@ public static class HouseAutotiler
         // Геометрический Т (и для одиночных членов): см. GeometricFork.
         // Стоит раньше краёв/прямых — Т важнее апрона.
         {
-            TileBase gfC = GeometricFork(wallMap, st, c);
+            TileBase gfC = GeometricFork(wallMap, st, c, floor);
             if (gfC != null) return gfC;
         }
         // Верхняя кромка (пол южнее). Конец определяется продолжением кромки:
@@ -1099,9 +1100,13 @@ public static class HouseAutotiler
     /// кольцом (без замков) ровно с трёх сторон — вилка по открытию
     /// ((-88,11): S34,E117,W3 → 2). Ножка Т (сторона напротив открытия)
     /// не должна быть лентой — иначе это апрон ((-89,11): ножка-юг 199).
+    /// Открытие в клетку пола (шахта колонны, внутренний проём) — не вилка:
+    /// стенка Т упирается в край шахты и глохнет вогнутой (лента кончается
+    /// 70/68, как в состояниях с двумя полами; без этого при третьем поле
+    /// ((-87,11): открытие E → пол) вилка 37 перебивала вогнутую 70).
     /// Без вилок в стиле — null (дальше как было).
     /// </summary>
-    static TileBase GeometricFork(Tilemap wallMap, WallStyle st, Vector3Int c)
+    static TileBase GeometricFork(Tilemap wallMap, WallStyle st, Vector3Int c, HashSet<Vector3Int> floor)
     {
         bool rnU = RingU(wallMap, st, c + Vector3Int.up);
         bool rsU = RingU(wallMap, st, c + Vector3Int.down);
@@ -1113,6 +1118,10 @@ public static class HouseAutotiler
             : (!rsU ? wallMap.GetTile(c + Vector3Int.up)
             : (!reU ? wallMap.GetTile(c + Vector3Int.left) : wallMap.GetTile(c + Vector3Int.right)));
         if (IsBandTile(stemU, st)) return null;
+        Vector3Int openCell = !rnU ? c + Vector3Int.up
+            : (!rsU ? c + Vector3Int.down
+            : (!reU ? c + Vector3Int.right : c + Vector3Int.left));
+        if (floor != null && floor.Contains(openCell)) return null;
         if (!rnU) return st.forkTop;
         if (!rsU) return st.forkBottom;
         if (!reU) return st.forkRight;
