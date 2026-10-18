@@ -173,10 +173,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
         var fresh = new HashSet<Vector3Int>();
         foreach (Vector3Int c in grownRuntime)
-            if (floors.HasTile(c)) fresh.Add(c);
-        // Снесённая клетка без пола триггерит перестройку стен вокруг себя (как fresh при пристройке).
-        if (demolishedCell != default && !fresh.Contains(demolishedCell))
-            fresh.Add(demolishedCell);
+            if (floors.HasTile(c) && !c.Equals(demolishedCell)) fresh.Add(c);
         // Legacy-детект: пол комнаты с покрывающей стеной поверх (несъеденная лента от старых пристроек).
         foreach (Vector3Int c in floorLive)
         {
@@ -187,8 +184,14 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             grownRuntime.Add(c);
         }
         var unmapped = new List<string>();
+        // Пересчёт стен с учётом пристроек (fresh без снесённой клетки — у неё нет пола).
         int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
             fresh, floorTile, unmapped);
+        // Финальный проход без fresh: все стены комнаты пересчитываются для текущего пола,
+        // чтобы не осталось нелогичных тайлов (лента вместо стены и т.п.).
+        int painted2 = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
+            null, floorTile, unmapped);
+        painted += painted2;
         foreach (Vector3Int c in fresh) grownRuntime.Add(c);
         HouseFurniture.RefreshPlaced(walls, floors, true);
         unmappedCount = unmapped.Count;
