@@ -359,8 +359,9 @@ public static class HouseExpansion
         // где нет пола. Без записи (legacy) — только Stabilize ниже.
         bool hadJournal = mgr.UndoJournal(target, walls, floors);
         floors.SetTile(target, null);
+        // Снос = откат + перестройка стен вокруг снесённой клетки (лента/стены сразу верные).
+        int painted = mgr.RebuildAfterDemolish(out int unmapped, out int diffs, target);
         mgr.ForgetGrown(target);
-        int painted = mgr.RebuildAfterDemolish(out int unmapped, out int diffs);
         if (HouseStock.Instance != null)
             HouseStock.Instance.Add(TicketKey, 1);
         SaveManager.Instance?.Save();

@@ -158,7 +158,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     /// оставшиеся пристройки с полом; мебель, потерявшая опору, — на склад.
     /// Возвращает число записанных стен.
     /// </summary>
-    public int RebuildAfterDemolish(out int unmappedCount, out int diffsCount)
+    public int RebuildAfterDemolish(out int unmappedCount, out int diffsCount, Vector3Int demolishedCell = default)
     {
         unmappedCount = 0;
         diffsCount = 0;
@@ -174,6 +174,18 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         var fresh = new HashSet<Vector3Int>();
         foreach (Vector3Int c in grownRuntime)
             if (floors.HasTile(c)) fresh.Add(c);
+        // Снесённая клетка без пола триггерит перестройку стен вокруг себя (как fresh при пристройке).
+        if (demolishedCell != default && !fresh.Contains(demolishedCell))
+            fresh.Add(demolishedCell);
+        // Legacy-детект: пол комнаты с покрывающей стеной поверх (несъеденная лента от старых пристроек).
+        foreach (Vector3Int c in floorLive)
+        {
+            if (fresh.Contains(c)) continue;
+            if (!floors.HasTile(c)) continue;
+            if (walls.GetTile(c) == null) continue;
+            fresh.Add(c);
+            grownRuntime.Add(c);
+        }
         var unmapped = new List<string>();
         int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
             fresh, floorTile, unmapped);
