@@ -180,18 +180,12 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             if (walls.GetTile(c) == null) continue;
             grownRuntime.Add(c);
         }
-        // fresh = все клетки пола комнаты кроме снесённой (у неё уже нет пола).
-        // Это нужно, чтобы cross-flip в BandEnd перевернул ВСЮ ленту комнаты,
-        // а не только рядом со сносом — иначе лента остаётся в неверном ряду
-        // (bandBot вместо bandTop) до перезапуска игры.
-        var fresh = new HashSet<Vector3Int>();
-        foreach (Vector3Int c in floorLive)
-            if (!c.Equals(demolishedCell)) fresh.Add(c);
         var unmapped = new List<string>();
-        // Полный пересчёт всех стен комнаты для текущего пола.
+        // Один полный пересчёт всех стен комнаты для текущего пола (fresh = null).
+        // Cross-flip в BandEnd перевернёт ленточные тайлы, которые остались в неверном ряду
+        // после удаления пола (bandBot без пола ниже → bandTop, и наоборот).
         int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
-            fresh, floorTile, unmapped);
-        foreach (Vector3Int c in fresh) grownRuntime.Add(c);
+            null, floorTile, unmapped);
         HouseFurniture.RefreshPlaced(walls, floors, true);
         unmappedCount = unmapped.Count;
         var checkWanted = HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY,
