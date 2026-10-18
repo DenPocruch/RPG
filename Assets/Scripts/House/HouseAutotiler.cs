@@ -543,22 +543,6 @@ public static class HouseAutotiler
             TileBase cur = wallMap.GetTile(c);
             if (!IsBandTile(cur, st)) return M;
             TileBase edge = top ? st.bandTopEdge : st.bandBotEdge;
-            // Cross-flip: тайл ленты не соответствует своей роли (верх/низ без пары).
-            // Нет ленты сверху → мы верхняя строка, но текущий тайл — нижняя (и наоборот).
-            bool curIsTop = IsTopBand(cur, st);
-            bool curIsBot = IsBotBand(cur, st);
-            if (top && curIsBot)
-            {
-                if (cur == st.bandBotL) return edge != null ? edge : st.bandTopL;
-                if (cur == st.bandBotR) return edge != null ? edge : st.bandTopR;
-                return edge != null ? edge : st.bandTopM;
-            }
-            if (!top && curIsTop)
-            {
-                if (cur == st.bandTopL) return edge != null ? edge : st.bandBotL;
-                if (cur == st.bandTopR) return edge != null ? edge : st.bandBotR;
-                return edge != null ? edge : st.bandBotM;
-            }
             // Свежий пол по бокам съедает свою стену — это конец ленты.
             bool sideFresh = freshFloor != null
                 && (freshFloor.Contains(c + Vector3Int.left) || freshFloor.Contains(c + Vector3Int.right));
