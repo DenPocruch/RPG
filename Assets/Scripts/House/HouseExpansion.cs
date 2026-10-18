@@ -355,6 +355,15 @@ public static class HouseExpansion
             Debug.Log("[House] Это основа дома — снести можно только пристроенные тайлы.");
             return false;
         }
+        // Нельзя сносить пол посередине прямой / моста: соседи по полу на противоположных сторонах.
+        // Убирать можно только с краёв regions (угла, конца коридора, изолированная клетка).
+        bool hasHorizontal = region.Contains(target + Vector3Int.left) && region.Contains(target + Vector3Int.right);
+        bool hasVertical = region.Contains(target + Vector3Int.up) && region.Contains(target + Vector3Int.down);
+        if (hasHorizontal || hasVertical)
+        {
+            Debug.LogWarning("[House] Нельзя сносить пол посередине прямой — убирайте с краёв: " + target + ".");
+            return false;
+        }
         // Откат стен по журналу (как п.21): вернуть "как было до стройки" там,
         // где нет пола. Без записи (legacy) — только Stabilize ниже.
         bool hadJournal = mgr.UndoJournal(target, walls, floors);
