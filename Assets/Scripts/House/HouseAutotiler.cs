@@ -83,8 +83,9 @@ public static class HouseAutotiler
     /// обрывают — устья коридоров получают концы (пристройка идёт встык:
     /// +1 пол продолжает пол, ряды рвутся у устья).
     /// </summary>
-    static bool BandContSame(HashSet<Vector3Int> floor, Tilemap wallMap, WallStyle st, Vector3Int c, bool top)
+    static bool BandContSame(HashSet<Vector3Int> floor, Tilemap wallMap, WallStyle st, Vector3Int c, bool top, HashSet<Vector3Int> freshFloor = null)
     {
+        if (freshFloor != null && freshFloor.Contains(c)) return false; // свежий пол: стена под ним съедается, не продолжает ленту
         if (!Member(floor, wallMap, st, c)) return false;
         TileBase t = wallMap.GetTile(c);
         if (t == null || t == st.bgFill) return false;
@@ -288,8 +289,8 @@ public static class HouseAutotiler
                     {
                         if (floor.Contains(s1) && freshFloor != null && freshFloor.Contains(s1))
                         {
-                            bool bw = BandContSame(floor, wallMap, st, c + Vector3Int.left, false);
-                            bool be = BandContSame(floor, wallMap, st, c + Vector3Int.right, false);
+                            bool bw = BandContSame(floor, wallMap, st, c + Vector3Int.left, false, freshFloor);
+                            bool be = BandContSame(floor, wallMap, st, c + Vector3Int.right, false, freshFloor);
                             if (!bw && !be)
                                 wanted[c] = st.bandBotEdge != null ? st.bandBotEdge : st.bandBotM;
                             else
@@ -303,8 +304,8 @@ public static class HouseAutotiler
                             TileBase ts1 = wallMap.GetTile(s1);
                             if (IsBotBand(cur, st) && IsBotBand(ts1, st) && !floor.Contains(s1))
                             {
-                                bool fw2 = BandContSame(floor, wallMap, st, c + Vector3Int.left, true);
-                                bool fe2 = BandContSame(floor, wallMap, st, c + Vector3Int.right, true);
+                                bool fw2 = BandContSame(floor, wallMap, st, c + Vector3Int.left, true, freshFloor);
+                                bool fe2 = BandContSame(floor, wallMap, st, c + Vector3Int.right, true, freshFloor);
                             if (!fw2 && !fe2)
                                 wanted[c] = st.bandTopM;
                             else
@@ -317,8 +318,8 @@ public static class HouseAutotiler
                     if (!IsBandTile(wallMap.GetTile(s1), st)) continue;
                     if (floor.Contains(s1)) continue; // над устьем с полом — зона поворотов, не конверсия
                     if (!floor.Contains(s2) || freshFloor == null || !freshFloor.Contains(s2)) continue;
-                    bool w = BandContSame(floor, wallMap, st, c + Vector3Int.left, true);
-                    bool e = BandContSame(floor, wallMap, st, c + Vector3Int.right, true);
+                    bool w = BandContSame(floor, wallMap, st, c + Vector3Int.left, true, freshFloor);
+                    bool e = BandContSame(floor, wallMap, st, c + Vector3Int.right, true, freshFloor);
                     if (!w && !e)
                         wanted[c] = st.bandTopEdge != null ? st.bandTopEdge : st.bandTopM;
                     else
@@ -532,8 +533,8 @@ public static class HouseAutotiler
         // Ряд: [L][M...][R] в пределах своего типа (ступеньки лесенкой).
         // Одиночка: нарисованную художником не трогаем (крышки 196/216 живут
         // на ступеньках как одиночки), свежей даём середину.
-        bool w = BandContSame(floor, wallMap, st, c + Vector3Int.left, top);
-        bool e = BandContSame(floor, wallMap, st, c + Vector3Int.right, top);
+        bool w = BandContSame(floor, wallMap, st, c + Vector3Int.left, top, freshFloor);
+        bool e = BandContSame(floor, wallMap, st, c + Vector3Int.right, top, freshFloor);
         TileBase L = top ? st.bandTopL : st.bandBotL;
         TileBase M = top ? st.bandTopM : st.bandBotM;
         TileBase R = top ? st.bandTopR : st.bandBotR;
@@ -541,13 +542,18 @@ public static class HouseAutotiler
         {
             TileBase cur = wallMap.GetTile(c);
             if (!IsBandTile(cur, st)) return M;
-            // Отвисший конец: был L/M/R, а продолжение стало свежим проёмом —
-            // схлопываем в крышку ((-80,10): 199 → 196). Без свежего рядом —
-            // keep (ручная одиночка и стык в поворот живут).
             TileBase edge = top ? st.bandTopEdge : st.bandBotEdge;
+            // Свежий пол по бокам съедает свою стену — это конец ленты.
+            bool sideFresh = freshFloor != null
+                && (freshFloor.Contains(c + Vector3Int.left) || freshFloor.Contains(c + Vector3Int.right));
             if ((cur == L || cur == M || cur == R)
                 && (IsFreshGap(floor, wallMap, freshFloor, c + Vector3Int.left)
-                    || IsFreshGap(floor, wallMap, freshFloor, c + Vector3Int.right)))
+                    || IsFreshGap(floor, wallMap, freshFloor, c + Vector3Int.right)
+                    || sideFresh))
+                return edge != null ? edge : cur;
+            // Обе стороны оборвались (сосед перевернулся или съеден свежим полом) —
+            // изолированная клетка ленты = крышка, а не конец старого ряда.
+            if (cur == L || cur == M || cur == R)
                 return edge != null ? edge : cur;
             return cur;
         }
