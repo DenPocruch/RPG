@@ -171,28 +171,21 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         string styleId = HouseExpansion.DominantFloorStyle(floors, floorLive);
         WallStyle fst = WallStyle.Load(styleId);
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
-        var fresh = new HashSet<Vector3Int>();
-        foreach (Vector3Int c in grownRuntime)
-            if (floors.HasTile(c) && !c.Equals(demolishedCell)) fresh.Add(c);
-        // Legacy-детект: пол комнаты с покрывающей стеной поверх (несъеденная лента от старых пристроек).
+        // Legacy-детект: пол комнаты с покрывающей стеной поверх (несъеденная лента от старых пристроек)
+        // добавляется в grownRuntime, чтобы при пересчёте стен учитывались эти клетки.
         foreach (Vector3Int c in floorLive)
         {
-            if (fresh.Contains(c)) continue;
+            if (grownRuntime.Contains(c)) continue;
             if (!floors.HasTile(c)) continue;
             if (walls.GetTile(c) == null) continue;
-            fresh.Add(c);
             grownRuntime.Add(c);
         }
         var unmapped = new List<string>();
-        // Пересчёт стен с учётом пристроек (fresh без снесённой клетки — у неё нет пола).
+        // Один полный пересчёт всех стен комнаты для текущего пола (fresh = null).
+        // Cross-flip в BandEnd перевернёт ленточные тайлы, которые остались в неверном ряду
+        // после удаления пола (bandBot без пола ниже → bandTop, и наоборот).
         int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
-            fresh, floorTile, unmapped);
-        // Финальный проход без fresh: все стены комнаты пересчитываются для текущего пола,
-        // чтобы не осталось нелогичных тайлов (лента вместо стены и т.п.).
-        int painted2 = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
             null, floorTile, unmapped);
-        painted += painted2;
-        foreach (Vector3Int c in fresh) grownRuntime.Add(c);
         HouseFurniture.RefreshPlaced(walls, floors, true);
         unmappedCount = unmapped.Count;
         var checkWanted = HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY,
