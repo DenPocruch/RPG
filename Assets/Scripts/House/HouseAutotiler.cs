@@ -245,6 +245,10 @@ public static class HouseAutotiler
             {
                 if (!floor.Contains(t) || t.y <= roomMaxY) continue;
                 if (floor.Contains(t + Vector3Int.up)) continue;
+                // Устье занято (кольцо/лента/замок) — верх не сеем: парящая лента
+                // над занятой клеткой поглощается и доливает пол обратно (снос-ноупик).
+                TileBase mouthCur = wallMap.GetTile(t + Vector3Int.up);
+                if (mouthCur != null && mouthCur != st.bgFill) continue;
                 SeedFarBand(wallMap, st, floor, wanted, t + Vector3Int.up * 2, true, scopeMinX, scopeMaxX, scopeMinY, scopeMaxY);
             }
             // Боковые крышки: над боковым выступом (свежий пол НЕ выше комнаты)

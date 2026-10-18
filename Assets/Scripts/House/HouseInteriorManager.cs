@@ -48,6 +48,12 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     private readonly Dictionary<Vector3Int, Dictionary<Vector3Int, string>> journalPending =
         new Dictionary<Vector3Int, Dictionary<Vector3Int, string>>();
 
+    // Стены на входе загрузки (снапшот перед RebuildRing): снос откатывается
+    // сюда и повторяет ту же операцию, что загрузка — итог совпадает с
+    // перезаходом «минус клетка» (баг №5: откат по журналу залипал на
+    // промежуточных узорах, а канон зависел от сессионной базы).
+    private Dictionary<Vector3Int, TileBase> loadBaseWalls;
+
     /// <summary>Записать прирощенную клетку (зовут TryExpand/TryExpandTicket).</summary>
     public static void NoteGrown(Vector3Int cell)
     {
@@ -166,6 +172,49 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
                 scope.Add(new Vector3Int(x, y, 0));
         return scope;
     }
+    /// <summary>Снапшот стен на входе загрузки (до RebuildRing).</summary>
+    void CaptureLoadBaseWalls(Tilemap walls)
+    {
+        if (loadBaseWalls != null || walls == null) return;
+        loadBaseWalls = new Dictionary<Vector3Int, TileBase>();
+        BoundsInt b = walls.cellBounds;
+        foreach (Vector3Int c in b.allPositionsWithin)
+        {
+            TileBase t = walls.GetTile(c);
+            if (t != null) loadBaseWalls[c] = t;
+        }
+    }
+
+    /// <summary>Вернуть стены к снапшоту загрузки. Возвращает число клеток.</summary>
+    int RestoreLoadBaseWalls(Tilemap walls)
+    {
+        if (loadBaseWalls == null || walls == null) return 0;
+        var keys = new HashSet<Vector3Int>(loadBaseWalls.Keys);
+        BoundsInt b = walls.cellBounds;
+        foreach (Vector3Int c in b.allPositionsWithin)
+            if (walls.GetTile(c) != null) keys.Add(c);
+        int changed = 0;
+        foreach (Vector3Int c in keys)
+        {
+            TileBase cur = walls.GetTile(c);
+            // Свежая перекраска сессии (не-базовый значимый слот: лента/порог) —
+            // не трогаем: перезаход её сохранит (save.walls пишется при перекраске),
+            // а откат к снапшоту загрузки потерял бы рисунок.
+            if (cur != null)
+            {
+                string id = HouseReskin.WhichWallStyle(cur);
+                if (id != HouseReskin.BaseStyleId && IsStyleSlot(WallStyle.Load(id), cur)) continue;
+            }
+            loadBaseWalls.TryGetValue(c, out TileBase want);
+            if (cur != want)
+            {
+                walls.SetTile(c, want);
+                changed++;
+            }
+        }
+        return changed;
+    }
+
     /// <summary>
     /// Пересомкнуть кольцо после сноса пола (рантайм-аналог п.21): свежие =
     /// оставшиеся пристройки с полом; мебель, потерявшая опору, — на склад.
@@ -184,25 +233,47 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         string styleId = HouseExpansion.DominantFloorStyle(floors, floorLive);
         WallStyle fst = WallStyle.Load(styleId);
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
-        // Legacy-детект: пол комнаты с покрывающей стеной поверх (несъеденная лента от старых пристроек)
-        // добавляется в grownRuntime, чтобы при пересчёте стен учитывались эти клетки.
-        foreach (Vector3Int c in floorLive)
-        {
-            if (grownRuntime.Contains(c)) continue;
-            if (!floors.HasTile(c)) continue;
-            if (walls.GetTile(c) == null) continue;
-            grownRuntime.Add(c);
-        }
         var unmapped = new List<string>();
-        // Один полный пересчёт всех стен комнаты для текущего пола (fresh = null).
-        // Cross-flip в BandEnd перевернёт ленточные тайлы, которые остались в неверном ряду
-        // после удаления пола (bandBot без пола ниже → bandTop, и наоборот).
-        int painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
-            null, floorTile, unmapped);
-        // Канон: откат журнала не в порядке, обратном стройкам, залипает на
-        // промежуточных узорах (уголки/ленты сдвинуты) — сброс к базе и повтор
-        // стройки оставшихся клеток дают состояние как после перезахода.
-        painted += CanonicalizeWalls(walls, floors, floorLive, lockY, brick, floorTile, demolishedCell);
+        int painted;
+        if (loadBaseWalls != null)
+        {
+            // Пайплайн загрузки: стены — к снапшоту до RebuildRing, дальше та же
+            // операция, что при загрузке (fresh = полы с покрывающей стеной).
+            // Снос == перезаход «минус клетка» по построению.
+            painted = RestoreLoadBaseWalls(walls);
+            var fresh = new HashSet<Vector3Int>();
+            foreach (Vector3Int c in floorLive)
+            {
+                if (!floors.HasTile(c)) continue;
+                if (walls.GetTile(c) == null) continue;
+                fresh.Add(c);
+                grownRuntime.Add(c);
+            }
+            if (fresh.Count > 0)
+            {
+                painted += HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
+                    fresh, floorTile, unmapped);
+                foreach (Vector3Int c in fresh) grownRuntime.Add(c); // долив тоже трекаем
+            }
+        }
+        else
+        {
+            // Фолбэк (нет снапшота загрузки — сейва не было): старая схема —
+            // legacy-детект, полный пересчёт (fresh = null) и канон.
+            foreach (Vector3Int c in floorLive)
+            {
+                if (grownRuntime.Contains(c)) continue;
+                if (!floors.HasTile(c)) continue;
+                if (walls.GetTile(c) == null) continue;
+                grownRuntime.Add(c);
+            }
+            painted = HouseAutotiler.Stabilize(walls, floors, floorLive, brick, lockY,
+                null, floorTile, unmapped);
+            // Канон: откат журнала не в порядке, обратном стройкам, залипает на
+            // промежуточных узорах (уголки/ленты сдвинуты) — сброс к базе и повтор
+            // стройки оставшихся клеток дают состояние как после перезахода.
+            painted += CanonicalizeWalls(walls, floors, floorLive, lockY, brick, floorTile, demolishedCell);
+        }
         HouseFurniture.RefreshPlaced(walls, floors, true);
         unmappedCount = unmapped.Count;
         var checkWanted = HouseAutotiler.ComputeWanted(walls, floorLive, brick, lockY,
@@ -538,6 +609,9 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         // и список прирощенных клеток; кольцо вокруг них живёт только в рантайме,
         // поэтому прогоняем ту же операцию стройки (Stabilize с fresh=grown).
         // База при честных стройках не страдает (аудит 0), скоп — окрестность пристроек.
+        // Снапшот ДО кольца — вход загрузочного пайплайна; снос пола откатывается
+        // сюда и повторяет загрузку (см. RebuildAfterDemolish, баг №5).
+        if (loadBaseWalls == null) CaptureLoadBaseWalls(wallTilemap);
         int ringPainted = RebuildRing(out int ringUnmapped, out int ringDiffs, out int ringLegacy);
         Debug.Log("[House] Дом из сейва: полов " + floorsApplied + ", стен " + wallsApplied +
                   ", кольцо: +" + ringPainted + " стен (legacy " + ringLegacy +
