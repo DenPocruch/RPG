@@ -537,10 +537,9 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
 
     /// <summary>
     /// Перестроить кольцо вокруг пристроек: та же операция, что при стройке
-    /// (Stabilize с fresh). fresh = трекнутые grown + legacy-детект как в
-    /// п.20: пол комнаты с покрывающей стеной поверх (у базы над полами пусто,
-    /// у старых пристроек осталась несъеденная лента). Найденный legacy тоже
-    /// трекаем — со следующего рестарта он уже grown.
+    /// (Stabilize с fresh). fresh = только пол комнаты с покрывающей стеной
+    /// поверх (несъеденная лента/фон от пристроек; у базы над полами пусто).
+    /// Такой долив трекаем — со следующего рестарта он уже grown.
     /// </summary>
     int RebuildRing(out int unmappedCount, out int diffsCount, out int legacyCount)
     {
@@ -556,19 +555,19 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         string styleId = HouseExpansion.DominantFloorStyle(floors, floorLive);
         WallStyle fst = WallStyle.Load(styleId);
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
+        // fresh = только клетки, где пол перекрыт стеной (несъеденная лента/фон
+        // от пристроек) — их и надо вскрыть. Весь grown в fresh пускать нельзя:
+        // свежесть клетки меняет решения автотайлера, и на reload рождается
+        // чужой узор на месте пристроек (баг: вилки/лента на -88,9/-88,10).
+        // Проверено оффлайн-реплеем сейва: fresh по перекрытым клеткам = итог
+        // живой стройки вплоть до тайла, fresh по всему grown = 7 расхождений.
         var fresh = new HashSet<Vector3Int>();
-        foreach (Vector3Int c in grownRuntime)
-            if (floors.HasTile(c)) fresh.Add(c); // только живой пол (страховка от мусора)
-        // Legacy-детект (п.20): пол комнаты, над которым стена (несъеденная лента
-        // старых пристроек). Замки/порог правилами не трогаются, как при стройке.
         foreach (Vector3Int c in floorLive)
         {
-            if (fresh.Contains(c)) continue;
             if (!floors.HasTile(c)) continue;
             if (walls.GetTile(c) == null) continue;
             fresh.Add(c);
-            grownRuntime.Add(c);
-            legacyCount++;
+            if (grownRuntime.Add(c)) legacyCount++;
         }
         if (fresh.Count == 0) return 0;
         var unmapped = new List<string>();
