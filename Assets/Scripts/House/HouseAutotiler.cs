@@ -661,6 +661,13 @@ public static class HouseAutotiler
         // ((-83,11): E==118 → 69). Косяк только свежим проходом — базу не трогает.
         if (s && !n && !e && !w && wallMap.GetTile(c + Vector3Int.right) == st.doorJambL)
             return st.forkBottom != null ? st.forkBottom : st.straightH;
+        // Столб в ленту (раньше геометрии!): верхняя кромка (пол южнее),
+        // по бокам кольцо, а сверху кольцо-столб падает в ленту — Т-стык
+        // ((-85,12): над 34, сосед-косяк 116 — замок для RingU, без этого
+        // геометрия видела бы Rc=3 и ставила 35). Сверху пусто/фон (крышки
+        // ленты 117) — прямая как была. Нет вилки в стиле — прямая.
+        if (s && !n && !e && !w && eRing && wRing && IsRing(wallMap, c + Vector3Int.up, st))
+            return st.forkBottom != null ? st.forkBottom : st.straightH;
         // Геометрический Т (и для одиночных членов): см. GeometricFork.
         // Стоит раньше краёв/прямых — Т важнее апрона.
         {
@@ -735,11 +742,15 @@ public static class HouseAutotiler
         // сквозь ряды — бока прохода затыкаются дверными косяками, как проём
         // двери: клетка ЗАПАДНЕЕ прохода (пропуск восток, gap-член) → 118,
         // клетка ВОСТОЧНЕЕ (пропуск запад) → 116
-        // ((-82,11) → 118, (-80,11) → 116). Gap — свежий пол: в аудите
-        // (fresh=null) и в базе не срабатывает. Нет косяков — прямые.
+        // ((-82,11) → 118, (-80,11) → 116). Gap — пол прохода: свежий ИЛИ
+        // прежний (стройка видит свежей только цель; reload — всю перекрытую
+        // стеной комнату, без общей базы расходятся: (-86,12) стройка 37 /
+        // reload 116). Нет косяков — прямые.
         if (n && s && e && !w && freshFloor != null && freshFloor.Contains(c + Vector3Int.right))
             return st.doorJambL != null ? st.doorJambL : st.straightV;
-        if (n && s && w && !e && freshFloor != null && freshFloor.Contains(c + Vector3Int.left))
+        if (n && s && w && !e
+            && ((freshFloor != null && freshFloor.Contains(c + Vector3Int.left))
+                || (floor != null && floor.Contains(c + Vector3Int.left))))
             return st.doorJambR != null ? st.doorJambR : st.straightV;
         if (n && s && w && !e) return st.forkRight != null ? st.forkRight : st.straightV;
         if (n && s && e && !w) return st.forkLeft != null ? st.forkLeft : st.straightV;
