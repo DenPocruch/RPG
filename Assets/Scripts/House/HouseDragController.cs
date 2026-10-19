@@ -34,13 +34,14 @@ public class HouseDragController : MonoBehaviour
     const float HOLD_TIME = 0.5f; // лонг-пресс (как в концепте)
     const float DRAG_THRESHOLD_PX = 10f; // порог тап/драг (как в ItemDragHandler)
 
-    enum DragState { Idle, Pressing, Carrying }
+    enum DragState { Idle, Pressing, Carrying, Panning }
     DragState state = DragState.Idle;
 
     GameObject candidate; // под пальцем в Pressing
     Vector2 downScreenPos;
     float downTime;
     bool downOnUI;
+    Vector2 lastPanScreenPos; // в Panning
 
     GameObject carried; // в Carrying
     GameObject carriedPrefab; // для валидации (префаб из каталога или сам инстанс)
@@ -108,6 +109,24 @@ public class HouseDragController : MonoBehaviour
             if (!held || released) { state = DragState.Idle; candidate = null; hasFloorCell = false; return; } // был тап
             if ((screenPos - downScreenPos).magnitude > DRAG_THRESHOLD_PX)
             {
+                // Драг начат со слота панели: не перехватываем его картой,
+                // даже если пресс успел стать Pressing до первого кадра UI.
+                if (HouseEditUI.PanelDragActive)
+                {
+                    state = DragState.Idle;
+                    candidate = null;
+                    hasFloorCell = false;
+                    return;
+                }
+                // В планировке сдвиг пустого места/мебели = тащим карту
+                // (лонг-пресс без сдвига по-прежнему берёт мебель/сносит пол).
+                if (HouseEditMode.IsOpen && !downOnUI)
+                {
+                    candidate = null;
+                    hasFloorCell = false;
+                    StartPan(screenPos);
+                    return;
+                }
                 state = DragState.Idle; // сдвиг — не лонг-пресс
                 candidate = null;
                 hasFloorCell = false;
@@ -124,15 +143,43 @@ public class HouseDragController : MonoBehaviour
             if (!held || released) { Drop(screenPos); return; }
             MoveCarried(screenPos);
         }
+        else if (state == DragState.Panning)
+        {
+            if (!held || released) { state = DragState.Idle; return; }
+            if (HouseEditUI.PanelDragActive) { state = DragState.Idle; return; }
+            PanCamera(screenPos - lastPanScreenPos);
+            lastPanScreenPos = screenPos;
+        }
+    }
+
+    void StartPan(Vector2 screenPos)
+    {
+        state = DragState.Panning;
+        lastPanScreenPos = downScreenPos;
+        PanCamera(screenPos - lastPanScreenPos);
+        lastPanScreenPos = screenPos;
+    }
+
+    /// <summary>Сдвиг мира за пальцем (CameraFollow в планировке выключен).</summary>
+    static void PanCamera(Vector2 deltaPx)
+    {
+        if (deltaPx.sqrMagnitude <= 0f) return;
+        Camera cam = Camera.main;
+        if (cam == null || !cam.orthographic) return;
+        float unitsPerPixel = cam.orthographicSize * 2f / Mathf.Max(1, Screen.height);
+        cam.transform.position += new Vector3(-deltaPx.x * unitsPerPixel,
+                                              -deltaPx.y * unitsPerPixel, 0f);
     }
 
     void BeginPress(Vector2 screenPos, int pointerId)
     {
         // Панель открыта — не помеха: старт с UI игнорируем ниже (downOnUI),
         // а бросок на панель = убрать на склад (см. Drop).
-        downOnUI = EventSystem.current != null &&
-            (pointerId < 0 ? EventSystem.current.IsPointerOverGameObject()
-                           : EventSystem.current.IsPointerOverGameObject(pointerId));
+        downOnUI = PointerOverUI(screenPos, pointerId);
+        // Страховка по прямоугольнику панели: даже если GraphicRaycaster/EventSystem
+        // в этом кадре ещё не ответил, старт со слота не должен стать свайпом карты.
+        if (!downOnUI && HouseEditMode.IsOpen)
+            downOnUI = HouseEditUI.OverPanelNoCreate(screenPos);
         if (downOnUI) return;
         GameObject hit = FindFurniture(ScreenToWorld(screenPos));
         if (hit != null)
@@ -161,6 +208,34 @@ public class HouseDragController : MonoBehaviour
                 state = DragState.Pressing;
             }
         }
+        // Пустая земля/фон в планировке: тап мимо, а сдвиг пальца тащит карту
+        // (см. Update → StartPan). Нужен и когда игрок планирует снаружи дома.
+        if (HouseEditMode.IsOpen && state == DragState.Idle)
+        {
+            downScreenPos = screenPos;
+            downTime = Time.unscaledTime;
+            state = DragState.Pressing;
+        }
+    }
+
+    /// <summary>
+    /// Нажатие над UI. EventSystem в том же кадре может ещё не обработать
+    /// pointer (порядок Update), поэтому дополнительно бьём RaycastAll прямо
+    /// по точке — иначе драг со слота панели уходил в свайп карты.
+    /// </summary>
+    static bool PointerOverUI(Vector2 screenPos, int pointerId)
+    {
+        if (EventSystem.current == null) return false;
+        bool over = pointerId < 0
+            ? EventSystem.current.IsPointerOverGameObject()
+            : EventSystem.current.IsPointerOverGameObject(pointerId);
+        if (over) return true;
+        var data = new PointerEventData(EventSystem.current) { position = screenPos };
+        var hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(data, hits);
+        foreach (RaycastResult hit in hits)
+            if (hit.module is GraphicRaycaster) return true; // только UI, не физика
+        return false;
     }
 
     /// <summary>Мебель под точкой: с маркером или ручная (дети Interior). Игрок/животные — мимо.</summary>
@@ -275,7 +350,10 @@ public class HouseDragController : MonoBehaviour
         hasFloorCell = false;
         candidate = null;
         if (HouseExpansion.TryDemolishTicket(cell))
+        {
             try { Handheld.Vibrate(); } catch { }
+            HouseEditMode.EnsurePlayerSafe(); // не оставлять игрока за стенами
+        }
         Object.FindFirstObjectByType<HouseEditUI>()?.Refresh(); // счётчик билетов сразу
     }
 

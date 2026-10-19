@@ -329,6 +329,12 @@ public class HouseEditUI : MonoBehaviour
     Vector2 dragIconOffsetPx; // палец = низ стола как в доме, а не центр картинки
     static Sprite whiteSquare;
 
+    /// <summary>Сейчас тащат предмет из панели (мировой свайп карты не должен вмешиваться).</summary>
+    public static bool PanelDragActive
+    {
+        get { return _instance != null && _instance.ghostRowIndex >= 0; }
+    }
+
     /// <summary>Канвас панели без создания синглтона (для драга со сцены).</summary>
     public static Canvas PanelCanvas()
     {
