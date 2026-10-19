@@ -169,7 +169,8 @@ public static class HouseAutotiler
     /// </summary>
     public static Dictionary<Vector3Int, TileBase> ComputeWanted(
         Tilemap wallMap, HashSet<Vector3Int> floor, WallStyle st, int lockRowY,
-        HashSet<Vector3Int> freshFloor, List<string> unmapped, HashSet<Vector3Int> virginBg = null)
+        HashSet<Vector3Int> freshFloor, List<string> unmapped, HashSet<Vector3Int> virginBg = null,
+        HashSet<Vector3Int> straightAtEntry = null)
     {
         var wanted = new Dictionary<Vector3Int, TileBase>();
         if (floor == null || floor.Count == 0 || st == null || wallMap == null) return wanted;
@@ -317,6 +318,21 @@ public static class HouseAutotiler
                             }
                         }
                         continue; // остальную ленту ведёт проход 1
+                    }
+                    // Обводка-кольцо (117) прямо над свежим полом колонны: низ у
+                    // устья — как флип ленты. Ряд по бокам продолжается — BandEnd.
+                    // Только авторский straightH (в карте ДО стабилизации):
+                    // транзитная кромка, нарисованная этим же прогоном, не трогается.
+                    if (cur == st.straightH && straightAtEntry != null && straightAtEntry.Contains(c)
+                        && floor.Contains(s1) && freshFloor != null && freshFloor.Contains(s1))
+                    {
+                        bool rw = BandContSame(floor, wallMap, st, c + Vector3Int.left, false, freshFloor);
+                        bool re = BandContSame(floor, wallMap, st, c + Vector3Int.right, false, freshFloor);
+                        if (!rw && !re)
+                            wanted[c] = st.bandBotEdge != null ? st.bandBotEdge : st.bandBotM;
+                        else
+                            wanted[c] = BandEnd(st, floor, wallMap, c, false, freshFloor);
+                        continue;
                     }
                     Vector3Int s2 = c + Vector3Int.down * 2;
                     if (!IsBandTile(wallMap.GetTile(s1), st)) continue;
@@ -1189,16 +1205,20 @@ public static class HouseAutotiler
     {
         // Слепок пустоты на входе: ниже ряда двери морозим только базу,
         // свежепокрашенное из фона доводим до стабильности.
+        // Плюс слепок авторских 117: кольцо-обводка над свежим полом
+        // превращается в устье только если было в карте ДО стабилизации.
         var virginBg = new HashSet<Vector3Int>();
+        var straightAtEntry = new HashSet<Vector3Int>();
         foreach (Vector3Int c in wallMap.cellBounds.allPositionsWithin)
         {
             TileBase t = wallMap.GetTile(c);
             if (t == null || t == st.bgFill) virginBg.Add(c);
+            if (t == st.straightH) straightAtEntry.Add(c);
         }
         int total = 0;
         for (int i = 0; i < 6; i++)
         {
-            var wanted = ComputeWanted(wallMap, floor, st, lockRowY, fresh, unmappedAll, virginBg);
+            var wanted = ComputeWanted(wallMap, floor, st, lockRowY, fresh, unmappedAll, virginBg, straightAtEntry);
             int painted = Paint(wallMap, wanted);
             total += painted;
             int floored = 0;
