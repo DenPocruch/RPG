@@ -72,7 +72,7 @@ public class HouseEditMode : MonoBehaviour
     public void Enter()
     {
         if (IsOpen) return;
-        if (HouseEditUI.Instance == null || !HouseEditUI.Instance.IsReady)
+        if (HouseEditUI.Instance == null || !HouseEditUI.Instance.EnsureReady())
         {
             Debug.LogWarning("[House] Нет панели планировки (собери Canvas + HouseEditBinder).");
             return;

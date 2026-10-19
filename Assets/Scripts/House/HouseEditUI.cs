@@ -64,9 +64,30 @@ public class HouseEditUI : MonoBehaviour
 
     public bool IsReady => binder != null && binder.panel != null;
 
+    /// <summary>
+    /// Панель готова. Если ссылка на биндер умерла (возврат в сцену убил копию
+    /// PersistentRoot), находим живой биндер заново — иначе чертёж «не открывается».
+    /// </summary>
+    public bool EnsureReady()
+    {
+        if (IsReady) return true;
+        HouseEditBinder live = Object.FindFirstObjectByType<HouseEditBinder>();
+        if (live == null) return false;
+        Bind(live);
+        return IsReady;
+    }
+
     public void Bind(HouseEditBinder b)
     {
         if (b == null) return;
+        // Копия PersistentRoot при возврате в сцену тоже зовёт Bind в Awake.
+        // Не перебиваем живого биндера: иначе ссылка укажет на панель копии,
+        // которую тут же уничтожит GamePersistence (чертёж мёртв до перезапуска).
+        if (binder != null && binder != b && binder.panel != null)
+        {
+            Debug.Log("[House] Биндер-копия проигнорирован (панель уже связана).");
+            return;
+        }
         binder = b;
         if (boundBinder == b) return;
         boundBinder = b;
