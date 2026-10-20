@@ -408,6 +408,21 @@ public static class HouseAutotiler
                 bool w = Member(floor, wallMap, st, c + Vector3Int.left);
                 if (!n && !s && !e && !w)
                 {
+                    // Щель у столба: столб (34) сбоку, сверху пусто, остальные
+                    // три стороны — стены (кольца) → фон, а не вилка: контур
+                    // не заваривает тонкую щель между углом гребня и столбом
+                    // ((-89,10): E34, W2, S69 → 76; после проходов W3, S117 →
+                    // 76). Зеркало: столб слева → фон.
+                    if (!RingU(wallMap, st, c + Vector3Int.up)
+                        && RingU(wallMap, st, c + Vector3Int.down))
+                    {
+                        if (wallMap.GetTile(c + Vector3Int.right) == st.straightV
+                            && IsRing(wallMap, c + Vector3Int.left, st))
+                        { wanted[c] = st.bgFill; continue; }
+                        if (wallMap.GetTile(c + Vector3Int.left) == st.straightV
+                            && IsRing(wallMap, c + Vector3Int.right, st))
+                        { wanted[c] = st.bgFill; continue; }
+                    }
                     // Крест: клетка зажата настоящим кольцом (не лентой, не
                     // замком) со всех четырёх сторон — узел стен 4x4, а не фон
                     // ((-88,11): вокруг 70/34/70/34 → 36; соседи на следующем
@@ -452,20 +467,22 @@ public static class HouseAutotiler
                         { wanted[c] = st.forkTop; continue; }
                     }
                     // Гребень упирается в столб и заворачивает вниз: запад —
-                    // горизонталь (117), восток — вертикаль (34), юг — стена,
-                    // север пуст → угол 3 ((-89,10): ряд y=10 кончается на
-                    // столбе x=-88 и уходит вниз). Зеркало: восток-горизонт +
-                    // запад-столб → угол 1. Срабатывает после того, как столб
-                    // сам стал прямой (второй проход Stabilize).
+                    // горизонталь (117), восток — вертикаль (34) или пусто,
+                    // юг — стена, север пуст → угол 3 ((-90,10): ряд y=10
+                    // кончается и уходит вниз). Зеркало: восток-горизонт +
+                    // запад-столб/пусто → угол 1. Срабатывает после того, как
+                    // сосед стал прямой (второй проход Stabilize).
                     if (!RingU(wallMap, st, c + Vector3Int.up)
                         && RingU(wallMap, st, c + Vector3Int.down))
                     {
-                        if (wallMap.GetTile(c + Vector3Int.left) == st.straightH
-                            && wallMap.GetTile(c + Vector3Int.right) == st.straightV
+                        TileBase eC = wallMap.GetTile(c + Vector3Int.right);
+                        TileBase wC = wallMap.GetTile(c + Vector3Int.left);
+                        if (wC == st.straightH
+                            && (eC == st.straightV || eC == null || eC == st.bgFill)
                             && st.cornerTR != null)
                         { wanted[c] = st.cornerTR; continue; }
-                        if (wallMap.GetTile(c + Vector3Int.right) == st.straightH
-                            && wallMap.GetTile(c + Vector3Int.left) == st.straightV
+                        if (eC == st.straightH
+                            && (wC == st.straightV || wC == null || wC == st.bgFill)
                             && st.cornerTL != null)
                         { wanted[c] = st.cornerTL; continue; }
                     }
