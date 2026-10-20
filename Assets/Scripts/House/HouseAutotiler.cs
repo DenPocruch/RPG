@@ -408,21 +408,6 @@ public static class HouseAutotiler
                 bool w = Member(floor, wallMap, st, c + Vector3Int.left);
                 if (!n && !s && !e && !w)
                 {
-                    // Щель у столба: столб (34) сбоку, сверху пусто, остальные
-                    // три стороны — стены (кольца) → фон, а не вилка: контур
-                    // не заваривает тонкую щель между углом гребня и столбом
-                    // ((-89,10): E34, W2, S69 → 76; после проходов W3, S117 →
-                    // 76). Зеркало: столб слева → фон.
-                    if (!RingU(wallMap, st, c + Vector3Int.up)
-                        && RingU(wallMap, st, c + Vector3Int.down))
-                    {
-                        if (wallMap.GetTile(c + Vector3Int.right) == st.straightV
-                            && IsRing(wallMap, c + Vector3Int.left, st))
-                        { wanted[c] = st.bgFill; continue; }
-                        if (wallMap.GetTile(c + Vector3Int.left) == st.straightV
-                            && IsRing(wallMap, c + Vector3Int.right, st))
-                        { wanted[c] = st.bgFill; continue; }
-                    }
                     // Крест: клетка зажата настоящим кольцом (не лентой, не
                     // замком) со всех четырёх сторон — узел стен 4x4, а не фон
                     // ((-88,11): вокруг 70/34/70/34 → 36; соседи на следующем
@@ -472,6 +457,10 @@ public static class HouseAutotiler
                     // кончается и уходит вниз). Зеркало: восток-горизонт +
                     // запад-столб/пусто → угол 1. Срабатывает после того, как
                     // сосед стал прямой (второй проход Stabilize).
+                    // Гребень через угол: сосед-угол (3/1) тоже продолжает
+                    // гребень, но ТОЛЬКО при точном столбе напротив — иначе
+                    // угол плодил углы по пустоте каскадом ((-88,11): E1, W34
+                    // → 1; в пустоте E3, W — фон → не угол).
                     if (!RingU(wallMap, st, c + Vector3Int.up)
                         && RingU(wallMap, st, c + Vector3Int.down))
                     {
@@ -481,9 +470,13 @@ public static class HouseAutotiler
                             && (eC == st.straightV || eC == null || eC == st.bgFill)
                             && st.cornerTR != null)
                         { wanted[c] = st.cornerTR; continue; }
+                        if (wC == st.cornerTR && eC == st.straightV && st.cornerTR != null)
+                        { wanted[c] = st.cornerTR; continue; }
                         if (eC == st.straightH
                             && (wC == st.straightV || wC == null || wC == st.bgFill)
                             && st.cornerTL != null)
+                        { wanted[c] = st.cornerTL; continue; }
+                        if (eC == st.cornerTL && wC == st.straightV && st.cornerTL != null)
                         { wanted[c] = st.cornerTL; continue; }
                     }
                     // Т-стык из трёх колец важнее диагонального угла: открытие
@@ -783,6 +776,21 @@ public static class HouseAutotiler
         if (s && !n && !e && !w && eRing && wRing && IsRing(wallMap, c + Vector3Int.up, st)
             && !IsBandTile(wallMap.GetTile(c + Vector3Int.down), st))
             return st.forkBottom != null ? st.forkBottom : st.straightH;
+        // Столб между столбами вниз: маска w-only (пол/лента западнее),
+        // сверху и восточнее — вертикальные прямые (34), снизу — вилка низ
+        // (69): колонка продолжается вниз, вилка в пол не открывается
+        // ((-89,10): N34,E34,S69 → 34; без правила геометрия давала 35).
+        // Зеркало: маска e-only, запад 34 → 34.
+        if (w && !e && !n && !s
+            && wallMap.GetTile(c + Vector3Int.up) == st.straightV
+            && wallMap.GetTile(c + Vector3Int.right) == st.straightV
+            && wallMap.GetTile(c + Vector3Int.down) == st.forkBottom)
+            return st.straightV != null ? st.straightV : st.straightH;
+        if (e && !w && !n && !s
+            && wallMap.GetTile(c + Vector3Int.up) == st.straightV
+            && wallMap.GetTile(c + Vector3Int.left) == st.straightV
+            && wallMap.GetTile(c + Vector3Int.down) == st.forkBottom)
+            return st.straightV != null ? st.straightV : st.straightH;
         // Геометрический Т (и для одиночных членов): см. GeometricFork.
         // Стоит раньше краёв/прямых — Т важнее апрона.
         {
@@ -862,7 +870,13 @@ public static class HouseAutotiler
         // (-81,11): столб 34 сверху → вилка 69 как была.)
         if (eRing && wRing && !ownFloor
             && !RingStem(wallMap, st, c + Vector3Int.up)
-            && !RingStem(wallMap, st, c + Vector3Int.down))
+            && !RingStem(wallMap, st, c + Vector3Int.down)
+            // Но вогнутый угол (лента южнее и западнее, кольцо севернее и
+            // восточнее) — не ряд, а поворот: 68, а не 117 ((-89,9): S197,
+            // W196, N3, E70 → 68; иначе гребень висел прямой).
+            && !(s && w && !n && !e
+                && IsRing(wallMap, c + Vector3Int.up, st)
+                && IsRing(wallMap, c + Vector3Int.right, st)))
             return st.straightH;
         // Верхняя перемычка (зеркало нижней 69): двойка N+S, западнее правый
         // косяк — сверху комната, снизу ряд: вилка верх (2), а не прямая
