@@ -441,11 +441,24 @@ public static class HouseAutotiler
                             continue;
                         }
                     }
+                    if (IsRing(wallMap, c + Vector3Int.left, st)
+                        && IsRing(wallMap, c + Vector3Int.right, st))
+                    {
+                        TileBase upJ = wallMap.GetTile(c + Vector3Int.up);
+                        TileBase dnJ = wallMap.GetTile(c + Vector3Int.down);
+                        if ((upJ == st.doorJambL || upJ == st.doorJambR) && st.forkBottom != null)
+                        { wanted[c] = st.forkBottom; continue; }
+                        if ((dnJ == st.doorJambL || dnJ == st.doorJambR) && st.forkTop != null)
+                        { wanted[c] = st.forkTop; continue; }
+                    }
+                    // Т-стык из трёх колец важнее диагонального угла: открытие
+                    // в пустоту — вилка по открытию ((-78,10): N3,W35,E117,
+                    // юг пусто → 69). Правило GF симметрично по всем сторонам.
+                    TileBase gfT = GeometricFork(wallMap, st, c, floor);
+                    if (gfT != null) { wanted[c] = gfT; continue; }
                     TileBase diag = DiagonalCorner(c, floor, wallMap, st);
                     if (diag != null) { wanted[c] = diag; continue; }
-                    // Голый контур без членов: Т-стык кольцом (вилка по открытию).
-                    TileBase gf = GeometricFork(wallMap, st, c, floor);
-                    wanted[c] = gf != null ? gf : st.bgFill;
+                    wanted[c] = st.bgFill;
                     continue;
                 }
                 // Поглощённое кольцо: стена между полами, один из которых свежий.
@@ -743,6 +756,10 @@ public static class HouseAutotiler
         if (s && !n && !e && !w)
         {
             if (!OpenForEdge(wallMap, st, c + Vector3Int.down)) return st.bgFill;
+            // Зеркало верхнего апрона: кромка западнее косяка 116 — вилка
+            // низ (69), а не прямая (пара к (-79,11) → 2).
+            if (wallMap.GetTile(c + Vector3Int.left) == st.doorJambR)
+                return st.forkBottom != null ? st.forkBottom : st.straightH;
             if (eRing && wRing) return st.straightH;
             if (wRing) return st.cornerTR;
             if (eRing) return st.cornerTL;
@@ -755,6 +772,10 @@ public static class HouseAutotiler
             // Зеркало перемычки сверху: апрон непосредственно восточнее
             // правого косяка — вилка верх ((-79,11): запад 116 → 2).
             if (wallMap.GetTile(c + Vector3Int.left) == st.doorJambR)
+                return st.forkTop != null ? st.forkTop : st.straightH;
+            // И его левое зеркало: апрон западнее косяка 118 — вилка верх
+            // ((-88,11): восток 118 → 2).
+            if (wallMap.GetTile(c + Vector3Int.right) == st.doorJambL)
                 return st.forkTop != null ? st.forkTop : st.straightH;
             if (eRing && wRing) return st.straightH;
             if (wRing) return st.cornerBR;
@@ -1059,6 +1080,7 @@ public static class HouseAutotiler
             if (c.y < minY) minY = c.y; if (c.y > maxY) maxY = c.y;
         }
         int built = 0;
+        int sk2 = 0, skBend = 0, skArms = 0, skVArm = 0, skFar = 0, skConn = 0, skFloor = 0, skSame = 0;
         Vector3Int[] card = { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
         for (int x = minX - 1; x <= maxX + 1; x++)
         {
@@ -1075,11 +1097,11 @@ public static class HouseAutotiler
                 }
                 if (have != 3)
                 {
-                    Debug.Log("[House] Column: skip 2x2 at (" + x + "," + y + ") have=" + have + " (need 3 floors for L-изгиб)");
+                    sk2++;
                     continue;
                 }
                 Vector3Int bend = sq[3 - missing];
-                if (!region.Contains(bend)) { Debug.Log("[House] Column: skip bend not in region"); continue; }
+                if (!region.Contains(bend)) { skBend++; continue; }
                 var arms = new List<Vector3Int>();
                 foreach (Vector3Int d in card)
                 {
@@ -1087,7 +1109,7 @@ public static class HouseAutotiler
                     if (n == sq[missing]) continue;
                     if (region.Contains(n)) arms.Add(d);
                 }
-                if (arms.Count != 2) { Debug.Log("[House] Column: skip arms=" + arms.Count + " (need 2)"); continue; }
+                if (arms.Count != 2) { skArms++; continue; }
                 Vector3Int vArm = Vector3Int.zero, hArm = Vector3Int.zero;
                 foreach (Vector3Int a in arms)
                 {
@@ -1096,7 +1118,7 @@ public static class HouseAutotiler
                 }
                 if (vArm != Vector3Int.up || hArm == Vector3Int.zero)
                 {
-                    Debug.Log("[House] Column: skip vArm=" + vArm + " hArm=" + hArm + " (need N-рукав + E/W-рукав)");
+                    skVArm++;
                     continue;
                 }
                 int sx = hArm == Vector3Int.right ? 1 : -1;
@@ -1113,22 +1135,22 @@ public static class HouseAutotiler
                         if (region.Contains(fc)) { farMass = true; farCell = fc; break; }
                     }
                 }
-                if (!farMass) { Debug.Log("[House] Column: skip no farMass at sx=" + sx); skipped++; continue; }
-                if (ConnectedThruFloor(region, bend, farCell, 400)) { Debug.Log("[House] Column: skip connected through floor"); skipped++; continue; }
+                if (!farMass) { skFar++; skipped++; continue; }
+                if (ConnectedThruFloor(region, bend, farCell, 400)) { skConn++; skipped++; continue; }
                 bool ok = true;
                 for (int i2 = 0; i2 < dys.Length; i2++)
                 {
                     if (i2 == 4) continue;
                     if (floors.HasTile(new Vector3Int(bend.x + sx, bend.y + dys[i2], 0))) { ok = false; break; }
                 }
-                if (!ok) { Debug.Log("[House] Column: skip floor under column cells"); skipped++; continue; }
+                if (!ok) { skFloor++; skipped++; continue; }
                 bool same = true;
                 for (int i2 = 0; i2 < dys.Length; i2++)
                 {
                     if (i2 == 4) continue;
                     if (walls.GetTile(new Vector3Int(bend.x + sx, bend.y + dys[i2], 0)) != col[i2]) { same = false; break; }
                 }
-                if (same) { Debug.Log("[House] Column: skip already same"); skipped++; continue; }
+                if (same) { skSame++; skipped++; continue; }
                 for (int i2 = 0; i2 < dys.Length; i2++)
                 {
                     if (i2 == 4) continue;
@@ -1139,6 +1161,21 @@ public static class HouseAutotiler
                     built++;
                 }
             }
+        }
+        // Пропуски — одной строкой, чтобы 500 строк не забивали лог.
+        int skOther = sk2 + skBend + skArms + skVArm;
+        if (skOther + skipped > 0)
+        {
+            var parts = new List<string>();
+            if (sk2 > 0) parts.Add("2x2×" + sk2);
+            if (skBend > 0) parts.Add("bend×" + skBend);
+            if (skArms > 0) parts.Add("arms×" + skArms);
+            if (skVArm > 0) parts.Add("vArm×" + skVArm);
+            if (skFar > 0) parts.Add("far×" + skFar);
+            if (skConn > 0) parts.Add("conn×" + skConn);
+            if (skFloor > 0) parts.Add("floor×" + skFloor);
+            if (skSame > 0) parts.Add("same×" + skSame);
+            Debug.Log("[House] Column: skip " + string.Join(" ", parts));
         }
         return built;
     }

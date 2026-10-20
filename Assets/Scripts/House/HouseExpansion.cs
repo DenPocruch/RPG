@@ -436,11 +436,7 @@ public static class HouseExpansion
             out int floorNow, out int addedCount);
         // Свежие клетки (пол с покрывающей стеной после пристройки).
         var freshLive = new HashSet<Vector3Int>(region) { target };
-        var freshSorted = new List<Vector3Int>(freshLive);
-        freshSorted.Sort((a, b) => a.y != b.y ? b.y.CompareTo(a.y) : a.x.CompareTo(b.x));
-        string fs = "";
-        foreach (Vector3Int fc in freshSorted) fs += fc + " ";
-        Debug.Log("[House] 20 fresh (" + freshLive.Count + "): " + fs);
+        Debug.Log("[House] 20 fresh (" + freshLive.Count + "): " + CompactCells(freshLive));
         // Поячейное логирование изменений стен по скопу (как инструмент 20).
         int logged = 0;
         for (int x = jx0; x <= jx1 && logged < 150; x++)
@@ -453,8 +449,12 @@ public static class HouseExpansion
                 if (was != now)
                 {
                     string mask = HouseAutotiler.DebugMask(walls, region, brick, c);
+                    int cut = mask.IndexOf(')');
+                    if (cut >= 0) mask = mask.Substring(cut + 1).Trim();
                     string role = HouseAutotiler.RoleOf(brick, t);
-                    Debug.Log("[House] 20 put " + c + ": " + was + " → " + now + " (" + role + ") | " + mask);
+                    Debug.Log("[House] 20 put " + c.x + "," + c.y + ": "
+                        + ShortTileName(was) + "→" + ShortTileName(now)
+                        + " (" + role + ") " + mask);
                     logged++;
                 }
             }
@@ -464,17 +464,18 @@ public static class HouseExpansion
         {
             for (int y = jy1; y >= jy0; y--)
             {
-                string row = "";
+                var parts = new List<string>();
                 for (int x = jx0; x <= jx1; x++)
                 {
                     var c = new Vector3Int(x, y, 0);
                     bool fl = floors.HasTile(c);
                     UnityEngine.Tilemaps.TileBase tt = walls.GetTile(c);
-                    string wn = tt != null ? tt.name.Replace("Tileset House_", "").Replace(" 1", "'") : ".";
-                    if (wn == "76") wn = "~";
-                    row += (fl ? "F" : "_") + wn + " ";
+                    string wn = tt != null ? ShortTileName(tt.name) : null;
+                    if (fl) parts.Add(wn != null ? x + ":F/" + wn : x + ":F");
+                    else if (wn != null) parts.Add(x + ":" + wn);
                 }
-                Debug.Log("[House] 20 map y=" + y + ": " + row);
+                if (parts.Count > 0)
+                    Debug.Log("[House] 20 map y=" + y + ": " + string.Join(" ", parts));
             }
         }
         if (mgr != null) mgr.CommitJournal(target, walls);
@@ -528,5 +529,41 @@ public static class HouseExpansion
         Debug.Log("[House] Колонна: построено " + colBuilt + ", пропущено " + colSkipped + " (таргет " + target + ").");
         HouseFurniture.RefreshPlaced(walls, floors, decorToStock);
         floorNow = floorLive.Count;
+    }
+
+    /// <summary>Короткое имя тайла для логов: 117, 197, 217' (без "Tileset House_").</summary>
+    static string ShortTileName(string full)
+    {
+        if (string.IsNullOrEmpty(full) || full[0] == '<') return "—";
+        string s = full.Replace("Tileset House_", "").Replace(" 1", "'");
+        return s == "76" ? "~" : s;
+    }
+
+    /// <summary>Компактный список клеток по рядам с диапазонами: "y12:-88..-86,-80; y11:-80".</summary>
+    static string CompactCells(HashSet<Vector3Int> cells)
+    {
+        var rows = new Dictionary<int, List<int>>();
+        foreach (var c in cells)
+        {
+            if (!rows.TryGetValue(c.y, out var xs)) { xs = new List<int>(); rows[c.y] = xs; }
+            xs.Add(c.x);
+        }
+        var ys = new List<int>(rows.Keys);
+        ys.Sort((a, b) => b.CompareTo(a));
+        var sb = new System.Text.StringBuilder();
+        foreach (int y in ys)
+        {
+            var xs = rows[y];
+            xs.Sort();
+            var parts = new List<string>();
+            for (int i = 0; i < xs.Count; i++)
+            {
+                int a = xs[i];
+                while (i + 1 < xs.Count && xs[i + 1] == xs[i] + 1) i++;
+                parts.Add(a == xs[i] ? a.ToString() : a + ".." + xs[i]);
+            }
+            sb.Append(" y").Append(y).Append(':').Append(string.Join(",", parts)).Append(";");
+        }
+        return sb.ToString().Trim();
     }
 }
