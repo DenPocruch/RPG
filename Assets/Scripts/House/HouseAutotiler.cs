@@ -421,6 +421,26 @@ public static class HouseAutotiler
                         wanted[c] = st.forkCenter;
                         continue;
                     }
+                    // Косяк сбоку от вертикальной линии: дверь — не кольцо
+                    // (RingU), обычная геометрия её не видит, и клетка
+                    // уходила в фон. Стена обнимает косяк вилкой открытием
+                    // от него ((-88,11): N/S 34, E — косяк 118 → 35).
+                    if (IsRing(wallMap, c + Vector3Int.up, st)
+                        && IsRing(wallMap, c + Vector3Int.down, st))
+                    {
+                        if (wallMap.GetTile(c + Vector3Int.right) == st.doorJambL
+                            && st.forkLeft != null)
+                        {
+                            wanted[c] = st.forkLeft;
+                            continue;
+                        }
+                        if (wallMap.GetTile(c + Vector3Int.left) == st.doorJambR
+                            && st.forkRight != null)
+                        {
+                            wanted[c] = st.forkRight;
+                            continue;
+                        }
+                    }
                     TileBase diag = DiagonalCorner(c, floor, wallMap, st);
                     if (diag != null) { wanted[c] = diag; continue; }
                     // Голый контур без членов: Т-стык кольцом (вилка по открытию).
@@ -799,7 +819,9 @@ public static class HouseAutotiler
         // прежний (стройка видит свежей только цель; reload — всю перекрытую
         // стеной комнату, без общей базы расходятся: (-86,12) стройка 37 /
         // reload 116). Нет косяков — прямые.
-        if (n && s && e && !w && freshFloor != null && freshFloor.Contains(c + Vector3Int.right))
+        if (n && s && e && !w
+            && ((freshFloor != null && freshFloor.Contains(c + Vector3Int.right))
+                || (floor != null && floor.Contains(c + Vector3Int.right))))
             return st.doorJambL != null ? st.doorJambL : st.straightV;
         if (n && s && w && !e
             && ((freshFloor != null && freshFloor.Contains(c + Vector3Int.left))
@@ -1189,6 +1211,21 @@ public static class HouseAutotiler
         bool reU = RingU(wallMap, st, c + Vector3Int.right);
         bool rwU = RingU(wallMap, st, c + Vector3Int.left);
         int rcU = (rnU ? 1 : 0) + (rsU ? 1 : 0) + (reU ? 1 : 0) + (rwU ? 1 : 0);
+        // Кольцо с четырёх сторон, но одна ветка — ряд ленты: вилка
+        // открытием в ленту ((-88,10): N/S-линия, W-кольцо, E — начало
+        // нижней ленты 196 → 37). Без ленты (крест) — не вилка.
+        if (rcU == 4)
+        {
+            bool bn = IsBandTile(wallMap.GetTile(c + Vector3Int.up), st);
+            bool bs = IsBandTile(wallMap.GetTile(c + Vector3Int.down), st);
+            bool be = IsBandTile(wallMap.GetTile(c + Vector3Int.right), st);
+            bool bw = IsBandTile(wallMap.GetTile(c + Vector3Int.left), st);
+            if (((bn ? 1 : 0) + (bs ? 1 : 0) + (be ? 1 : 0) + (bw ? 1 : 0)) != 1) return null;
+            if (bn) return st.forkTop;
+            if (bs) return st.forkBottom;
+            if (be) return st.forkRight;
+            return st.forkLeft;
+        }
         if (rcU != 3) return null;
         TileBase stemU = !rnU ? wallMap.GetTile(c + Vector3Int.down)
             : (!rsU ? wallMap.GetTile(c + Vector3Int.up)
@@ -1197,7 +1234,16 @@ public static class HouseAutotiler
         Vector3Int openCell = !rnU ? c + Vector3Int.up
             : (!rsU ? c + Vector3Int.down
             : (!reU ? c + Vector3Int.right : c + Vector3Int.left));
-        if (floor != null && floor.Contains(openCell)) return null;
+        // Открытие в пол — вилка глохнет вогнутой, но только когда среди
+        // трёх колец есть лента (её ряд закрывает стык): ((-87,11): юг
+        // 196 → 70). Без ленты — честный Т у ниши ((-88,11): W-пол,
+        // кольца 1/34/70 → 35).
+        if (floor != null && floor.Contains(openCell)
+            && (IsBandTile(wallMap.GetTile(c + Vector3Int.up), st)
+                || IsBandTile(wallMap.GetTile(c + Vector3Int.down), st)
+                || IsBandTile(wallMap.GetTile(c + Vector3Int.right), st)
+                || IsBandTile(wallMap.GetTile(c + Vector3Int.left), st)))
+            return null;
         if (!rnU) return st.forkTop;
         if (!rsU) return st.forkBottom;
         if (!reU) return st.forkRight;
