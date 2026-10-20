@@ -451,6 +451,24 @@ public static class HouseAutotiler
                         if ((dnJ == st.doorJambL || dnJ == st.doorJambR) && st.forkTop != null)
                         { wanted[c] = st.forkTop; continue; }
                     }
+                    // Гребень упирается в столб и заворачивает вниз: запад —
+                    // горизонталь (117), восток — вертикаль (34), юг — стена,
+                    // север пуст → угол 3 ((-89,10): ряд y=10 кончается на
+                    // столбе x=-88 и уходит вниз). Зеркало: восток-горизонт +
+                    // запад-столб → угол 1. Срабатывает после того, как столб
+                    // сам стал прямой (второй проход Stabilize).
+                    if (!RingU(wallMap, st, c + Vector3Int.up)
+                        && RingU(wallMap, st, c + Vector3Int.down))
+                    {
+                        if (wallMap.GetTile(c + Vector3Int.left) == st.straightH
+                            && wallMap.GetTile(c + Vector3Int.right) == st.straightV
+                            && st.cornerTR != null)
+                        { wanted[c] = st.cornerTR; continue; }
+                        if (wallMap.GetTile(c + Vector3Int.right) == st.straightH
+                            && wallMap.GetTile(c + Vector3Int.left) == st.straightV
+                            && st.cornerTL != null)
+                        { wanted[c] = st.cornerTL; continue; }
+                    }
                     // Т-стык из трёх колец важнее диагонального угла: открытие
                     // в пустоту — вилка по открытию ((-78,10): N3,W35,E117,
                     // юг пусто → 69). Правило GF симметрично по всем сторонам.
@@ -1251,9 +1269,11 @@ public static class HouseAutotiler
         bool reU = RingU(wallMap, st, c + Vector3Int.right);
         bool rwU = RingU(wallMap, st, c + Vector3Int.left);
         int rcU = (rnU ? 1 : 0) + (rsU ? 1 : 0) + (reU ? 1 : 0) + (rwU ? 1 : 0);
-        // Кольцо с четырёх сторон, но одна ветка — ряд ленты: вилка
-        // открытием в ленту ((-88,10): N/S-линия, W-кольцо, E — начало
-        // нижней ленты 196 → 37). Без ленты (крест) — не вилка.
+        // Кольцо с четырёх сторон, но одна ветка — ряд ленты. Лента сбоку
+        // (E/W) упирается в столб БЕЗ ветвления — тонкая вертикаль, столб
+        // не расходится в ленту ((-88,10): N/S-линия, W-кольцо, E-лента
+        // 197 → 34, было 37). Лента сверху/снизу — старое поведение
+        // (вилка открытием в ленту). Без ленты (крест) — не вилка.
         if (rcU == 4)
         {
             bool bn = IsBandTile(wallMap.GetTile(c + Vector3Int.up), st);
@@ -1263,8 +1283,7 @@ public static class HouseAutotiler
             if (((bn ? 1 : 0) + (bs ? 1 : 0) + (be ? 1 : 0) + (bw ? 1 : 0)) != 1) return null;
             if (bn) return st.forkTop;
             if (bs) return st.forkBottom;
-            if (be) return st.forkRight;
-            return st.forkLeft;
+            return null;
         }
         if (rcU != 3) return null;
         TileBase stemU = !rnU ? wallMap.GetTile(c + Vector3Int.down)
