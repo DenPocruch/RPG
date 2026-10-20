@@ -495,6 +495,9 @@ public static class HouseAutotiler
 
     /// <summary>
     /// Поглощённое кольцо: стена между полами, один из которых свежий.
+    /// Считаем только НАСТОЯЩИЕ полы: n/s/e/w — члены (пол ИЛИ лента), но
+    /// лента под полом не пол — расчистка над ней съедала деталь в пустоту
+    /// ((-84,11): передняя перемычка 69 пропадала; остаётся с бандой снизу).
     /// Но если противоположные полы уже связаны в обход (стена — разделитель
     /// между соединёнными областями, как (-88,6/7) между крылом и домом через
     /// мост y=8) — не трогаем, иначе долив съедает задуманную стену.
@@ -502,13 +505,17 @@ public static class HouseAutotiler
     static bool Absorbed(bool n, bool s, bool e, bool w, Vector3Int c,
         HashSet<Vector3Int> floor, HashSet<Vector3Int> fresh)
     {
-        if (!((n && s) || (e && w))) return false;
+        bool nf = n && floor.Contains(c + Vector3Int.up);
+        bool sf = s && floor.Contains(c + Vector3Int.down);
+        bool ef = e && floor.Contains(c + Vector3Int.right);
+        bool wf = w && floor.Contains(c + Vector3Int.left);
+        if (!((nf && sf) || (ef && wf))) return false;
         if (!(fresh.Contains(c + Vector3Int.up) || fresh.Contains(c + Vector3Int.down)
             || fresh.Contains(c + Vector3Int.right) || fresh.Contains(c + Vector3Int.left)))
             return false;
-        if (n && s && ConnectedExcept(floor, c + Vector3Int.up, c + Vector3Int.down, c, 400))
+        if (nf && sf && ConnectedExcept(floor, c + Vector3Int.up, c + Vector3Int.down, c, 400))
             return false;
-        if (e && w && ConnectedExcept(floor, c + Vector3Int.right, c + Vector3Int.left, c, 400))
+        if (ef && wf && ConnectedExcept(floor, c + Vector3Int.right, c + Vector3Int.left, c, 400))
             return false;
         return true;
     }
@@ -686,7 +693,11 @@ public static class HouseAutotiler
         // ((-85,12): над 34, сосед-косяк 116 — замок для RingU, без этого
         // геометрия видела бы Rc=3 и ставила 35). Сверху пусто/фон (крышки
         // ленты 117) — прямая как была. Нет вилки в стиле — прямая.
-        if (s && !n && !e && !w && eRing && wRing && IsRing(wallMap, c + Vector3Int.up, st))
+        // Гребень над рядом ленты (юг — лента) — всегда прямая: верхние
+        // постройки опираются на гребень и не пробивают его вилкой
+        // ((-84,11) после (-85,13): угол 70 сверху давал 69 → 117).
+        if (s && !n && !e && !w && eRing && wRing && IsRing(wallMap, c + Vector3Int.up, st)
+            && !IsBandTile(wallMap.GetTile(c + Vector3Int.down), st))
             return st.forkBottom != null ? st.forkBottom : st.straightH;
         // Геометрический Т (и для одиночных членов): см. GeometricFork.
         // Стоит раньше краёв/прямых — Т важнее апрона.
@@ -752,6 +763,15 @@ public static class HouseAutotiler
             && IsRing(wallMap, c + Vector3Int.down, st))
             return st.straightV;
         if (e && w && !n && !s) return st.straightH;
+        // Ряд горизонтального кольца: пол за кромкой — не стена. Если сверху
+        // и снизу нет стойки (кольцо-столб, не лента), ряд продолжается
+        // прямой, а не уходит вилкой/вертикалью в комнату.
+        // ((-84..-82,11): пол верхней комнаты за рядом → 117, а не 2/34;
+        // (-81,11): столб 34 сверху → вилка 69 как была.)
+        if (eRing && wRing && !ownFloor
+            && !RingStem(wallMap, st, c + Vector3Int.up)
+            && !RingStem(wallMap, st, c + Vector3Int.down))
+            return st.straightH;
         // Верхняя перемычка (зеркало нижней 69): двойка N+S, западнее правый
         // косяк — сверху комната, снизу ряд: вилка верх (2), а не прямая
         // ((-79,11): запад 116 → 2). Нет вилки — прямая как была.
@@ -1116,6 +1136,18 @@ public static class HouseAutotiler
     {
         TileBase t = wallMap.GetTile(c);
         return t != null && t != st.bgFill;
+    }
+
+    /// <summary>
+    /// Стойка Т: кольцевой столб (не фон, не лента, не замок). Только такая
+    /// клетка даёт вилку/вертикаль на горизонтальном ряду; пол и лента —
+    /// кромка комнаты, ряд ведут как прямую.
+    /// </summary>
+    static bool RingStem(Tilemap wallMap, WallStyle st, Vector3Int c)
+    {
+        TileBase t = wallMap.GetTile(c);
+        if (t == null || t == st.bgFill || IsBandTile(t, st)) return false;
+        return st.lockTileNames == null || !st.lockTileNames.Contains(t.name);
     }
 
     /// <summary>Кольцо без замков (дверь не считается стеной для геометрии Т).</summary>
