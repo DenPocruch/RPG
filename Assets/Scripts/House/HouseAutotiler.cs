@@ -728,11 +728,14 @@ public static class HouseAutotiler
         // Юг пусто/лента — вилка как была. Нет тупика — фолбэк (прямая).
         if (n && e && w && !s && RingU(wallMap, st, c + Vector3Int.down))
             return st.westTurnA != null ? st.westTurnA : st.straightH;
-        // Перемычка портала (раньше геометрии!): апрон с косяком на востоке.
+        // Перемычка портала (раньше геометрии!): апрон с косяком сбоку.
         // Косяк — замок-невидимка для RingU, без этого геометрия видела бы
         // здесь Rc=3 (N,S,W) и ставила вилку 37 раньше перемычки.
-        // ((-83,11): E==118 → 69). Косяк только свежим проходом — базу не трогает.
-        if (s && !n && !e && !w && wallMap.GetTile(c + Vector3Int.right) == st.doorJambL)
+        // ((-83,11): E==118 → 69; зеркало (-84,11): W==116 → 69 — вилка
+        // открытием вниз в обе стороны, ножка Т уходит в ряд кольца).
+        if (s && !n && !e && !w
+            && (wallMap.GetTile(c + Vector3Int.right) == st.doorJambL
+                || wallMap.GetTile(c + Vector3Int.left) == st.doorJambR))
             return st.forkBottom != null ? st.forkBottom : st.straightH;
         // Столб в ленту (раньше геометрии!): верхняя кромка (пол южнее),
         // по бокам кольцо, а сверху кольцо-столб падает в ленту — Т-стык
