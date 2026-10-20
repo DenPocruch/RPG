@@ -778,18 +778,33 @@ public static class HouseAutotiler
             return st.forkBottom != null ? st.forkBottom : st.straightH;
         // Столб между столбами вниз: маска w-only (пол/лента западнее),
         // сверху и восточнее — вертикальные прямые (34), снизу — вилка низ
-        // (69): колонка продолжается вниз, вилка в пол не открывается
-        // ((-89,10): N34,E34,S69 → 34; без правила геометрия давала 35).
-        // Зеркало: маска e-only, запад 34 → 34.
+        // (69) или вогнутый угол ленты (68): колонка продолжается вниз, вилка
+        // в пол не открывается ((-89,10): N34,E34,S68 → 34; без правила
+        // геометрия давала 35).
+        // Зеркало: маска e-only, запад 34, снизу 69/70 → 34.
         if (w && !e && !n && !s
             && wallMap.GetTile(c + Vector3Int.up) == st.straightV
             && wallMap.GetTile(c + Vector3Int.right) == st.straightV
-            && wallMap.GetTile(c + Vector3Int.down) == st.forkBottom)
+            && (wallMap.GetTile(c + Vector3Int.down) == st.forkBottom
+                || wallMap.GetTile(c + Vector3Int.down) == st.ConcaveSW))
             return st.straightV != null ? st.straightV : st.straightH;
         if (e && !w && !n && !s
             && wallMap.GetTile(c + Vector3Int.up) == st.straightV
             && wallMap.GetTile(c + Vector3Int.left) == st.straightV
-            && wallMap.GetTile(c + Vector3Int.down) == st.forkBottom)
+            && (wallMap.GetTile(c + Vector3Int.down) == st.forkBottom
+                || wallMap.GetTile(c + Vector3Int.down) == st.ConcaveSE))
+            return st.straightV != null ? st.straightV : st.straightH;
+        // Столб под ровной колонной: западнее пол, а сверху два пролёта 34 —
+        // колонна продолжается вниз без вилки, даже если нижний сосед уже
+        // успел стать вилкой ((-89,11): W-пол, N и N2 34 → 34, затем
+        // (-89,10) подхватывает правило колонки). Зеркало — e-only.
+        if (w && !e && !n && !s
+            && wallMap.GetTile(c + Vector3Int.up) == st.straightV
+            && wallMap.GetTile(c + Vector3Int.up + Vector3Int.up) == st.straightV)
+            return st.straightV != null ? st.straightV : st.straightH;
+        if (e && !w && !n && !s
+            && wallMap.GetTile(c + Vector3Int.up) == st.straightV
+            && wallMap.GetTile(c + Vector3Int.up + Vector3Int.up) == st.straightV)
             return st.straightV != null ? st.straightV : st.straightH;
         // Геометрический Т (и для одиночных членов): см. GeometricFork.
         // Стоит раньше краёв/прямых — Т важнее апрона.
@@ -1334,6 +1349,17 @@ public static class HouseAutotiler
                 || IsBandTile(wallMap.GetTile(c + Vector3Int.right), st)
                 || IsBandTile(wallMap.GetTile(c + Vector3Int.left), st)))
             return null;
+        // Стена идёт насквозь мимо пола: если поперёк открытия стоят две
+        // ровные вертикали (34), это продолжение колонны, а не Т —
+        // ((-89,11): W-пол, N/S 34, E 1 → 34 при постройке выше).
+        bool openUp = !rnU, openDown = !rsU;
+        bool sideStraight = openUp || openDown
+            ? wallMap.GetTile(c + Vector3Int.left) == st.straightV
+              && wallMap.GetTile(c + Vector3Int.right) == st.straightV
+            : wallMap.GetTile(c + Vector3Int.up) == st.straightV
+              && wallMap.GetTile(c + Vector3Int.down) == st.straightV;
+        if (floor != null && floor.Contains(openCell) && sideStraight)
+            return st.straightV != null ? st.straightV : st.straightH;
         if (!rnU) return st.forkTop;
         if (!rsU) return st.forkBottom;
         if (!reU) return st.forkRight;
