@@ -408,6 +408,19 @@ public static class HouseAutotiler
                 bool w = Member(floor, wallMap, st, c + Vector3Int.left);
                 if (!n && !s && !e && !w)
                 {
+                    // Крест: клетка зажата настоящим кольцом (не лентой, не
+                    // замком) со всех четырёх сторон — узел стен 4x4, а не фон
+                    // ((-88,11): вокруг 70/34/70/34 → 36; соседи на следующем
+                    // проходе берут 117/70/1 от новой стойки).
+                    if (st.forkCenter != null
+                        && RingStem(wallMap, st, c + Vector3Int.up)
+                        && RingStem(wallMap, st, c + Vector3Int.down)
+                        && RingStem(wallMap, st, c + Vector3Int.right)
+                        && RingStem(wallMap, st, c + Vector3Int.left))
+                    {
+                        wanted[c] = st.forkCenter;
+                        continue;
+                    }
                     TileBase diag = DiagonalCorner(c, floor, wallMap, st);
                     if (diag != null) { wanted[c] = diag; continue; }
                     // Голый контур без членов: Т-стык кольцом (вилка по открытию).
