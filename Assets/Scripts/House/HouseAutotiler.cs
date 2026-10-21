@@ -1360,6 +1360,16 @@ public static class HouseAutotiler
               && wallMap.GetTile(c + Vector3Int.down) == st.straightV;
         if (floor != null && floor.Contains(openCell) && sideStraight)
             return st.straightV != null ? st.straightV : st.straightH;
+        // Ветка Т упирается в параллельную стену (34), а не в продолжение:
+        // это двойная линия стен, а не ответвление ((-89,10): W-пол,
+        // N 1, S 68, E 34 → 34; без правила — 35).
+        if (floor != null && floor.Contains(openCell))
+        {
+            if (!rwU && reU && wallMap.GetTile(c + Vector3Int.right) == st.straightV)
+                return st.straightV != null ? st.straightV : st.straightH;
+            if (!reU && rwU && wallMap.GetTile(c + Vector3Int.left) == st.straightV)
+                return st.straightV != null ? st.straightV : st.straightH;
+        }
         if (!rnU) return st.forkTop;
         if (!rsU) return st.forkBottom;
         if (!reU) return st.forkRight;
