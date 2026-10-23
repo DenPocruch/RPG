@@ -418,16 +418,19 @@ public static class HouseAutotiler
                         && RingStem(wallMap, st, c + Vector3Int.right)
                         && RingStem(wallMap, st, c + Vector3Int.left))
                     {
-                        // Вертикаль с притоком 34 сбоку — это Т, а не крест
-                        // ((-88,11): N/S/E 34/34/117, W 34 → 35; зеркало → 37).
-                        if (wallMap.GetTile(c + Vector3Int.left) == st.straightV
-                            && st.forkLeft != null)
+                        // Вертикаль с притоком 34 (или массой 0 под полом)
+                        // сбоку — это Т, а не крест ((-88,11): N/S/E 34/34/117,
+                        // W 34/0 → 35; зеркало → 37).
+                        TileBase leftStem = wallMap.GetTile(c + Vector3Int.left);
+                        TileBase rightStem = wallMap.GetTile(c + Vector3Int.right);
+                        bool leftIsStem = leftStem == st.straightV || leftStem == st.columnMid0;
+                        bool rightIsStem = rightStem == st.straightV || rightStem == st.columnMid0;
+                        if (leftIsStem && st.forkLeft != null)
                         {
                             wanted[c] = st.forkLeft;
                             continue;
                         }
-                        if (wallMap.GetTile(c + Vector3Int.right) == st.straightV
-                            && st.forkRight != null)
+                        if (rightIsStem && st.forkRight != null)
                         {
                             wanted[c] = st.forkRight;
                             continue;
@@ -938,18 +941,21 @@ public static class HouseAutotiler
         // только одна (стена продолжается) = прямая; иначе выпуклый.
         // (Диагональ врёт: у вогнутого и выпуклого она одинаковая.)
         // Расширение этажа над вертикалью: пол с севера и сбоку над 34
-        // у стыка (крест 36 или вилка 35) — не вогнутый угол, а сквозная
-        // стена ((-89,11): N/W-пол, S34, E36 → 34, а не 1). Зеркало — n&&e.
+        // у стыка — не вогнутый угол, а масса под полом: 0 под полом и 34
+        // ниже ((-89,11): N/W-пол, S34, E35 → 0; эталон L-колонки
+        // «пол → 0 → 34»). Зеркало — n&&e.
         if (n && w && !s && !e
             && wallMap.GetTile(c + Vector3Int.down) == st.straightV
             && (wallMap.GetTile(c + Vector3Int.right) == st.forkCenter
                 || wallMap.GetTile(c + Vector3Int.right) == st.forkLeft))
-            return st.straightV != null ? st.straightV : st.straightH;
+            return st.columnMid0 != null ? st.columnMid0
+                : (st.straightV != null ? st.straightV : st.straightH);
         if (n && e && !s && !w
             && wallMap.GetTile(c + Vector3Int.down) == st.straightV
             && (wallMap.GetTile(c + Vector3Int.left) == st.forkCenter
                 || wallMap.GetTile(c + Vector3Int.left) == st.forkRight))
-            return st.straightV != null ? st.straightV : st.straightH;
+            return st.columnMid0 != null ? st.columnMid0
+                : (st.straightV != null ? st.straightV : st.straightH);
         if (s && e && !n && !w)
         {
             bool nR = IsRing(wallMap, c + Vector3Int.up, st);
