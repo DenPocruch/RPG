@@ -48,6 +48,11 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     private readonly Dictionary<Vector3Int, Dictionary<Vector3Int, string>> journalPending =
         new Dictionary<Vector3Int, Dictionary<Vector3Int, string>>();
 
+    // Порядок зафиксированных строек сессии: последняя — хвост. Снос самой
+    // последней стройки = точный откат журнала (состояние «до неё»), без
+    // пайплайна перезахода: тот тянет базу загрузки и раскидывает ленту/углы.
+    private readonly List<Vector3Int> journalOrder = new List<Vector3Int>();
+
     // Стены на входе загрузки (снапшот перед RebuildRing): снос откатывается
     // сюда и повторяет ту же операцию, что загрузка — итог совпадает с
     // перезаходом «минус клетка» (баг №5: откат по журналу залипал на
@@ -123,8 +128,12 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             }
         }
         journalRuntime.Remove(target);
+        journalOrder.Remove(target);
         if (changed.Count > 0)
+        {
             journalRuntime[target] = changed;
+            journalOrder.Add(target); // последняя стройка — хвост
+        }
     }
 
     /// <summary>
@@ -136,6 +145,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         if (!journalRuntime.TryGetValue(target, out var entry))
             return false;
         journalRuntime.Remove(target);
+        journalOrder.Remove(target);
         int restored = 0, missing = 0;
         foreach (var kvp in entry)
         {
@@ -153,6 +163,15 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             Debug.LogWarning("[House] Журнал сноса: неизвестных тайлов " + missing + " (пропущены).");
         Debug.Log("[House] Журнал сноса " + target + ": возвращено стен " + restored + ".");
         return true;
+    }
+
+    /// <summary>
+    /// Стройка — последняя зафиксированная в этой сессии? Тогда её снос =
+    /// точный откат журнала (никакая поздняя стройка скоп не трогала).
+    /// </summary>
+    public bool IsLatestBuild(Vector3Int target)
+    {
+        return journalOrder.Count > 0 && journalOrder[journalOrder.Count - 1].Equals(target);
     }
 
     /// <summary>Скоп журнального снапшота: bbox комнаты ±4 (как JournalScope п.20).</summary>
@@ -220,7 +239,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     /// оставшиеся пристройки с полом; мебель, потерявшая опору, — на склад.
     /// Возвращает число записанных стен.
     /// </summary>
-    public int RebuildAfterDemolish(out int unmappedCount, out int diffsCount, Vector3Int demolishedCell = default)
+    public int RebuildAfterDemolish(out int unmappedCount, out int diffsCount, Vector3Int demolishedCell = default, bool journalExact = false)
     {
         unmappedCount = 0;
         diffsCount = 0;
@@ -235,7 +254,15 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
         TileBase floorTile = fst != null && fst.floorTile != null ? fst.floorTile : brick.floorTile;
         var unmapped = new List<string>();
         int painted;
-        if (loadBaseWalls != null)
+        if (journalExact)
+        {
+            // Снос последней стройки: откат журнала уже вернул точное состояние
+            // «до неё» (то же, что после предпоследней стройки). Пайплайн
+            // перезахода тут только портит: база загрузки устарела за сессию,
+            // и свежесть по ней раскидывает ленту/углы не туда.
+            painted = 0;
+        }
+        else if (loadBaseWalls != null)
         {
             // Пайплайн загрузки: стены — к снапшоту до RebuildRing, дальше та же
             // операция, что при загрузке (fresh = полы с покрывающей стеной).
@@ -284,7 +311,42 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             Debug.LogWarning("[House] Кольцо после сноса: " + d);
         foreach (string u in unmapped)
             Debug.LogWarning("[House] Снос UNMAPPED: " + u);
+        DumpWallMap(walls, floors, floorLive);
         return painted;
+    }
+
+    /// <summary>
+    /// Карта кольца после сноса (как инструмент 20): пол F + короткое имя стены.
+    /// Только непустые клетки — для диагностики в логе.
+    /// </summary>
+    static void DumpWallMap(Tilemap walls, Tilemap floors, HashSet<Vector3Int> floorLive)
+    {
+        if (walls == null || floorLive == null || floorLive.Count == 0) return;
+        int minX = int.MaxValue, maxX = int.MinValue, minY = int.MaxValue, maxY = int.MinValue;
+        foreach (Vector3Int c in floorLive)
+        {
+            if (c.x < minX) minX = c.x;
+            if (c.x > maxX) maxX = c.x;
+            if (c.y < minY) minY = c.y;
+            if (c.y > maxY) maxY = c.y;
+        }
+        for (int y = maxY + 4; y >= minY - 1; y--)
+        {
+            var parts = new List<string>();
+            for (int x = minX - 4; x <= maxX + 4; x++)
+            {
+                var c = new Vector3Int(x, y, 0);
+                TileBase t = walls.GetTile(c);
+                bool fl = floors != null && floors.HasTile(c);
+                if (t == null && !fl) continue;
+                string n = t != null ? t.name.Replace("Tileset House_", "").Replace(" 1", "'") : null;
+                if (n == "76") n = "~";
+                if (fl) parts.Add(n != null ? x + ":F/" + n : x + ":F");
+                else parts.Add(x + ":" + n);
+            }
+            if (parts.Count > 0)
+                Debug.Log("[House] 20 map y=" + y + ": " + string.Join(" ", parts));
+        }
     }
 
     /// <summary>

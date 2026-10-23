@@ -1412,13 +1412,16 @@ public static class HouseAutotiler
             : (!rsU ? c + Vector3Int.down
             : (!reU ? c + Vector3Int.right : c + Vector3Int.left));
         // Открытие в пустоту, а ножка Т — параллельная стена (34), горизонталь
-        // (117) или сама вилка: ответвлению некуда рисоваться, клетка остаётся
-        // фоном/углом ((-88,12): E пусто → 76; (-87,12): E пусто, W117 →
-        // угол 70 от диагонали).
+        // (117), вилка или поворот (угол 70/68/1/3 от прежней кромки): ответвлению
+        // некуда рисоваться, клетка остаётся фоном/углом ((-88,12): E пусто →
+        // 76; (-87,12): E пусто, W117 → угол 70 от диагонали; (-86,12) после
+        // пристройки вбок: ножка — старый угол 70 → новый угол 70, а не вилка 37).
         bool stemIsFork = stemU == st.forkTop || stemU == st.forkBottom
             || stemU == st.forkLeft || stemU == st.forkRight || stemU == st.forkCenter;
+        bool stemIsCorner = stemU == st.cornerTL || stemU == st.cornerTR
+            || stemU == st.cornerBL || stemU == st.cornerBR;
         if ((floor == null || !floor.Contains(openCell))
-            && (stemU == st.straightV || stemU == st.straightH || stemIsFork))
+            && (stemU == st.straightV || stemU == st.straightH || stemIsFork || stemIsCorner))
             return null;
         // Открытие в пол — вилка глохнет вогнутой, но только когда среди
         // трёх колец есть лента (её ряд закрывает стык): ((-87,11): юг

@@ -364,18 +364,23 @@ public static class HouseExpansion
             Debug.LogWarning("[House] Нельзя сносить пол посередине прямой — убирайте с краёв: " + target + ".");
             return false;
         }
-        // Откат стен по журналу (как п.21): вернуть "как было до стройки" там,
-        // где нет пола. Без записи (legacy) — только Stabilize ниже.
-        bool hadJournal = mgr.UndoJournal(target, walls, floors);
+        // Сначала убираем пол: иначе откат журнала пропустит саму снесённую
+        // клетку как «под полом» и в кольце останется дыра (синий квадрат).
+        bool wasLatest = mgr.IsLatestBuild(target);
         floors.SetTile(target, null);
+        bool hadJournal = mgr.UndoJournal(target, walls, floors);
+        bool journalExact = hadJournal && wasLatest;
         // Снос = откат + перестройка стен вокруг снесённой клетки (лента/стены сразу верные).
-        int painted = mgr.RebuildAfterDemolish(out int unmapped, out int diffs, target);
+        // Снос последней стройки — откат журнала уже точный (как после предпоследней
+        // стройки), пайплайн перезахода по устаревшей базе загрузки не гоняем.
+        int painted = mgr.RebuildAfterDemolish(out int unmapped, out int diffs, target, journalExact);
         mgr.ForgetGrown(target);
         if (HouseStock.Instance != null)
             HouseStock.Instance.Add(TicketKey, 1);
         SaveManager.Instance?.Save();
         Debug.Log("[House] Пол убран: " + target + " (билет +1 на складе, журнал: " +
-                  (hadJournal ? "откат" : "нет записи") + ", стен переписано " +
+                  (journalExact ? "точный откат" : (hadJournal ? "откат" : "нет записи")) +
+                  ", стен переписано " +
                   painted + ", расхождений " + diffs + ", unmapped " + unmapped + ").");
         return diffs == 0;
     }
