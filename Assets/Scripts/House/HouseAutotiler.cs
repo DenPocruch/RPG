@@ -443,6 +443,23 @@ public static class HouseAutotiler
                                 continue;
                             }
                         }
+                        // Стены реально касаются клетки только там, где грань
+                        // соседа смотрит в неё: вертикаль сбоку (34) идёт
+                        // параллельно и ответвлением не является. Две смежные
+                        // такие грани — вогнутый угол, а не Т ((-88,11): верх
+                        // 70 (стена N+W, вниз не смотрит), низ 34, запад 34
+                        // (вертикаль), восток 117 → 1; было 35).
+                        bool faceN = JoinsSouth(upStem, st);
+                        bool faceS = JoinsNorth(dnStem, st);
+                        bool faceW = JoinsEast(leftStem, st);
+                        bool faceE = JoinsWest(rightStem, st);
+                        if ((faceN ? 1 : 0) + (faceS ? 1 : 0) + (faceW ? 1 : 0) + (faceE ? 1 : 0) == 2)
+                        {
+                            if (faceS && faceE && st.ConcaveNW != null) { wanted[c] = st.ConcaveNW; continue; }
+                            if (faceS && faceW && st.ConcaveNE != null) { wanted[c] = st.ConcaveNE; continue; }
+                            if (faceN && faceE && st.ConcaveSW != null) { wanted[c] = st.ConcaveSW; continue; }
+                            if (faceN && faceW && st.ConcaveSE != null) { wanted[c] = st.ConcaveSE; continue; }
+                        }
                         bool leftIsStem = leftStem == st.straightV || leftStem == st.columnMid0;
                         bool rightIsStem = rightStem == st.straightV || rightStem == st.columnMid0;
                         if (leftIsStem && st.forkLeft != null)
