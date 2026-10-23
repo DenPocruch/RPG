@@ -423,6 +423,26 @@ public static class HouseAutotiler
                         // W 34/0 → 35; зеркало → 37).
                         TileBase leftStem = wallMap.GetTile(c + Vector3Int.left);
                         TileBase rightStem = wallMap.GetTile(c + Vector3Int.right);
+                        TileBase upStem = wallMap.GetTile(c + Vector3Int.up);
+                        TileBase dnStem = wallMap.GetTile(c + Vector3Int.down);
+                        // Ступень вниз-вправо: сверху и справа — горизонталь,
+                        // снизу и слева — вертикаль → вогнутый NW, а не Т
+                        // ((-88,11): N117,S34,E117,W34 → 1; зеркало → 3).
+                        if (upStem == st.straightH && dnStem == st.straightV)
+                        {
+                            if (leftStem == st.straightV && rightStem == st.straightH
+                                && st.ConcaveNW != null)
+                            {
+                                wanted[c] = st.ConcaveNW;
+                                continue;
+                            }
+                            if (rightStem == st.straightV && leftStem == st.straightH
+                                && st.ConcaveNE != null)
+                            {
+                                wanted[c] = st.ConcaveNE;
+                                continue;
+                            }
+                        }
                         bool leftIsStem = leftStem == st.straightV || leftStem == st.columnMid0;
                         bool rightIsStem = rightStem == st.straightV || rightStem == st.columnMid0;
                         if (leftIsStem && st.forkLeft != null)
@@ -1338,6 +1358,14 @@ public static class HouseAutotiler
     static bool JoinsNorth(TileBase t, WallStyle st) =>
         t != null && (t == st.straightV || t == st.cornerBL || t == st.cornerBR);
 
+    /// <summary>Есть ли у тайла стена на восточной грани (117/1/68).</summary>
+    static bool JoinsEast(TileBase t, WallStyle st) =>
+        t != null && (t == st.straightH || t == st.cornerTL || t == st.cornerBL);
+
+    /// <summary>Есть ли у тайла стена на западной грани (117/3/70).</summary>
+    static bool JoinsWest(TileBase t, WallStyle st) =>
+        t != null && (t == st.straightH || t == st.cornerTR || t == st.cornerBR);
+
     /// <summary>
     /// Геометрический Т-стык контура (кольцом, без опоры на члены): стены
     /// кольцом (без замков) ровно с трёх сторон — вилка по открытию
@@ -1368,8 +1396,11 @@ public static class HouseAutotiler
             bool be = IsBandTile(wallMap.GetTile(c + Vector3Int.right), st);
             bool bw = IsBandTile(wallMap.GetTile(c + Vector3Int.left), st);
             if (((bn ? 1 : 0) + (bs ? 1 : 0) + (be ? 1 : 0) + (bw ? 1 : 0)) != 1) return null;
-            if (bn) return st.forkTop;
-            if (bs) return st.forkBottom;
+            // Вилка в ленту — только если напротив настоящая вертикаль (ножка
+            // Т): иначе ряд гребня продолжается прямой ((-87,11): юг 197,
+            // север 70/37 — не столб → 117, а не 69).
+            if (bn && wallMap.GetTile(c + Vector3Int.down) == st.straightV) return st.forkTop;
+            if (bs && wallMap.GetTile(c + Vector3Int.up) == st.straightV) return st.forkBottom;
             return null;
         }
         if (rcU != 3) return null;
@@ -1380,10 +1411,14 @@ public static class HouseAutotiler
         Vector3Int openCell = !rnU ? c + Vector3Int.up
             : (!rsU ? c + Vector3Int.down
             : (!reU ? c + Vector3Int.right : c + Vector3Int.left));
-        // Открытие в пустоту, а ножка Т — параллельная стена (34): ответвлению
-        // некуда рисоваться, клетка остаётся фоном ((-88,12): N/S/W стены,
-        // E пусто → 76; иначе вилка 37 торчала в пустоту).
-        if ((floor == null || !floor.Contains(openCell)) && stemU == st.straightV)
+        // Открытие в пустоту, а ножка Т — параллельная стена (34), горизонталь
+        // (117) или сама вилка: ответвлению некуда рисоваться, клетка остаётся
+        // фоном/углом ((-88,12): E пусто → 76; (-87,12): E пусто, W117 →
+        // угол 70 от диагонали).
+        bool stemIsFork = stemU == st.forkTop || stemU == st.forkBottom
+            || stemU == st.forkLeft || stemU == st.forkRight || stemU == st.forkCenter;
+        if ((floor == null || !floor.Contains(openCell))
+            && (stemU == st.straightV || stemU == st.straightH || stemIsFork))
             return null;
         // Открытие в пол — вилка глохнет вогнутой, но только когда среди
         // трёх колец есть лента (её ряд закрывает стык): ((-87,11): юг
@@ -1399,6 +1434,13 @@ public static class HouseAutotiler
         // соединяются через клетку (34 или угол со стеной к нам) —
         // это продолжение линии, а не Т ((-89,11): W-пол, N 1 (стена S),
         // S 34 → 34; без правила угол сверху давал 35).
+        // Грань проходит насквозь по горизонтали: открытие в пол сверху/снизу,
+        // а соседи слева/справа продолжают кромку (E-грань слева, W-грань
+        // справа) — прямая, а не Т ((-88,12): W1,E70 → 117).
+        if (floor != null && floor.Contains(openCell) && (!rnU || !rsU)
+            && JoinsEast(wallMap.GetTile(c + Vector3Int.left), st)
+            && JoinsWest(wallMap.GetTile(c + Vector3Int.right), st))
+            return st.straightH != null ? st.straightH : st.straightV;
         bool openUp = !rnU, openDown = !rsU;
         bool sideStraight = openUp || openDown
             ? wallMap.GetTile(c + Vector3Int.left) == st.straightV
