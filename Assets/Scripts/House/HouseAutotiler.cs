@@ -1374,6 +1374,11 @@ public static class HouseAutotiler
         Vector3Int openCell = !rnU ? c + Vector3Int.up
             : (!rsU ? c + Vector3Int.down
             : (!reU ? c + Vector3Int.right : c + Vector3Int.left));
+        // Открытие в пустоту, а ножка Т — параллельная стена (34): ответвлению
+        // некуда рисоваться, клетка остаётся фоном ((-88,12): N/S/W стены,
+        // E пусто → 76; иначе вилка 37 торчала в пустоту).
+        if ((floor == null || !floor.Contains(openCell)) && stemU == st.straightV)
+            return null;
         // Открытие в пол — вилка глохнет вогнутой, но только когда среди
         // трёх колец есть лента (её ряд закрывает стык): ((-87,11): юг
         // 196 → 70). Без ленты — честный Т у ниши ((-88,11): W-пол,
