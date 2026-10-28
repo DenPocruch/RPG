@@ -1470,7 +1470,12 @@ public static class HouseAutotiler
             && (JoinsEast(wallMap.GetTile(c + Vector3Int.left), st)
                 || ContinuesH(wallMap.GetTile(c + Vector3Int.left), st))
             && (JoinsWest(wallMap.GetTile(c + Vector3Int.right), st)
-                || ContinuesH(wallMap.GetTile(c + Vector3Int.right), st)))
+                || ContinuesH(wallMap.GetTile(c + Vector3Int.right), st))
+            // Ножка Т напротив открытия (снаружи) отменяет прямую: под рядом
+            // над полом стоит вертикаль — это Т, а не сквозная кромка
+            // ((-88,11): верх пол, низ 34 → 2, ставилась 117).
+            && !(rnU ? JoinsSouth(wallMap.GetTile(c + Vector3Int.up), st)
+                     : JoinsNorth(wallMap.GetTile(c + Vector3Int.down), st)))
             return st.straightH != null ? st.straightH : st.straightV;
         bool openUp = !rnU, openDown = !rsU;
         bool sideStraight = openUp || openDown
