@@ -1383,6 +1383,12 @@ public static class HouseAutotiler
     static bool JoinsWest(TileBase t, WallStyle st) =>
         t != null && (t == st.straightH || t == st.cornerTR || t == st.cornerBR);
 
+    /// <summary>Тайл несёт горизонтальную линию насквозь (стены E и W:
+    /// 117/2/69/36). Вилки в ряд годятся: их бар продолжает кромку.</summary>
+    static bool ContinuesH(TileBase t, WallStyle st) =>
+        t != null && (t == st.straightH || t == st.forkTop || t == st.forkBottom
+            || t == st.forkCenter);
+
     /// <summary>
     /// Геометрический Т-стык контура (кольцом, без опоры на члены): стены
     /// кольцом (без замков) ровно с трёх сторон — вилка по открытию
@@ -1455,11 +1461,16 @@ public static class HouseAutotiler
         // это продолжение линии, а не Т ((-89,11): W-пол, N 1 (стена S),
         // S 34 → 34; без правила угол сверху давал 35).
         // Грань проходит насквозь по горизонтали: открытие в пол сверху/снизу,
-        // а соседи слева/справа продолжают кромку (E-грань слева, W-грань
-        // справа) — прямая, а не Т ((-88,12): W1,E70 → 117).
+        // а соседи слева/справа продолжают кромку — гранью к клетке (угол 1/70,
+        // прямая 117) или баром вилки (2/69/36). Без второго ряда одна вилка
+        // в нижнем ряду раскачивала его маятником 2↔117 ((-82,12), (-80,12):
+        // сейчас 2 → надо 117), без первого — ряд рвался на углах
+        // ((-88,12), (-86,12): сейчас 2 → надо 117; ряд 1..70).
         if (floor != null && floor.Contains(openCell) && (!rnU || !rsU)
-            && JoinsEast(wallMap.GetTile(c + Vector3Int.left), st)
-            && JoinsWest(wallMap.GetTile(c + Vector3Int.right), st))
+            && (JoinsEast(wallMap.GetTile(c + Vector3Int.left), st)
+                || ContinuesH(wallMap.GetTile(c + Vector3Int.left), st))
+            && (JoinsWest(wallMap.GetTile(c + Vector3Int.right), st)
+                || ContinuesH(wallMap.GetTile(c + Vector3Int.right), st)))
             return st.straightH != null ? st.straightH : st.straightV;
         bool openUp = !rnU, openDown = !rsU;
         bool sideStraight = openUp || openDown
