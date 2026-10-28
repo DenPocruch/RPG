@@ -947,6 +947,15 @@ public static class HouseAutotiler
                 && IsRing(wallMap, c + Vector3Int.up, st)
                 && IsRing(wallMap, c + Vector3Int.right, st)))
             return st.straightH;
+        // Конец ряда под полом: пол сверху, лента снизу (общий гребень двух
+        // комнат), а ряд продолжается сбоку — прямая, а не вертикаль
+        // ((-86,15): N-пол, S199, W117 → 117, ставилась 34).
+        if (n && s && !e && !w
+            && floor != null && floor.Contains(c + Vector3Int.up)
+            && IsBandTile(wallMap.GetTile(c + Vector3Int.down), st)
+            && (JoinsEast(wallMap.GetTile(c + Vector3Int.left), st)
+                || JoinsWest(wallMap.GetTile(c + Vector3Int.right), st)))
+            return st.straightH != null ? st.straightH : st.straightV;
         // Верхняя перемычка (зеркало нижней 69): двойка N+S, западнее правый
         // косяк — сверху комната, снизу ряд: вилка верх (2), а не прямая
         // ((-79,11): запад 116 → 2). Нет вилки — прямая как была.
@@ -1434,6 +1443,19 @@ public static class HouseAutotiler
         Vector3Int openCell = !rnU ? c + Vector3Int.up
             : (!rsU ? c + Vector3Int.down
             : (!reU ? c + Vector3Int.right : c + Vector3Int.left));
+        // Т по фактическим граням: все три кольца смотрят в клетку (34/1/70
+        // гранью, 117/2/36 баром) — честный Т даже при открытии в пустоту
+        // ((-85,15): N34,S34,W117,E пусто → 37; без правила вилка глохла
+        // в фон 76). Параллель сбоку (34 восток-западом) гранью не смотрит —
+        // такие Т по-прежнему не рисуются.
+        bool fN = JoinsSouth(wallMap.GetTile(c + Vector3Int.up), st);
+        bool fS = JoinsNorth(wallMap.GetTile(c + Vector3Int.down), st);
+        bool fW = JoinsEast(wallMap.GetTile(c + Vector3Int.left), st);
+        bool fE = JoinsWest(wallMap.GetTile(c + Vector3Int.right), st);
+        if (!rnU && fS && fE && fW) return st.forkTop;
+        if (!rsU && fN && fE && fW) return st.forkBottom;
+        if (!reU && fN && fS && fW) return st.forkRight;
+        if (!rwU && fN && fS && fE) return st.forkLeft;
         // Открытие в пустоту, а ножка Т — параллельная стена (34), горизонталь
         // (117), вилка или поворот (угол 70/68/1/3 от прежней кромки): ответвлению
         // некуда рисоваться, клетка остаётся фоном/углом ((-88,12): E пусто →
