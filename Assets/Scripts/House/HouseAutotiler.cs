@@ -524,8 +524,12 @@ public static class HouseAutotiler
                             && (eC == st.straightV || eC == null || eC == st.bgFill)
                             && st.cornerTR != null)
                         { wanted[c] = st.cornerTR; continue; }
-                        if (wC == st.cornerTR && eC == st.straightV && st.cornerTR != null)
-                        { wanted[c] = st.cornerTR; continue; }
+                        // Щель перед столбом: гребень уже повернул вниз у
+                        // западного соседа (угол 3), восток — точный столб 34,
+                        // север пуст → фон. Второй угол растягивал поворот на
+                        // две клетки ((-89,10): W3, E34 → 3, надо 76).
+                        if (wC == st.cornerTR && eC == st.straightV && st.bgFill != null)
+                        { wanted[c] = st.bgFill; continue; }
                         if (eC == st.straightH
                             && (wC == st.straightV || wC == null || wC == st.bgFill)
                             && st.cornerTL != null)
@@ -1558,9 +1562,11 @@ public static class HouseAutotiler
     }
 
     /// <summary>
-    /// Гнать compute+paint+долив пола до стабильности (макс 6 проходов).
+    /// Гнать compute+paint+долив пола до стабильности (макс 12 проходов).
     /// Свежие углы видят соседей только после покраски — за 1 проход не сходится.
-    /// Каскады (3 → 2 → 117) требуют до 4-5 проходов.
+    /// Каскады (3 → 2 → 117) требуют до 4-5 проходов, а сдвиг ряда после
+    /// пристройки вплотную — до 10: при лимите 6 хвостовая клетка оставалась
+    /// недокрашенной ((-90,10): сейчас 2 → надо 3, аудит писал «Остаток»).
     /// floor пополняется (долив под расчищенным), fresh растёт вместе с ним.
     /// Возвращает суммарно записанных клеток стен.
     /// </summary>
@@ -1580,7 +1586,10 @@ public static class HouseAutotiler
             if (t == st.straightH) straightAtEntry.Add(c);
         }
         int total = 0;
-        for (int i = 0; i < 6; i++)
+        bool converged = false;
+        // 12 проходов: 6 не хватало на длинные каскады (см. комментарий выше).
+        const int MaxPasses = 12;
+        for (int i = 0; i < MaxPasses; i++)
         {
             var wanted = ComputeWanted(wallMap, floor, st, lockRowY, fresh, unmappedAll, virginBg, straightAtEntry);
             int painted = Paint(wallMap, wanted);
@@ -1596,8 +1605,11 @@ public static class HouseAutotiler
                     floored++;
                 }
             }
-            if (painted == 0 && floored == 0) break;
+            if (painted == 0 && floored == 0) { converged = true; break; }
         }
+        if (!converged)
+            Debug.LogWarning("[House] Стабилизация не сошлась за " + MaxPasses +
+                " проходов — остаток покажет аудит.");
         return total;
     }
 }
