@@ -29,6 +29,11 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     // в рантайме и в сейве полов его нет. Переживает сессии через блоб grown.
     private readonly HashSet<Vector3Int> grownRuntime = new HashSet<Vector3Int>();
 
+    // Пол, лежавший в сцене ДО загрузки сейва, — авторская основа дома.
+    // Долив кольца в старых сейвах записал часть этих клеток в grown, из-за чего
+    // основу можно было снести. Для сноса такие клетки всегда считаются базой.
+    private readonly HashSet<Vector3Int> baseFloor = new HashSet<Vector3Int>();
+
     // База скопа для канонизации после сноса: имя тайла стены ДО первой
     // рантайм-стройки этой сессии (сливается из снапшотов BeginJournal).
     // Снос не в обратном порядке строек + пропуск клеток под полом оставляют
@@ -88,7 +93,7 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
     }
 
     /// <summary>Клетка — пристроенная (трекнута)? Основу дома снести нельзя.</summary>
-    public bool IsGrown(Vector3Int cell) => grownRuntime.Contains(cell);
+    public bool IsGrown(Vector3Int cell) => grownRuntime.Contains(cell) && !baseFloor.Contains(cell);
 
     /// <summary>Забыть прирощенную клетку (после сноса пола).</summary>
     public void ForgetGrown(Vector3Int cell) { grownRuntime.Remove(cell); }
@@ -463,8 +468,14 @@ public class HouseInteriorManager : MonoBehaviour, ISaveable
             Debug.LogWarning("[House] Нет тайлмапов — менеджер интерьера отключён до фазы UI.");
             return;
         }
+        // Снимок основы ДО загрузки сейва: сейв может пометить эти клетки grown
+        // (долив кольца), но сносить авторский пол нельзя.
+        BoundsInt fb = floorTilemap.cellBounds;
+        foreach (Vector3Int c in fb.allPositionsWithin)
+            if (floorTilemap.HasTile(c)) baseFloor.Add(c);
         SaveManager.Instance?.Register(this);
-        Debug.Log("[House] Менеджер интерьера: тайлмапы найдены, сейв подключён.");
+        Debug.Log("[House] Менеджер интерьера: тайлмапы найдены, сейв подключён (основа: " +
+                  baseFloor.Count + " клеток пола).");
     }
 
     void Start()

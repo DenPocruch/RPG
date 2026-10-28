@@ -330,6 +330,7 @@ public static class HouseExpansion
     /// Снести пристроенный пол за возврат билета (лонг-пресс в планировке).
     /// Основу дома (нетрекнутые клетки) снести нельзя. Кольцо смыкается той же
     /// операцией (рантайм-аналог п.21), мебель без опоры падает на склад.
+    /// Разрешено только то, что не делает дыру и не отрезает часть комнаты.
     /// </summary>
     public static bool TryDemolishTicket(Vector3Int target)
     {
@@ -355,13 +356,22 @@ public static class HouseExpansion
             Debug.Log("[House] Это основа дома — снести можно только пристроенные тайлы.");
             return false;
         }
-        // Нельзя сносить пол посередине прямой / моста: соседи по полу на противоположных сторонах.
-        // Убирать можно только с краёв regions (угла, конца коридора, изолированная клетка).
-        bool hasHorizontal = region.Contains(target + Vector3Int.left) && region.Contains(target + Vector3Int.right);
-        bool hasVertical = region.Contains(target + Vector3Int.up) && region.Contains(target + Vector3Int.down);
-        if (hasHorizontal || hasVertical)
+        // Дыра: все четыре соседа по полу — клетка посреди комнаты. Кольцо такую
+        // дырку не обведёт, поэтому это отдельный запрет (не про связность).
+        int floorNeighbours = 0;
+        foreach (Vector3Int d in NeighbourDirs)
+            if (region.Contains(target + d)) floorNeighbours++;
+        if (floorNeighbours >= 4)
         {
-            Debug.LogWarning("[House] Нельзя сносить пол посередине прямой — убирайте с краёв: " + target + ".");
+            Debug.LogWarning("[House] Нельзя делать дыру в середине комнаты: " + target + ".");
+            return false;
+        }
+        // Проход: мысленно убираем клетку и обходим оставшийся пол. Отрезали
+        // часть комнаты (угол/середина коридора шириной 1) — запрет; есть обход
+        // (три в ряд над полом, край большой комнаты) — можно.
+        if (!KeepsFloorConnected(region, target))
+        {
+            Debug.LogWarning("[House] Нельзя сносить: это единственный проход в часть комнаты: " + target + ".");
             return false;
         }
         // Сначала убираем пол: иначе откат журнала пропустит саму снесённую
@@ -383,6 +393,44 @@ public static class HouseExpansion
                   ", стен переписано " +
                   painted + ", расхождений " + diffs + ", unmapped " + unmapped + ").");
         return diffs == 0;
+    }
+
+    static readonly Vector3Int[] NeighbourDirs =
+        { Vector3Int.up, Vector3Int.down, Vector3Int.left, Vector3Int.right };
+
+    /// <summary>
+    /// Уберём target мысленно: оставшийся пол обязан быть одним 4-связным куском.
+    /// Ловит точки сочленения (углы и середины коридоров шириной 1), но пропускает
+    /// клетки с обходом — например среднюю из трёх в ряд над полом.
+    /// </summary>
+    static bool KeepsFloorConnected(HashSet<Vector3Int> region, Vector3Int target)
+    {
+        if (region.Count <= 1) return true;
+        Vector3Int start = Vector3Int.zero;
+        bool hasStart = false;
+        foreach (Vector3Int d in NeighbourDirs)
+        {
+            Vector3Int n = target + d;
+            if (!region.Contains(n)) continue;
+            start = n;
+            hasStart = true;
+            break;
+        }
+        if (!hasStart) return true; // изолированная клетка ничего не соединяет
+        var seen = new HashSet<Vector3Int> { start };
+        var queue = new Queue<Vector3Int>();
+        queue.Enqueue(start);
+        while (queue.Count > 0)
+        {
+            Vector3Int c = queue.Dequeue();
+            foreach (Vector3Int d in NeighbourDirs)
+            {
+                Vector3Int n = c + d;
+                if (n == target || !region.Contains(n) || !seen.Add(n)) continue;
+                queue.Enqueue(n);
+            }
+        }
+        return seen.Count == region.Count - 1;
     }
 
     /// <summary>
